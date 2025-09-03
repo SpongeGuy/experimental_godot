@@ -1,0 +1,24 @@
+[gd_scene load_steps=6 format=3 uid="uid://be002nrgf0wam"]
+
+[ext_resource type="PackedScene" uid="uid://dsfibl8ri0lgo" path="res://nodes/entity/player.tscn" id="1_71nwn"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_71nwn"]
+
+[sub_resource type="Gradient" id="Gradient_71nwn"]
+colors = PackedColorArray(0, 0.454902, 0, 1, 0.317647, 1, 1, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_kom6r"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_1lur1"]
+color_ramp = SubResource("Gradient_71nwn")
+noise = SubResource("FastNoiseLite_kom6r")
+
+[node name="World" type="Node2D"]
+
+[node name="BG" type="MeshInstance2D" parent="."]
+scale = Vector2(1500, 1500)
+mesh = SubResource("QuadMesh_71nwn")
+texture = SubResource("NoiseTexture2D_1lur1")
+
+[node name="Player" parent="." instance=ExtResource("1_71nwn")]
+position = Vector2(551, 249)
