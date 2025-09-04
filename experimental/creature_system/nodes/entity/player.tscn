@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dix2g7tbvqr8w" path="res://nodes/entity/player.gd" id="1_qfi1q"]
 [ext_resource type="Script" uid="uid://dps4vigpayifs" path="res://resources/creature_resource.gd" id="2_bbk0k"]
-[ext_resource type="Script" uid="uid://b4ly1gm7kqa0i" path="res://scripts/weapons/pellet_weapon.gd" id="3_qkrun"]
+[ext_resource type="Script" uid="uid://k0xx8p22lad7" path="res://scripts/weapons/slash_weapon.gd" id="3_qkrun"]
 [ext_resource type="Script" uid="uid://bwc58672jfohl" path="res://resources/weapon_resource.gd" id="4_j0nwe"]
 
 [sub_resource type="Resource" id="Resource_qkrun"]
@@ -11,7 +11,7 @@ name = "player"
 faction = "player"
 health = 5
 movement_speed = 5000.0
-attack_speed = 5.0
+attack_speed = 1.0
 point_value = 500
 animations = {}
 metadata/_custom_type_script = "uid://dps4vigpayifs"
@@ -23,12 +23,11 @@ gradient = SubResource("Gradient_ca341")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ca341"]
 
-[sub_resource type="Resource" id="Resource_wf1ra"]
+[sub_resource type="Resource" id="Resource_j0nwe"]
 script = ExtResource("4_j0nwe")
-base_damage = 5.0
+base_damage = 0.0
 base_stats = {
-"base_attack_speed": 1.0,
-"base_velocity": 500.0
+"base_attack_speed": 0.25
 }
 metadata/_custom_type_script = "uid://bwc58672jfohl"
 
@@ -39,7 +38,7 @@ attack = NodePath("Weapon")
 
 [node name="Polygon2D" type="Polygon2D" parent="."]
 texture = SubResource("GradientTexture1D_qfi1q")
-polygon = PackedVector2Array(11, 12, 10, -10, -14, -10, -6, 11)
+polygon = PackedVector2Array(10, 10, 10, -10, -10, -10, -10, 10)
 uv = PackedVector2Array(6, 2, 5, -41, -32, -37, -32, 4)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -49,6 +48,6 @@ shape = SubResource("RectangleShape2D_ca341")
 
 [node name="Weapon" type="Node" parent="."]
 script = ExtResource("3_qkrun")
-weapon_data = SubResource("Resource_wf1ra")
+weapon_data = SubResource("Resource_j0nwe")
 
 [node name="MousePosition" type="Node2D" parent="."]

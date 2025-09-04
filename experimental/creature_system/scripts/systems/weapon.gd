@@ -13,7 +13,7 @@ func _instantiate_cooldown_timer() -> void:
 	cooldown_timer = Timer.new()
 	cooldown_timer.wait_time = weapon_data.base_stats["base_attack_speed"] / creature.creature_stats.attack_speed if weapon_data else null
 	cooldown_timer.one_shot = true
-	add_child(cooldown_timer)
+	call_deferred("add_child", cooldown_timer)
 
 func _ready() -> void:
 	creature = get_parent() as Creature
