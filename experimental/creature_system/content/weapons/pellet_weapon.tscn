@@ -1,0 +1,51 @@
+[gd_scene load_steps=6 format=4 uid="uid://dyb4s4hsx58ul"]
+
+[ext_resource type="Script" uid="uid://b4ly1gm7kqa0i" path="res://content/weapons/pellet_weapon.gd" id="1_0briq"]
+[ext_resource type="Script" uid="uid://bwc58672jfohl" path="res://resources/weapon_resource.gd" id="2_6lflq"]
+[ext_resource type="Script" uid="uid://b2w0dnux5c0cn" path="res://addons/godot_sfxr/SfxrStreamPlayer2D.gd" id="2_6754x"]
+
+[sub_resource type="Resource" id="Resource_g0n7n"]
+script = ExtResource("2_6lflq")
+base_damage = 0.2
+base_stats = {}
+metadata/_custom_type_script = "uid://bwc58672jfohl"
+
+[sub_resource type="AudioStreamWAV" id="AudioStreamWAV_6754x"]
+data = PackedByteArray("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/Pz8/Pz8/Pz8/Pz8/Pv7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v6+vr6+vr6+vr6+vr6+vr6+vr6+vr6+vr6+vr6+vr6+vr6+vr6+vr6+vr6+vr6+vr6+vr6+vr6+vn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn6+vr6+vr6+vr6+vr6+vr6+vr6+vr6+vr6+vr6+vr6+vr6+vr6+vr6+vr6+vr6+vr6+vr6+vr6+vr7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz9/f39/f39/f39/f39/f39/f39/f39/v7+/v7+/v7+/v7+/v7+/v7+/v7+/////////////////////////wEBAQEBAQEBAQEBAQEBAQEBAQECAgICAgICAgICAgICAgICAgIDAwMDAwMDAwMDAwMDAwMDAwMEBAQEBAQEBAQEBAQEBAQEBAQFBQUFBQUFBQUFBQUFBQUFBQUGBgYGBgYGBgYGBgYGBgYGBgYHBwcHBwcHBwcHBwcHBwcHBwcHCAgICAgICAgICAgICAgICAgICAgICQkJCQkJCQkJCQkJCQkJCQkJCQkJCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCwsLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCwsLDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDQ0NDQ0NDQ0NDQ0=")
+
+[node name="PelletWeapon" type="Node"]
+script = ExtResource("1_0briq")
+weapon_data = SubResource("Resource_g0n7n")
+
+[node name="Sounds" type="Node" parent="."]
+
+[node name="Shot" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = SubResource("AudioStreamWAV_6754x")
+max_polyphony = 8
+script = ExtResource("2_6754x")
+wave/type = 2
+sample_params/sound_vol = 0.25
+sample_params/sample_rate = 44100.0
+envelope/attack_time = 0.0884956
+envelope/sustain_time = 0.267652
+envelope/punch_time = 0.0
+envelope/decay_time = 0.200466
+frequency/start_frequency = 0.719447
+frequency/min_freq_cutoff = 0.0657746
+frequency/slide = -0.57706
+frequency/delta_slide = 0.0
+vibrato/depth = 0.0
+vibrato/speed = 0.0
+arpeggiation/frequency_mult = 0.0
+arpeggiation/change_speed = 0.0
+duty_cycle/duty_cycle = 0.629217
+duty_cycle/sweep = -0.555194
+retrigger/rate = 0.0
+flanger/offset = 0.0
+flanger/sweep = 0.0
+low_pass_filter/cutoff_frequency = 0.123893
+low_pass_filter/cutoff_sweep = -0.088488
+low_pass_filter/resonance = 0.132752
+high_pass_filter/cutoff_frequency = 0.155135
+high_pass_filter/cutoff_sweep = 0.0
+metadata/_custom_type_script = "uid://b2w0dnux5c0cn"

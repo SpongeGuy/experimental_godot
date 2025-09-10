@@ -5,7 +5,7 @@ func _ready() -> void:
 		weapon_data.base_stats["base_velocity"] = 250.0
 	
 	if !weapon_data.base_stats.has("base_attack_speed"):
-		weapon_data.base_stats["base_attack_speed"] = 0.75
+		weapon_data.base_stats["base_attack_speed"] = 0.2
 	
 	super._ready()
 	
@@ -23,5 +23,6 @@ func _perform_attack(target: Node2D) -> void:
 	projectile.velocity = direction * weapon_data.base_stats["base_velocity"] if weapon_data else direction * 1500
 	projectile.rotation = atan2(target.position.y - creature.position.y, target.position.x - creature.position.x)
 	projectile.master = creature
+	$Sounds/Shot.play()
 	get_tree().root.add_child(projectile)
 	

@@ -1,9 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://ds6lj2dhc876"]
+[gd_scene load_steps=7 format=4 uid="uid://ds6lj2dhc876"]
 
 [ext_resource type="Script" uid="uid://cybrkhigf7nne" path="res://nodes/entity/dummy_enemy.gd" id="1_emv7m"]
 [ext_resource type="Script" uid="uid://dps4vigpayifs" path="res://resources/creature_resource.gd" id="2_hjlls"]
-[ext_resource type="Script" uid="uid://b4ly1gm7kqa0i" path="res://scripts/weapons/pellet_weapon.gd" id="3_ye1pu"]
-[ext_resource type="Script" uid="uid://bwc58672jfohl" path="res://resources/weapon_resource.gd" id="4_njp3g"]
+[ext_resource type="Script" uid="uid://b2w0dnux5c0cn" path="res://addons/godot_sfxr/SfxrStreamPlayer2D.gd" id="3_emv7m"]
 
 [sub_resource type="Resource" id="Resource_6epjf"]
 script = ExtResource("2_hjlls")
@@ -19,26 +18,18 @@ metadata/_custom_type_script = "uid://dps4vigpayifs"
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ca341"]
 size = Vector2(12, 12)
 
-[sub_resource type="Resource" id="Resource_wf1ra"]
-script = ExtResource("4_njp3g")
-base_damage = 5.0
-base_stats = {}
-metadata/_custom_type_script = "uid://bwc58672jfohl"
+[sub_resource type="AudioStreamWAV" id="AudioStreamWAV_6epjf"]
+data = PackedByteArray("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+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/z8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz9/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39NICAfXdybWhjXlpWUk5LR0RBPTs4NTMwLiwpJyYkIiAfHRwaGRcWFRQTEhEQDw4NDAwLCgoJCAgHBwYGBQUEBAQDAwMCAgIBAQEB///////+/v7+/v7+/f39/f39/f39/fz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/z8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////8BAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEB/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////w==")
 
-[node name="Enemy" type="CharacterBody2D" node_paths=PackedStringArray("weapon", "graphics")]
+[node name="Enemy" type="CharacterBody2D" node_paths=PackedStringArray("graphics")]
 script = ExtResource("1_emv7m")
 creature_stats = SubResource("Resource_6epjf")
-weapon = NodePath("Weapon")
 graphics = NodePath("Graphics")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_ca341")
 
 [node name="Camera2D" type="Camera2D" parent="."]
-
-[node name="Weapon" type="Node" parent="."]
-script = ExtResource("3_ye1pu")
-weapon_data = SubResource("Resource_wf1ra")
 
 [node name="MousePosition" type="Node2D" parent="."]
 
@@ -48,3 +39,65 @@ weapon_data = SubResource("Resource_wf1ra")
 color = Color(1, 0, 0, 1)
 polygon = PackedVector2Array(6, 6, 6, -6, -6, -6, -6, 6)
 uv = PackedVector2Array(6, 2, 5, -41, -32, -37, -32, 4)
+
+[node name="Sounds" type="Node" parent="."]
+
+[node name="Hurt" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = SubResource("AudioStreamWAV_6epjf")
+max_distance = 250.0
+script = ExtResource("3_emv7m")
+wave/type = 1
+sample_params/sound_vol = 0.25
+sample_params/sample_rate = 44100.0
+envelope/attack_time = 0.0
+envelope/sustain_time = 0.287908
+envelope/punch_time = 0.0
+envelope/decay_time = 0.0
+frequency/start_frequency = 0.334023
+frequency/min_freq_cutoff = 0.0
+frequency/slide = 0.00540572
+frequency/delta_slide = -0.725671
+vibrato/depth = 0.0
+vibrato/speed = 0.0
+arpeggiation/frequency_mult = 0.0
+arpeggiation/change_speed = 0.0
+duty_cycle/duty_cycle = 1.0
+duty_cycle/sweep = 0.0
+retrigger/rate = 0.0
+flanger/offset = 0.0
+flanger/sweep = 0.0
+low_pass_filter/cutoff_frequency = 1.0
+low_pass_filter/cutoff_sweep = 0.0
+low_pass_filter/resonance = 0.0
+high_pass_filter/cutoff_frequency = 0.235716
+high_pass_filter/cutoff_sweep = 0.0
+metadata/_custom_type_script = "uid://b2w0dnux5c0cn"
+
+[node name="SfxrStreamPlayer2D" type="AudioStreamPlayer2D" parent="Sounds"]
+script = ExtResource("3_emv7m")
+wave/type = 1
+sample_params/sound_vol = 0.25
+sample_params/sample_rate = 44100.0
+envelope/attack_time = 0.0
+envelope/sustain_time = 0.6641
+envelope/punch_time = 0.0
+envelope/decay_time = 0.0
+frequency/start_frequency = 0.351734
+frequency/min_freq_cutoff = 0.0
+frequency/slide = 0.0
+frequency/delta_slide = 0.0
+vibrato/depth = 0.0
+vibrato/speed = 0.0
+arpeggiation/frequency_mult = 0.0
+arpeggiation/change_speed = 0.0
+duty_cycle/duty_cycle = 0.0
+duty_cycle/sweep = 0.0
+retrigger/rate = 0.0
+flanger/offset = 0.0
+flanger/sweep = 0.0
+low_pass_filter/cutoff_frequency = 1.0
+low_pass_filter/cutoff_sweep = 0.0
+low_pass_filter/resonance = 0.0
+high_pass_filter/cutoff_frequency = 0.0
+high_pass_filter/cutoff_sweep = 0.0
+metadata/_custom_type_script = "uid://b2w0dnux5c0cn"
