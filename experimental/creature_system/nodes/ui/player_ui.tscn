@@ -1,0 +1,32 @@
+[gd_scene load_steps=4 format=3 uid="uid://dfw3ioetbingp"]
+
+[ext_resource type="FontFile" uid="uid://b2olf5nwlsw1b" path="res://assets/fonts/fixed_01.ttf" id="1_rvk60"]
+[ext_resource type="Script" uid="uid://d2vbiwi5qwbx7" path="res://nodes/ui/player_ui.gd" id="1_wfn1c"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_wfn1c"]
+font = ExtResource("1_rvk60")
+font_size = 8
+
+[node name="PlayerUI" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_wfn1c")
+
+[node name="POINTS" type="Label" parent="."]
+texture_filter = 1
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "POINTS"
+label_settings = SubResource("LabelSettings_wfn1c")
+
+[node name="PointsDisplay" type="Label" parent="."]
+texture_filter = 1
+layout_mode = 0
+offset_top = 10.0
+offset_right = 42.0
+offset_bottom = 33.0
+text = "0"
+label_settings = SubResource("LabelSettings_wfn1c")

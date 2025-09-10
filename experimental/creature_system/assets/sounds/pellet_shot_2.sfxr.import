@@ -1,0 +1,17 @@
+[remap]
+
+importer="com.timothyqiu.gdfxr.importer"
+type="AudioStreamWAV"
+uid="uid://cnadm0448tjls"
+path="res://.godot/imported/pellet_shot_2.sfxr-ec552cbfd684dc31e89e4525bd7e580b.sample"
+
+[deps]
+
+source_file="res://assets/sounds/pellet_shot_2.sfxr"
+dest_files=["res://.godot/imported/pellet_shot_2.sfxr-ec552cbfd684dc31e89e4525bd7e580b.sample"]
+
+[params]
+
+loop=false
+bit_depth=0
+sample_rate=0

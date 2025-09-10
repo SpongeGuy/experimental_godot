@@ -1,0 +1,17 @@
+[remap]
+
+importer="com.timothyqiu.gdfxr.importer"
+type="AudioStreamWAV"
+uid="uid://jue4hkgcu65p"
+path="res://.godot/imported/abduction.sfxr-dcdc86996bac8a8bdbd4741783b99bf1.sample"
+
+[deps]
+
+source_file="res://assets/sounds/abduction.sfxr"
+dest_files=["res://.godot/imported/abduction.sfxr-dcdc86996bac8a8bdbd4741783b99bf1.sample"]
+
+[params]
+
+loop=false
+bit_depth=0
+sample_rate=0

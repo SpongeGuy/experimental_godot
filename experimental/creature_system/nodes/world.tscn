@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://be002nrgf0wam"]
+[gd_scene load_steps=9 format=3 uid="uid://be002nrgf0wam"]
 
 [ext_resource type="PackedScene" uid="uid://dsfibl8ri0lgo" path="res://nodes/entity/player.tscn" id="1_71nwn"]
 [ext_resource type="PackedScene" uid="uid://ds6lj2dhc876" path="res://nodes/entity/dummy_enemy.tscn" id="2_kom6r"]
+[ext_resource type="PackedScene" uid="uid://dytoywdxx0pua" path="res://nodes/ui/creature_ui_overlay.tscn" id="3_1lur1"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_71nwn"]
 
@@ -32,3 +33,7 @@ tile_set = SubResource("TileSet_71nwn")
 
 [node name="Enemy" parent="." instance=ExtResource("2_kom6r")]
 position = Vector2(12, -50)
+
+[node name="UISpace" parent="." node_paths=PackedStringArray("followee") instance=ExtResource("3_1lur1")]
+position = Vector2(-309, -175)
+followee = NodePath("../Player")

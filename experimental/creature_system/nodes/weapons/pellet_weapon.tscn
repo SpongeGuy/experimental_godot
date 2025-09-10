@@ -1,0 +1,18 @@
+[gd_scene load_steps=5 format=3 uid="uid://dyb4s4hsx58ul"]
+
+[ext_resource type="Script" uid="uid://b4ly1gm7kqa0i" path="res://nodes/weapons/pellet_weapon.gd" id="1_0briq"]
+[ext_resource type="Script" uid="uid://bwc58672jfohl" path="res://resources/weapon_resource.gd" id="2_6lflq"]
+[ext_resource type="AudioStream" uid="uid://dglf20a30g8ki" path="res://assets/sounds/pellet_shot_1.sfxr" id="3_3yrqw"]
+
+[sub_resource type="Resource" id="Resource_g0n7n"]
+script = ExtResource("2_6lflq")
+base_damage = 0.5
+base_stats = {}
+metadata/_custom_type_script = "uid://bwc58672jfohl"
+
+[node name="PelletWeapon" type="Node"]
+script = ExtResource("1_0briq")
+weapon_data = SubResource("Resource_g0n7n")
+
+[node name="Shot" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_3yrqw")

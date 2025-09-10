@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://bgmmcyd0vb5h"]
+
+[ext_resource type="Script" uid="uid://bxr3bfq7hgau8" path="res://nodes/effects/text_particle.gd" id="1_m6ti4"]
+[ext_resource type="FontFile" uid="uid://b2olf5nwlsw1b" path="res://assets/fonts/fixed_01.ttf" id="2_5v5mg"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_c0mwa"]
+font = ExtResource("2_5v5mg")
+font_size = 8
+
+[node name="TextParticle" type="Node2D"]
+script = ExtResource("1_m6ti4")
+
+[node name="Label" type="Label" parent="."]
+texture_filter = 1
+offset_right = 40.0
+offset_bottom = 23.0
+text = "dummy"
+label_settings = SubResource("LabelSettings_c0mwa")
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true

@@ -1,5 +1,7 @@
 extends Weapon
 
+@onready var shot_sound: AudioStreamPlayer2D = $Shot
+
 func _ready() -> void:
 	if !weapon_data.base_stats.has("base_velocity"):
 		weapon_data.base_stats["base_velocity"] = 250.0
@@ -8,7 +10,6 @@ func _ready() -> void:
 		weapon_data.base_stats["base_attack_speed"] = 0.2
 	
 	super._ready()
-	
 	_instantiate_cooldown_timer()
 	
 	
@@ -23,6 +24,8 @@ func _perform_attack(target: Node2D) -> void:
 	projectile.velocity = direction * weapon_data.base_stats["base_velocity"] if weapon_data else direction * 1500
 	projectile.rotation = atan2(target.position.y - creature.position.y, target.position.x - creature.position.x)
 	projectile.master = creature
-	$Sounds/Shot.play()
+	projectile.weapon_data = weapon_data
+	shot_sound.pitch_scale = randf_range(0.8, 1.2)
+	shot_sound.play()
 	get_tree().root.add_child(projectile)
 	

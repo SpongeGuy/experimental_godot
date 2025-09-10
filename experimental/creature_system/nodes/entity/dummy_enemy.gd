@@ -1,15 +1,11 @@
 extends Creature
 
-@onready var hurt_sound: AudioStreamPlayer2D = $Sounds/Hurt
-@onready var test: AudioStreamPlayer2D = $Sounds/SfxrStreamPlayer2D
+@onready var hurt_player: AudioStreamPlayer2D = $Hurt
+var hurt_sound: AudioStream = preload("res://assets/sounds/hurt_1.sfxr")
+var hurt_sound_pitch: float = 1.0
 
-func _ready() -> void:
-	test.sample_rate = 50.0
-
-func _take_damage(amount: float):
-	super._take_damage(amount)
-	random()
-
-func random():
-	test.random_preset()
-	test.build_sfx(true)
+func _take_damage(amount: float, origin: Node2D):
+	hurt_sound_pitch = remap(creature_stats.health, creature_stats.base_health, 0.0, 0.5, 1.6)
+	hurt_player.pitch_scale = hurt_sound_pitch
+	_play_sound(hurt_player, hurt_sound)
+	super._take_damage(amount, origin)

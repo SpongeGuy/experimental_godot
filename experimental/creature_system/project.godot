@@ -23,7 +23,7 @@ window/stretch/mode="viewport"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/addons/godot_sfxr/plugin.cfg", "res://addons/godot_sfxr/plugin.cfg")
+enabled=PackedStringArray("res://addons/gdfxr/plugin.cfg")
 
 [input]
 
