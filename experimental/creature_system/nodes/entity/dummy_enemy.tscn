@@ -1,0 +1,50 @@
+[gd_scene load_steps=8 format=3 uid="uid://ds6lj2dhc876"]
+
+[ext_resource type="Script" uid="uid://cybrkhigf7nne" path="res://nodes/entity/dummy_enemy.gd" id="1_emv7m"]
+[ext_resource type="Script" uid="uid://dps4vigpayifs" path="res://resources/creature_resource.gd" id="2_hjlls"]
+[ext_resource type="Script" uid="uid://b4ly1gm7kqa0i" path="res://scripts/weapons/pellet_weapon.gd" id="3_ye1pu"]
+[ext_resource type="Script" uid="uid://bwc58672jfohl" path="res://resources/weapon_resource.gd" id="4_njp3g"]
+
+[sub_resource type="Resource" id="Resource_6epjf"]
+script = ExtResource("2_hjlls")
+name = "dummy"
+faction = "dummy"
+health = 5.0
+movement_speed = 2500.0
+attack_speed = 1.0
+point_value = 250
+animations = {}
+metadata/_custom_type_script = "uid://dps4vigpayifs"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ca341"]
+size = Vector2(12, 12)
+
+[sub_resource type="Resource" id="Resource_wf1ra"]
+script = ExtResource("4_njp3g")
+base_damage = 5.0
+base_stats = {}
+metadata/_custom_type_script = "uid://bwc58672jfohl"
+
+[node name="Enemy" type="CharacterBody2D" node_paths=PackedStringArray("weapon", "graphics")]
+script = ExtResource("1_emv7m")
+creature_stats = SubResource("Resource_6epjf")
+weapon = NodePath("Weapon")
+graphics = NodePath("Graphics")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_ca341")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="Weapon" type="Node" parent="."]
+script = ExtResource("3_ye1pu")
+weapon_data = SubResource("Resource_wf1ra")
+
+[node name="MousePosition" type="Node2D" parent="."]
+
+[node name="Graphics" type="Node2D" parent="."]
+
+[node name="Polygon2D" type="Polygon2D" parent="Graphics"]
+color = Color(1, 0, 0, 1)
+polygon = PackedVector2Array(6, 6, 6, -6, -6, -6, -6, 6)
+uv = PackedVector2Array(6, 2, 5, -41, -32, -37, -32, 4)

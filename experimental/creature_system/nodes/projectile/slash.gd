@@ -21,7 +21,6 @@ func swing():
 		last_animation = "slash_right"
 	
 	animator.current_animation = last_animation
-	print(last_animation)
 		
 func _signal_received(effects: Dictionary):
 	print("hi")

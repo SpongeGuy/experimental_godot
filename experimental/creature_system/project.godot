@@ -21,6 +21,10 @@ window/size/viewport_height=360
 window/size/mode=3
 window/stretch/mode="viewport"
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/addons/godot_sfxr/plugin.cfg", "res://addons/godot_sfxr/plugin.cfg")
+
 [input]
 
 left_input={
