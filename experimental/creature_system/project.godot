@@ -14,6 +14,10 @@ config/name="creature_system"
 run/main_scene="uid://be002nrgf0wam"
 config/features=PackedStringArray("4.4", "Forward Plus")
 
+[autoload]
+
+GlobalTimer="*res://systems/global_timer.gd"
+
 [display]
 
 window/size/viewport_width=640

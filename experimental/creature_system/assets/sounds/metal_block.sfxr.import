@@ -1,0 +1,17 @@
+[remap]
+
+importer="com.timothyqiu.gdfxr.importer"
+type="AudioStreamWAV"
+uid="uid://dtrgibwiynvpf"
+path="res://.godot/imported/metal_block.sfxr-2cf6ecf5837a3306557960482fca7007.sample"
+
+[deps]
+
+source_file="res://assets/sounds/metal_block.sfxr"
+dest_files=["res://.godot/imported/metal_block.sfxr-2cf6ecf5837a3306557960482fca7007.sample"]
+
+[params]
+
+loop=false
+bit_depth=0
+sample_rate=0

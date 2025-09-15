@@ -1,0 +1,17 @@
+[remap]
+
+importer="com.timothyqiu.gdfxr.importer"
+type="AudioStreamWAV"
+uid="uid://dr2tvl3e5sitn"
+path="res://.godot/imported/burst.sfxr-db6d854b89f9f58549da779ac368f8c2.sample"
+
+[deps]
+
+source_file="res://assets/sounds/burst.sfxr"
+dest_files=["res://.godot/imported/burst.sfxr-db6d854b89f9f58549da779ac368f8c2.sample"]
+
+[params]
+
+loop=false
+bit_depth=0
+sample_rate=0

@@ -3,13 +3,14 @@
 [ext_resource type="Script" uid="uid://cvgovs05qwtkb" path="res://nodes/projectile/pellet.gd" id="1_3td3u"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mb71f"]
-size = Vector2(6, 6)
+size = Vector2(4, 4)
 
 [sub_resource type="QuadMesh" id="QuadMesh_3td3u"]
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_la330"]
 
-[node name="Pellet" type="Area2D"]
+[node name="Pellet" type="CharacterBody2D"]
+collision_layer = 0
 script = ExtResource("1_3td3u")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -19,5 +20,3 @@ shape = SubResource("RectangleShape2D_mb71f")
 scale = Vector2(4, 4)
 mesh = SubResource("QuadMesh_3td3u")
 texture = SubResource("PlaceholderTexture2D_la330")
-
-[connection signal="body_shape_entered" from="." to="." method="_on_body_shape_entered"]

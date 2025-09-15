@@ -20,7 +20,7 @@ point_value = 250.0
 metadata/_custom_type_script = "uid://dps4vigpayifs"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ca341"]
-size = Vector2(12, 12)
+size = Vector2(10, 10)
 
 [node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("weapon", "graphics", "hitboxes")]
 script = ExtResource("1_qfi1q")
@@ -42,5 +42,5 @@ shape = SubResource("RectangleShape2D_ca341")
 [node name="Graphics" type="Node2D" parent="."]
 
 [node name="Polygon2D" type="Polygon2D" parent="Graphics"]
-polygon = PackedVector2Array(6, 6, 6, -6, -6, -6, -6, 6)
+polygon = PackedVector2Array(5, 5, 5, -5, -5, -5, -5, 5)
 uv = PackedVector2Array(6, 2, 5, -41, -32, -37, -32, 4)

@@ -1,11 +1,11 @@
 [gd_scene load_steps=5 format=3 uid="uid://dytoywdxx0pua"]
 
 [ext_resource type="Script" uid="uid://co3wqkkadnamh" path="res://nodes/ui/creature_ui_overlay.gd" id="1_kqilg"]
-[ext_resource type="FontFile" uid="uid://b2olf5nwlsw1b" path="res://assets/fonts/fixed_01.ttf" id="2_kqilg"]
 [ext_resource type="Script" uid="uid://d2vbiwi5qwbx7" path="res://nodes/ui/player_ui.gd" id="2_ywpqc"]
+[ext_resource type="FontFile" uid="uid://b1tdrufi488p6" path="res://assets/fonts/Mitochondria.ttf" id="3_ptl5i"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_wfn1c"]
-font = ExtResource("2_kqilg")
+font = ExtResource("3_ptl5i")
 font_size = 8
 
 [node name="CreatureUIOverlay" type="Node2D"]
@@ -26,11 +26,40 @@ offset_bottom = 23.0
 text = "POINTS"
 label_settings = SubResource("LabelSettings_wfn1c")
 
+[node name="TIME" type="Label" parent="PlayerUI"]
+texture_filter = 1
+layout_mode = 0
+offset_left = 276.0
+offset_right = 316.0
+offset_bottom = 23.0
+text = "TIME"
+label_settings = SubResource("LabelSettings_wfn1c")
+
+[node name="TimeDisplay" type="Label" parent="PlayerUI"]
+texture_filter = 1
+layout_mode = 0
+offset_left = 276.0
+offset_top = 12.0
+offset_right = 316.0
+offset_bottom = 35.0
+text = "0:0"
+label_settings = SubResource("LabelSettings_wfn1c")
+
+[node name="FPSDisplay" type="Label" parent="PlayerUI"]
+texture_filter = 1
+layout_mode = 0
+offset_left = 599.0
+offset_top = 1.0
+offset_right = 639.0
+offset_bottom = 24.0
+text = "fps"
+label_settings = SubResource("LabelSettings_wfn1c")
+
 [node name="PointsDisplay" type="Label" parent="PlayerUI"]
 texture_filter = 1
 layout_mode = 0
-offset_top = 10.0
-offset_right = 42.0
-offset_bottom = 33.0
-text = "0"
+offset_top = 12.0
+offset_right = 77.0
+offset_bottom = 35.0
+text = "9888777666"
 label_settings = SubResource("LabelSettings_wfn1c")
