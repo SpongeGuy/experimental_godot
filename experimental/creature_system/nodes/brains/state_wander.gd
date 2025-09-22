@@ -4,6 +4,8 @@ extends AIState
 
 func enter(creature: Creature) -> void:
 	super.enter(creature)
+	if creature.polygon:
+		creature.polygon.scale = Vector2(1.2, 1.2)
 		
 func exit(creature: Creature) -> void:
 	super.exit(creature)

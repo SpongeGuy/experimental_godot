@@ -31,6 +31,14 @@ func _perform_attack(target: Node2D) -> void:
 	# override this, custom attack logic
 	pass
 	
+func add_object_to_world(object: Node2D, creature: Creature):
+	var world = get_tree().get_first_node_in_group("world")
+	if world:
+		world.add_child(object)
+	else:
+		push_error("No node in group 'world' found! Falling back to creature's parent.")
+		creature.get_parent().add_child(object)
+	
 func _calculate_attack_effects() -> Dictionary:
 	var effects: Dictionary = {}
 	effects["damage_dealt"] = weapon_data if weapon_data else null

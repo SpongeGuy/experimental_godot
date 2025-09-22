@@ -2,7 +2,7 @@ extends TileMapLayer
 
 
 var tile_health: Dictionary = {}
-@export var default_health: float = 1
+@export var default_health: float = 50
 @export var terrain_set_id: int = 0
 @export var terrain_id: int = 0
 

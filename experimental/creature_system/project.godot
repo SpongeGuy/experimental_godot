@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="creature_system"
-run/main_scene="uid://be002nrgf0wam"
+run/main_scene="uid://rtkyb643oqko"
 config/features=PackedStringArray("4.4", "Forward Plus")
 
 [autoload]

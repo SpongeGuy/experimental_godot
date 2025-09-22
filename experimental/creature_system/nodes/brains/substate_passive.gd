@@ -4,6 +4,8 @@ extends AIState
 
 func enter(creature: Creature) -> void:
 	super.enter(creature)
+	if creature.polygon:
+		creature.polygon.color = Color(1, 1, 0, 1)
 		
 func exit(creature: Creature) -> void:
 	super.exit(creature)

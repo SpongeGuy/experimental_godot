@@ -4,10 +4,10 @@ this game will look a bit like pac man except there are no teams, just shit happ
 the main goal is to survive and get stronger like a roguelike
 walls can be destroyed and created as well
 
-i want a theme of emergent gameplay. 
-this is an arena style game so i want as much love put into the creatures as possible. 
-gameplay ideally should be deep, not wide. 
-creature behaviors should ideally interact with other creature behaviors in some way. 
+i want a theme of emergent gameplay.
+this is an arena style game so i want as much love put into the creatures as possible.
+gameplay ideally should be deep, not wide.
+creature behaviors should ideally interact with other creature behaviors in some way.
 this don’t have to be the case always, but is better if true.
 
 [*] idea

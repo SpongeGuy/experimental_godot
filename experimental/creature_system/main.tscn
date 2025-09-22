@@ -1,0 +1,68 @@
+[gd_scene load_steps=7 format=3 uid="uid://rtkyb643oqko"]
+
+[ext_resource type="Script" uid="uid://6naa10nme0d6" path="res://game_container.gd" id="1_0xm2m"]
+[ext_resource type="Script" uid="uid://dw1c3j3tiux4s" path="res://main.gd" id="1_h2yge"]
+[ext_resource type="PackedScene" uid="uid://be002nrgf0wam" path="res://nodes/world.tscn" id="1_ig7tw"]
+
+[sub_resource type="Gradient" id="Gradient_h2yge"]
+colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_1bvp3"]
+gradient = SubResource("Gradient_h2yge")
+fill_from = Vector2(0, 0.512821)
+fill_to = Vector2(1, 0.508547)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_h2yge"]
+gradient = SubResource("Gradient_h2yge")
+fill_from = Vector2(1, 0.269231)
+fill_to = Vector2(0, 0.384615)
+
+[node name="Main" type="Node"]
+script = ExtResource("1_h2yge")
+
+[node name="GameContainer" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 140.0
+offset_right = 180.0
+offset_bottom = 40.0
+script = ExtResource("1_0xm2m")
+
+[node name="GameViewportContainer" type="SubViewportContainer" parent="GameContainer"]
+layout_mode = 0
+offset_right = 360.0
+offset_bottom = 360.0
+
+[node name="GameViewport" type="SubViewport" parent="GameContainer/GameViewportContainer"]
+disable_3d = true
+handle_input_locally = false
+audio_listener_enable_2d = true
+size = Vector2i(360, 360)
+render_target_update_mode = 4
+
+[node name="World" parent="GameContainer/GameViewportContainer/GameViewport" instance=ExtResource("1_ig7tw")]
+
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="MarginContainer" type="MarginContainer" parent="HUD"]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HUD/MarginContainer"]
+layout_mode = 2
+
+[node name="LeftPanel" type="VBoxContainer" parent="HUD/MarginContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="RightPanel" type="VBoxContainer" parent="HUD/MarginContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="Background1" type="Sprite2D" parent="HUD"]
+position = Vector2(70, 180)
+scale = Vector2(2.1875, 5.625)
+texture = SubResource("GradientTexture2D_1bvp3")
+
+[node name="Background2" type="Sprite2D" parent="HUD"]
+position = Vector2(570, 180)
+scale = Vector2(2.1875, 5.625)
+texture = SubResource("GradientTexture2D_h2yge")

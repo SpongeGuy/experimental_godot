@@ -38,7 +38,9 @@ func _ready() -> void:
 		push_error("active_voices is not a Dictionary in _ready: ", active_voices)
 
 func _process(delta: float):
+	print(current_scale, target_scale)
 	if current_scale > target_scale:
+		print("yes")
 		current_scale = lerp(current_scale, target_scale, lerp_speed * delta)
 		graphics.scale = Vector2(current_scale, current_scale)
 	if !mouse_target and under_player_control:
@@ -65,12 +67,18 @@ func _prioritize_target(nearby: Array) -> Node2D:
 			return node
 	return nearby[0] if nearby.size() > 0 else null
 
-
+func add_object_to_world(object: Node2D, creature: Creature):
+	var world = get_tree().get_first_node_in_group("world")
+	if world:
+		world.add_child(object)
+	else:
+		push_error("No node in group 'world' found! Falling back to creature's parent.")
+		creature.get_parent().add_child(object)
 
 func _take_damage(amount: float, origin: Node2D):
 	var text_particle: Node2D = preload("res://nodes/effects/text_particle.tscn").instantiate()
 	text_particle.create(str(origin.weapon_data.base_damage), position)
-	get_tree().root.add_child(text_particle)
+	add_object_to_world(text_particle, self)
 	if is_dead:
 		return
 	creature_stats.health -= amount
@@ -123,7 +131,6 @@ func _player_control(delta: float) -> void:
 		input_direction = input_direction.normalized()
 	velocity = input_direction * creature_stats.movement_speed * delta
 	move_and_slide()
-	rotation = atan2(get_global_mouse_position().y - global_position.y, get_global_mouse_position().x - global_position.x)
 
 func _player_attack(delta: float) -> void:
 	mouse_target.position = get_global_mouse_position()
