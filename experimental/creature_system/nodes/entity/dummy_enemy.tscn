@@ -13,11 +13,11 @@ animations = {}
 base_health = 20.0
 base_movement_speed = 2500.0
 base_attack_speed = 1.0
-base_point_value = 250.0
+base_point_value = 50
 health = 20.0
 movement_speed = 2500.0
 attack_speed = 1.0
-point_value = 250.0
+point_value = 50
 metadata/_custom_type_script = "uid://dps4vigpayifs"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ca341"]

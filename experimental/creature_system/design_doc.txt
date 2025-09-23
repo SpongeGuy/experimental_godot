@@ -1,0 +1,214 @@
+top down maze crawler dungeon similar to pac man (not grid based, physics based)
+difficulty scales as time goes on
+dark, dreamlike, dungeoncore aesthetic
+creatures in the dungeon are chaotic neutral; they can and will attack each other, not just you
+micro gameplay (time-to-reward short):
+	collect fruits and dots to gain experience
+	defeat enemies to have a chance to gain their powers through dropped items
+	perform combos to gain experience faster
+	enough experience gained and an event/quest will begin
+	finish the quest to end the phase and gain strength
+
+the map will be divided into 3x3 zones and in the middle of each zone will be a structure
+reality waves will occasionally pass through the dungeon, regenerating terrain and other structures
+not everything has to be serious! have some wacky silly content in there as well
+
+OVERARCHING STORY/MOTIVE (time-to-reward long):
+	zones on the map will be in the same location every time you play the game, but the environment around the structures in the center of each zone will be different
+	procedural campaign, emergent endgames
+	a narrative story told with minimal dialogue
+	
+
+exploration, experimentation, combat, strategy, chaos
+property alchemy
+
+meta currency
+adopting enemy weapons as your own
+better terrain look; dark/neon arcade dungeon aesthetic
+unlock and play as creatures can find in the game
+terrain/walls can be regenerated after a wave, cool falling animation
+give player a pick up and throw ability and a shove ability
+pickups should not be automatically consumed if walked over, they have to be picked up and and eaten (yes even powerups)
+creatures will have two equipment slots for passive items which change aspects of the game (no interface for this, just pick them up and eat the items. if you are full and another item is eaten, the last item you ate is dropped on the ground).
+combos for eating fruit consecutively
+combos for destroying enemies consecutively (?)
+big sound effects and particles when doing combos
+
+WAVE QUESTS
+maybe it would be best to restrict the play area during certain quest phases just so the player doesn't get lost or move away from the quest
+lock the camera and prevent the player from moving past the camera viewport
+or overlay an arrow onto the hud to direct the player to the right location? this seems like a lazy solution which doesn't fit with the dreamlike aesthetic or the theme of unguided exploration of the game
+
+LIST OF QUESTS
+carry and break into a loot vault
+monoliths
+water plants to create a bridge
+mining for ore
+disrupt a song moth conga before it rallies a horde
+harvest meat from a flesh wall
+feed a glub gob until it bursts/collapses into a black holle
+feed and raise some kori hatchlings
+survive a kori invasion/bug horde
+unlock a fortress
+raise the dead
+solve a puzzle
+defeat a boss
+get 3 different mutations at the same time
+escort a magnet mite to a gate to a secret new zone
+pacify a rage beast
+drill a water well
+craft a trap (inworld crafting, no ui)
+close a wormhole
+survive a rubble landslide which takes you to a different part of the map
+airship bombardment
+
+# new
+
+[OVERVIEW]
+top-down physics based maze dungeon crawler with emergent gameplay elements
+navigate a forever changing labyrinth while surviving waves of wild animals with special powers
+assimilate and mix enemy traits like alchemical ingredients, creating new ways to fight back against the ever-changing dream dungeon
+unravel an ancient mystery by navigating a web of dreams
+microloop:
+	explore zones, 
+	collect resources, 
+	adopt enemy properties, 
+	trigger combos, 
+	and complete wave quests for rewards
+macroloop:
+	build meta-progression across runs toward different procedural endgames
+PILLARS:
+	EXPLORE, EXPERIMENT, FIGHT, STRATEGIZE, CHAOS
+(risky structures/loot)
+(property alchemy via assimilation)
+(enemy interactions / player manipulation)
+(trippy visual aesthetic, chaotic scenarios via emergence)
+collect meta currency to unlock upgrades/modifiers which will persist between runs
+
+[AESTHETIC AND ATMOSPHERE]
+dark neon arcade dreamlike dungeoncore
+low resolution sound effects
+pulsing synth during combat and low fidelity dungeoncore when roaming
+balance between hazy environmental visuals and clarity for dangerous elements
+each zone will have a different design, theme, and tileset
+	flowers
+	sky
+	china
+	volcano
+	lizards
+	sewer
+	factory
+	wind
+	techno
+	sand
+	coral
+	winter
+	paradise
+	woods
+	mountain
+
+[CORE MECHANICS]
+twin stick shooter
+base player kit:
+	basic sword
+	pick up / throw
+	shove
+dungeon layout is a large grid of 3x3 zones featuring different environmental features, puzzles, and creatures
+zones will be in the same spot on the map every run, allowing for familiar play and competency during meta-quests
+the center of zones will always be the same featuring the same landmark, but the dungeon around the landmark is everchanging
+certain walls are destructible by creature powers and bombs and will be regenerated by periodic dream waves permeating the dungeon
+most creatures are chaotic neutral; creatures are not on a team against the player, they operate based on their own goals
+creatures can and will fight each other if they get in each others' way
+creatures, terrain, and receptacles can drop pickups which are dropped on the ground
+pickups can have a wide range of effects but must be picked up and eaten by creatures before their effect is applied
+pickups can be combined together to create more niche or more powerful items
+defeat creatures and sometimes they will drop shards (a certain type of pickup) that you can eat to assimilate creature abilities into your own arsenal of abilities; these abilities only last for a small amount of time, so use them wisely
+additionally, all creatures possess two slots for passive aspects which alter properties and gameplay
+explore the dungeon and collect dots to gain essence and to unlock the next event
+when enough essence has been collected, a quest begins based on one of the five pillars (explore, experiment, fight, strategy, chaos)
+
+[PROGRESSION AND REWARDS]
+micro (phase-based, short time-to-reward):
+	collect dots and pickups for essence (combos for consecutive collection and creative creature kills)
+	defeat enemies for property shards (assimilate by eating and mix for synergies)
+	enough essence and a quest will trigger (complete to end phase, gain strength via buffs)
+macro (run/meta, long time-to-reward):
+	scaling difficulty: waves escalate creature density/properties
+	zones can link together via quests or portals
+	after 5-7 phases, a major quest will be triggered as a climactic event
+	meta currency buys unlocks (unlock more creatures, environment types, pickups, quest packs)
+gain more essence faster by doing combos
+	collecting and eating fruit in quick succession
+	defeating creatures in creative ways
+unlock playable creatures
+overarching movive and story to get the player to keep playing long-term
+environmental storytelling through landmarks and unlocking new environments
+minimal monologue/dialogue
+
+[WAVE QUESTS]
+quests are triggered after gaining enough essence during a roaming phase
+quests might be completely different to one another
+when quests are triggered, text will appear on the hud to give the player a hint on what they must to do complete the quest/event
+come up with quests which do not require other ui elements to have the player figure out how to complete the quest
+quests should be varied and unique to one another and should always be based on one of the five pillars (exploration, experimentation, combat, strategy, chaos)
+
+carry and break into loot vault
+	- exploration
+	grab a key item/enemy, throw into a central structure or apply enough damage/force to vault to access
+escort magnet mite to gate
+	- exploration
+	protect a mite building junk armor to a zone exit
+mine for ore
+	- exploration
+	help a drill bore mole get rich by finding and harvesting ore
+activate monoliths
+	- exploration
+	activate monoliths by doing specific combos
+get 3 different mutations
+	- experimentation
+	assimilate and mix 3 creature properties simultaneously
+craft a trap
+	- experimentation
+	combine in-world items to craft
+drill a water well
+	- experimentation
+	assimilate a drill bore's ability to drill a well and change the environment into a jungle
+survive kori invasion
+	- combat
+	endure swarm flies/kori wave
+pacify a rage beast
+	- combat
+	use song moth melody (assimilated or lured) to calm
+survive an encounter in a coliseum
+	- combat
+	duel with a special creature or being
+disrupt a song moth conga
+	- strategy
+	break a charming horde before it grows too long
+feed glub god until it bursts
+	- strategy
+	feed the glub gob with fruits until it collapses into a black hole
+harvest meat from flesh wall
+	- chaos
+	mine/destroy a regenerating wall for resources
+close an alien wormhole
+	- chaos
+	seal a portal spawning chaotic alien entities
+defeat a boss
+	- chaos
+	trigger horde fusion (e.g. overfed kori and bounce slime into mega-beast)
+survive rubble landslide
+	- chaos
+	survive an onslaught of rubble and creatures as you are forcefully moved to another part of the map
+survive airship bombardment
+	- chaos
+	endure cannon fall and take down a crew of kobold air pirates
+
+	
+[DEVELOPEMNT LOOSE ROADMAP]
+week 1:
+	core loop (maze, 3 creatures, assimilation, one quest)
+week 2:
+	trippy visuals and more phases
+week 3:
+	more quests, more creatures and combo chains

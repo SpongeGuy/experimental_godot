@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=3 uid="uid://cnfy0w0u1b5sw"]
+
+[ext_resource type="Script" uid="uid://cn01ssci8dpdl" path="res://nodes/entity/items/flower.gd" id="1_m2105"]
+[ext_resource type="Texture2D" uid="uid://u1n7gkfpc8ju" path="res://assets/textures/pickups/flower.png" id="2_chpiq"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_okh22"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_m2105"]
+radius = 2.0
+
+[node name="Flower" type="RigidBody2D" node_paths=PackedStringArray("area")]
+collision_layer = 2
+script = ExtResource("1_m2105")
+is_carryable = false
+area = NodePath("Area2D")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("2_chpiq")
+hframes = 8
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+scale = Vector2(0.25, 0.25)
+shape = SubResource("RectangleShape2D_okh22")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_m2105")

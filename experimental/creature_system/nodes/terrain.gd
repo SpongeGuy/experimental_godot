@@ -6,6 +6,8 @@ var tile_health: Dictionary = {}
 @export var terrain_set_id: int = 0
 @export var terrain_id: int = 0
 
+var flower_scene = preload("res://nodes/entity/items/flower.tscn")
+
 @onready var bullet_collision_player: AudioStreamPlayer2D = $BulletCollision
 var thud_sound: AudioStream = preload("res://assets/sounds/thud_2.wav")
 var break_sound: AudioStream = preload("res://assets/sounds/break_1.wav")
@@ -15,6 +17,7 @@ var removed_tiles: Array[Vector2i] = []
 
 func _ready() -> void:
 	initialize_tile_health()
+	spawn_flowers()
 	
 func _play_sound(sound_player: AudioStreamPlayer2D, stream: AudioStream, location: Vector2, min_pitch_range: float, max_pitch_range: float) -> void:
 	if sound_player and stream:
@@ -75,3 +78,43 @@ func _process(_delta: float) -> void:
 		force_update_transform()
 		
 		removed_tiles.clear()
+		
+func spawn_flowers() -> void:
+	# define map bounds
+	var tile_size = tile_set.tile_size
+	var map_bounds = Rect2(Vector2.ZERO, Vector2(360, 360))
+	var min_tile = global_to_tile_pos(map_bounds.position)
+	var max_tile = global_to_tile_pos(map_bounds.end)
+	
+	# get used cells
+	var used_cells = get_used_cells()
+	var used_cells_set = used_cells as Array[Vector2i]
+	
+	for x in range(min_tile.x, max_tile.x + 1):
+		for y in range(min_tile.y, max_tile.y + 1):
+			var tile_pos = Vector2i(x, y)
+			if not used_cells_set.has(tile_pos):
+				spawn_flower_at(tile_pos)
+
+func spawn_flower_at(tile_pos: Vector2i) -> void:
+	if flower_scene:
+		var global_pos = tile_pos_to_global(tile_pos)
+		var space_state = get_world_2d().direct_space_state
+		var query = PhysicsPointQueryParameters2D.new()
+		query.position = global_pos
+		query.collision_mask = 2
+		var collisions = space_state.intersect_point(query)
+		if collisions.is_empty():
+			var flower = flower_scene.instantiate() as Item
+			flower.global_position = global_pos
+			get_parent().add_child(flower)
+			# configure flower
+			flower.is_carryable = false
+
+func tile_pos_to_global(tile_pos: Vector2i) -> Vector2:
+	var local_pos: Vector2 = map_to_local(tile_pos)
+	return to_global(local_pos)
+
+func global_to_tile_pos(global_pos: Vector2) -> Vector2i:
+	var local_pos = to_local(global_pos)
+	return local_to_map(local_pos)

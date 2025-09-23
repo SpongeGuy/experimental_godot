@@ -5,7 +5,7 @@ class_name Creature extends CharacterBody2D
 @export var weapon: Weapon
 #@export var ability: Ability
 @export var graphics: Node2D
-@export var points: float = 0
+@export var points: int = 0
 
 @export var hitboxes: Array[CollisionShape2D]
 var sound_players: Array[AudioStreamPlayer2D]
@@ -38,9 +38,7 @@ func _ready() -> void:
 		push_error("active_voices is not a Dictionary in _ready: ", active_voices)
 
 func _process(delta: float):
-	print(current_scale, target_scale)
 	if current_scale > target_scale:
-		print("yes")
 		current_scale = lerp(current_scale, target_scale, lerp_speed * delta)
 		graphics.scale = Vector2(current_scale, current_scale)
 	if !mouse_target and under_player_control:

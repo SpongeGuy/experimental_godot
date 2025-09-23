@@ -10,7 +10,6 @@ var label_text = ""
 
 func _process(delta: float) -> void:
 	super._process(delta)
-	print(polygon.texture_scale, graphics.scale, target_scale)
 
 func _take_damage(amount: float, origin: Node2D):
 	hurt_sound_pitch = remap(creature_stats.health, creature_stats.base_health, 0.0, 0.5, 1.6)
