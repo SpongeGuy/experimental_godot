@@ -86,16 +86,24 @@ func spawn_flowers() -> void:
 	var min_tile = global_to_tile_pos(map_bounds.position)
 	var max_tile = global_to_tile_pos(map_bounds.end)
 	
+	print("map bounds: min:", min_tile, ", max:", max_tile)
+	
 	# get used cells
 	var used_cells = get_used_cells()
 	var used_cells_set = used_cells as Array[Vector2i]
 	
+	print("used cells: ", used_cells_set.size())
+	
+	var empty_count = 0
 	for x in range(min_tile.x, max_tile.x + 1):
 		for y in range(min_tile.y, max_tile.y + 1):
 			var tile_pos = Vector2i(x, y)
 			if not used_cells_set.has(tile_pos):
 				spawn_flower_at(tile_pos)
-
+				empty_count += 1
+				
+	print("empty cells found: ", empty_count)
+	
 func spawn_flower_at(tile_pos: Vector2i) -> void:
 	if flower_scene:
 		var global_pos = tile_pos_to_global(tile_pos)
@@ -107,10 +115,13 @@ func spawn_flower_at(tile_pos: Vector2i) -> void:
 		if collisions.is_empty():
 			var flower = flower_scene.instantiate() as Item
 			flower.global_position = global_pos
-			get_parent().add_child(flower)
+			get_parent().add_child.call_deferred(flower)
+			print(flower.global_position)
 			# configure flower
 			flower.is_carryable = false
-
+		else:
+			print("spawn skipped due to collision")
+	
 func tile_pos_to_global(tile_pos: Vector2i) -> Vector2:
 	var local_pos: Vector2 = map_to_local(tile_pos)
 	return to_global(local_pos)
