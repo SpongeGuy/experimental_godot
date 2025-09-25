@@ -1,6 +1,6 @@
 extends Weapon
 
-@onready var shot_sound: AudioStreamPlayer2D = $Shot
+@onready var shot_sound: AudioStream = preload("res://assets/sounds/pellet_shot_1.sfxr")
 
 func _ready() -> void:
 	if !weapon_data.base_stats.has("base_velocity"):
@@ -26,7 +26,7 @@ func _perform_attack(target: Node2D) -> void:
 	projectile.rotation = atan2(target.position.y - creature.position.y, target.position.x - creature.position.x)
 	projectile.master = creature
 	projectile.weapon_data = weapon_data
-	shot_sound.pitch_scale = randf_range(0.8, 1.2)
-	shot_sound.play()
+	var random_pitch = randf_range(0.6, 1.2)
+	AudioManager.play_sound(shot_sound, creature.position, {"pitch_scale": random_pitch})
 	add_object_to_world(projectile, creature)
 	

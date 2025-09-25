@@ -3,16 +3,12 @@ class_name Item extends RigidBody2D
 @export var is_carryable: bool = true
 @export var area: Area2D
 @export var allowed_groups: Array[String] = []
-@export var pickup_sound: AudioStream
-@export var audio_player: AudioStreamPlayer2D
 
 var carrier: Creature = null
 
 func _ready() -> void:
 	if area:
 		area.body_entered.connect(_on_body_entered)
-	if audio_player and pickup_sound:
-		audio_player.stream = pickup_sound
 	gravity_scale = 0.0
 	linear_damp = 0.5
 	angular_damp = 0.5
@@ -47,8 +43,6 @@ func consume(creature: Creature) -> void:
 		_activate(creature)
 		carrier = null
 		queue_free()
-		if audio_player and pickup_sound:
-			audio_player.play()
 	
 func _activate(creature: Creature):
 	pass

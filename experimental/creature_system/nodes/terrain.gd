@@ -8,16 +8,24 @@ var tile_health: Dictionary = {}
 
 var flower_scene = preload("res://nodes/entity/items/flower.tscn")
 
-@onready var bullet_collision_player: AudioStreamPlayer2D = $BulletCollision
 var thud_sound: AudioStream = preload("res://assets/sounds/thud_2.wav")
 var break_sound: AudioStream = preload("res://assets/sounds/break_1.wav")
 
 # batch collection for removals (cleared each frame)
 var removed_tiles: Array[Vector2i] = []
 
+var container: Node = Node.new()
+
+var map_bounds: Rect2 = Rect2(Vector2.ZERO, Vector2(360, 360))
+
 func _ready() -> void:
+	add_to_group("nav_tiles")
 	initialize_tile_health()
 	spawn_flowers()
+	get_parent().add_child.call_deferred(container)
+	call_deferred("update_navigation_map")
+	print("TileMapLayer _ready: navigation_region = ", navigation_region)
+	print("TileSet assigned: ", tile_set != null)
 	
 func _play_sound(sound_player: AudioStreamPlayer2D, stream: AudioStream, location: Vector2, min_pitch_range: float, max_pitch_range: float) -> void:
 	if sound_player and stream:
@@ -33,12 +41,13 @@ func initialize_tile_health() -> void:
 		tile_health[cell] = default_health
 		
 func damage_tile(tile_pos: Vector2i, damage: float) -> void:
+	var random_pitch = randf_range(0.7, 1.3)
 	if tile_health.has(tile_pos):
 		tile_health[tile_pos] -= damage
-		_play_sound(bullet_collision_player, thud_sound, map_to_local(tile_pos), 0.8, 1.2)
+		AudioManager.play_sound(thud_sound, map_to_local(tile_pos), {"pitch_scale": random_pitch})
 		if tile_health[tile_pos] <= 0:
 			queue_remove_tile(tile_pos)
-			_play_sound(bullet_collision_player, break_sound, map_to_local(tile_pos), 0.7, 1.3)
+			AudioManager.play_sound(break_sound, map_to_local(tile_pos), {"pitch_scale": random_pitch})
 			
 # queue tile removal for batch removal
 func queue_remove_tile(tile_pos: Vector2i) -> void:
@@ -47,52 +56,41 @@ func queue_remove_tile(tile_pos: Vector2i) -> void:
 			
 	
 func _process(_delta: float) -> void:
+	
 	if removed_tiles.size() > 0:
 		# batch remove all queue tiles
 		set_cells_terrain_connect(removed_tiles, terrain_set_id, -1)
-		
 		for pos in removed_tiles:
 			tile_health.erase(pos)
-			
 		var unique_neighbors: Dictionary = {}
 		for pos in removed_tiles:
 			var neighbors = [
-				Vector2i(pos.x - 1, pos.y - 1),
-				Vector2i(pos.x, pos.y - 1),
-				Vector2i(pos.x + 1, pos.y - 1),
-				Vector2i(pos.x - 1, pos.y),
-				Vector2i(pos.x + 1, pos.y),
-				Vector2i(pos.x - 1, pos.y + 1),
-				Vector2i(pos.x, pos.y + 1),
-				Vector2i(pos.x + 1, pos.y + 1)
+				Vector2i(pos.x - 1, pos.y - 1), Vector2i(pos.x, pos.y - 1), Vector2i(pos.x + 1, pos.y - 1),
+				Vector2i(pos.x - 1, pos.y), Vector2i(pos.x + 1, pos.y),
+				Vector2i(pos.x - 1, pos.y + 1), Vector2i(pos.x, pos.y + 1), Vector2i(pos.x + 1, pos.y + 1)
 			]
 			for neighbor in neighbors:
 				if get_cell_source_id(neighbor) != -1 and not unique_neighbors.has(neighbor):
 					unique_neighbors[neighbor] = true
-			
 		# batch update unique neighbors
 		var neighbor_array: Array = unique_neighbors.keys()
 		if neighbor_array.size() > 0:
 			set_cells_terrain_connect(neighbor_array, terrain_set_id, terrain_id)
-			
 		force_update_transform()
-		
 		removed_tiles.clear()
+	
 		
 func spawn_flowers() -> void:
 	# define map bounds
 	var tile_size = tile_set.tile_size
-	var map_bounds = Rect2(Vector2.ZERO, Vector2(360, 360))
 	var min_tile = global_to_tile_pos(map_bounds.position)
 	var max_tile = global_to_tile_pos(map_bounds.end)
 	
-	print("map bounds: min:", min_tile, ", max:", max_tile)
 	
 	# get used cells
 	var used_cells = get_used_cells()
 	var used_cells_set = used_cells as Array[Vector2i]
 	
-	print("used cells: ", used_cells_set.size())
 	
 	var empty_count = 0
 	for x in range(min_tile.x, max_tile.x + 1):
@@ -102,7 +100,6 @@ func spawn_flowers() -> void:
 				spawn_flower_at(tile_pos)
 				empty_count += 1
 				
-	print("empty cells found: ", empty_count)
 	
 func spawn_flower_at(tile_pos: Vector2i) -> void:
 	if flower_scene:
@@ -115,12 +112,9 @@ func spawn_flower_at(tile_pos: Vector2i) -> void:
 		if collisions.is_empty():
 			var flower = flower_scene.instantiate() as Item
 			flower.global_position = global_pos
-			get_parent().add_child.call_deferred(flower)
-			print(flower.global_position)
+			container.add_child.call_deferred(flower)
 			# configure flower
 			flower.is_carryable = false
-		else:
-			print("spawn skipped due to collision")
 	
 func tile_pos_to_global(tile_pos: Vector2i) -> Vector2:
 	var local_pos: Vector2 = map_to_local(tile_pos)

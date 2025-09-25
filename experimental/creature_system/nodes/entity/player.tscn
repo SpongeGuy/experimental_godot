@@ -34,6 +34,7 @@ under_player_control = true
 shape = SubResource("RectangleShape2D_ca341")
 
 [node name="Camera2D" type="Camera2D" parent="."]
+position_smoothing_enabled = true
 
 [node name="PelletWeapon" parent="." instance=ExtResource("3_qkrun")]
 

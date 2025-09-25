@@ -6,8 +6,7 @@ var player: Creature
 
 func _ready() -> void:
 	world.add_to_group("world")
-	var creature = preload("res://nodes/entity/player.tscn").instantiate()
-	_initialize_creature_as_player(creature)
+	_initialize_creature_as_player(preload("res://nodes/entity/player.tscn").instantiate())
 
 func _initialize_creature_as_player(creature: Creature):
 	creature.under_player_control = true

@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://ds6lj2dhc876"]
+[gd_scene load_steps=9 format=3 uid="uid://ds6lj2dhc876"]
 
 [ext_resource type="Script" uid="uid://cybrkhigf7nne" path="res://nodes/entity/dummy_enemy.gd" id="1_emv7m"]
 [ext_resource type="Script" uid="uid://dps4vigpayifs" path="res://resources/creature_resource.gd" id="2_hjlls"]
 [ext_resource type="PackedScene" uid="uid://dcvran7pn3gmo" path="res://nodes/brains/test_brain.tscn" id="3_emv7m"]
 [ext_resource type="FontFile" uid="uid://5tjvitx2c8lp" path="res://assets/fonts/Boo City.ttf" id="4_6epjf"]
+[ext_resource type="Texture2D" uid="uid://ctbv66g1eh7p5" path="res://assets/textures/creatures/grunt/grunt.png" id="4_hjlls"]
 
 [sub_resource type="Resource" id="Resource_emv7m"]
 script = ExtResource("2_hjlls")
@@ -43,14 +44,9 @@ shape = SubResource("RectangleShape2D_ca341")
 
 [node name="Graphics" type="Node2D" parent="."]
 
-[node name="Polygon2D" type="Polygon2D" parent="Graphics"]
-color = Color(1, 0, 0, 1)
-polygon = PackedVector2Array(6, 6, 6, -6, -6, -6, -6, 6)
-uv = PackedVector2Array(6, 2, 5, -41, -32, -37, -32, 4)
-
-[node name="Hurt" type="AudioStreamPlayer2D" parent="."]
-max_distance = 250.0
-max_polyphony = 3
+[node name="Sprite2D" type="Sprite2D" parent="Graphics"]
+texture_filter = 1
+texture = ExtResource("4_hjlls")
 
 [node name="Label" type="Label" parent="."]
 texture_filter = 1

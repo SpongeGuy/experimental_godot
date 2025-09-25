@@ -17,12 +17,12 @@ config/features=PackedStringArray("4.4", "Forward Plus")
 [autoload]
 
 GlobalTimer="*res://systems/global_timer.gd"
+AudioManager="*res://systems/audio_manager.tscn"
 
 [display]
 
 window/size/viewport_width=640
 window/size/viewport_height=360
-window/size/mode=3
 window/stretch/mode="viewport"
 
 [editor_plugins]
