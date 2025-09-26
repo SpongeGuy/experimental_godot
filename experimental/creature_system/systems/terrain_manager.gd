@@ -1,10 +1,12 @@
-extends TileMapLayer
-
+class_name TerrainManager extends Node2D
 
 var tile_health: Dictionary = {}
 @export var default_health: float = 50
 @export var terrain_set_id: int = 0
 @export var terrain_id: int = 0
+
+@onready var walls_layer: TileMapLayer = $Walls
+@onready var ground_layer: TileMapLayer = $Ground
 
 var flower_scene = preload("res://nodes/entity/items/flower.tscn")
 var thud_sound: AudioStream = preload("res://assets/sounds/thud_2.wav")
@@ -18,20 +20,20 @@ var container: Node = Node.new()
 var map_bounds: Rect2 = Rect2(Vector2.ZERO, Vector2(360, 360))
 
 func _ready() -> void:
-	add_to_group("nav_tiles")
-	initialize_tile_health()
+	walls_layer.add_to_group("nav_tiles")
+	ground_layer.add_to_group("nav_tiles")
+	
+	walls_layer.tile_health = tile_health
+	walls_layer.terrain_set_id = terrain_set_id
+	walls_layer.terrain_id = terrain_id
+	
+	ground_layer.terrain_set_id = terrain_set_id
+	ground_layer.terrain_id = terrain_id
+	
 	spawn_flowers()
 	get_parent().add_child.call_deferred(container)
 	call_deferred("update_navigation_map")
-	print("TileSet assigned: ", tile_set != null)
 	
-func _play_sound(sound_player: AudioStreamPlayer2D, stream: AudioStream, location: Vector2, min_pitch_range: float, max_pitch_range: float) -> void:
-	if sound_player and stream:
-		sound_player.pitch_scale = randf_range(min_pitch_range, max_pitch_range)
-		sound_player.position = location
-		sound_player.stream = stream
-		
-		sound_player.play()
 	
 func initialize_tile_health() -> void:
 	var used_cells = get_used_cells()
