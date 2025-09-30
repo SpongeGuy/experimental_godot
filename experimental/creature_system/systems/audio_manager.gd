@@ -28,7 +28,7 @@ func _on_sound_finished(player: AudioStreamPlayer2D) -> void:
 	player.pitch_scale = 1
 	player.volume_db = 0
 
-func play_sound(stream: AudioStream, position: Vector2, settings: Dictionary):
+func play_sound(stream: AudioStream, position: Vector2, settings: Dictionary = {}):
 	var sound_settings = {
 		"stream": null,
 		"position": Vector2.ZERO,

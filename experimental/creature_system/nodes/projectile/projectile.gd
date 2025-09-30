@@ -37,7 +37,7 @@ func _collision_logic(delta: float):
 			var damage = master.weapon.weapon_data.base_damage
 			var rid: RID = col.get_collider_rid()
 			var tile_pos: Vector2i = collider.get_coords_for_body_rid(rid)
-			collider.damage_tile(tile_pos, damage)
+			collider.get_parent().damage_tile(tile_pos, damage)
 			queue_free()
 		elif collider is not CharacterBody2D:
 			queue_free()

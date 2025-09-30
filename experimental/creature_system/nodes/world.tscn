@@ -15,3 +15,5 @@ uv = PackedVector2Array(-203.5, -43, -205.5, 29, -86.5, 25, -88.5, -56)
 position = Vector2(12, -50)
 
 [node name="TerrainManager" parent="." instance=ExtResource("2_1lur1")]
+default_health = 5.0
+terrain_set_id = 0
