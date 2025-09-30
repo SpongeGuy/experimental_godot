@@ -11,9 +11,7 @@ color = Color(0, 0, 0, 1)
 polygon = PackedVector2Array(-104.5, -52, -105.5, 66, 87.5, 71, 101.5, -71)
 uv = PackedVector2Array(-203.5, -43, -205.5, 29, -86.5, 25, -88.5, -56)
 
+[node name="TerrainManager" parent="." instance=ExtResource("2_1lur1")]
+
 [node name="Enemy" parent="." instance=ExtResource("2_kom6r")]
 position = Vector2(12, -50)
-
-[node name="TerrainManager" parent="." instance=ExtResource("2_1lur1")]
-default_health = 5.0
-terrain_set_id = 0
