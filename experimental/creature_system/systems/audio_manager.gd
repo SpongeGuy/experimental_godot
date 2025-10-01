@@ -49,7 +49,7 @@ func play_sound(stream: AudioStream, position: Vector2, settings: Dictionary = {
 				player.global_position = position
 				_apply_settings(player, settings)
 				player.play()
-				print("Playing sound at ", position)
+				#print("Playing sound at ", position)
 				return
 		for player in sound_players:
 			# now check for inactive players
@@ -58,7 +58,7 @@ func play_sound(stream: AudioStream, position: Vector2, settings: Dictionary = {
 				player.global_position = position
 				_apply_settings(player, settings)
 				player.play()
-				print("Playing sound at ", position)
+				#print("Playing sound at ", position)
 				return
 		print("Warning: No available AudioStreamPlayer2D for sound at ", position)
 

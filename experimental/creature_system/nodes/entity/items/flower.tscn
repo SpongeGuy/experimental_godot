@@ -9,7 +9,8 @@
 radius = 2.0
 
 [node name="Flower" type="RigidBody2D" node_paths=PackedStringArray("area")]
-collision_layer = 2
+collision_layer = 0
+collision_mask = 3
 script = ExtResource("1_m2105")
 is_carryable = false
 area = NodePath("PickupRadius")
@@ -20,6 +21,8 @@ texture = ExtResource("2_chpiq")
 hframes = 8
 
 [node name="PickupRadius" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 6
 
 [node name="Shape" type="CollisionShape2D" parent="PickupRadius"]
 scale = Vector2(0.365, 0.365)

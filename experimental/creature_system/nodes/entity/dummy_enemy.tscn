@@ -29,6 +29,8 @@ font = ExtResource("4_6epjf")
 font_size = 8
 
 [node name="Enemy" type="CharacterBody2D" node_paths=PackedStringArray("brain", "graphics", "hitboxes")]
+collision_layer = 3
+collision_mask = 0
 script = ExtResource("1_emv7m")
 creature_stats = SubResource("Resource_emv7m")
 brain = NodePath("Brain")

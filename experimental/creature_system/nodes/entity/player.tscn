@@ -23,6 +23,7 @@ metadata/_custom_type_script = "uid://dps4vigpayifs"
 size = Vector2(10, 10)
 
 [node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("weapon", "graphics", "hitboxes")]
+collision_layer = 2
 script = ExtResource("1_qfi1q")
 creature_stats = SubResource("Resource_j0nwe")
 weapon = NodePath("PelletWeapon")
