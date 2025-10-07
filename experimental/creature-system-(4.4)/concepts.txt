@@ -1,0 +1,200 @@
+creature ideas for wacky chaotic arcade game
+not all creatures have to be hostile per se, just have odd/unique mechanics
+this game will look a bit like pac man except there are no teams, just shit happening all around you
+the main goal is to survive and get stronger like a roguelike
+walls can be destroyed and created as well
+
+i want a theme of emergent gameplay.
+this is an arena style game so i want as much love put into the creatures as possible.
+gameplay ideally should be deep, not wide.
+creature behaviors should ideally interact with other creature behaviors in some way.
+this don’t have to be the case always, but is better if true.
+
+[*] idea
+[-] additional information / relevant context
+
+
+* swarm flea
+	- wants to be in and around corners
+	- flock style movement and creates swarm mist particles when startled or moving quickly
+	- fleas are attracted to kori nests and will eat and scatter fruit from the nests
+	- swarm mist reacts explosively with the drill bore's gold but makes it even more valuable
+	- if the mist catches on fire (like from the pyre), it expands rapidly in a shockwave, causing damage to everything
+	
+* jumpy bug
+	- jumps long distances, can jump on top of walls
+	- stomps enemies, shoots a bullet which goes over walls
+	- jumpy bug can stomp on the gnome statue to slam it into walls or creatures at high speed
+	- can sometimes abduct other creatures and jump with them
+	
+* gnome statue
+	- does nothing except get pushed around and knocks into things
+	- shatters if crashed into anything at high velocity
+	- can make itself heavy and immovable for a period of time
+	- a magical variety of this guy who can hop around into other creatures
+	
+* grunt
+	- simply pathfinds around randomly but continuously
+	- attacks if any creature grows too near, but won't pursue
+	
+* growl
+	- like the grunt but actively searches for fruit and consumes it
+	- will think that the false item is fruit if it is disguised as such
+
+* beetoo
+	- lays bombs as eggs
+	- eggs will detonate instantly if pyre is nearby
+	- eggs can be picked up by the magnet mite or the bounce blob
+
+* drill bore
+	- drills through walls
+	- leaves behind valuable gold which attracts greedy creatures
+	- the drill bore can be ambushed by the wall master very easily
+	- the kori can mistake gold for fruit and bring it to its nest
+	
+* kori
+	- builds a nest and grows hatchlings
+	- runs around grabbing fruit and delivering it to nest
+	- sometimes grabs other things besides fruit
+	- nest can be destroyed and then the hatchlings will wander
+	- if the hatchlings get enough food they will transform into rage beasts
+	
+* hoary
+	- cranky old man
+	- sneezes
+	- builds a rocking chair
+	
+* worm
+	- multiple body segments
+	- can only bite you from its head
+	- can only move in four directions
+	- severing the worm in half creates two unique worm creatures
+	- worm grows longer if it eats fruit
+	- explosions may cause the worm to split into many worm heads
+	
+* cultist
+	- summons fireballs to throw at you
+	- fireballs ignite swarm mist
+	- fireballs are absorbed by bounce blob but cause it to overheat and split
+	- fireballs explode walls
+	
+* glub gob
+	- eats as much fruit as possible
+	- if it finds a kori nest it will eat the whole thing
+	- will tear apart the magnet mite's junk armor
+	- when killed, drops everything it consumed at once
+	
+* beholder
+	- shoots a continuous laser beam
+	- beam direction is fixed
+	- floats around aimlessly
+	
+* dungeon cube
+	- quickly launches itself in one of four directions and stops if it hits a wall
+	- anything in its path takes huge damage and is knocked back
+
+* patte
+	- similar to grunt
+	- clones itself when it's harmed
+
+* pyre
+	- is on fire continuously
+	- sets ground and creatures nearby on fire
+	- has a fire shockwave attack
+	- hops around and can jump long distances, has a chance to drop fire below it
+	
+* poltergeist
+	- shuffles terrain around itself including all that is on the tile
+
+* rage beast
+	- aggressively pursues and kills other creatures
+	- can be pacified by the song moth, transforming into a harmless critter
+
+* transmog
+	- transforms fruit into powerups
+
+* song moth
+	- flutters and hums melodies that charm nearby creatures
+	- creatures will follow in a conga line and join in on the song
+
+* waddler
+	- is followed by its children
+	- children will scatter if parent is attacked
+	- if parent is killed children will become hostile to the killer
+
+* anhurgir
+	- spirit who can travel through walls
+	- shoots a pellet occasionally
+	- can sometimes merge a creature with a wall so it can't move
+
+* cat
+	- scratches and runs away
+	- naps in corners
+	- hunts swarm fleas and causes them to dash away
+
+* bubble blower
+	- creates expanding bubbles that trap creatures inside, floating them away until popped
+	
+* echo bat
+	- screams to create sound waves that bounce off walls, stunning anything they hit multiple times
+	
+* spin wheel
+	- travels only in diagonal path non-stop
+
+* puzzle piece
+	- locks onto other creatures or walls to form temporary structures
+	
+* clockwork mouse
+	- winds itself up periodically then dashes in straight lines
+	
+* false item
+	- disguises as fruit or powerups but bites when approached and summons teeth minions
+
+* ink blot
+	- spreads across the ground like an oil spill, making areas slippery
+	- variety which makes creatures and items invisible/hazy
+	
+* wall master
+	- can only travel on the faces of walls except when jumping to another face closeby
+	
+* flame wheel
+	- like in terraria
+	
+* popcorn kernel
+	- if lit on fire bursts into a ton of popped corns which jump and fidget around
+	
+* portal gremlin
+	- drops random portals which link distant parts of the maze
+	
+* magnet mite
+	- attracts loose debris or other creatures toward it, building a growing junk ball of armor
+
+* spikeball
+	- rolls around and does big contact damage
+	- can be propelled to increase its velocity permanently until it shatters
+	- the faster it's going, the more damage it does
+	
+* slug
+	- leaves blocks of slime behind it which block off areas
+	
+* imp
+	- projects fake versions of itself and jumps around
+	
+* bounce blob
+	- absorbs impacts and bounces off of walls, every time it bounces it grows larger until it bursts into tiny slime creatures
+	
+* whistler
+	- causes creatures to temporarily ally or rage against each other
+	
+* aureate crawler
+	- grows crystals on its body
+	- crystals reflect lasers or bullets
+	- crystals react chaotically to any form of contact damage
+		- explosions, teleportation, summoning
+	- crystals can break off and land on the ground, where they behave the same
+
+* slushy
+	- ice tornado
+	- creates ice shards and plants them on the ground
+	- freezes the ground so it's slippery
+	- makes terrain more brittle

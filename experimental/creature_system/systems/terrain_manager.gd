@@ -4,21 +4,30 @@ extends Node2D
 @onready var flower_path = preload("res://nodes/entity/items/flower.tscn")
 
 var visited_cells: Array[Vector2i] = []
-
-
-func _ready() -> void:
-	var area: Rect2i = Rect2i(0, 0, 50, 50)
+var wall_health: Dictionary = {}
+const MAX_WALL_HEALTH: int = 25
+	
+func create_chunk(pos: Vector2i) -> void:
+	var area: Rect2i = Rect2i(pos, Vector2i(100, 100))
 	var terrain_set: int = 0
 	var terrain: int = 0
-	var steps: int = 300
+	var steps: int = 450
 	fill_rectangle(area, tile_map_base, terrain_set, terrain)
-	drunk(Vector2i(0, 0), tile_map_base, terrain_set, 0, 1, steps, 0.01)
+	await drunken_stumble(pos + Vector2i(0, 0), tile_map_base, terrain_set, 0, 1, steps, steps, 5, 0.0001)
+	await drunken_stumble(pos + Vector2i(50, 0), tile_map_base, terrain_set, 0, 1, steps, steps, 5, 0.0001)
+	await drunken_stumble(pos + Vector2i(99, 50), tile_map_base, terrain_set, 0, 1, steps, steps, 5, 0.0001)
+	await drunken_stumble(pos + Vector2i(98, 98), tile_map_base, terrain_set, 0, 1, steps, steps, 5, 0.0001)
+	visited_cells = []
+	print("done!")
 
 func fill_rectangle(area: Rect2i, tile_map_layer: TileMapLayer, terrain_set: int, terrain: int) -> void:
 	var cells: Array[Vector2i] = []
 	for x in range(area.position.x, area.end.x):
 		for y in range(area.position.y, area.end.y):
-			cells.append(Vector2i(x, y))
+			var cell = Vector2i(x, y)
+			cells.append(cell)
+			if terrain == 0:
+				wall_health[cell] = MAX_WALL_HEALTH
 	tile_map_layer.set_cells_terrain_connect(cells, terrain_set, terrain)
 	
 const DIRECTIONS: Array[Vector2i] = [
@@ -28,27 +37,55 @@ const DIRECTIONS: Array[Vector2i] = [
 	Vector2i(1, 0)
 ]
 
+func damage_tile(pos:Vector2i, damage: float):
+	var tile_data = tile_map_base.get_cell_tile_data(pos)
+	if pos in wall_health and wall_health[pos] > 0:
+		wall_health[pos] -= damage
+		if wall_health[pos] <= 0:
+			destroy_wall(pos)
+	
+func destroy_wall(pos: Vector2i) -> void:
+	if pos in wall_health:
+		tile_map_base.set_cells_terrain_connect([pos], 0, 1)
+		wall_health.erase(pos)
+
 # initiates drunkards walks until remaining steps is 0
 # picks a spot which the drunkard has already traversed and walks out from there
-func drunk(start_pos: Vector2i, tile_map_layer: TileMapLayer, terrain_set: int, from_terrain: int, to_terrain: int, remaining_steps: int, delay: float):
+func drunken_waltz(start_pos: Vector2i, tile_map_layer: TileMapLayer, terrain_set: int, from_terrain: int, to_terrain: int, total_steps: int, steps_per_walk: int, delay: float):
 	var starting_position = start_pos
-	while remaining_steps > 0:
-		remaining_steps -= await drunkards_walk(starting_position, tile_map_layer, terrain_set, from_terrain, to_terrain, remaining_steps, delay)
+	while total_steps > 0:
+		total_steps -= await drunkards_walk(starting_position, tile_map_layer, terrain_set, from_terrain, to_terrain, steps_per_walk, delay)
 		var random_pos = visited_cells.pick_random()
 		starting_position = random_pos
 	visited_cells = []
+
+# initiates drunkards walks until remaining steps is 0
+# picks a spot which the drunkard has already traversed and walks out from there
+# alternates between digging paths and building walls
+func drunken_stumble(start_pos: Vector2i, tile_map_layer: TileMapLayer, terrain_set: int, from_terrain: int, to_terrain: int, total_steps: int, steps_per_walk_1: int, steps_per_walk_2: int, delay: float):
+	var starting_position = start_pos
+	var digging: bool = true
+	while total_steps > 0:
+		if digging:
+			total_steps -= await drunkards_walk(starting_position, tile_map_layer, terrain_set, from_terrain, to_terrain, steps_per_walk_1, delay)
+			digging = false
+		else:
+			total_steps -= await drunkards_walk(starting_position, tile_map_layer, terrain_set, to_terrain, from_terrain, steps_per_walk_2, delay)
+			digging = true
+		var random_pos = visited_cells.pick_random()
+		starting_position = random_pos
 
 func drunkards_walk(start_pos: Vector2i, tile_map_layer: TileMapLayer, terrain_set: int, from_terrain: int, to_terrain: int, max_steps: int, delay: float) -> int:
 	var current_pos: Vector2i = start_pos
 	var cells_to_connect: Array[Vector2i] = [current_pos]
 	
-	tile_map_layer.set_cells_terrain_connect([current_pos], terrain_set, to_terrain)
+	#tile_map_layer.set_cells_terrain_connect([current_pos], terrain_set, to_terrain)
+	
 	if delay > 0:
 		await get_tree().create_timer(delay).timeout
 		
 	var steps_taken: int = 0
 	while steps_taken < max_steps:
-		# walking
 		visited_cells.append(current_pos)
 		var valid_moves: Array[Vector2i] = []
 		for dir in DIRECTIONS:
@@ -63,16 +100,22 @@ func drunkards_walk(start_pos: Vector2i, tile_map_layer: TileMapLayer, terrain_s
 		var next_pos: Vector2i = valid_moves.pick_random()
 		current_pos = next_pos
 		
+		# changing terrain to ground type here, so place the flowers down
 		if to_terrain == 1:
 			var flower = flower_path.instantiate()
 			var tile_size = tile_map_layer.tile_set.tile_size.x
-			flower.position = tile_size * next_pos + Vector2i(tile_size / 2, tile_size / 2)
+			flower.position = tile_size * current_pos + Vector2i(tile_size / 2, tile_size / 2)
 			get_parent().add_child(flower)
-			var new_area: Rect2 = Rect2(next_pos * tile_size, Vector2(tile_size, tile_size))
-			#print(get_nodes_in_rect_physics(new_area, 2))
 
+		# changing terrain to wall type here so destroy flowers in the way
 		if to_terrain == 0:
 			var tile_size = tile_map_layer.tile_set.tile_size.x
+			var new_area: Rect2 = Rect2(current_pos * tile_size, Vector2(tile_size, tile_size))
+			var nodes = get_nodes_in_rect_physics(new_area, 2)
+			for node in nodes:
+				if node is Flower:
+					node.queue_free()
+			wall_health[current_pos] = MAX_WALL_HEALTH
 		
 		if delay > 0:
 			tile_map_layer.set_cells_terrain_connect([current_pos], terrain_set, to_terrain)

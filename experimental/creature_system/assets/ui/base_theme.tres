@@ -1,0 +1,19 @@
+[gd_resource type="Theme" load_steps=5 format=3 uid="uid://bb432ofubm5pm"]
+
+[ext_resource type="FontFile" uid="uid://d1xc7ubfx0lh5" path="res://assets/fonts/spaceflight(5).ttf" id="1_srpco"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_srpco"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vf4fy"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tljjm"]
+
+[resource]
+default_font = ExtResource("1_srpco")
+default_font_size = 6
+Button/colors/font_focus_color = Color(0.9999996, 0.90195477, 0.4451173, 1)
+Button/colors/font_pressed_color = Color(0.47708064, 0.7296629, 1.92523e-06, 1)
+Button/styles/focus = SubResource("StyleBoxEmpty_srpco")
+Button/styles/normal = SubResource("StyleBoxEmpty_vf4fy")
+Button/styles/pressed = SubResource("StyleBoxEmpty_tljjm")
+VBoxContainer/constants/separation = 1

@@ -1,0 +1,17 @@
+[remap]
+
+importer="com.timothyqiu.gdfxr.importer"
+type="AudioStreamWAV"
+uid="uid://cvc531jqmq6q"
+path="res://.godot/imported/worm_hurt_1.sfxr-116bdb212f67d9dc89a72d99127f2d14.sample"
+
+[deps]
+
+source_file="res://assets/sounds/worm_hurt_1.sfxr"
+dest_files=["res://.godot/imported/worm_hurt_1.sfxr-116bdb212f67d9dc89a72d99127f2d14.sample"]
+
+[params]
+
+loop=false
+bit_depth=0
+sample_rate=0

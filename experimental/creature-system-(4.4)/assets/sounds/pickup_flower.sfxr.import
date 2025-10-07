@@ -1,0 +1,17 @@
+[remap]
+
+importer="com.timothyqiu.gdfxr.importer"
+type="AudioStreamWAV"
+uid="uid://c46pmbptrenl8"
+path="res://.godot/imported/pickup_flower.sfxr-347a390c4c3bb332864cbc35dc2736fc.sample"
+
+[deps]
+
+source_file="res://assets/sounds/pickup_flower.sfxr"
+dest_files=["res://.godot/imported/pickup_flower.sfxr-347a390c4c3bb332864cbc35dc2736fc.sample"]
+
+[params]
+
+loop=false
+bit_depth=0
+sample_rate=0

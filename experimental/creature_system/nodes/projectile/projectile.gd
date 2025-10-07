@@ -35,8 +35,12 @@ func _collision_logic(delta: float):
 			queue_free()
 		elif collider is TileMapLayer:
 			var damage = master.weapon.weapon_data.base_damage
-			var rid: RID = col.get_collider_rid()
-			var tile_pos: Vector2i = collider.get_coords_for_body_rid(rid)
+			var collision_point: Vector2 = col.get_position()
+			var normal: Vector2 = col.get_normal()
+			var adjusted_point: Vector2 = collision_point - normal * 1.0  # Adjust inward by 1 unit (adjust epsilon as needed based on tile size)
+			var tile_pos: Vector2i = collider.local_to_map(collider.to_local(adjusted_point))
+			print(collider.get_parent(), tile_pos)
+			print("Tile data:", collider.get_cell_tile_data(tile_pos))
 			collider.get_parent().damage_tile(tile_pos, damage)
 			queue_free()
 		elif collider is not CharacterBody2D:

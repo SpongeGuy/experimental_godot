@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=3 uid="uid://c7dohu1dedkcd"]
+
+[ext_resource type="Script" uid="uid://cvgovs05qwtkb" path="res://nodes/projectile/pellet.gd" id="1_3td3u"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mb71f"]
+size = Vector2(4, 4)
+
+[sub_resource type="QuadMesh" id="QuadMesh_3td3u"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_la330"]
+
+[node name="Pellet" type="CharacterBody2D"]
+collision_layer = 0
+script = ExtResource("1_3td3u")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_mb71f")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="."]
+scale = Vector2(4, 4)
+mesh = SubResource("QuadMesh_3td3u")
+texture = SubResource("PlaceholderTexture2D_la330")
