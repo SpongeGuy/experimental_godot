@@ -40,6 +40,7 @@ func _physics_process(delta: float) -> void:
 		_player_control(delta)
 	elif brain:
 		brain.control(self, delta)
+	move_and_slide()
 
 func _scan_nearby(area: Area2D) -> Array:
 	return area.get_overlapping_bodies()
@@ -95,7 +96,7 @@ func _player_control(delta: float) -> void:
 	if input_direction.length() >= 1:
 		input_direction = input_direction.normalized()
 	velocity = input_direction * creature_stats.movement_speed * delta
-	move_and_slide()
+	
 
 func _player_attack(delta: float) -> void:
 	mouse_target.position = get_global_mouse_position()

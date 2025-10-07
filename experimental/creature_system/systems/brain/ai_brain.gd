@@ -2,6 +2,7 @@ class_name AIBrain extends Node
 
 @export var initial_state: AIState
 var current_state: AIState
+@export var navigation_agent: NavigationAgent2D
 
 func _ready() -> void:
 	start_first_state(get_parent())

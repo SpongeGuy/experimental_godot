@@ -10,14 +10,11 @@
 script = ExtResource("2_hjlls")
 name = "dummy"
 faction = "dummy"
-animations = {}
 base_health = 20.0
-base_movement_speed = 2500.0
-base_attack_speed = 1.0
+base_movement_speed = 50.0
 base_point_value = 50
 health = 20.0
-movement_speed = 2500.0
-attack_speed = 1.0
+movement_speed = 25.0
 point_value = 50
 metadata/_custom_type_script = "uid://dps4vigpayifs"
 
@@ -30,14 +27,21 @@ font_size = 8
 
 [node name="Enemy" type="CharacterBody2D" node_paths=PackedStringArray("brain", "graphics", "hitboxes")]
 collision_layer = 3
-collision_mask = 0
 script = ExtResource("1_emv7m")
 creature_stats = SubResource("Resource_emv7m")
 brain = NodePath("Brain")
 graphics = NodePath("Graphics")
 hitboxes = [NodePath("CollisionShape2D")]
 
-[node name="Brain" parent="." instance=ExtResource("3_emv7m")]
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+path_postprocessing = 1
+avoidance_enabled = true
+radius = 28.45
+max_neighbors = 30
+debug_enabled = true
+
+[node name="Brain" parent="." node_paths=PackedStringArray("navigation_agent") instance=ExtResource("3_emv7m")]
+navigation_agent = NodePath("../NavigationAgent2D")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_ca341")

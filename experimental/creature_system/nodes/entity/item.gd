@@ -50,4 +50,3 @@ func _activate(creature: Creature):
 func apply_external_force(force: Vector2, position: Vector2 = global_position):
 	if carrier == null:
 		apply_impulse(force, position - global_position)
-

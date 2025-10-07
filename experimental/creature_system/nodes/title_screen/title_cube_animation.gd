@@ -1,10 +1,13 @@
 extends Node3D
 
-@onready var lil_cube: MeshInstance3D = $Elements/medium
-@onready var even_lil_cube: MeshInstance3D = $Elements/small
-@onready var skybox: MeshInstance3D = $Elements/skybox
+@onready var lil_cube: MeshInstance3D = $Planet/medium
+@onready var even_lil_cube: MeshInstance3D = $Planet/small
+@onready var skybox: MeshInstance3D = $Planet/skybox
 @onready var audio_streamer: AudioStreamPlayer = $MenuMusic
 @onready var camera: Camera3D = $Camera3D
+
+@onready var ui_vbox: VBoxContainer =  $Control/MenuOptions
+@onready var ui_play_button: Button = $Control/MenuOptions/PlayButton/Button
 
 
 @export var animation_rot_y: Curve
@@ -12,6 +15,7 @@ extends Node3D
 
 var elapsed_time: float = 0
 var camera_animating: bool = true
+var camera_target_rotation_degrees: Vector3
 
 func get_sin_in_range(a: float, b: float, offset: float = 0, multiplier: float = 1):
 	return a+(b-a) * ((sin(multiplier * elapsed_time + offset)+1) / 2)
@@ -44,13 +48,37 @@ func skybox_animation(delta: float) -> void:
 	skybox.rotation.y += 1 * delta
 	
 func camera_animation(delta: float) -> void:
-	if elapsed_time < camera_rotation_delta.max_domain:
+	if camera_animating and elapsed_time < camera_rotation_delta.max_domain:
 		camera.rotation.x += camera_rotation_delta.sample(elapsed_time) * delta
+	elif camera_animating:
+		camera.rotation = lerp(camera.rotation, Vector3(0, 0, 0), delta)
 	else:
-		camera.rotation.x = lerp(camera.rotation.x, 0.0, delta)
+		camera.rotation_degrees = lerp(camera.rotation_degrees, camera_target_rotation_degrees, delta)
 	
 func _ready() -> void:
 	audio_streamer.playing = true
+	camera.rotation_degrees = Vector3(90, 0, 0)
+	
+	# the damn arrow next to each menu option
+	# needs to be connected to the focus callbacks
+	for hbox in ui_vbox.get_children():
+		if hbox is HBoxContainer:
+			var button = hbox.get_node("Button")
+			var indicator = hbox.get_node("Label")
+			
+			indicator.text = ""
+			
+			button.focus_entered.connect(_on_button_focus_entered.bind(indicator))
+			button.focus_exited.connect(_on_button_focus_exited.bind(indicator))
+	
+	ui_play_button.grab_focus()
+	
+func _on_button_focus_entered(indicator: Label):
+	indicator.text = ">"
+	
+func _on_button_focus_exited(indicator: Label):
+	indicator.text = " "
+
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -59,3 +87,13 @@ func _process(delta: float) -> void:
 	orbiter_animation(delta, camera_rotation_delta.max_domain)
 	skybox_animation(delta)
 	elapsed_time += delta
+
+
+func _on_options_button_pressed() -> void:
+	camera_animating = false
+	camera_target_rotation_degrees = Vector3(0, -90, 90)
+
+
+func _on_play_button_pressed() -> void:
+	camera_animating = false
+	camera_target_rotation_degrees = Vector3(-90, 0, 0)

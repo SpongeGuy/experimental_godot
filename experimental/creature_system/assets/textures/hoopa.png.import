@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cs2mgpdu78x7r"
-path="res://.godot/imported/14x14tiles.png-9fd79209d2ca2d884b90543ae911f280.ctex"
+uid="uid://diishhohdtcb2"
+path="res://.godot/imported/hoopa.png-f6c040de1f1a028f89bae2611bf676ae.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/textures/14x14tiles.png"
-dest_files=["res://.godot/imported/14x14tiles.png-9fd79209d2ca2d884b90543ae911f280.ctex"]
+source_file="res://assets/textures/hoopa.png"
+dest_files=["res://.godot/imported/hoopa.png-f6c040de1f1a028f89bae2611bf676ae.ctex"]
 
 [params]
 

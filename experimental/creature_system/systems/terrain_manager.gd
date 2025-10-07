@@ -6,6 +6,7 @@ extends Node2D
 var visited_cells: Array[Vector2i] = []
 var wall_health: Dictionary = {}
 const MAX_WALL_HEALTH: int = 25
+
 	
 func create_chunk(pos: Vector2i) -> void:
 	var area: Rect2i = Rect2i(pos, Vector2i(100, 100))
