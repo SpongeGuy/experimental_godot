@@ -7,7 +7,5 @@
 script = ExtResource("1_wkasx")
 initial_state = NodePath("Wander")
 
-[node name="Wander" type="Node" parent="." node_paths=PackedStringArray("seeking_state", "sub_state")]
+[node name="Wander" type="Node" parent="."]
 script = ExtResource("2_qt03p")
-seeking_state = NodePath("")
-sub_state = NodePath("")

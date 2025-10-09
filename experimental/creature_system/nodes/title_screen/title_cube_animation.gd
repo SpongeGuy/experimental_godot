@@ -3,20 +3,20 @@ extends Node3D
 @onready var lil_cube: MeshInstance3D = $Planet/Model/medium
 @onready var even_lil_cube: MeshInstance3D = $Planet/Model/small
 @onready var skybox: MeshInstance3D = $skybox
+@onready var starbox: MeshInstance3D = $starbox
 @onready var music_player: AudioStreamPlayer = $MenuMusic
 @onready var select_player: AudioStreamPlayer = $Select
 @onready var pick_player: AudioStreamPlayer = $Pick
 @onready var camera: Camera3D = $Camera3D
 @onready var animator = $AnimationPlayer
-@onready var title_logo = $Planet/LogoAnimationPath
 
 @onready var planet_ui_viewport: SubViewport = $Planet/UIViewport
-@onready var planet_ui_vbox: VBoxContainer =  $Planet/UIViewport/Control/MenuOptions
-@onready var planet_ui_focus_button: Button = $Planet/UIViewport/Control/MenuOptions/PlayButton/Button
+@onready var planet_ui_vbox: VBoxContainer =  $Planet/UIViewport/Control/Border/MenuOptions
+@onready var planet_ui_focus_button: Button = $Planet/UIViewport/Control/Border/MenuOptions/PlayButton/Button
 
 @onready var options_ui_viewport: SubViewport = $Options/UIViewport
-@onready var options_ui_vbox: VBoxContainer = $Options/UIViewport/Control/MenuOptions
-@onready var options_ui_focus_button: Button = $Options/UIViewport/Control/MenuOptions/dummy/Button
+@onready var options_ui_vbox: VBoxContainer = $Options/UIViewport/Control/Border/MenuOptions
+@onready var options_ui_focus_button: Button = $Options/UIViewport/Control/Border/MenuOptions/dummy/Button
 
 @export var animation_rot_y: Curve
 @export var camera_rotation_delta: Curve
@@ -30,18 +30,6 @@ var current_state: MenuState
 var elapsed_time: float = 0
 var camera_animating: bool = true
 var camera_target_rotation_degrees: Vector3
-
-@onready var logo_letters_eng: Array[Sprite3D] = [
-	$"Planet/LogoAnimationPath/AnthuriumLogoEng/1-A",
-	$"Planet/LogoAnimationPath/AnthuriumLogoEng/2-N",
-	$"Planet/LogoAnimationPath/AnthuriumLogoEng/3-T",
-	$"Planet/LogoAnimationPath/AnthuriumLogoEng/4-H",
-	$"Planet/LogoAnimationPath/AnthuriumLogoEng/5-U",
-	$"Planet/LogoAnimationPath/AnthuriumLogoEng/6-R",
-	$"Planet/LogoAnimationPath/AnthuriumLogoEng/7-I",
-	$"Planet/LogoAnimationPath/AnthuriumLogoEng/8-U",
-	$"Planet/LogoAnimationPath/AnthuriumLogoEng/9-M"
-]
 
 
 
@@ -81,7 +69,9 @@ func orbiter_animation(delta: float, start_time: float = 0) -> void:
 	even_lil_cube.position.z = get_sin_in_range(-2.1, -1.4, 0, 2)
 	
 func skybox_animation(delta: float) -> void:
-	skybox.rotation.y += 1 * delta
+	skybox.rotation.y += 0.5 * delta
+	starbox.rotation.x += 0.0012 * delta
+	starbox.rotation.z -= 0.0016180339887 * delta
 	
 func _ready() -> void:
 	music_player.playing = true
@@ -122,7 +112,6 @@ func _on_button_focus_exited(indicator: Label):
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	camera_animation(delta)
-	title_logo.logo_animation(logo_letters_eng, delta, 4, 0.15, 0)
 	planet_animation(delta, camera_rotation_delta.max_domain)
 	orbiter_animation(delta, camera_rotation_delta.max_domain)
 	skybox_animation(delta)

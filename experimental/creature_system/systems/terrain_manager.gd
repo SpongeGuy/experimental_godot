@@ -14,10 +14,10 @@ func create_chunk(pos: Vector2i) -> void:
 	var terrain: int = 0
 	var steps: int = 450
 	fill_rectangle(area, tile_map_base, terrain_set, terrain)
-	await drunken_stumble(pos + Vector2i(0, 0), tile_map_base, terrain_set, 0, 1, steps, steps, 5, 0.0001)
-	await drunken_stumble(pos + Vector2i(50, 0), tile_map_base, terrain_set, 0, 1, steps, steps, 5, 0.0001)
-	await drunken_stumble(pos + Vector2i(99, 50), tile_map_base, terrain_set, 0, 1, steps, steps, 5, 0.0001)
-	await drunken_stumble(pos + Vector2i(98, 98), tile_map_base, terrain_set, 0, 1, steps, steps, 5, 0.0001)
+	await drunken_stumble(pos + Vector2i(0, 0), tile_map_base, terrain_set, 0, 1, steps, steps, 5, 0.0)
+	await drunken_stumble(pos + Vector2i(50, 0), tile_map_base, terrain_set, 0, 1, steps, steps, 5, 0.0)
+	await drunken_stumble(pos + Vector2i(99, 50), tile_map_base, terrain_set, 0, 1, steps, steps, 5, 0.0)
+	await drunken_stumble(pos + Vector2i(98, 98), tile_map_base, terrain_set, 0, 1, steps, steps, 5, 0.0)
 	visited_cells = []
 	print("done!")
 
@@ -130,6 +130,7 @@ func drunkards_walk(start_pos: Vector2i, tile_map_layer: TileMapLayer, terrain_s
 	return steps_taken
 			
 # gets all nodes within a specified rectangle and on a specified collision layer
+# change this later, it's not performant to do this check using physics
 func get_nodes_in_rect_physics(rect: Rect2, collision_layer: int = 1, max_results: int = 32) -> Array[Node]:
 	var space_state: PhysicsDirectSpaceState2D = get_world_2d().direct_space_state
 	var shape: RectangleShape2D = RectangleShape2D.new()

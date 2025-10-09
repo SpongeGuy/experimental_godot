@@ -2,20 +2,21 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bw5t3gsvfktva"
-path="res://.godot/imported/castellar.png-2ec326b2082503553f835db7abd5c3ec.ctex"
+uid="uid://cl0mmyj30lrck"
+path.s3tc="res://.godot/imported/starbox.png-e4b75e976f0443d2e898ac10e2e8d7a4.s3tc.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
 }
 
 [deps]
 
-source_file="res://nodes/title_screen/logo/castellar.png"
-dest_files=["res://.godot/imported/castellar.png-2ec326b2082503553f835db7abd5c3ec.ctex"]
+source_file="res://nodes/title_screen/starbox.png"
+dest_files=["res://.godot/imported/starbox.png-e4b75e976f0443d2e898ac10e2e8d7a4.s3tc.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0
