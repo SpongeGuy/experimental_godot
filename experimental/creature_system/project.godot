@@ -18,6 +18,7 @@ config/features=PackedStringArray("4.5", "Forward Plus")
 
 GlobalTimer="*res://systems/global_timer.gd"
 AudioManager="*res://systems/audio_manager.tscn"
+TerrainGrid="*res://systems/terrain_grid.gd"
 
 [display]
 

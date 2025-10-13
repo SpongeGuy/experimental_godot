@@ -5,7 +5,12 @@ extends Node2D
 
 var visited_cells: Array[Vector2i] = []
 var wall_health: Dictionary = {}
-const MAX_WALL_HEALTH: int = 25
+const MAX_WALL_HEALTH: int = 2
+
+func _ready() -> void:
+	TerrainGrid.width = 100
+	TerrainGrid.height = 100
+	TerrainGrid.initialize_map()
 
 	
 func create_chunk(pos: Vector2i) -> void:
@@ -14,12 +19,12 @@ func create_chunk(pos: Vector2i) -> void:
 	var terrain: int = 0
 	var steps: int = 450
 	fill_rectangle(area, tile_map_base, terrain_set, terrain)
-	await drunken_stumble(pos + Vector2i(0, 0), tile_map_base, terrain_set, 0, 1, steps, steps, 5, 0.0)
-	await drunken_stumble(pos + Vector2i(50, 0), tile_map_base, terrain_set, 0, 1, steps, steps, 5, 0.0)
-	await drunken_stumble(pos + Vector2i(99, 50), tile_map_base, terrain_set, 0, 1, steps, steps, 5, 0.0)
-	await drunken_stumble(pos + Vector2i(98, 98), tile_map_base, terrain_set, 0, 1, steps, steps, 5, 0.0)
+	await drunken_stumble(pos + Vector2i(0, 0), tile_map_base, terrain_set, 0, 1, steps, steps, 5, 0.01)
+	await drunken_stumble(pos + Vector2i(50, 0), tile_map_base, terrain_set, 0, 1, steps, steps, 5, 0.01)
+	await drunken_stumble(pos + Vector2i(99, 50), tile_map_base, terrain_set, 0, 1, steps, steps, 5, 0.01)
+	await drunken_stumble(pos + Vector2i(98, 98), tile_map_base, terrain_set, 0, 1, steps, steps, 5, 0.01)
 	visited_cells = []
-	print("done!")
+	
 
 func fill_rectangle(area: Rect2i, tile_map_layer: TileMapLayer, terrain_set: int, terrain: int) -> void:
 	var cells: Array[Vector2i] = []
@@ -27,9 +32,11 @@ func fill_rectangle(area: Rect2i, tile_map_layer: TileMapLayer, terrain_set: int
 		for y in range(area.position.y, area.end.y):
 			var cell = Vector2i(x, y)
 			cells.append(cell)
+			TerrainGrid.map[x][y] = 0
 			if terrain == 0:
 				wall_health[cell] = MAX_WALL_HEALTH
 	tile_map_layer.set_cells_terrain_connect(cells, terrain_set, terrain)
+	
 	
 const DIRECTIONS: Array[Vector2i] = [
 	Vector2i(0, -1),
@@ -107,6 +114,7 @@ func drunkards_walk(start_pos: Vector2i, tile_map_layer: TileMapLayer, terrain_s
 			var tile_size = tile_map_layer.tile_set.tile_size.x
 			flower.position = tile_size * current_pos + Vector2i(tile_size / 2, tile_size / 2)
 			get_parent().add_child(flower)
+			TerrainGrid.map[current_pos.x][current_pos.y] = 1
 
 		# changing terrain to wall type here so destroy flowers in the way
 		if to_terrain == 0:
@@ -117,6 +125,7 @@ func drunkards_walk(start_pos: Vector2i, tile_map_layer: TileMapLayer, terrain_s
 				if node is Flower:
 					node.queue_free()
 			wall_health[current_pos] = MAX_WALL_HEALTH
+			TerrainGrid.map[current_pos.x][current_pos.y] = 0
 		
 		if delay > 0:
 			tile_map_layer.set_cells_terrain_connect([current_pos], terrain_set, to_terrain)
