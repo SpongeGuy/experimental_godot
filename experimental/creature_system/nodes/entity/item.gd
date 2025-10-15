@@ -14,7 +14,7 @@ func _ready() -> void:
 	angular_damp = 0.5
 		
 func _on_body_entered(body: Node) -> void:
-	if body is Creature and not body.is_dead:
+	if body is Creature and not body._is_dead:
 		if allowed_groups.is_empty() or _has_allowed_group(body):
 			if is_carryable:
 				_pickup(body)
@@ -27,7 +27,7 @@ func _has_allowed_group(creature: Creature) -> bool:
 		if creature.is_in_group(group):
 			return true
 	return false
-
+	
 func _pickup(creature: Creature):
 	# this item has been picked up by a creature
 	# and will not be activated unless consumed

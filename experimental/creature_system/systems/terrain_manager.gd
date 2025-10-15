@@ -19,10 +19,10 @@ func create_chunk(pos: Vector2i) -> void:
 	var terrain: int = 0
 	var steps: int = 450
 	fill_rectangle(area, tile_map_base, terrain_set, terrain)
-	await drunken_stumble(pos + Vector2i(0, 0), tile_map_base, terrain_set, 0, 1, steps, steps, 5, 0.01)
-	await drunken_stumble(pos + Vector2i(50, 0), tile_map_base, terrain_set, 0, 1, steps, steps, 5, 0.01)
-	await drunken_stumble(pos + Vector2i(99, 50), tile_map_base, terrain_set, 0, 1, steps, steps, 5, 0.01)
-	await drunken_stumble(pos + Vector2i(98, 98), tile_map_base, terrain_set, 0, 1, steps, steps, 5, 0.01)
+	await drunken_stumble(pos + Vector2i(0, 0), tile_map_base, terrain_set, 0, 1, steps, steps, 5, 0.0001)
+	await drunken_stumble(pos + Vector2i(50, 0), tile_map_base, terrain_set, 0, 1, steps, steps, 5, 0.0001)
+	await drunken_stumble(pos + Vector2i(99, 50), tile_map_base, terrain_set, 0, 1, steps, steps, 5, 0.0001)
+	await drunken_stumble(pos + Vector2i(98, 98), tile_map_base, terrain_set, 0, 1, steps, steps, 5, 0.0001)
 	visited_cells = []
 	
 

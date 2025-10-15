@@ -5,7 +5,7 @@ var sound_players: Array[AudioStreamPlayer2D] = []
 var leeway_distance: float = 5.0
 
 func _ready() -> void:
-	var world = get_tree().root.get_node("Main/GameContainer/GameViewportContainer/GameViewport/World")
+	var world = get_tree().root.get_node("Main/GameContainer/World")
 	if world:
 		var container = Node.new()
 		world.add_child(container)

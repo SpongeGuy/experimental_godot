@@ -42,7 +42,7 @@ uv = PackedVector2Array(-203.5, -43, -205.5, 29, -86.5, 25, -88.5, -56)
 [node name="TerrainManager" parent="GameContainer/World" instance=ExtResource("3_lquwl")]
 
 [node name="Enemy" parent="GameContainer/World" instance=ExtResource("4_7mycd")]
-position = Vector2(12, -50)
+position = Vector2(-38, -55)
 
 [node name="GameViewportContainer" type="SubViewportContainer" parent="GameContainer"]
 visible = false

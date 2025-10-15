@@ -150,6 +150,3 @@ func _input(event: InputEvent) -> void:
 			camera_target_rotation_degrees = Vector3(0, 0, 0)
 	elif current_state == MenuState.OPTIONS:
 		options_ui_viewport.push_input(event)
-
-
-

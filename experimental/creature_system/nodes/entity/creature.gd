@@ -1,11 +1,11 @@
 class_name Creature extends CharacterBody2D
 
 @export var creature_stats: CreatureResource
-@export var brain: AIBrain
 @export var weapon: Weapon
-#@export var ability: Ability
-@export var graphics: Node2D
+@onready var root: Node2D = $Root
 @export var points: int = 0
+
+var animation_player: AnimationPlayer
 
 @export var hitboxes: Array[CollisionShape2D]
 
@@ -13,22 +13,16 @@ class_name Creature extends CharacterBody2D
 @export var under_player_control: bool = false
 @onready var mouse_target: Node2D
 
-var is_dead: bool = false
-
-# temporary hurt effect
-var hurt_swell_add: float = 1
-var current_scale: float = 1.0
-var target_scale: float = 1.0
-var lerp_speed: float = 15.0
+var _is_dead: bool = false
 
 # used to add to final normal velocity
 # apply external forces like knockback from explosions to this, then add to `velocity`
 var _forces: Vector2
 
+func _ready() -> void:
+	print("children of: ", get_children())
+
 func _process(delta: float):
-	if current_scale > target_scale:
-		current_scale = lerp(current_scale, target_scale, lerp_speed * delta)
-		graphics.scale = Vector2(current_scale, current_scale)
 	if !mouse_target and under_player_control:
 		mouse_target = Node2D.new()
 		add_child(mouse_target)
@@ -38,12 +32,9 @@ func _process(delta: float):
 func _physics_process(delta: float) -> void:
 	if under_player_control:
 		_player_control(delta)
-	elif brain:
-		brain.control(self, delta)
+	#elif brain:
+		#brain.control(self, delta)
 	move_and_slide()
-
-func _scan_nearby(area: Area2D) -> Array:
-	return area.get_overlapping_bodies()
 	
 # change target instantaneously based on encoded priorities
 func _prioritize_target(nearby: Array) -> Node2D:
@@ -63,41 +54,44 @@ func add_object_to_world(object: Node2D, creature: Creature):
 		creature.get_parent().add_child(object)
 
 func _take_damage(amount: float, origin: Node2D):
+	# reset rig swell and deflate animation here
+	animation_player.seek(0, true)
+	animation_player.play(&"rig_swell_and_deflate")
 	var text_particle: Node2D = preload("res://nodes/effects/text_particle.tscn").instantiate()
 	text_particle.create(str(origin.weapon_data.base_damage), position)
 	add_object_to_world(text_particle, self)
-	if is_dead:
+	if _is_dead:
 		return
 	creature_stats.health -= amount
-	if graphics:
-		current_scale += hurt_swell_add
-		graphics.scale = Vector2(current_scale, current_scale)
+	
 	if creature_stats.health <= 0.0:
-		_handle_death(origin)
+		die(origin)
 
 # play animations, award points, steal stats, whatever
 func death_effects(killer: Creature) -> void:
 	killer.points += creature_stats.point_value
+	
+func move(p_velocity: Vector2, factor: float = 0.2) -> void:
+	velocity = lerp(velocity, p_velocity, factor)
+	move_and_slide()
+	
 
 # handle everything related to the self when dying
-func _handle_death(origin: Node2D) -> void:
-	is_dead = true
-	if graphics:
-		graphics.visible = false
-	if hitboxes:
-		for hitbox in hitboxes:
-			hitbox.disabled = true
+func die(origin: Node2D) -> void:
+	_is_dead = true
+	root.process_mode = Node.PROCESS_MODE_DISABLED
 	if origin.master:
 		death_effects(origin.master)
 	queue_free()
 	
+# probably should be a part of a player node that extends creature
+# aiiieee!!!
 func _player_control(delta: float) -> void:
 	var input_direction = Input.get_vector("left_input", "right_input", "up_input", "down_input")
 	if input_direction.length() >= 1:
 		input_direction = input_direction.normalized()
 	velocity = input_direction * creature_stats.movement_speed * delta
 	
-
 func _player_attack(delta: float) -> void:
 	mouse_target.position = get_global_mouse_position()
 	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):

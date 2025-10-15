@@ -1,37 +1,121 @@
-[gd_scene load_steps=9 format=3 uid="uid://ds6lj2dhc876"]
+[gd_scene load_steps=24 format=3 uid="uid://ds6lj2dhc876"]
 
 [ext_resource type="Script" uid="uid://cybrkhigf7nne" path="res://nodes/entity/dummy_enemy.gd" id="1_emv7m"]
-[ext_resource type="Script" uid="uid://dps4vigpayifs" path="res://resources/creature_resource.gd" id="2_hjlls"]
-[ext_resource type="PackedScene" uid="uid://dcvran7pn3gmo" path="res://nodes/brains/test_brain.tscn" id="3_emv7m"]
 [ext_resource type="FontFile" uid="uid://5tjvitx2c8lp" path="res://assets/fonts/Boo City.ttf" id="4_6epjf"]
 [ext_resource type="Texture2D" uid="uid://ctbv66g1eh7p5" path="res://assets/textures/creatures/grunt/grunt.png" id="4_hjlls"]
+[ext_resource type="Script" uid="uid://b4ndn5c3cqk5f" path="res://ai/tasks/arrive_pos.gd" id="4_ye1pu"]
+[ext_resource type="Script" uid="uid://366rmh83q1er" path="res://ai/tasks/select_pathfind_target_position.gd" id="5_hjlls"]
 
-[sub_resource type="Resource" id="Resource_emv7m"]
-script = ExtResource("2_hjlls")
-name = "dummy"
-faction = "dummy"
-base_health = 20.0
-base_movement_speed = 50.0
-base_point_value = 50
-health = 20.0
-movement_speed = 25.0
-point_value = 50
-metadata/_custom_type_script = "uid://dps4vigpayifs"
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hjlls"]
+size = Vector2(12, 12)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ca341"]
-size = Vector2(12, 12)
+size = Vector2(10, 10)
 
 [sub_resource type="LabelSettings" id="LabelSettings_hjlls"]
 font = ExtResource("4_6epjf")
 font_size = 8
 
-[node name="Enemy" type="CharacterBody2D" node_paths=PackedStringArray("brain", "graphics", "hitboxes")]
-collision_layer = 3
+[sub_resource type="Animation" id="Animation_ye1pu"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Root/Rig:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_hjlls"]
+resource_name = "rig_swell_and_deflate"
+length = 0.25
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Root/Rig:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(2, 2), Vector2(1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_njp3g"]
+_data = {
+&"RESET": SubResource("Animation_ye1pu"),
+&"rig_swell_and_deflate": SubResource("Animation_hjlls")
+}
+
+[sub_resource type="BlackboardPlan" id="BlackboardPlan_hjlls"]
+
+[sub_resource type="BTAction" id="BTAction_ye1pu"]
+script = ExtResource("5_hjlls")
+range_max = 500.0
+
+[sub_resource type="BTAction" id="BTAction_njp3g"]
+script = ExtResource("4_ye1pu")
+speed = &"450"
+
+[sub_resource type="BTConsolePrint" id="BTConsolePrint_hjlls"]
+text = "waiting 5 seconds"
+
+[sub_resource type="BTFail" id="BTFail_njp3g"]
+
+[sub_resource type="BTWait" id="BTWait_ye1pu"]
+duration = 5.0
+children = [SubResource("BTFail_njp3g")]
+
+[sub_resource type="BTSequence" id="BTSequence_kty4e"]
+custom_name = "Walk Randomly"
+children = [SubResource("BTAction_ye1pu"), SubResource("BTAction_njp3g"), SubResource("BTConsolePrint_hjlls"), SubResource("BTWait_ye1pu")]
+
+[sub_resource type="BTWait" id="BTWait_8rgg5"]
+duration = 3.0
+
+[sub_resource type="BTSequence" id="BTSequence_duien"]
+custom_name = "Idle"
+children = [SubResource("BTWait_8rgg5")]
+
+[sub_resource type="BTSelector" id="BTSelector_iesn6"]
+children = [SubResource("BTSequence_kty4e"), SubResource("BTSequence_duien")]
+
+[sub_resource type="BehaviorTree" id="BehaviorTree_xuvie"]
+blackboard_plan = SubResource("BlackboardPlan_hjlls")
+root_task = SubResource("BTSelector_iesn6")
+
+[sub_resource type="BlackboardPlan" id="BlackboardPlan_b73d7"]
+
+[node name="Enemy" type="CharacterBody2D"]
 script = ExtResource("1_emv7m")
-creature_stats = SubResource("Resource_emv7m")
-brain = NodePath("Brain")
-graphics = NodePath("Graphics")
-hitboxes = [NodePath("CollisionShape2D")]
+
+[node name="Root" type="Node2D" parent="."]
+
+[node name="Hitbox" type="Area2D" parent="Root"]
+collision_layer = 0
+collision_mask = 6
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Root/Hitbox"]
+shape = SubResource("RectangleShape2D_hjlls")
+
+[node name="Rig" type="Node2D" parent="Root"]
+
+[node name="Sprite2D" type="Sprite2D" parent="Root/Rig"]
+texture_filter = 1
+texture = ExtResource("4_hjlls")
+
+[node name="FX" type="Node2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_ca341")
+
+[node name="MousePosition" type="Node2D" parent="."]
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 path_postprocessing = 1
@@ -40,22 +124,17 @@ radius = 28.45
 max_neighbors = 30
 debug_enabled = true
 
-[node name="Brain" parent="." node_paths=PackedStringArray("navigation_agent") instance=ExtResource("3_emv7m")]
-navigation_agent = NodePath("../NavigationAgent2D")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_ca341")
-
-[node name="MousePosition" type="Node2D" parent="."]
-
-[node name="Graphics" type="Node2D" parent="."]
-
-[node name="Sprite2D" type="Sprite2D" parent="Graphics"]
-texture_filter = 1
-texture = ExtResource("4_hjlls")
-
 [node name="Label" type="Label" parent="."]
 texture_filter = 1
 offset_right = 40.0
 offset_bottom = 23.0
 label_settings = SubResource("LabelSettings_hjlls")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_njp3g")
+}
+
+[node name="BTPlayer" type="BTPlayer" parent="."]
+behavior_tree = SubResource("BehaviorTree_xuvie")
+blackboard_plan = SubResource("BlackboardPlan_b73d7")
