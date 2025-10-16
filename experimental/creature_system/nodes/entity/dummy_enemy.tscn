@@ -68,7 +68,7 @@ _data = {
 
 [sub_resource type="BTAction" id="BTAction_njp3g"]
 script = ExtResource("5_hjlls")
-range_max = 250.0
+range_max = 1000.0
 
 [sub_resource type="BTAction" id="BTAction_kty4e"]
 script = ExtResource("6_ye1pu")
@@ -130,6 +130,7 @@ radius = 28.45
 max_neighbors = 30
 avoidance_mask = 0
 debug_enabled = true
+debug_use_custom = true
 
 [node name="Label" type="Label" parent="."]
 texture_filter = 1
