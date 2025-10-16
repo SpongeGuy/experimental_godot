@@ -1,23 +1,24 @@
 @tool
 extends BTAction
 
-@export var target_position_var := &"target_pos"
-
 @export var speed_var := &"speed"
 
 @export var tolerance := 50.0
 
+var nav_agent: NavigationAgent2D
+
 func _generate_name() -> String:
-	return "Arrive pos: %s" % [
-		LimboUtility.decorate_var(target_position_var)
+	return "Move and pathfind to: %s" % [
+		nav_agent.target_position
 	]
 	
 func _enter() -> void:
+	nav_agent = agent.get_node("NavigationAgent2D")
 	blackboard.set_var(speed_var, agent.creature_stats.movement_speed)
 
 func _tick(delta: float) -> Status:
-	var target_pos = blackboard.get_var(target_position_var, Vector2.ZERO)
-	if target_pos.distance_to(agent.global_position) < tolerance:
+	var target_pos = nav_agent.get_next_path_position()
+	if nav_agent.get_final_position().distance_to(agent.global_position) < tolerance:
 		return SUCCESS
 	
 	var speed: float = blackboard.get_var(speed_var, 200.0)
@@ -25,6 +26,6 @@ func _tick(delta: float) -> Status:
 	var dir: Vector2 = agent.global_position.direction_to(target_pos)
 	
 	var desired_velocity: Vector2 = dir.normalized() * speed
-	print(speed)
+
 	agent.move(desired_velocity)
 	return RUNNING

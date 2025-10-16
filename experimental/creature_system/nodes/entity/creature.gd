@@ -14,6 +14,7 @@ var animation_player: AnimationPlayer
 @onready var mouse_target: Node2D
 
 var _is_dead: bool = false
+var _moved_this_frame: bool = false
 
 # used to add to final normal velocity
 # apply external forces like knockback from explosions to this, then add to `velocity`
@@ -32,9 +33,13 @@ func _process(delta: float):
 func _physics_process(delta: float) -> void:
 	if under_player_control:
 		_player_control(delta)
-	#elif brain:
-		#brain.control(self, delta)
-	move_and_slide()
+	_post_physics_process(delta)
+
+func _post_physics_process(delta: float) -> void:
+	if not _moved_this_frame:
+		velocity = lerp(velocity, Vector2.ZERO, 0.2)
+	_moved_this_frame = false
+	
 	
 # change target instantaneously based on encoded priorities
 func _prioritize_target(nearby: Array) -> Node2D:
@@ -73,6 +78,7 @@ func death_effects(killer: Creature) -> void:
 	
 func move(p_velocity: Vector2, factor: float = 0.2) -> void:
 	velocity = lerp(velocity, p_velocity, factor)
+	_moved_this_frame = true
 	move_and_slide()
 	
 
@@ -91,6 +97,7 @@ func _player_control(delta: float) -> void:
 	if input_direction.length() >= 1:
 		input_direction = input_direction.normalized()
 	velocity = input_direction * creature_stats.movement_speed * delta
+	move_and_slide()
 	
 func _player_attack(delta: float) -> void:
 	mouse_target.position = get_global_mouse_position()

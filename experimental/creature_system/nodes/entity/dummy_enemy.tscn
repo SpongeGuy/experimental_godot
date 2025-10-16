@@ -1,10 +1,21 @@
 [gd_scene load_steps=24 format=3 uid="uid://ds6lj2dhc876"]
 
 [ext_resource type="Script" uid="uid://cybrkhigf7nne" path="res://nodes/entity/dummy_enemy.gd" id="1_emv7m"]
+[ext_resource type="Script" uid="uid://dps4vigpayifs" path="res://resources/creature_resource.gd" id="2_ye1pu"]
 [ext_resource type="FontFile" uid="uid://5tjvitx2c8lp" path="res://assets/fonts/Boo City.ttf" id="4_6epjf"]
 [ext_resource type="Texture2D" uid="uid://ctbv66g1eh7p5" path="res://assets/textures/creatures/grunt/grunt.png" id="4_hjlls"]
-[ext_resource type="Script" uid="uid://b4ndn5c3cqk5f" path="res://ai/tasks/arrive_pos.gd" id="4_ye1pu"]
-[ext_resource type="Script" uid="uid://366rmh83q1er" path="res://ai/tasks/select_pathfind_target_position.gd" id="5_hjlls"]
+[ext_resource type="Script" uid="uid://bg6hepti4j6ob" path="res://ai/tasks/select_pathfind_target_position.gd" id="5_hjlls"]
+[ext_resource type="Script" uid="uid://dlp1k1kewdeku" path="res://ai/tasks/move_and_pathfind_to_target.gd" id="6_ye1pu"]
+
+[sub_resource type="Resource" id="Resource_njp3g"]
+script = ExtResource("2_ye1pu")
+base_health = 5.0
+base_movement_speed = 50.0
+base_point_value = 250
+health = 5.0
+movement_speed = 50.0
+point_value = 250
+metadata/_custom_type_script = "uid://dps4vigpayifs"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hjlls"]
 size = Vector2(12, 12)
@@ -53,47 +64,42 @@ _data = {
 &"rig_swell_and_deflate": SubResource("Animation_hjlls")
 }
 
-[sub_resource type="BlackboardPlan" id="BlackboardPlan_hjlls"]
-
-[sub_resource type="BTAction" id="BTAction_ye1pu"]
-script = ExtResource("5_hjlls")
-range_max = 500.0
+[sub_resource type="BlackboardPlan" id="BlackboardPlan_ye1pu"]
 
 [sub_resource type="BTAction" id="BTAction_njp3g"]
-script = ExtResource("4_ye1pu")
-speed = &"450"
+script = ExtResource("5_hjlls")
+range_max = 250.0
 
-[sub_resource type="BTConsolePrint" id="BTConsolePrint_hjlls"]
-text = "waiting 5 seconds"
+[sub_resource type="BTAction" id="BTAction_kty4e"]
+script = ExtResource("6_ye1pu")
 
-[sub_resource type="BTFail" id="BTFail_njp3g"]
-
-[sub_resource type="BTWait" id="BTWait_ye1pu"]
-duration = 5.0
-children = [SubResource("BTFail_njp3g")]
-
-[sub_resource type="BTSequence" id="BTSequence_kty4e"]
+[sub_resource type="BTSequence" id="BTSequence_8rgg5"]
 custom_name = "Walk Randomly"
-children = [SubResource("BTAction_ye1pu"), SubResource("BTAction_njp3g"), SubResource("BTConsolePrint_hjlls"), SubResource("BTWait_ye1pu")]
+children = [SubResource("BTAction_njp3g"), SubResource("BTAction_kty4e")]
 
-[sub_resource type="BTWait" id="BTWait_8rgg5"]
-duration = 3.0
+[sub_resource type="BTProbability" id="BTProbability_xuvie"]
+run_chance = 1.0
+children = [SubResource("BTSequence_8rgg5")]
 
-[sub_resource type="BTSequence" id="BTSequence_duien"]
+[sub_resource type="BTWait" id="BTWait_duien"]
+
+[sub_resource type="BTSequence" id="BTSequence_iesn6"]
 custom_name = "Idle"
-children = [SubResource("BTWait_8rgg5")]
+children = [SubResource("BTWait_duien")]
 
-[sub_resource type="BTSelector" id="BTSelector_iesn6"]
-children = [SubResource("BTSequence_kty4e"), SubResource("BTSequence_duien")]
+[sub_resource type="BTSelector" id="BTSelector_b73d7"]
+children = [SubResource("BTProbability_xuvie"), SubResource("BTSequence_iesn6")]
 
-[sub_resource type="BehaviorTree" id="BehaviorTree_xuvie"]
-blackboard_plan = SubResource("BlackboardPlan_hjlls")
-root_task = SubResource("BTSelector_iesn6")
+[sub_resource type="BehaviorTree" id="BehaviorTree_dfgfx"]
+blackboard_plan = SubResource("BlackboardPlan_ye1pu")
+root_task = SubResource("BTSelector_b73d7")
 
-[sub_resource type="BlackboardPlan" id="BlackboardPlan_b73d7"]
+[sub_resource type="BlackboardPlan" id="BlackboardPlan_nbywu"]
 
 [node name="Enemy" type="CharacterBody2D"]
+collision_layer = 2
 script = ExtResource("1_emv7m")
+creature_stats = SubResource("Resource_njp3g")
 
 [node name="Root" type="Node2D" parent="."]
 
@@ -122,6 +128,7 @@ path_postprocessing = 1
 avoidance_enabled = true
 radius = 28.45
 max_neighbors = 30
+avoidance_mask = 0
 debug_enabled = true
 
 [node name="Label" type="Label" parent="."]
@@ -136,5 +143,5 @@ libraries = {
 }
 
 [node name="BTPlayer" type="BTPlayer" parent="."]
-behavior_tree = SubResource("BehaviorTree_xuvie")
-blackboard_plan = SubResource("BlackboardPlan_b73d7")
+behavior_tree = SubResource("BehaviorTree_dfgfx")
+blackboard_plan = SubResource("BlackboardPlan_nbywu")

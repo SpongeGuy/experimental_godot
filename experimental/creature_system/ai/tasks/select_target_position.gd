@@ -5,15 +5,13 @@ extends BTAction
 
 @export var range_max: float
 
-var nav_agent: NavigationAgent2D
-
-func _enter() -> void:
-	nav_agent = agent.get_node("NavigationAgent2D")
+# blackboard variable storing position
+@export var target_position_var: StringName = &"target_pos"
 
 func _generate_name() -> String:
-	return "SelectPathfindTargetPosition range: [%s, %s] -> %s" % [
+	return "SelectTargetPosition range: [%s, %s] -> %s" % [
 		range_min, range_max,
-		nav_agent.target_position
+		LimboUtility.decorate_var(target_position_var)
 	]
 
 func _tick(delta: float) -> Status:
@@ -23,7 +21,7 @@ func _tick(delta: float) -> Status:
 		var angle: float = randf() * TAU
 		var rand_distance: float = randf_range(range_min, range_max)
 		target_pos = agent.global_position + Vector2(sin(angle), cos(angle)) * rand_distance
-		# also calculate if the target_pos is not in a wall here
 		is_good_position = true
-	nav_agent.target_position = target_pos
+	blackboard.set_var(target_position_var, target_pos)
+		
 	return SUCCESS
