@@ -1,9 +1,9 @@
 @tool
 extends BTAction
 
-@export var range_min: float
+@export var range_min: float = 0
 
-@export var range_max: float
+@export var range_max: float = 500
 
 var nav_agent: NavigationAgent2D
 
@@ -11,9 +11,8 @@ func _enter() -> void:
 	nav_agent = agent.get_node("NavigationAgent2D")
 
 func _generate_name() -> String:
-	return "SelectPathfindTargetPosition range: [%s, %s] -> %s" % [
+	return "Select a target position to pathfind to with range: [%s, %s]" % [
 		range_min, range_max,
-		nav_agent.target_position
 	]
 
 func _tick(delta: float) -> Status:

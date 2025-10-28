@@ -8,8 +8,8 @@ extends BTAction
 var nav_agent: NavigationAgent2D
 
 func _generate_name() -> String:
-	return "Move and pathfind to: %s" % [
-		nav_agent.target_position
+	return "Pathfind and move with tolerance %s" % [
+		tolerance
 	]
 	
 func _enter() -> void:

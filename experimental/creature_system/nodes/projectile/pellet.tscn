@@ -10,7 +10,7 @@ size = Vector2(4, 4)
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_la330"]
 
 [node name="Pellet" type="CharacterBody2D"]
-collision_layer = 0
+collision_layer = 8
 script = ExtResource("1_3td3u")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

@@ -25,6 +25,5 @@ func _tick(delta: float) -> Status:
 	var dir: Vector2 = agent.global_position.direction_to(target_pos)
 	
 	var desired_velocity: Vector2 = dir.normalized() * speed
-	print(speed)
 	agent.move(desired_velocity)
 	return RUNNING

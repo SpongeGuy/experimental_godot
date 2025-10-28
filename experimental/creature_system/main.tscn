@@ -44,6 +44,12 @@ uv = PackedVector2Array(-203.5, -43, -205.5, 29, -86.5, 25, -88.5, -56)
 [node name="Enemy" parent="GameContainer/World" instance=ExtResource("4_7mycd")]
 position = Vector2(-38, -55)
 
+[node name="Enemy2" parent="GameContainer/World" instance=ExtResource("4_7mycd")]
+position = Vector2(109, -101)
+
+[node name="Enemy3" parent="GameContainer/World" instance=ExtResource("4_7mycd")]
+position = Vector2(114, -23)
+
 [node name="GameViewportContainer" type="SubViewportContainer" parent="GameContainer"]
 visible = false
 layout_mode = 0

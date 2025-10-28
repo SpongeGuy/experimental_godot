@@ -1,0 +1,41 @@
+[gd_resource type="BehaviorTree" load_steps=13 format=3 uid="uid://cdtr11j1db4nr"]
+
+[ext_resource type="Script" uid="uid://bg6hepti4j6ob" path="res://ai/tasks/select_pathfind_target_position.gd" id="1_qnk3e"]
+[ext_resource type="Script" uid="uid://dlp1k1kewdeku" path="res://ai/tasks/move_and_pathfind_to_target.gd" id="2_5r5el"]
+
+[sub_resource type="BlackboardPlan" id="BlackboardPlan_ye1pu"]
+
+[sub_resource type="BTAction" id="BTAction_ooovp"]
+script = ExtResource("1_qnk3e")
+range_max = 1000.0
+
+[sub_resource type="BTAction" id="BTAction_qnk3e"]
+script = ExtResource("2_5r5el")
+tolerance = 5.0
+
+[sub_resource type="BTWait" id="BTWait_duien"]
+
+[sub_resource type="BTSequence" id="BTSequence_iesn6"]
+custom_name = "Idle"
+children = [SubResource("BTWait_duien")]
+
+[sub_resource type="BTSequence" id="BTSequence_8rgg5"]
+custom_name = "Walk Randomly"
+children = [SubResource("BTAction_ooovp"), SubResource("BTAction_qnk3e"), SubResource("BTSequence_iesn6")]
+
+[sub_resource type="BTProbability" id="BTProbability_xuvie"]
+children = [SubResource("BTSequence_8rgg5")]
+
+[sub_resource type="BTWait" id="BTWait_ye1pu"]
+duration = 2.0
+
+[sub_resource type="BTSequence" id="BTSequence_njp3g"]
+custom_name = "Idle"
+children = [SubResource("BTWait_ye1pu")]
+
+[sub_resource type="BTSelector" id="BTSelector_b73d7"]
+children = [SubResource("BTProbability_xuvie"), SubResource("BTSequence_njp3g")]
+
+[resource]
+blackboard_plan = SubResource("BlackboardPlan_ye1pu")
+root_task = SubResource("BTSelector_b73d7")

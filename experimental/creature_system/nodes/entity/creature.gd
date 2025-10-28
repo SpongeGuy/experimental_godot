@@ -5,7 +5,7 @@ class_name Creature extends CharacterBody2D
 @onready var root: Node2D = $Root
 @export var points: int = 0
 
-var animation_player: AnimationPlayer
+@export var animation_player: AnimationPlayer
 
 @export var hitboxes: Array[CollisionShape2D]
 
@@ -19,9 +19,6 @@ var _moved_this_frame: bool = false
 # used to add to final normal velocity
 # apply external forces like knockback from explosions to this, then add to `velocity`
 var _forces: Vector2
-
-func _ready() -> void:
-	print("children of: ", get_children())
 
 func _process(delta: float):
 	if !mouse_target and under_player_control:

@@ -13,3 +13,8 @@ func _take_damage(amount: float, origin: Node2D):
 	hurt_sound_pitch = remap(creature_stats.health, creature_stats.base_health, 0.0, 0.5, 1.6)
 	AudioManager.play_sound(hurt_sound, position, {"pitch_scale": hurt_sound_pitch})
 	super._take_damage(amount, origin)
+
+
+func _on_hitbox_body_entered(body: Node2D) -> void:
+	if body is Projectile:
+		_take_damage(body.weapon_data.base_damage, body)
