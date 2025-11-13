@@ -11,4 +11,12 @@ config_version=5
 [application]
 
 config/name="procgen_dungeon"
+run/main_scene="uid://pqp2ku3r68hb"
 config/features=PackedStringArray("4.5", "Forward Plus")
+
+[display]
+
+window/size/viewport_width=640
+window/size/viewport_height=360
+window/size/mode=3
+window/stretch/mode="viewport"
