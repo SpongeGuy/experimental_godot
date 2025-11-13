@@ -1,8 +1,10 @@
+# world manager
+
 extends Node
 
 @export var tilemap_layer: TileMapLayer
 
-var chunks: Dictionary = {} # key: Vector2i(chunk_pos), value: Array[Array[Cell]]r
+var chunks: Dictionary = {} # key: Vector2i(chunk_pos), value: Array[Array[Cell]]
 const CHUNK_SIZE: int = 8
 var global_seed: int = randi()
 
@@ -23,6 +25,7 @@ func generate_blank_chunk(chunk_pos: Vector2i) -> Array:
 		arr.append(row)
 		
 	chunks[chunk_pos] = arr
+	_update_chunk_visuals(chunk_pos)
 	return arr
 	
 func get_cell(global_pos: Vector2i) -> Cell:
@@ -48,8 +51,16 @@ func _update_tilemap_tile(global_pos: Vector2i, cell: Cell) -> void:
 	var source_id := 0
 	var atlas_coords := _tile_coords_for_cell(cell)
 	tilemap_layer.set_cell(global_pos, source_id, atlas_coords)
-	tilemap_layer.set_cells_terrain_connect([global_pos], source_id, 0)
+	print(global_pos)
 	
+func _update_chunk_visuals(chunk_pos: Vector2i) -> void:
+	var chunk: Array = chunks[chunk_pos]
+	var cell_positions: Array = []
+	for y in CHUNK_SIZE:
+		for x in CHUNK_SIZE:
+			var global_pos: Vector2i = chunk_pos * CHUNK_SIZE + Vector2i(x, y)
+			cell_positions.append(global_pos)
+			tilemap_layer.set_cells_terrain_connect([global_pos], 0, 0)
 
 func _tile_coords_for_cell(cell: Cell) -> Vector2i:
 	match cell.type:
