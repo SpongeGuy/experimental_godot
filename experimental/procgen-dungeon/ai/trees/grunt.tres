@@ -30,8 +30,8 @@ children = [SubResource("BTRepeat_ucdji")]
 
 [sub_resource type="BBVariant" id="BBVariant_thmw6"]
 type = 3
-saved_value = 150.0
-resource_name = "150.0"
+saved_value = 750.0
+resource_name = "750.0"
 
 [sub_resource type="BTCheckVar" id="BTCheckVar_ppwhi"]
 variable = &"hunger"
@@ -97,8 +97,8 @@ children = [SubResource("BTCondition_alme7"), SubResource("BTWait_kxk1o"), SubRe
 
 [sub_resource type="BBVariant" id="BBVariant_l4anq"]
 type = 3
-saved_value = 75.0
-resource_name = "75.0"
+saved_value = 100.0
+resource_name = "100.0"
 
 [sub_resource type="BTCheckVar" id="BTCheckVar_jwj43"]
 variable = &"hunger"

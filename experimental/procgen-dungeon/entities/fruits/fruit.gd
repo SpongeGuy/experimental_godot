@@ -11,7 +11,7 @@ class_name Fruit
 @export var base_mass: float = 0.8
 
 var _spawned_time: float = 0.0
-const DESPAWN_TIME: float = 5.0
+const DESPAWN_TIME: float = 60.0
 
 func _ready() -> void:
 	physics_material_override = PhysicsMaterial.new()

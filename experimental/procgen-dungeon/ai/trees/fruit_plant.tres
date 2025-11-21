@@ -1,9 +1,8 @@
-[gd_resource type="BehaviorTree" load_steps=20 format=3 uid="uid://bs6vfi4aem6x4"]
+[gd_resource type="BehaviorTree" load_steps=21 format=3 uid="uid://dypyatoxtwy56"]
 
 [ext_resource type="Script" uid="uid://h53iiayls1yi" path="res://ai/tasks/is_entitytype_in_sight.gd" id="1_7mmsr"]
 [ext_resource type="Script" uid="uid://cpqmml7a42cqg" path="res://ai/tasks/summon_entity.gd" id="1_eugju"]
 [ext_resource type="Script" uid="uid://jw2qpaclk80c" path="res://ai/tasks/play_sound.gd" id="2_s2oi7"]
-[ext_resource type="PackedScene" uid="uid://vqvqkui4uebx" path="res://entities/fruits/fruit.tscn" id="3_r15xx"]
 [ext_resource type="AudioStream" uid="uid://7u6i57tob3xe" path="res://assets/sounds/fruit_plant/tree_create.mp3" id="3_unv85"]
 [ext_resource type="Script" uid="uid://dtrtnnaq0t3n5" path="res://ai/tasks/die.gd" id="3_w5dmg"]
 
@@ -13,45 +12,51 @@
 script = ExtResource("1_7mmsr")
 target_class = "FruitPlant"
 
-[sub_resource type="BTAction" id="BTAction_0ejh4"]
-script = ExtResource("2_s2oi7")
-sound = ExtResource("3_unv85")
+[sub_resource type="BTAction" id="BTAction_r15xx"]
+script = ExtResource("3_w5dmg")
+
+[sub_resource type="BTProbability" id="BTProbability_s2oi7"]
+run_chance = 0.25
+children = [SubResource("BTAction_r15xx")]
 
 [sub_resource type="BTSequence" id="BTSequence_l50bx"]
-children = [SubResource("BTCondition_mprp4"), SubResource("BTAction_0ejh4")]
+children = [SubResource("BTCondition_mprp4"), SubResource("BTProbability_s2oi7")]
 
-[sub_resource type="BTCooldown" id="BTCooldown_254th"]
+[sub_resource type="BTCooldown" id="BTCooldown_unv85"]
 duration = 3.0
 children = [SubResource("BTSequence_l50bx")]
-
-[sub_resource type="BTAlwaysSucceed" id="BTAlwaysSucceed_6dn7u"]
-children = [SubResource("BTCooldown_254th")]
 
 [sub_resource type="BTAction" id="BTAction_q5g1f"]
 script = ExtResource("3_w5dmg")
 
 [sub_resource type="BTProbability" id="BTProbability_eqxgy"]
-run_chance = 0.05
+run_chance = 0.01
 children = [SubResource("BTAction_q5g1f")]
-_enabled = false
 
 [sub_resource type="BTAction" id="BTAction_n7ope"]
 script = ExtResource("1_eugju")
-entity = ExtResource("3_r15xx")
+entity_path = "uid://vqvqkui4uebx"
 relative_position = Vector2(0, -5)
 
-[sub_resource type="BTSequence" id="BTSequence_s2oi7"]
-children = [SubResource("BTProbability_eqxgy"), SubResource("BTAction_n7ope")]
+[sub_resource type="BTAction" id="BTAction_0ejh4"]
+script = ExtResource("2_s2oi7")
+sound = ExtResource("3_unv85")
+
+[sub_resource type="BTSequence" id="BTSequence_r15xx"]
+children = [SubResource("BTAction_n7ope"), SubResource("BTAction_0ejh4")]
+
+[sub_resource type="BTSelector" id="BTSelector_s2oi7"]
+children = [SubResource("BTProbability_eqxgy"), SubResource("BTSequence_r15xx")]
 
 [sub_resource type="BTCooldown" id="BTCooldown_spoqv"]
 duration = 7.0
-children = [SubResource("BTSequence_s2oi7")]
+children = [SubResource("BTSelector_s2oi7")]
 
-[sub_resource type="BTSequence" id="BTSequence_c3t7k"]
-children = [SubResource("BTAlwaysSucceed_6dn7u"), SubResource("BTCooldown_spoqv")]
+[sub_resource type="BTSelector" id="BTSelector_5l8yg"]
+children = [SubResource("BTCooldown_unv85"), SubResource("BTCooldown_spoqv")]
 
 [sub_resource type="BTSequence" id="BTSequence_qjrdb"]
-children = [SubResource("BTSequence_c3t7k")]
+children = [SubResource("BTSelector_5l8yg")]
 
 [resource]
 blackboard_plan = SubResource("BlackboardPlan_8kpok")

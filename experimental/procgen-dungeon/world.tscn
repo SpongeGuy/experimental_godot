@@ -1,9 +1,8 @@
-[gd_scene load_steps=56 format=3 uid="uid://pqp2ku3r68hb"]
+[gd_scene load_steps=55 format=3 uid="uid://pqp2ku3r68hb"]
 
 [ext_resource type="Script" uid="uid://wojinhjolg8h" path="res://core/world_manager.gd" id="1_f3sb7"]
 [ext_resource type="Texture2D" uid="uid://dj0mcwh3yn3lf" path="res://assets/sprites/tilesets/16x16_tiles_debug_correct.png" id="2_tlwt5"]
 [ext_resource type="Script" uid="uid://vysodgmiux3v" path="res://debug.gd" id="3_tlwt5"]
-[ext_resource type="PackedScene" uid="uid://vqvqkui4uebx" path="res://entities/fruits/fruit.tscn" id="4_aqk2v"]
 [ext_resource type="PackedScene" uid="uid://bt8g3fryrf86u" path="res://entities/herbivores/grunt.tscn" id="5_036b0"]
 [ext_resource type="PackedScene" uid="uid://x52dpnyk785c" path="res://entities/plants/fruit_plant/fruit_plant.tscn" id="6_dwbse"]
 
@@ -1065,6 +1064,7 @@ script = ExtResource("1_f3sb7")
 tilemap_layer = NodePath("World/TileMapLayer")
 
 [node name="World" type="Node2D" parent="."]
+y_sort_enabled = true
 
 [node name="TileMapLayer" type="TileMapLayer" parent="World"]
 z_index = -1
@@ -1079,34 +1079,6 @@ tilemap_layer = NodePath("../TileMapLayer")
 debug_camera = NodePath("../Camera2D")
 
 [node name="Camera2D" type="Camera2D" parent="World"]
-
-[node name="Fruit" parent="World" instance=ExtResource("4_aqk2v")]
-position = Vector2(-60, -103)
-bounce = null
-friction = null
-base_linear_damp = null
-base_mass = null
-
-[node name="Fruit2" parent="World" instance=ExtResource("4_aqk2v")]
-position = Vector2(-69, -125)
-bounce = null
-friction = null
-base_linear_damp = null
-base_mass = null
-
-[node name="Fruit3" parent="World" instance=ExtResource("4_aqk2v")]
-position = Vector2(-82, -116)
-bounce = null
-friction = null
-base_linear_damp = null
-base_mass = null
-
-[node name="Fruit4" parent="World" instance=ExtResource("4_aqk2v")]
-position = Vector2(-61, -100)
-bounce = null
-friction = null
-base_linear_damp = null
-base_mass = null
 
 [node name="Grunt" parent="World" instance=ExtResource("5_036b0")]
 position = Vector2(-168, -149)
@@ -1128,3 +1100,6 @@ position = Vector2(189, -190)
 
 [node name="FruitPlant" parent="." instance=ExtResource("6_dwbse")]
 position = Vector2(-26, -14)
+
+[node name="FruitPlant2" parent="." instance=ExtResource("6_dwbse")]
+position = Vector2(-59, -18)
