@@ -1,0 +1,33 @@
+[gd_scene load_steps=7 format=3 uid="uid://x52dpnyk785c"]
+
+[ext_resource type="Texture2D" uid="uid://dw2ampmx7uq0e" path="res://assets/sprites/debug/debug_plant.png" id="1_bpfnn"]
+[ext_resource type="Script" uid="uid://dpuxhqwgus17i" path="res://entities/plants/fruit_plant/fruit_plant.gd" id="1_d2h6o"]
+[ext_resource type="BehaviorTree" uid="uid://bs6vfi4aem6x4" path="res://ai/trees/fruit_plant.tres" id="3_axwfv"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rgslm"]
+size = Vector2(16, 4)
+
+[sub_resource type="BlackboardPlan" id="BlackboardPlan_rgslm"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_aetls"]
+radius = 50.01
+
+[node name="FruitPlant" type="CharacterBody2D"]
+script = ExtResource("1_d2h6o")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_rgslm")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(0, -11)
+texture = ExtResource("1_bpfnn")
+
+[node name="BTPlayer" type="BTPlayer" parent="."]
+behavior_tree = ExtResource("3_axwfv")
+blackboard_plan = SubResource("BlackboardPlan_rgslm")
+
+[node name="SightArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SightArea"]
+shape = SubResource("CircleShape2D_aetls")

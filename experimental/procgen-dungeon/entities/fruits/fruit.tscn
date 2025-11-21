@@ -1,0 +1,32 @@
+[gd_scene load_steps=6 format=3 uid="uid://vqvqkui4uebx"]
+
+[ext_resource type="Script" uid="uid://82argt110wx4" path="res://entities/fruits/fruit.gd" id="1_l3xob"]
+[ext_resource type="Texture2D" uid="uid://5hgw7dvmqh5v" path="res://assets/sprites/debug/fruit.png" id="2_6h0n8"]
+[ext_resource type="PackedScene" uid="uid://x52dpnyk785c" path="res://entities/plants/fruit_plant/fruit_plant.tscn" id="2_d0ln0"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6kqrw"]
+size = Vector2(6, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_l3xob"]
+size = Vector2(12, 12)
+
+[node name="Fruit" type="RigidBody2D"]
+can_sleep = false
+lock_rotation = true
+script = ExtResource("1_l3xob")
+satiate_amount = 100.0
+grow_plant_chance = 1.0
+plant_scene = ExtResource("2_d0ln0")
+
+[node name="Hitbox" type="CollisionShape2D" parent="."]
+position = Vector2(0, 3.5)
+shape = SubResource("RectangleShape2D_6kqrw")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("2_6h0n8")
+
+[node name="InteractionArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionArea"]
+shape = SubResource("RectangleShape2D_l3xob")
