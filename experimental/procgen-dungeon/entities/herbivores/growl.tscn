@@ -1,9 +1,9 @@
-[gd_scene load_steps=19 format=3 uid="uid://bt8g3fryrf86u"]
+[gd_scene load_steps=19 format=3 uid="uid://dedp5shrnk4mf"]
 
-[ext_resource type="Script" uid="uid://7v0f06txffw3" path="res://entities/herbivores/grunt.gd" id="1_elef4"]
-[ext_resource type="BehaviorTree" uid="uid://7sa2dhcn0k84" path="res://ai/trees/grunt.tres" id="2_16ug5"]
-[ext_resource type="Texture2D" uid="uid://cmvmeul0haba4" path="res://assets/sprites/debug/debug_man.png" id="2_47y2e"]
-[ext_resource type="FontFile" uid="uid://5157covw654y" path="res://assets/fonts/CozetteVector.ttf" id="4_kxb8y"]
+[ext_resource type="Script" uid="uid://7v0f06txffw3" path="res://entities/herbivores/grunt.gd" id="1_4lo47"]
+[ext_resource type="BehaviorTree" uid="uid://qovuyc6ynb2h" path="res://ai/trees/growl.tres" id="2_4lo47"]
+[ext_resource type="Texture2D" uid="uid://7u12xfc4dmda" path="res://assets/sprites/debug/growl.png" id="3_4lo47"]
+[ext_resource type="FontFile" uid="uid://5157covw654y" path="res://assets/fonts/CozetteVector.ttf" id="4_ynb2x"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_16ug5"]
 radius = 5.0990195
@@ -11,11 +11,11 @@ radius = 5.0990195
 [sub_resource type="BlackboardPlan" id="BlackboardPlan_16ug5"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_u6l8j"]
-font = ExtResource("4_kxb8y")
+font = ExtResource("4_ynb2x")
 font_size = 10
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_kxb8y"]
-radius = 102.0049
+radius = 159.47726
 
 [sub_resource type="Animation" id="Animation_kxb8y"]
 length = 0.001
@@ -54,7 +54,24 @@ _data = {
 &"tilt": SubResource("Animation_16ug5")
 }
 
-[sub_resource type="Animation" id="Animation_tbrf8"]
+[sub_resource type="Animation" id="Animation_ocard"]
+resource_name = "walk"
+length = 0.2
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.033333335, 0.06666667, 0.10000001, 0.13333334, 0.16666667),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 0), Vector2i(1, 0), Vector2i(2, 0), Vector2i(3, 0), Vector2i(4, 0), Vector2i(5, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_1dpl6"]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -69,45 +86,10 @@ tracks/0/keys = {
 "values": [Vector2i(0, 0)]
 }
 
-[sub_resource type="Animation" id="Animation_u6l8j"]
-resource_name = "walk"
-length = 0.2
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame_coords")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [Vector2i(0, 0), Vector2i(1, 0)]
-}
-
-[sub_resource type="Animation" id="Animation_ymn03"]
-resource_name = "hungry_walk"
-length = 0.2
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame_coords")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [Vector2i(0, 1), Vector2i(1, 1)]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_qt6jo"]
 _data = {
-&"RESET": SubResource("Animation_tbrf8"),
-&"hungry_walk": SubResource("Animation_ymn03"),
-&"walk": SubResource("Animation_u6l8j")
+&"RESET": SubResource("Animation_1dpl6"),
+&"walk": SubResource("Animation_ocard")
 }
 
 [sub_resource type="Animation" id="Animation_fssug"]
@@ -147,21 +129,24 @@ _data = {
 &"hurt": SubResource("Animation_elef4")
 }
 
-[node name="Grunt" type="CharacterBody2D"]
-script = ExtResource("1_elef4")
+[sub_resource type="CircleShape2D" id="CircleShape2D_4lo47"]
+radius = 27.0
+
+[node name="Growl" type="CharacterBody2D"]
+script = ExtResource("1_4lo47")
 
 [node name="Hitbox" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_16ug5")
 
 [node name="BTPlayer" type="BTPlayer" parent="."]
-behavior_tree = ExtResource("2_16ug5")
+behavior_tree = ExtResource("2_4lo47")
 blackboard_plan = SubResource("BlackboardPlan_16ug5")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
 position = Vector2(0, -2)
-texture = ExtResource("2_47y2e")
-hframes = 2
+texture = ExtResource("3_4lo47")
+hframes = 6
 vframes = 2
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
@@ -174,7 +159,6 @@ text = "fewf"
 label_settings = SubResource("LabelSettings_u6l8j")
 
 [node name="SightArea" type="Area2D" parent="."]
-visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SightArea"]
 shape = SubResource("CircleShape2D_kxb8y")
@@ -193,3 +177,8 @@ libraries = {
 libraries = {
 &"": SubResource("AnimationLibrary_ipa5w")
 }
+
+[node name="AggressionArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AggressionArea"]
+shape = SubResource("CircleShape2D_4lo47")

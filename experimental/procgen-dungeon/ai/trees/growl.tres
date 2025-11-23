@@ -1,16 +1,16 @@
-[gd_resource type="BehaviorTree" load_steps=83 format=3 uid="uid://7sa2dhcn0k84"]
+[gd_resource type="BehaviorTree" load_steps=91 format=3 uid="uid://qovuyc6ynb2h"]
 
-[ext_resource type="Script" uid="uid://cuxbc2kb6xqxd" path="res://ai/tasks/take_damage.gd" id="1_m5e10"]
-[ext_resource type="Script" uid="uid://vxa0kxnsbcss" path="res://ai/tasks/targeting/is_target_in_radius.gd" id="2_m5e10"]
-[ext_resource type="AudioStream" uid="uid://b4vxkxjxrmnr2" path="res://assets/sounds/grunt/grunt_hurt.mp3" id="3_0iyhc"]
-[ext_resource type="Script" uid="uid://d38ke8qdnl1eh" path="res://ai/tasks/hunger/eat_fruit.gd" id="3_ypr8g"]
-[ext_resource type="Script" uid="uid://jw2qpaclk80c" path="res://ai/tasks/play_sound.gd" id="4_81cv7"]
-[ext_resource type="AudioStream" uid="uid://b2alk1whurrwv" path="res://assets/sounds/grunt/grunt_bite.mp3" id="5_iqpph"]
-[ext_resource type="Script" uid="uid://b5yoakfl32cml" path="res://ai/tasks/targeting/set_target_to_nearest_entitytype_in_sight.gd" id="6_0iyhc"]
-[ext_resource type="AudioStream" uid="uid://di1sbylhimh3y" path="res://assets/sounds/grunt/grunt_hungry.mp3" id="7_phada"]
-[ext_resource type="Script" uid="uid://cgicdjlkja61" path="res://ai/tasks/pathfind_and_move.gd" id="8_0iyhc"]
-[ext_resource type="Script" uid="uid://vy7v57abpwsp" path="res://ai/tasks/choose_random_pos.gd" id="9_3806r"]
-[ext_resource type="AudioStream" uid="uid://brqsnr3iryhfr" path="res://assets/sounds/grunt/grunt1.mp3" id="10_en5op"]
+[ext_resource type="Script" uid="uid://cuxbc2kb6xqxd" path="res://ai/tasks/take_damage.gd" id="1_0ntti"]
+[ext_resource type="Script" uid="uid://jw2qpaclk80c" path="res://ai/tasks/play_sound.gd" id="2_m1u48"]
+[ext_resource type="AudioStream" uid="uid://b4vxkxjxrmnr2" path="res://assets/sounds/grunt/grunt_hurt.mp3" id="3_ngmj3"]
+[ext_resource type="Script" uid="uid://vxa0kxnsbcss" path="res://ai/tasks/targeting/is_target_in_radius.gd" id="4_tcm3l"]
+[ext_resource type="Script" uid="uid://d38ke8qdnl1eh" path="res://ai/tasks/hunger/eat_fruit.gd" id="5_s5x5c"]
+[ext_resource type="AudioStream" uid="uid://b2alk1whurrwv" path="res://assets/sounds/grunt/grunt_bite.mp3" id="6_dieo1"]
+[ext_resource type="Script" uid="uid://b5yoakfl32cml" path="res://ai/tasks/targeting/set_target_to_nearest_entitytype_in_sight.gd" id="7_ygmkd"]
+[ext_resource type="AudioStream" uid="uid://di1sbylhimh3y" path="res://assets/sounds/grunt/grunt_hungry.mp3" id="8_3i16v"]
+[ext_resource type="Script" uid="uid://cgicdjlkja61" path="res://ai/tasks/pathfind_and_move.gd" id="9_v3auq"]
+[ext_resource type="AudioStream" uid="uid://brqsnr3iryhfr" path="res://assets/sounds/grunt/grunt1.mp3" id="10_y40ie"]
+[ext_resource type="Script" uid="uid://vy7v57abpwsp" path="res://ai/tasks/choose_random_pos.gd" id="11_ajmql"]
 
 [sub_resource type="BlackboardPlan" id="BlackboardPlan_ihcj0"]
 
@@ -55,7 +55,7 @@ animation_player = SubResource("BBNode_ucdji")
 animation_name = &"hurt"
 
 [sub_resource type="BTAction" id="BTAction_i3ulo"]
-script = ExtResource("1_m5e10")
+script = ExtResource("1_0ntti")
 damage = 1
 
 [sub_resource type="BTSequence" id="BTSequence_g73xh"]
@@ -63,8 +63,8 @@ custom_name = "Hunger pangs"
 children = [SubResource("BTCooldown_kosrh"), SubResource("BTPlayAnimation_lbuxp"), SubResource("BTAction_i3ulo")]
 
 [sub_resource type="BTAction" id="BTAction_81cv7"]
-script = ExtResource("4_81cv7")
-sound = ExtResource("3_0iyhc")
+script = ExtResource("2_m1u48")
+sound = ExtResource("3_ngmj3")
 
 [sub_resource type="BTSequence" id="BTSequence_i3ulo"]
 custom_name = "Check for damage"
@@ -103,17 +103,9 @@ resource_name = "true"
 variable = &"is_hungry"
 value = SubResource("BBVariant_0iyhc")
 
-[sub_resource type="BBNode" id="BBNode_m5e10"]
-saved_value = NodePath("MoveAnimation")
-resource_name = "MoveAnimation"
-
-[sub_resource type="BTPlayAnimation" id="BTPlayAnimation_ypr8g"]
-animation_player = SubResource("BBNode_m5e10")
-animation_name = &"hungry_walk"
-
 [sub_resource type="BTSequence" id="BTSequence_iqpph"]
 custom_name = "Get hungry"
-children = [SubResource("BTCheckVar_ypr8g"), SubResource("BTSetVar_81cv7"), SubResource("BTPlayAnimation_ypr8g")]
+children = [SubResource("BTCheckVar_ypr8g"), SubResource("BTSetVar_81cv7")]
 
 [sub_resource type="BBVariant" id="BBVariant_g3jbg"]
 type = 3
@@ -155,18 +147,18 @@ duration = 1.0
 children = [SubResource("BTSelector_hyiyp")]
 
 [sub_resource type="BTCondition" id="BTCondition_alme7"]
-script = ExtResource("2_m5e10")
+script = ExtResource("4_tcm3l")
 radius = 50.0
 
 [sub_resource type="BTWait" id="BTWait_kxk1o"]
 duration = 2.5
 
 [sub_resource type="BTAction" id="BTAction_ucdji"]
-script = ExtResource("3_ypr8g")
+script = ExtResource("5_s5x5c")
 
 [sub_resource type="BTAction" id="BTAction_kosrh"]
-script = ExtResource("4_81cv7")
-sound = ExtResource("5_iqpph")
+script = ExtResource("2_m1u48")
+sound = ExtResource("6_dieo1")
 
 [sub_resource type="BTSequence" id="BTSequence_kxk1o"]
 custom_name = "If nearby fruit, stop and eat the fruit"
@@ -182,12 +174,12 @@ variable = &"is_hungry"
 value = SubResource("BBVariant_agbi4")
 
 [sub_resource type="BTAction" id="BTAction_alme7"]
-script = ExtResource("6_0iyhc")
+script = ExtResource("7_ygmkd")
 target_class = "Fruit"
 
 [sub_resource type="BTAction" id="BTAction_g73xh"]
-script = ExtResource("4_81cv7")
-sound = ExtResource("7_phada")
+script = ExtResource("2_m1u48")
+sound = ExtResource("8_3i16v")
 
 [sub_resource type="BTProbability" id="BTProbability_ypr8g"]
 run_chance = 0.25
@@ -197,7 +189,7 @@ children = [SubResource("BTAction_g73xh")]
 children = [SubResource("BTProbability_ypr8g")]
 
 [sub_resource type="BTAction" id="BTAction_qu6iv"]
-script = ExtResource("8_0iyhc")
+script = ExtResource("9_v3auq")
 tolerance = 0.5
 
 [sub_resource type="BTTimeLimit" id="BTTimeLimit_lbuxp"]
@@ -220,9 +212,43 @@ children = [SubResource("BTSequence_alme7")]
 custom_name = "Seek food"
 children = [SubResource("BTCooldown_6u2m4"), SubResource("BTSequence_kxk1o"), SubResource("BTCooldown_ppwhi")]
 
+[sub_resource type="BBNode" id="BBNode_0ntti"]
+saved_value = NodePath("MoveAnimation")
+resource_name = "MoveAnimation"
+
+[sub_resource type="BTPauseAnimation" id="BTPauseAnimation_m1u48"]
+animation_player = SubResource("BBNode_0ntti")
+
+[sub_resource type="BTRandomWait" id="BTRandomWait_ngmj3"]
+
+[sub_resource type="BTSequence" id="BTSequence_tcm3l"]
+children = [SubResource("BTPauseAnimation_m1u48"), SubResource("BTRandomWait_ngmj3")]
+
+[sub_resource type="BTProbability" id="BTProbability_s5x5c"]
+run_chance = 0.05
+children = [SubResource("BTSequence_tcm3l")]
+
+[sub_resource type="BTAlwaysSucceed" id="BTAlwaysSucceed_dieo1"]
+children = [SubResource("BTProbability_s5x5c")]
+
+[sub_resource type="BTCooldown" id="BTCooldown_0ntti"]
+duration = 1.0
+children = [SubResource("BTAlwaysSucceed_dieo1")]
+
+[sub_resource type="BTSequence" id="BTSequence_ygmkd"]
+custom_name = "Pause"
+children = [SubResource("BTCooldown_0ntti")]
+
+[sub_resource type="BBNode" id="BBNode_3i16v"]
+saved_value = NodePath("MoveAnimation")
+resource_name = "MoveAnimation"
+
+[sub_resource type="BTPlayAnimation" id="BTPlayAnimation_v3auq"]
+animation_player = SubResource("BBNode_3i16v")
+
 [sub_resource type="BTAction" id="BTAction_iqpph"]
-script = ExtResource("4_81cv7")
-sound = ExtResource("10_en5op")
+script = ExtResource("2_m1u48")
+sound = ExtResource("10_y40ie")
 
 [sub_resource type="BTProbability" id="BTProbability_g3jbg"]
 run_chance = 0.02
@@ -240,7 +266,7 @@ custom_name = "Make a sound"
 children = [SubResource("BTAlwaysSucceed_ydfj1")]
 
 [sub_resource type="BTAction" id="BTAction_kxk1o"]
-script = ExtResource("9_3806r")
+script = ExtResource("11_ajmql")
 range_min = 25.0
 range_max = 50.0
 
@@ -253,7 +279,7 @@ custom_name = "target long"
 children = [SubResource("BTProbability_alme7")]
 
 [sub_resource type="BTAction" id="BTAction_l4anq"]
-script = ExtResource("9_3806r")
+script = ExtResource("11_ajmql")
 
 [sub_resource type="BTSequence" id="BTSequence_kosrh"]
 custom_name = "target short"
@@ -264,7 +290,7 @@ custom_name = "Pick a long or short distance to move randomly"
 children = [SubResource("BTSequence_thmw6"), SubResource("BTSequence_kosrh")]
 
 [sub_resource type="BTAction" id="BTAction_jwj43"]
-script = ExtResource("8_0iyhc")
+script = ExtResource("9_v3auq")
 tolerance = 0.5
 
 [sub_resource type="BTTimeLimit" id="BTTimeLimit_l4anq"]
@@ -277,11 +303,11 @@ children = [SubResource("BTTimeLimit_l4anq")]
 
 [sub_resource type="BTSequence" id="BTSequence_jwj43"]
 custom_name = "Wander"
-children = [SubResource("BTSequence_3806r"), SubResource("BTSelector_l4anq"), SubResource("BTSequence_0iyhc")]
+children = [SubResource("BTPlayAnimation_v3auq"), SubResource("BTSequence_3806r"), SubResource("BTSelector_l4anq"), SubResource("BTSequence_0iyhc")]
 
 [sub_resource type="BTSelector" id="BTSelector_kxk1o"]
 custom_name = "Wander or seek food"
-children = [SubResource("BTSelector_alme7"), SubResource("BTSequence_jwj43")]
+children = [SubResource("BTSelector_alme7"), SubResource("BTSequence_ygmkd"), SubResource("BTSequence_jwj43")]
 
 [sub_resource type="BTSequence" id="BTSequence_6kuyo"]
 custom_name = "Wander Around Aimlessly"

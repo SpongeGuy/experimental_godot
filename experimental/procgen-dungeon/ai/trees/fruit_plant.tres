@@ -1,4 +1,4 @@
-[gd_resource type="BehaviorTree" load_steps=21 format=3 uid="uid://dypyatoxtwy56"]
+[gd_resource type="BehaviorTree" load_steps=23 format=3 uid="uid://dypyatoxtwy56"]
 
 [ext_resource type="Script" uid="uid://h53iiayls1yi" path="res://ai/tasks/is_entitytype_in_sight.gd" id="1_7mmsr"]
 [ext_resource type="Script" uid="uid://cpqmml7a42cqg" path="res://ai/tasks/summon_entity.gd" id="1_eugju"]
@@ -26,6 +26,9 @@ children = [SubResource("BTCondition_mprp4"), SubResource("BTProbability_s2oi7")
 duration = 3.0
 children = [SubResource("BTSequence_l50bx")]
 
+[sub_resource type="BTRandomWait" id="BTRandomWait_r15xx"]
+min_duration = 0.0
+
 [sub_resource type="BTAction" id="BTAction_q5g1f"]
 script = ExtResource("3_w5dmg")
 
@@ -48,9 +51,13 @@ children = [SubResource("BTAction_n7ope"), SubResource("BTAction_0ejh4")]
 [sub_resource type="BTSelector" id="BTSelector_s2oi7"]
 children = [SubResource("BTProbability_eqxgy"), SubResource("BTSequence_r15xx")]
 
+[sub_resource type="BTSequence" id="BTSequence_s2oi7"]
+children = [SubResource("BTRandomWait_r15xx"), SubResource("BTSelector_s2oi7")]
+
 [sub_resource type="BTCooldown" id="BTCooldown_spoqv"]
 duration = 7.0
-children = [SubResource("BTSelector_s2oi7")]
+start_cooled = true
+children = [SubResource("BTSequence_s2oi7")]
 
 [sub_resource type="BTSelector" id="BTSelector_5l8yg"]
 children = [SubResource("BTCooldown_unv85"), SubResource("BTCooldown_spoqv")]

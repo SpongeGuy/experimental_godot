@@ -10,5 +10,5 @@ func _generate_name() -> String:
 
 func _tick(_delta: float) -> Status:
 	if sound:
-		AudioManager.play_sound(sound, agent.global_position)
+		AudioManager.play_at_position(sound, agent.global_position)
 	return SUCCESS
