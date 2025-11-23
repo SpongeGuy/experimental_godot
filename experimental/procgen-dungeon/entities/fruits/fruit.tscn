@@ -11,6 +11,7 @@ size = Vector2(6, 1)
 size = Vector2(12, 12)
 
 [node name="Fruit" type="RigidBody2D"]
+gravity_scale = 0.0
 can_sleep = false
 lock_rotation = true
 script = ExtResource("1_l3xob")

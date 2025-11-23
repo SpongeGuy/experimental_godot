@@ -116,75 +116,14 @@ func update_movement(_delta: float) -> void:
 		nav_agent.set_velocity(intended_velocity)
 	else:
 		velocity = intended_velocity
-		#move_and_slide()
 
 func _on_velocity_computed(safe_velocity: Vector2) -> void:
 	velocity = safe_velocity
-	#move_and_slide()
 	
 func move(p_velocity: Vector2, _factor: float = 0.2) -> void:
 	#velocity = lerp(velocity, p_velocity, factor)
 	velocity = p_velocity
 	move_and_slide()
-
-# ------------------------------------------------------------------------
-# public API for BTAction nodes (called from custom tasks)
-# ------------------------------------------------------------------------
-
-func bt_set_target_position(pos: Vector2) -> void:
-	if use_pathfinding:
-		nav_agent.target_position = pos
-	else:
-		_straight_line_target = pos
-		
-func bt_set_target_entity(entity: Node2D) -> void:
-	if entity and is_instance_valid(entity):
-		bt_set_target_position(entity.global_position)
-		
-func bt_stop_movement() -> void:
-	if use_pathfinding:
-		nav_agent.target_position = global_position # instantly finishes path
-	else:
-		_straight_line_target = Vector2.INF
-		
-func bt_face_towards(pos: Vector2) -> void:
-	if (pos.x - global_position.x) > 0:
-		scale.x = abs(scale.x)
-	else:
-		scale.x = -abs(scale.x)
-
-func bt_eat_fruit(fruit: Node) -> void:
-	hunger = max(hunger - 70.0, 0.0)
-	if fruit.has_method("eat"):
-		fruit.eat()
-	else:
-		fruit.queue_free()
-		
-func bt_bite(target: Creature) -> void:
-	var damage: int = 1
-	target.take_damage(damage)
-	
-func bt_die() -> void:
-	die()
-	
-# ------------------------------------------------------------------------
-# private helpers
-# ------------------------------------------------------------------------
-#func get_bodies_in_radius(center: Vector2, radius: float, exclude: Array = []) -> Array:
-	#var space_state = get_world_2d().direct_space_state
-	#
-	#var query = PhysicsShapeQueryParameters2D.new()
-	#var circle_shape = CircleShape2D.new()
-	#circle_shape.radius = radius
-	#query.shape = circle_shape
-	#query.transform = Transform2D(0, center)
-	#query.collision_mask = (1 << 2) | (1 << 4) # query creatures and fruits
-	#query.exclude = exclude
-	#
-	## Set to true if you only want bodies that have their collision shape fully inside the radius
-	## query.set_shape_as_trigger(false)  # default is false
-	#
-	#return space_state.intersect_shape(query, 32)  # 32 = max results (increase if needed)
 	
 
 # for organizing nearby nodes
@@ -196,21 +135,6 @@ func _on_exit_sight_area(body: Node2D) -> void:
 	nearby_bodies.erase(body)
 	
 
-func set_health(value: int) -> void:
-	health = clamp(value, 0, max_health)
-	if health <= 0:
-		die()
-		
-func set_hunger(value: float) -> void:
-	hunger = clampf(value, 0.0, max_hunger)
-	
-func satiate_hunger(value: float) -> void:
-	hunger = max(hunger - value, 0.0)
-
-func take_damage(amount: int) -> void:
-	health -= amount
-	if health <= 0:
-		die()
 		
 func die() -> void:
 	bt_player.set_active(false)

@@ -28,7 +28,6 @@ func _ready() -> void:
 	collision_mask |= (1 << 2) # creatures collide and kick fruits around
 
 	_spawned_time = Time.get_ticks_msec() / 1000.0
-	apply_central_impulse(Vector2(randf_range(-30, 30), randf_range(-60, -20)) * 5)
 	
 func _process(_delta: float) -> void:
 	if Time.get_ticks_msec() / 1000.0 - _spawned_time > DESPAWN_TIME:

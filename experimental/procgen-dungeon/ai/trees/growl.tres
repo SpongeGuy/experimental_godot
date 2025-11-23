@@ -1,6 +1,7 @@
-[gd_resource type="BehaviorTree" load_steps=91 format=3 uid="uid://qovuyc6ynb2h"]
+[gd_resource type="BehaviorTree" load_steps=95 format=3 uid="uid://qovuyc6ynb2h"]
 
 [ext_resource type="Script" uid="uid://cuxbc2kb6xqxd" path="res://ai/tasks/take_damage.gd" id="1_0ntti"]
+[ext_resource type="Script" uid="uid://bn426ivu3ywl0" path="res://ai/tasks/targeting/set_target_to_nearest_entitytype_in_area.gd" id="1_m1u48"]
 [ext_resource type="Script" uid="uid://jw2qpaclk80c" path="res://ai/tasks/play_sound.gd" id="2_m1u48"]
 [ext_resource type="AudioStream" uid="uid://b4vxkxjxrmnr2" path="res://assets/sounds/grunt/grunt_hurt.mp3" id="3_ngmj3"]
 [ext_resource type="Script" uid="uid://vxa0kxnsbcss" path="res://ai/tasks/targeting/is_target_in_radius.gd" id="4_tcm3l"]
@@ -31,6 +32,14 @@ children = [SubResource("BTRunLimit_m5e10")]
 [sub_resource type="BTSequence" id="BTSequence_lbuxp"]
 custom_name = "Init setup"
 children = [SubResource("BTAlwaysSucceed_m5e10")]
+
+[sub_resource type="BTAction" id="BTAction_ngmj3"]
+script = ExtResource("1_m1u48")
+area = NodePath("AggressionArea")
+
+[sub_resource type="BTSequence" id="BTSequence_s5x5c"]
+custom_name = "Check if entity too close"
+children = [SubResource("BTAction_ngmj3")]
 
 [sub_resource type="BBVariant" id="BBVariant_thmw6"]
 type = 3
@@ -73,12 +82,16 @@ children = [SubResource("BTSequence_g73xh"), SubResource("BTAction_81cv7")]
 [sub_resource type="BTAlwaysSucceed" id="BTAlwaysSucceed_ppwhi"]
 children = [SubResource("BTSequence_i3ulo")]
 
-[sub_resource type="BBNode" id="BBNode_l4anq"]
+[sub_resource type="BTSequence" id="BTSequence_dieo1"]
+custom_name = "Check if getting damaged"
+children = [SubResource("BTAlwaysSucceed_ppwhi")]
+
+[sub_resource type="BBNode" id="BBNode_m1u48"]
 saved_value = NodePath("Tilter")
 resource_name = "Tilter"
 
 [sub_resource type="BTPlayAnimation" id="BTPlayAnimation_jwj43"]
-animation_player = SubResource("BBNode_l4anq")
+animation_player = SubResource("BBNode_m1u48")
 animation_name = &"tilt"
 
 [sub_resource type="BTProbability" id="BTProbability_kxk1o"]
@@ -314,7 +327,7 @@ custom_name = "Wander Around Aimlessly"
 children = [SubResource("BTProbability_kxk1o"), SubResource("BTSelector_kxk1o")]
 
 [sub_resource type="BTSequence" id="BTSequence_ucdji"]
-children = [SubResource("BTAlwaysSucceed_ppwhi"), SubResource("BTSequence_6kuyo")]
+children = [SubResource("BTSequence_s5x5c"), SubResource("BTSequence_dieo1"), SubResource("BTSequence_6kuyo")]
 
 [sub_resource type="BTSequence" id="BTSequence_ppwhi"]
 children = [SubResource("BTSequence_lbuxp"), SubResource("BTSequence_ucdji")]

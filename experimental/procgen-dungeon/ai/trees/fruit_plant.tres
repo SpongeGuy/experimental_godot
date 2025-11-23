@@ -1,8 +1,8 @@
 [gd_resource type="BehaviorTree" load_steps=23 format=3 uid="uid://dypyatoxtwy56"]
 
 [ext_resource type="Script" uid="uid://h53iiayls1yi" path="res://ai/tasks/is_entitytype_in_sight.gd" id="1_7mmsr"]
-[ext_resource type="Script" uid="uid://cpqmml7a42cqg" path="res://ai/tasks/summon_entity.gd" id="1_eugju"]
 [ext_resource type="Script" uid="uid://jw2qpaclk80c" path="res://ai/tasks/play_sound.gd" id="2_s2oi7"]
+[ext_resource type="Script" uid="uid://cc5an3lja55fm" path="res://ai/tasks/spawning/summon_fruit_random_force.gd" id="3_r15xx"]
 [ext_resource type="AudioStream" uid="uid://7u6i57tob3xe" path="res://assets/sounds/fruit_plant/tree_create.mp3" id="3_unv85"]
 [ext_resource type="Script" uid="uid://dtrtnnaq0t3n5" path="res://ai/tasks/die.gd" id="3_w5dmg"]
 
@@ -28,25 +28,27 @@ children = [SubResource("BTSequence_l50bx")]
 
 [sub_resource type="BTRandomWait" id="BTRandomWait_r15xx"]
 min_duration = 0.0
+max_duration = 0.1
 
 [sub_resource type="BTAction" id="BTAction_q5g1f"]
+_enabled = false
 script = ExtResource("3_w5dmg")
 
 [sub_resource type="BTProbability" id="BTProbability_eqxgy"]
 run_chance = 0.01
 children = [SubResource("BTAction_q5g1f")]
 
-[sub_resource type="BTAction" id="BTAction_n7ope"]
-script = ExtResource("1_eugju")
+[sub_resource type="BTAction" id="BTAction_s2oi7"]
+script = ExtResource("3_r15xx")
 entity_path = "uid://vqvqkui4uebx"
-relative_position = Vector2(0, -5)
+force = 10000.0
 
 [sub_resource type="BTAction" id="BTAction_0ejh4"]
 script = ExtResource("2_s2oi7")
 sound = ExtResource("3_unv85")
 
 [sub_resource type="BTSequence" id="BTSequence_r15xx"]
-children = [SubResource("BTAction_n7ope"), SubResource("BTAction_0ejh4")]
+children = [SubResource("BTAction_s2oi7"), SubResource("BTAction_0ejh4")]
 
 [sub_resource type="BTSelector" id="BTSelector_s2oi7"]
 children = [SubResource("BTProbability_eqxgy"), SubResource("BTSequence_r15xx")]
@@ -55,7 +57,7 @@ children = [SubResource("BTProbability_eqxgy"), SubResource("BTSequence_r15xx")]
 children = [SubResource("BTRandomWait_r15xx"), SubResource("BTSelector_s2oi7")]
 
 [sub_resource type="BTCooldown" id="BTCooldown_spoqv"]
-duration = 7.0
+duration = 0.2
 start_cooled = true
 children = [SubResource("BTSequence_s2oi7")]
 
