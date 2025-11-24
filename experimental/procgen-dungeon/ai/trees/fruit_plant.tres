@@ -34,7 +34,7 @@ max_duration = 4.0
 script = ExtResource("2_r15xx")
 
 [sub_resource type="BTProbability" id="BTProbability_eqxgy"]
-run_chance = 0.01
+run_chance = 0.03
 children = [SubResource("BTAction_q5g1f")]
 
 [sub_resource type="BTAction" id="BTAction_s2oi7"]

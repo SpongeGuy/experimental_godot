@@ -10,7 +10,7 @@ class_name Creature
 # ------------------------------------------------------------------------
 # INTERNAL STATE
 # ------------------------------------------------------------------------
-@export_category("Internal State")
+@export_subgroup("Internal State")
 @export var overriding_health: bool = false
 @export var health_override: int = 0
 @export var overriding_hunger: bool = false
@@ -30,7 +30,7 @@ var _effect_velocity: Vector2 = Vector2.ZERO
 # ------------------------------------------------------------------------
 # MOVEMENT AND COLLISION FLAGS
 # ------------------------------------------------------------------------
-@export_category("Movement & Collision")
+@export_subgroup("Movement & Collision")
 @export var avoidance_radius: float = 32.0
 
 @export var collide_with_terrain: bool = true
@@ -40,11 +40,10 @@ var _effect_velocity: Vector2 = Vector2.ZERO
 @export var use_pathfinding: bool = true # false -> straight-line movement (ghosts, flyers, etc)
 
 
-
 # ------------------------------------------------------------------------
 # PLAYER CONTROL
 # ------------------------------------------------------------------------
-@export_category("Player Possession")
+@export_subgroup("Player Possession")
 @export var accept_player_input: bool = false
 
 

@@ -43,5 +43,5 @@ func try_grow_plant_and_die() -> void:
 	
 func eat(by: Node = null) -> void:
 	if by is Creature:
-		EventBus.try_change_creature_health.emit(by, -1, null)
+		EventBus.try_change_creature_hunger.emit(by, -satiate_amount)
 	queue_free()
