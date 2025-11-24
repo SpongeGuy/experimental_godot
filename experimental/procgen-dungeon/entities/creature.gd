@@ -1,15 +1,31 @@
+@tool
 extends CharacterBody2D
 class_name Creature
 
 # ------------------------------------------------------------------------
 # CORE STATS
 # ------------------------------------------------------------------------
-@export_category("Stats")
-@export var max_health: int = 5
-@export var max_hunger: float = 1000
-@export var hunger_rate: float = 4.0 # per second while moving
-@export var base_speed: float = 120.0
-@export var debug_name: String = ""
+@export var stat_sheet: CreatureStats
+
+# ------------------------------------------------------------------------
+# INTERNAL STATE
+# ------------------------------------------------------------------------
+@export_category("Internal State")
+@export var overriding_health: bool = false
+@export var health_override: int = 0
+@export var overriding_hunger: bool = false
+@export var hunger_override: float = 0
+var _health: int
+var _hunger: float
+var _stats: CreatureStats
+
+# add onto this velocity for temporary effects like knockback
+# this variable constantly lerps back to 0
+var _effect_velocity: Vector2 = Vector2.ZERO
+@export var effect_velocity_decay_factor = 5
+
+@onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
+@onready var bt_player: BTPlayer = $BTPlayer
 
 # ------------------------------------------------------------------------
 # MOVEMENT AND COLLISION FLAGS
@@ -23,29 +39,40 @@ class_name Creature
 
 @export var use_pathfinding: bool = true # false -> straight-line movement (ghosts, flyers, etc)
 
+
+
 # ------------------------------------------------------------------------
 # PLAYER CONTROL
 # ------------------------------------------------------------------------
 @export_category("Player Possession")
 @export var accept_player_input: bool = false
-# ------------------------------------------------------------------------
-# INTERNAL STATE
-# ------------------------------------------------------------------------
-var health: int = max_health
-var hunger: float = 0.0
 
-var _straight_line_target: Vector2 = Vector2.INF # used only when use_pathfinding = false
 
-@onready var debug_label: Label = $Label
-
-@onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
-@onready var bt_player: BTPlayer = $BTPlayer
-@onready var sight_area: Area2D = $SightArea
-@onready var interaction_area: Area2D = $InteractionArea
-
-var nearby_bodies: Array[Node2D] = []
+func _ready_statistics() -> void:
+	_stats = stat_sheet.duplicate()
+	assert(_stats)
+	
+	if overriding_health:
+		_health = health_override
+	else:
+		_health = _stats.max_health
+		
+	if overriding_hunger:
+		_hunger = hunger_override
+	else:
+		_hunger = 0.0
+	
+	if not _stats.uuid:
+		print(UUIDGenerator.v4())
+		var uuid: String = UUIDGenerator.v4()
+		_stats.uuid = uuid
 
 func _ready() -> void:
+	_ready_statistics()
+	
+	# register name
+	EntityRegister.add_entity_type_to_register(_stats.entity_class, _stats.entity_type)
+	
 	nav_agent.velocity_computed.connect(_on_velocity_computed)
 	nav_agent.avoidance_enabled = use_rvo_avoidance
 	nav_agent.radius = avoidance_radius
@@ -62,11 +89,9 @@ func _ready() -> void:
 		
 	if solid_to_creatures:
 		collision_mask |= (1 << 2) # collide with other creatures
-		
-	if sight_area:
-		sight_area.collision_mask = (1 << 2) | (1 << 4)
-		sight_area.body_entered.connect(_on_enter_sight_area)
-		sight_area.body_exited.connect(_on_exit_sight_area)
+
+	EventBus.try_change_creature_health.connect(_on_change_health)
+	EventBus.try_change_creature_hunger.connect(_on_change_hunger)
 
 func _physics_process(delta: float) -> void:
 	update_hunger(delta)
@@ -74,68 +99,56 @@ func _physics_process(delta: float) -> void:
 	
 	
 func update_hunger(delta: float) -> void:
-	hunger = min(hunger + hunger_rate * delta, max_hunger)
-	bt_player.blackboard.set_var("hunger", hunger)
+	_hunger = min(_hunger + _stats.hunger_rate * delta, _stats.max_hunger)
+	bt_player.blackboard.set_var("hunger", _hunger)
+		
+		
+func update_movement(delta: float) -> void:
+	_effect_velocity = lerp(_effect_velocity, Vector2.ZERO, effect_velocity_decay_factor * delta)
 		
 
-	
-		
-func update_movement(_delta: float) -> void:
-	var intended_velocity: Vector2 = Vector2.ZERO
-	
-	# ------------------------------------------------------------------------
-	# 1. player manual override (highest priority)
-	# ------------------------------------------------------------------------
-	if accept_player_input:
-		var input_dir: Vector2 = Input.get_vector("move_west", "move_east", "move_north", "move_south")
-		if input_dir.length() > 0.1:
-			intended_velocity = input_dir.normalized() * base_speed
-			# player is moving -> we ignore BT movement this frame
-			# (but BT can still run actions like bite/shoot/explode)
-		# if no input, intended_velocity stays ZERO -> BT gets full control below
-		
-	# ------------------------------------------------------------------------
-	# 2. behavior tree movement (only if player isn't overriding)
-	# ------------------------------------------------------------------------
-	if intended_velocity == Vector2.ZERO and bt_player.active:
-		if use_pathfinding:
-			if not nav_agent.is_navigation_finished():
-				var next := nav_agent.get_next_path_position()
-				intended_velocity = global_position.direction_to(next) * base_speed
-		else:
-			if _straight_line_target != Vector2.INF:
-				if global_position.distance_to(_straight_line_target) < 20.0:
-					_straight_line_target = Vector2.INF
-				else:
-					intended_velocity = global_position.direction_to(_straight_line_target) * base_speed
-					
-	# ------------------------------------------------------------------------
-	# 3. apply velocity (with or without avoidance)
-	# ------------------------------------------------------------------------
-	if use_rvo_avoidance:
-		nav_agent.set_velocity(intended_velocity)
-	else:
-		velocity = intended_velocity
-
-func _on_velocity_computed(safe_velocity: Vector2) -> void:
-	velocity = safe_velocity
-	
 func move(p_velocity: Vector2, _factor: float = 0.2) -> void:
 	#velocity = lerp(velocity, p_velocity, factor)
 	velocity = p_velocity
 	move_and_slide()
 	
-
-# for organizing nearby nodes
-func _on_enter_sight_area(body: Node2D) -> void:
-	if body != self:
-		nearby_bodies.append(body)
+func _on_velocity_computed(safe_velocity: Vector2) -> void:
+	velocity = safe_velocity
 	
-func _on_exit_sight_area(body: Node2D) -> void:
-	nearby_bodies.erase(body)
 	
-
+func _on_change_health(target: Creature, amount: int, source: Node2D):
+	if target == self:
+		if amount < 0:
+			take_damage(amount, source)
+		elif amount > 0:
+			heal(amount, source)
+			
+func heal(amount: int, healer: Node2D):
+	_health += amount
+	EventBus.creature_healed.emit(self, amount, healer)
 		
-func die() -> void:
-	bt_player.set_active(false)
+func take_damage(amount: int, attacker: Node2D):
+	print("creature")
+	_health += amount
+	EventBus.creature_damaged.emit(self, amount, attacker)
+	
+func die(killer: Node2D) -> void:
+	EventBus.creature_died.emit(self, killer)
 	queue_free()
+
+func _on_change_hunger(target: Creature, amount: float):
+	if target == self:
+		if amount < 0:
+			satiate_hunger(amount)
+		elif amount > 0 :
+			give_hunger(amount)
+		
+
+func satiate_hunger(amount: float):
+	_hunger += amount
+	EventBus.creature_satiated_hunger.emit(self, amount)
+
+func give_hunger(amount: float):
+	_hunger += amount
+	EventBus.creature_got_hunger.emit(self, amount)
+	

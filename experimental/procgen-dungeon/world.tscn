@@ -1,11 +1,10 @@
-[gd_scene load_steps=56 format=3 uid="uid://pqp2ku3r68hb"]
+[gd_scene load_steps=55 format=3 uid="uid://pqp2ku3r68hb"]
 
 [ext_resource type="Script" uid="uid://wojinhjolg8h" path="res://core/world_manager.gd" id="1_f3sb7"]
 [ext_resource type="Texture2D" uid="uid://dj0mcwh3yn3lf" path="res://assets/sprites/tilesets/16x16_tiles_debug_correct.png" id="2_tlwt5"]
 [ext_resource type="Script" uid="uid://vysodgmiux3v" path="res://debug.gd" id="3_tlwt5"]
-[ext_resource type="PackedScene" uid="uid://bt8g3fryrf86u" path="res://entities/herbivores/grunt.tscn" id="5_036b0"]
+[ext_resource type="PackedScene" uid="uid://bt8g3fryrf86u" path="res://entities/herbivores/grunt/grunt.tscn" id="5_036b0"]
 [ext_resource type="PackedScene" uid="uid://x52dpnyk785c" path="res://entities/plants/fruit_plant/fruit_plant.tscn" id="6_dwbse"]
-[ext_resource type="PackedScene" uid="uid://dedp5shrnk4mf" path="res://entities/herbivores/growl.tscn" id="6_pkg7o"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_tlwt5"]
 vertices = PackedVector2Array(1.140625, 8, -1.140625, 8, -1.140625, -1.140625, 1.140625, -1.140625)
@@ -1081,32 +1080,17 @@ debug_camera = NodePath("../Camera2D")
 
 [node name="Camera2D" type="Camera2D" parent="World"]
 
-[node name="Grunt" parent="World" instance=ExtResource("5_036b0")]
-position = Vector2(-168, -149)
-
-[node name="Grunt2" parent="World" instance=ExtResource("5_036b0")]
-position = Vector2(62, 68)
-
-[node name="Grunt3" parent="World" instance=ExtResource("5_036b0")]
-position = Vector2(172, 73)
-
-[node name="Grunt4" parent="World" instance=ExtResource("5_036b0")]
-position = Vector2(-208, -32)
-
-[node name="Grunt5" parent="World" instance=ExtResource("5_036b0")]
-position = Vector2(63, -50)
-
-[node name="Grunt6" parent="World" instance=ExtResource("5_036b0")]
-position = Vector2(189, -190)
-
 [node name="FruitPlant" parent="World" instance=ExtResource("6_dwbse")]
 position = Vector2(-26, -14)
 
 [node name="FruitPlant2" parent="World" instance=ExtResource("6_dwbse")]
-position = Vector2(-59, -18)
+position = Vector2(-95, -29)
 
-[node name="Growl" parent="World" instance=ExtResource("6_pkg7o")]
-position = Vector2(-23, -113)
+[node name="Grunt" parent="." instance=ExtResource("5_036b0")]
+position = Vector2(10, -77)
 
-[node name="Growl2" parent="World" instance=ExtResource("6_pkg7o")]
-position = Vector2(53, -114)
+[node name="Grunt2" parent="." instance=ExtResource("5_036b0")]
+position = Vector2(54, -19)
+
+[node name="Grunt3" parent="." instance=ExtResource("5_036b0")]
+position = Vector2(-59, 67)

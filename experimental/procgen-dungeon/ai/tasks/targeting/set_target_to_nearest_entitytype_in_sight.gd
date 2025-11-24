@@ -6,7 +6,7 @@ extends BTAction
 var nav_agent: NavigationAgent2D
 
 func _generate_name() -> String:
-	return "Set pathfind target to nearest [%s] in sight area" % target_class
+	return "Set target_entity to nearest [%s] in sight area" % target_class
 
 func _enter() -> void:
 	nav_agent = agent.get_node("NavigationAgent2D")
@@ -40,8 +40,7 @@ func _tick(_delta: float) -> Status:
 			nearest_body = body
 
 	if nearest_body:
-		blackboard.set_var("target_body", nearest_body)
-		nav_agent.target_position = nearest_body.global_position
+		blackboard.set_var("target_entity", nearest_body)
 		return SUCCESS
 	
 	return FAILURE

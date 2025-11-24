@@ -1,10 +1,10 @@
 [gd_resource type="BehaviorTree" load_steps=23 format=3 uid="uid://dypyatoxtwy56"]
 
 [ext_resource type="Script" uid="uid://h53iiayls1yi" path="res://ai/tasks/is_entitytype_in_sight.gd" id="1_7mmsr"]
+[ext_resource type="Script" uid="uid://dtrtnnaq0t3n5" path="res://ai/tasks/health/die.gd" id="2_r15xx"]
 [ext_resource type="Script" uid="uid://jw2qpaclk80c" path="res://ai/tasks/play_sound.gd" id="2_s2oi7"]
 [ext_resource type="Script" uid="uid://cc5an3lja55fm" path="res://ai/tasks/spawning/summon_fruit_random_force.gd" id="3_r15xx"]
 [ext_resource type="AudioStream" uid="uid://7u6i57tob3xe" path="res://assets/sounds/fruit_plant/tree_create.mp3" id="3_unv85"]
-[ext_resource type="Script" uid="uid://dtrtnnaq0t3n5" path="res://ai/tasks/die.gd" id="3_w5dmg"]
 
 [sub_resource type="BlackboardPlan" id="BlackboardPlan_8kpok"]
 
@@ -13,7 +13,7 @@ script = ExtResource("1_7mmsr")
 target_class = "FruitPlant"
 
 [sub_resource type="BTAction" id="BTAction_r15xx"]
-script = ExtResource("3_w5dmg")
+script = ExtResource("2_r15xx")
 
 [sub_resource type="BTProbability" id="BTProbability_s2oi7"]
 run_chance = 0.25
@@ -28,11 +28,10 @@ children = [SubResource("BTSequence_l50bx")]
 
 [sub_resource type="BTRandomWait" id="BTRandomWait_r15xx"]
 min_duration = 0.0
-max_duration = 0.1
+max_duration = 4.0
 
 [sub_resource type="BTAction" id="BTAction_q5g1f"]
-_enabled = false
-script = ExtResource("3_w5dmg")
+script = ExtResource("2_r15xx")
 
 [sub_resource type="BTProbability" id="BTProbability_eqxgy"]
 run_chance = 0.01
@@ -57,7 +56,7 @@ children = [SubResource("BTProbability_eqxgy"), SubResource("BTSequence_r15xx")]
 children = [SubResource("BTRandomWait_r15xx"), SubResource("BTSelector_s2oi7")]
 
 [sub_resource type="BTCooldown" id="BTCooldown_spoqv"]
-duration = 0.2
+duration = 5.0
 start_cooled = true
 children = [SubResource("BTSequence_s2oi7")]
 
