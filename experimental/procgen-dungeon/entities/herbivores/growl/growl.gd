@@ -1,18 +1,24 @@
-class_name Grunt
+class_name Growl
 extends Creature
 
 # grunt exclusive things go here, but it's the simplest enemy type so probably not
 @onready var sight_area: Area2D = $Areas/Sight
+@onready var aggravation: Area2D = $Areas/Aggravation
 @onready var hurt_animation: AnimationPlayer = $Animations/HurtAnimation
 var hurt_sound: AudioStream = preload("res://assets/sounds/grunt/grunt_hurt.mp3")
 
 var nearby_bodies: Array[Node2D] = []
 
 func _ready() -> void:
+	bt_player.blackboard.set_var("aggravation", aggravation)
 	if sight_area:
 		sight_area.collision_mask = (1 << 2) | (1 << 4) # creatures and fruit
 		sight_area.body_entered.connect(_on_enter_sight_area)
 		sight_area.body_exited.connect(_on_exit_sight_area)
+		
+	aggravation.collision_layer = 1 << 2
+	aggravation.collision_mask = 1 << 2
+		
 	super._ready()
 	
 func _physics_process(delta: float) -> void:
@@ -23,7 +29,7 @@ func _physics_process(delta: float) -> void:
 func take_damage(amount: int, attacker: Node2D):
 	super.take_damage(amount, attacker)
 	hurt_animation.play("hurt")
-	AudioManager.play_at_position(hurt_sound, position)
+	#AudioManager.play_at_position(hurt_sound, position)
 	
 
 # for organizing nearby nodes

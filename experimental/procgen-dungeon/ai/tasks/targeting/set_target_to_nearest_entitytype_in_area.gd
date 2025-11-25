@@ -20,35 +20,32 @@ func _enter() -> void:
 func _tick(_delta: float) -> Status:
 	assert(area, "Area must be set")
 	
-	var aggression_area: Area2D = blackboard.get_var(area)
-	if not aggression_area:
+	var target_area: Area2D = blackboard.get_var(area)
+	if not target_area:
 		return FAILURE
 
 	var valid_entities: Array = []
-
-	for body in aggression_area.get_overlapping_bodies():
-		if not is_instance_valid(body):
+	
+	for body in target_area.get_overlapping_bodies():
+		if not is_instance_valid(body) or body == agent:
 			continue
-		if target_entity_type and body.entity_type:
-			if target_entity_type == body.get("entity_type") and body != agent:
+		if target_entity_type and body.stats.entity_type:
+			if target_entity_type == body.stats.get("entity_type") and body != agent:
 				valid_entities.append(body)
-		elif target_entity_class and body.get("entity_class") and body != agent:
-			if target_entity_class == body.entity_class:
+		elif target_entity_class and body.stats.get("entity_class") and body != agent:
+			if target_entity_class == body.stats.entity_class:
 				valid_entities.append(body)
 		
 	var closest_distance := 9999999.0
 	var nearest_entity: Node2D = null
 	for entity in valid_entities:
-		
 		var dist: float = agent.global_position.distance_to(entity.global_position)
 		if dist < closest_distance:
 			closest_distance = dist
 			nearest_entity = entity
 			
-
 	if nearest_entity:
 		blackboard.set_var("target_entity", nearest_entity)
-
 		return SUCCESS
 	
 	return FAILURE

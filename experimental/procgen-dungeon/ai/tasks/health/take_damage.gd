@@ -11,5 +11,5 @@ func _generate_name() -> String:
 
 func _tick(_delta: float) -> Status:
 	if damage and agent is Creature:
-		EventBus.apply_damage.emit(agent, damage, null)
+		EventBus.try_change_creature_health.emit(agent, -damage, null)
 	return SUCCESS

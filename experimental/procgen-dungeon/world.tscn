@@ -1,10 +1,11 @@
-[gd_scene load_steps=55 format=3 uid="uid://pqp2ku3r68hb"]
+[gd_scene load_steps=56 format=3 uid="uid://pqp2ku3r68hb"]
 
 [ext_resource type="Script" uid="uid://wojinhjolg8h" path="res://core/world_manager.gd" id="1_f3sb7"]
 [ext_resource type="Texture2D" uid="uid://dj0mcwh3yn3lf" path="res://assets/sprites/tilesets/16x16_tiles_debug_correct.png" id="2_tlwt5"]
 [ext_resource type="Script" uid="uid://vysodgmiux3v" path="res://debug.gd" id="3_tlwt5"]
 [ext_resource type="PackedScene" uid="uid://bt8g3fryrf86u" path="res://entities/herbivores/grunt/grunt.tscn" id="5_036b0"]
 [ext_resource type="PackedScene" uid="uid://x52dpnyk785c" path="res://entities/plants/fruit_plant/fruit_plant.tscn" id="6_dwbse"]
+[ext_resource type="PackedScene" uid="uid://bat3bnxti4mlw" path="res://entities/herbivores/growl/growl.tscn" id="6_pkg7o"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_tlwt5"]
 vertices = PackedVector2Array(1.140625, 8, -1.140625, 8, -1.140625, -1.140625, 1.140625, -1.140625)
@@ -1090,7 +1091,28 @@ position = Vector2(-95, -29)
 position = Vector2(10, -77)
 
 [node name="Grunt2" parent="." instance=ExtResource("5_036b0")]
-position = Vector2(54, -19)
+position = Vector2(245, -209)
 
 [node name="Grunt3" parent="." instance=ExtResource("5_036b0")]
 position = Vector2(-59, 67)
+
+[node name="Growl" parent="." instance=ExtResource("6_pkg7o")]
+position = Vector2(293, -214)
+
+[node name="Grunt4" parent="." instance=ExtResource("5_036b0")]
+position = Vector2(-19, 14)
+
+[node name="Grunt5" parent="." instance=ExtResource("5_036b0")]
+position = Vector2(-176, -97)
+
+[node name="Grunt6" parent="." instance=ExtResource("5_036b0")]
+position = Vector2(-124, 11)
+
+[node name="Grunt7" parent="." instance=ExtResource("5_036b0")]
+position = Vector2(-96, -121)
+
+[node name="Growl2" parent="." instance=ExtResource("6_pkg7o")]
+position = Vector2(104, -172)
+
+[node name="Growl3" parent="." instance=ExtResource("6_pkg7o")]
+position = Vector2(-47, -210)

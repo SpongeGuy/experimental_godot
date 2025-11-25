@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="CreatureStats" load_steps=2 format=3 uid="uid://bkls50yi14jlt"]
+
+[ext_resource type="Script" uid="uid://b51snbs5v4dol" path="res://entities/creature_stats.gd" id="1_ejc7v"]
+
+[resource]
+script = ExtResource("1_ejc7v")
+entity_type = "Growl"
+metadata/_custom_type_script = "uid://b51snbs5v4dol"

@@ -1,10 +1,11 @@
-[gd_scene load_steps=20 format=3 uid="uid://bt8g3fryrf86u"]
+[gd_scene load_steps=26 format=3 uid="uid://bat3bnxti4mlw"]
 
-[ext_resource type="Script" uid="uid://7v0f06txffw3" path="res://entities/herbivores/grunt/grunt.gd" id="1_elef4"]
-[ext_resource type="BehaviorTree" uid="uid://7sa2dhcn0k84" path="res://ai/trees/grunt/grunt.tres" id="2_16ug5"]
-[ext_resource type="Resource" uid="uid://0cmgrkq34v8p" path="res://entities/herbivores/grunt/grunt_stats.tres" id="2_41b5i"]
-[ext_resource type="Texture2D" uid="uid://cmvmeul0haba4" path="res://assets/sprites/debug/debug_man.png" id="2_47y2e"]
-[ext_resource type="Script" uid="uid://uedw02l07pvv" path="res://entities/hitbox.gd" id="4_41b5i"]
+[ext_resource type="Script" uid="uid://cetoi5weg461o" path="res://entities/herbivores/growl/growl.gd" id="1_v5wa1"]
+[ext_resource type="BehaviorTree" uid="uid://qovuyc6ynb2h" path="res://ai/trees/growl.tres" id="2_4lo47"]
+[ext_resource type="Resource" uid="uid://bkls50yi14jlt" path="res://entities/herbivores/growl/growl_stats.tres" id="2_wxk87"]
+[ext_resource type="Texture2D" uid="uid://7u12xfc4dmda" path="res://assets/sprites/debug/growl.png" id="3_4lo47"]
+[ext_resource type="Script" uid="uid://uedw02l07pvv" path="res://entities/hitbox.gd" id="4_wxk87"]
+[ext_resource type="Script" uid="uid://dxkak4by7qlk" path="res://entities/hurtbox.gd" id="5_jvkfj"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_16ug5"]
 radius = 4.0
@@ -128,10 +129,10 @@ tracks/0/path = NodePath("Graphical/Sprite2D:frame_coords")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1),
-"transitions": PackedFloat32Array(1, 1),
+"times": PackedFloat32Array(0, 0.033333335, 0.06666667, 0.10000001, 0.13333334, 0.16666667),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 1,
-"values": [Vector2i(0, 0), Vector2i(1, 0)]
+"values": [Vector2i(0, 0), Vector2i(1, 0), Vector2i(2, 0), Vector2i(3, 0), Vector2i(4, 0), Vector2i(5, 0)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_qt6jo"]
@@ -141,21 +142,88 @@ _data = {
 &"walk": SubResource("Animation_u6l8j")
 }
 
+[sub_resource type="Animation" id="Animation_wxk87"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../Areas/Hurtbox/CollisionShape2D:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../Graphical/Sprite2D:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_v5wa1"]
+resource_name = "attack"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../Areas/Hurtbox/CollisionShape2D:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.02),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../Graphical/Sprite2D:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1.5, 1.5), Vector2(1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_jvkfj"]
+_data = {
+&"RESET": SubResource("Animation_wxk87"),
+&"attack": SubResource("Animation_v5wa1")
+}
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_kxb8y"]
 radius = 102.0049
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_s8cp5"]
 size = Vector2(14, 16)
 
-[node name="Grunt" type="CharacterBody2D"]
-script = ExtResource("1_elef4")
-stat_sheet = ExtResource("2_41b5i")
+[sub_resource type="CircleShape2D" id="CircleShape2D_v5wa1"]
+radius = 18.027756
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_wxk87"]
+radius = 24.020824
+
+[node name="Growl" type="CharacterBody2D"]
+script = ExtResource("1_v5wa1")
+stat_sheet = ExtResource("2_wxk87")
 
 [node name="PhysicsBox" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_16ug5")
 
 [node name="BTPlayer" type="BTPlayer" parent="."]
-behavior_tree = ExtResource("2_16ug5")
+behavior_tree = ExtResource("2_4lo47")
 blackboard_plan = SubResource("BlackboardPlan_16ug5")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
@@ -180,28 +248,46 @@ libraries = {
 &"": SubResource("AnimationLibrary_qt6jo")
 }
 
+[node name="AttackAnimation" type="AnimationPlayer" parent="Animations"]
+libraries = {
+&"": SubResource("AnimationLibrary_jvkfj")
+}
+
 [node name="Areas" type="Node2D" parent="."]
 
 [node name="Sight" type="Area2D" parent="Areas"]
-visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Areas/Sight"]
 shape = SubResource("CircleShape2D_kxb8y")
 
 [node name="Hitbox" type="Area2D" parent="Areas" node_paths=PackedStringArray("master")]
-modulate = Color(0.6368417, 0, 0.24741349, 1)
+modulate = Color(0, 0.39347357, 0.37855056, 1)
 position = Vector2(0, -2)
-script = ExtResource("4_41b5i")
+script = ExtResource("4_wxk87")
 master = NodePath("../..")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Areas/Hitbox"]
 shape = SubResource("RectangleShape2D_s8cp5")
+
+[node name="Hurtbox" type="Area2D" parent="Areas" node_paths=PackedStringArray("master")]
+modulate = Color(0.6368417, 0, 0.24741349, 1)
+script = ExtResource("5_jvkfj")
+master = NodePath("../..")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Areas/Hurtbox"]
+shape = SubResource("CircleShape2D_v5wa1")
+disabled = true
+
+[node name="Aggravation" type="Area2D" parent="Areas"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Areas/Aggravation"]
+shape = SubResource("CircleShape2D_wxk87")
 
 [node name="Graphical" type="Node2D" parent="."]
 
 [node name="Sprite2D" type="Sprite2D" parent="Graphical"]
 texture_filter = 1
 position = Vector2(0, -2)
-texture = ExtResource("2_47y2e")
-hframes = 2
+texture = ExtResource("3_4lo47")
+hframes = 6
 vframes = 2
