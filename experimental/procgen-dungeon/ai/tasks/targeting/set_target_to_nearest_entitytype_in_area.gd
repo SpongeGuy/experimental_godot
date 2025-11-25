@@ -1,14 +1,45 @@
+## SetTargetNearestEntity
+##
+## This BTAction node scans a specified Area2D (retrieved from the blackboard) for overlapping
+## bodies and identifies the nearest valid entity based on configurable class or type filters.
+## Valid entities are those that match (or do not match, if blacklisted) the provided entity
+## classes or types, excluding the agent itself and invalid instances.
+##
+## The action sets the blackboard variable "target_entity" to the nearest matching entity if
+## one is found, returning SUCCESS. If no valid entity is found, it returns FAILURE.
+##
+## Key Features:
+## - Supports filtering by entity class (e.g., ["Creature"]) or entity type (e.g., ["Enemy", "Ally"]).
+## - Blacklist mode inverts the filter: entities are included if they do NOT match the provided classes/types.
+## - Only one filter mode (class or type) is applied per body; type filter takes precedence if both are set.
+## - Entities must have a "stats" node with "entity_class" or "entity_type" properties for filtering.
+## - Distance is calculated using global positions.
+## - Requires a valid Area2D blackboard variable specified in the 'area' export.
+## - Retrieves a NavigationAgent2D from the agent in _enter(), though it is not used in the current implementation (potential for future pathfinding integration).
+##
+## Usage in Behavior Tree:
+## - Use this action when the AI needs to dynamically select a target, such as the closest enemy or ally within a detection radius.
+## - Ensure the blackboard has the Area2D set under the key specified in 'area'.
+## - If multiple matching entities exist, only the nearest one is selected.
+##
+## Potential Improvements:
+## - Avoid duplicate appendages in valid_entities by using a Set or checking for existence.
+## - Integrate NavigationAgent2D for pathable distance checks instead of straight-line distance.
+## - Handle cases where both class and type filters are set (currently, type overrides class via elif).
+## - Add export for max distance threshold to limit target selection.
+
 @tool
 extends BTAction
 
-@export var target_entity_class: String = "Creature"
-@export var target_entity_type: String = ""
+@export var blacklist: bool = false
+@export var target_entity_class: Array[String] = ["Creature"]
+@export var target_entity_type: Array[String] = []
 @export var area: StringName # this has to be a blackboard variable!!!
 
 var nav_agent: NavigationAgent2D
 
 func _generate_name() -> String:
-	return "Set target_entity to nearest [%s] [%s] in area %s" % [
+	return "Set target_entity to nearest %s %s in area %s" % [
 		target_entity_class,
 		target_entity_type,
 		area,
@@ -30,11 +61,21 @@ func _tick(_delta: float) -> Status:
 		if not is_instance_valid(body) or body == agent:
 			continue
 		if target_entity_type and body.stats.entity_type:
-			if target_entity_type == body.stats.get("entity_type") and body != agent:
-				valid_entities.append(body)
+			for etype in target_entity_type:
+				if not blacklist:
+					if etype == body.stats.get("entity_type") and body != agent:
+						valid_entities.append(body)
+				if blacklist:
+					if etype != body.stats.get("entity_type") and body != agent:
+						valid_entities.append(body)
 		elif target_entity_class and body.stats.get("entity_class") and body != agent:
-			if target_entity_class == body.stats.entity_class:
-				valid_entities.append(body)
+			for eclass in target_entity_class:
+				if not blacklist:
+					if eclass == body.stats.entity_class:
+						valid_entities.append(body)
+				if blacklist:
+					if eclass != body.stats.entity_class:
+						valid_entities.append(body)
 		
 	var closest_distance := 9999999.0
 	var nearest_entity: Node2D = null

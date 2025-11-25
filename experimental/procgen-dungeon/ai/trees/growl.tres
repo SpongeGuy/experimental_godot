@@ -1,4 +1,4 @@
-[gd_resource type="BehaviorTree" load_steps=96 format=3 uid="uid://qovuyc6ynb2h"]
+[gd_resource type="BehaviorTree" load_steps=99 format=3 uid="uid://qovuyc6ynb2h"]
 
 [ext_resource type="Script" uid="uid://bn426ivu3ywl0" path="res://ai/tasks/targeting/set_target_to_nearest_entitytype_in_area.gd" id="1_m1u48"]
 [ext_resource type="Script" uid="uid://jw2qpaclk80c" path="res://ai/tasks/play_sound.gd" id="2_m1u48"]
@@ -11,6 +11,7 @@
 [ext_resource type="AudioStream" uid="uid://di1sbylhimh3y" path="res://assets/sounds/grunt/grunt_hungry.mp3" id="8_3i16v"]
 [ext_resource type="Script" uid="uid://cgicdjlkja61" path="res://ai/tasks/movement/pathfind_and_move.gd" id="10_m1u48"]
 [ext_resource type="Script" uid="uid://vy7v57abpwsp" path="res://ai/tasks/choose_random_pos.gd" id="11_ajmql"]
+[ext_resource type="AudioStream" uid="uid://b2qjx8dges5n" path="res://assets/sounds/growl/walk_cycle.mp3" id="12_m1u48"]
 
 [sub_resource type="BlackboardPlan" id="BlackboardPlan_ihcj0"]
 var/taken_damage_this_frame/name = &"taken_damage_this_frame"
@@ -68,6 +69,7 @@ children = [SubResource("BTAlwaysSucceed_h7m1t")]
 
 [sub_resource type="BTAction" id="BTAction_ngmj3"]
 script = ExtResource("1_m1u48")
+target_entity_type = Array[String](["Grunt"])
 area = &"aggravation"
 
 [sub_resource type="BTAction" id="BTAction_s5x5c"]
@@ -307,15 +309,23 @@ children = [SubResource("BTSequence_thmw6"), SubResource("BTSequence_kosrh")]
 
 [sub_resource type="BTAction" id="BTAction_jwj43"]
 script = ExtResource("10_m1u48")
-tolerance = 0.5
+tolerance = 2.0
 
 [sub_resource type="BTTimeLimit" id="BTTimeLimit_l4anq"]
 time_limit = 2.5
 children = [SubResource("BTAction_jwj43")]
 
+[sub_resource type="BTAction" id="BTAction_tcm3l"]
+script = ExtResource("2_m1u48")
+sound = ExtResource("12_m1u48")
+
+[sub_resource type="BTCooldown" id="BTCooldown_s5x5c"]
+duration = 0.7
+children = [SubResource("BTAction_tcm3l")]
+
 [sub_resource type="BTSequence" id="BTSequence_0iyhc"]
 custom_name = "Pathfind and move"
-children = [SubResource("BTTimeLimit_l4anq")]
+children = [SubResource("BTTimeLimit_l4anq"), SubResource("BTCooldown_s5x5c")]
 
 [sub_resource type="BTSequence" id="BTSequence_jwj43"]
 custom_name = "Wander"
