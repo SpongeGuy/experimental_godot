@@ -6,12 +6,12 @@
 [ext_resource type="Script" uid="uid://vxa0kxnsbcss" path="res://ai/tasks/targeting/is_target_in_radius.gd" id="4_t3fvu"]
 [ext_resource type="Script" uid="uid://d38ke8qdnl1eh" path="res://ai/tasks/hunger/eat_fruit.gd" id="5_3s7d5"]
 [ext_resource type="AudioStream" uid="uid://b2alk1whurrwv" path="res://assets/sounds/grunt/grunt_bite.mp3" id="6_27p1r"]
-[ext_resource type="Script" uid="uid://b5yoakfl32cml" path="res://ai/tasks/targeting/set_target_to_nearest_entitytype_in_sight.gd" id="7_p5dae"]
 [ext_resource type="Script" uid="uid://dij57qyw0s13g" path="res://ai/tasks/movement/set_pathfind_target_to_blackboard_target_entity.gd" id="8_c5ent"]
 [ext_resource type="AudioStream" uid="uid://di1sbylhimh3y" path="res://assets/sounds/grunt/grunt_hungry.mp3" id="8_qnfrp"]
 [ext_resource type="Script" uid="uid://cgicdjlkja61" path="res://ai/tasks/movement/pathfind_and_move.gd" id="9_jwrcf"]
 [ext_resource type="AudioStream" uid="uid://brqsnr3iryhfr" path="res://assets/sounds/grunt/grunt1.mp3" id="10_d84gv"]
 [ext_resource type="Script" uid="uid://vy7v57abpwsp" path="res://ai/tasks/choose_random_pos.gd" id="11_b4hvv"]
+[ext_resource type="Script" uid="uid://bn426ivu3ywl0" path="res://ai/tasks/targeting/set_target_to_nearest_entitytype_in_area.gd" id="11_tlc2v"]
 
 [sub_resource type="BlackboardPlan" id="BlackboardPlan_ihcj0"]
 
@@ -182,9 +182,10 @@ resource_name = "true"
 variable = &"is_hungry"
 value = SubResource("BBVariant_agbi4")
 
-[sub_resource type="BTAction" id="BTAction_alme7"]
-script = ExtResource("7_p5dae")
-target_class = "Fruit"
+[sub_resource type="BTAction" id="BTAction_t3fvu"]
+script = ExtResource("11_tlc2v")
+target_entity_class = Array[String](["Fruit"])
+area = &"detection"
 
 [sub_resource type="BTAction" id="BTAction_tlc2v"]
 script = ExtResource("8_c5ent")
@@ -214,7 +215,7 @@ children = [SubResource("BTTimeLimit_lbuxp")]
 
 [sub_resource type="BTSequence" id="BTSequence_alme7"]
 custom_name = "If hungry, move towards fruit"
-children = [SubResource("BTCheckVar_bxkr4"), SubResource("BTAction_alme7"), SubResource("BTAction_tlc2v"), SubResource("BTAlwaysSucceed_0iyhc"), SubResource("BTSequence_ypr8g")]
+children = [SubResource("BTCheckVar_bxkr4"), SubResource("BTAction_t3fvu"), SubResource("BTAction_tlc2v"), SubResource("BTAlwaysSucceed_0iyhc"), SubResource("BTSequence_ypr8g")]
 
 [sub_resource type="BTCooldown" id="BTCooldown_ppwhi"]
 duration = 1.5

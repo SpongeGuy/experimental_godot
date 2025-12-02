@@ -182,10 +182,9 @@ libraries = {
 
 [node name="Areas" type="Node2D" parent="."]
 
-[node name="Sight" type="Area2D" parent="Areas"]
-visible = false
+[node name="Detection" type="Area2D" parent="Areas"]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Areas/Sight"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Areas/Detection"]
 shape = SubResource("CircleShape2D_kxb8y")
 
 [node name="Hitbox" type="Area2D" parent="Areas" node_paths=PackedStringArray("master")]

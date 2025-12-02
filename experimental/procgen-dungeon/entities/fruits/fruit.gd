@@ -1,6 +1,9 @@
 extends RigidBody2D
 class_name Fruit
 
+@export var stat_sheet: CreatureStats
+var stats: CreatureStats
+
 @export var satiate_amount: float = 70.0
 @export_range(0, 1) var grow_plant_chance: float = 0.35
 @export var plant_scene: PackedScene

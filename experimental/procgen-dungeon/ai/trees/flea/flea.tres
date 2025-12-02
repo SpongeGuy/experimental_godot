@@ -1,0 +1,50 @@
+[gd_resource type="BehaviorTree" load_steps=16 format=3 uid="uid://cil714tfo8o1q"]
+
+[ext_resource type="Script" uid="uid://c02sjh5irbkpm" path="res://ai/tasks/goals/set_target_position_to_random_in_range.gd" id="1_8t0de"]
+[ext_resource type="Script" uid="uid://cam1jx3eclq6n" path="res://ai/tasks/goals/set_goal_to_target_position.gd" id="2_215qt"]
+[ext_resource type="Script" uid="uid://b6cl7yuiiuy8b" path="res://ai/tasks/goals/set_nav_target_position_to_goal.gd" id="3_215qt"]
+[ext_resource type="Script" uid="uid://cgicdjlkja61" path="res://ai/tasks/movement/pathfind_and_move.gd" id="4_afj47"]
+
+[sub_resource type="BlackboardPlan" id="BlackboardPlan_mf0kg"]
+
+[sub_resource type="BTSequence" id="BTSequence_mf0kg"]
+custom_name = "Shoot pellet sequence"
+
+[sub_resource type="BTSequence" id="BTSequence_8t0de"]
+custom_name = "Hunger sequence"
+
+[sub_resource type="BTAction" id="BTAction_afj47"]
+script = ExtResource("1_8t0de")
+range_min = 50.0
+range_max = 100.0
+
+[sub_resource type="BTAction" id="BTAction_48a4r"]
+script = ExtResource("2_215qt")
+goal_type = "short"
+
+[sub_resource type="BTAction" id="BTAction_q0v1b"]
+script = ExtResource("3_215qt")
+goal_type = "short"
+
+[sub_resource type="BBNode" id="BBNode_afj47"]
+saved_value = NodePath("Animations/Move")
+resource_name = "Animations/Move"
+
+[sub_resource type="BTPlayAnimation" id="BTPlayAnimation_48a4r"]
+animation_player = SubResource("BBNode_afj47")
+animation_name = &"walk"
+
+[sub_resource type="BTAction" id="BTAction_8g32s"]
+script = ExtResource("4_afj47")
+tolerance = 5.0
+
+[sub_resource type="BTSequence" id="BTSequence_afj47"]
+custom_name = "Wander sequence"
+children = [SubResource("BTAction_afj47"), SubResource("BTAction_48a4r"), SubResource("BTAction_q0v1b"), SubResource("BTPlayAnimation_48a4r"), SubResource("BTAction_8g32s")]
+
+[sub_resource type="BTSequence" id="BTSequence_q202e"]
+children = [SubResource("BTSequence_mf0kg"), SubResource("BTSequence_8t0de"), SubResource("BTSequence_afj47")]
+
+[resource]
+blackboard_plan = SubResource("BlackboardPlan_mf0kg")
+root_task = SubResource("BTSequence_q202e")

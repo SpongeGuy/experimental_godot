@@ -9,7 +9,7 @@
 ## one is found, returning SUCCESS. If no valid entity is found, it returns FAILURE.
 ##
 ## Key Features:
-## - Supports filtering by entity class (e.g., ["Creature"]) or entity type (e.g., ["Enemy", "Ally"]).
+## - Supports filtering by entity class (e.g., ["Creature"]) or entity type (e.g., ["Grunt", "Growl"]).
 ## - Blacklist mode inverts the filter: entities are included if they do NOT match the provided classes/types.
 ## - Only one filter mode (class or type) is applied per body; type filter takes precedence if both are set.
 ## - Entities must have a "stats" node with "entity_class" or "entity_type" properties for filtering.
@@ -39,14 +39,31 @@ extends BTAction
 var nav_agent: NavigationAgent2D
 
 func _generate_name() -> String:
-	return "Set target_entity to nearest %s %s in area %s" % [
-		target_entity_class,
-		target_entity_type,
-		area,
-	]
+	if target_entity_class and target_entity_type:
+		return "Set target_entity to nearest %s %s in area [%s]" % [
+			target_entity_class,
+			target_entity_type,
+			area,
+		]
+	elif target_entity_class:
+		return "Set target_entity to nearest class %s in area [%s]" % [
+			target_entity_class,
+			area,
+		]
+	elif target_entity_type:
+		return "Set target_entity to nearest type %s in area [%s]" % [
+			target_entity_type,
+			area,
+		]
+	else:
+		return "Set target_entity to nearest %s %s in area [%s]" % [
+			target_entity_class,
+			target_entity_type,
+			area,
+		]
 
 func _enter() -> void:
-	nav_agent = agent.get_node("NavigationAgent2D")
+	nav_agent = agent.get("nav_agent")
 
 func _tick(_delta: float) -> Status:
 	assert(area, "Area must be set")
@@ -68,7 +85,7 @@ func _tick(_delta: float) -> Status:
 				if blacklist:
 					if etype != body.stats.get("entity_type") and body != agent:
 						valid_entities.append(body)
-		elif target_entity_class and body.stats.get("entity_class") and body != agent:
+		elif target_entity_class and body.get("stats") and body.stats.get("entity_class") and body != agent:
 			for eclass in target_entity_class:
 				if not blacklist:
 					if eclass == body.stats.entity_class:

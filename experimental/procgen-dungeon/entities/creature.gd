@@ -1,4 +1,3 @@
-@tool
 extends CharacterBody2D
 class_name Creature
 
@@ -22,7 +21,22 @@ var _health: int
 var _hunger: float
 var stats: CreatureStats
 var _invincibility_timer: float = 0
+var facing_direction: Vector2
 
+var nearby_bodies: Array[Node2D] = []
+
+## Defines location goals (Vector2) for entities to pathfind towards.
+## There are two types: long and short. Long should be used for long-term goals in case a creature wants to
+## travel to a specific location over a long period of time. Short should be used for immediate actions like
+## collecting an item or fruit.
+var goals: Dictionary = {
+	"long": null,
+	"short": null,
+}
+
+var hitbox: Area2D
+var hurtbox: Area2D
+var detection: Area2D
 
 
 # use this velocity for pathfinding, all velocities will be added 
@@ -80,19 +94,56 @@ func _ready_statistics() -> void:
 		print(self.name, " ", UUIDGenerator.v4())
 		var uuid: String = UUIDGenerator.v4()
 		stats.uuid = uuid
+		
+func _ready_required_areas() -> void:
+	if not $Areas/Hitbox:
+		hitbox = Area2D.new()
+		var shape = CollisionShape2D.new()
+		shape.shape = RectangleShape2D.new()
+		shape.shape.size = Vector2.ZERO
+		hitbox.monitoring = false
+		hitbox.monitorable = false
+		hitbox.name = "Hitbox"
+		hitbox.add_child(shape)
+		$Areas.add_child(hitbox)
+	hitbox = $Areas/Hitbox
+	hitbox.collision_layer = 1 << 5 # this is a hitbox
+	hitbox.collision_mask = 1 << 6 # look for hurtboxes
+		
+	if not $Areas/Hurtbox:
+		hurtbox = Area2D.new()
+		var shape = CollisionShape2D.new()
+		shape.shape = RectangleShape2D.new()
+		shape.shape.size = Vector2.ZERO
+		hurtbox.monitoring = false
+		hurtbox.monitorable = false
+		hurtbox.name = "Hurtbox"
+		hurtbox.add_child(shape)
+		$Areas.add_child(hurtbox)
+	hurtbox = $Areas/Hurtbox
+	hurtbox.collision_layer = 1 << 6 # this is a hurtbox
+	hurtbox.collision_mask = 1 << 5 # look for hitboxes (probably unnecessary)
+	
+	if not $Areas/Detection:
+		detection = Area2D.new()
+		var shape = CollisionShape2D.new()
+		shape.shape = CircleShape2D.new()
+		shape.shape.radius = 0
+		detection.monitoring = false
+		detection.monitorable = false
+		detection.name = "Detection"
+		detection.add_child(shape)
+		$Areas.add_child(detection)
+	detection = $Areas/Detection
+	detection.collision_mask = (1 << 2) | (1 << 4) # look for creatures and fruit
+	detection.body_entered.connect(_on_enter_detection)
+	detection.body_exited.connect(_on_exit_detection)
+	bt_player.blackboard.set_var("detection", detection)
 
 func _ready() -> void:
 	_ready_statistics()
+	_ready_required_areas()
 	
-	if $Areas/Hitbox:
-		var box: Area2D = $Areas/Hitbox
-		box.collision_layer = 1 << 5
-		box.collision_mask = 1 << 6
-		
-	if $Areas/Hurtbox:
-		var box: Area2D = $Areas/Hurtbox
-		box.collision_layer = 1 << 6
-		box.collision_mask = 1 << 5
 	
 	# register name
 	EntityRegister.add_entity_type_to_register(stats.entity_class, stats.entity_type)
@@ -189,3 +240,10 @@ func give_hunger(amount: float):
 	_hunger += amount
 	EventBus.creature_got_hunger.emit(self, amount)
 	
+# for organizing nearby nodes
+func _on_enter_detection(body: Node2D) -> void:
+	if body != self:
+		nearby_bodies.append(body)
+	
+func _on_exit_detection(body: Node2D) -> void:
+	nearby_bodies.erase(body)

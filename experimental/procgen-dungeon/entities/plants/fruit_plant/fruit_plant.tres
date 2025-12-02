@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="CreatureStats" load_steps=2 format=3 uid="uid://cjmxeruck41q2"]
+
+[ext_resource type="Script" uid="uid://b51snbs5v4dol" path="res://entities/creature_stats.gd" id="1_2e0rb"]
+
+[resource]
+script = ExtResource("1_2e0rb")
+entity_class = "FruitPlant"
+entity_type = "Tree"
+entity_faction = 2
+hunger_rate = 0.0
+base_speed = 0.0
+metadata/_custom_type_script = "uid://b51snbs5v4dol"

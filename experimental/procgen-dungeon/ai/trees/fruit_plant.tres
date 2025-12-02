@@ -1,6 +1,6 @@
 [gd_resource type="BehaviorTree" load_steps=23 format=3 uid="uid://dypyatoxtwy56"]
 
-[ext_resource type="Script" uid="uid://h53iiayls1yi" path="res://ai/tasks/is_entitytype_in_sight.gd" id="1_7mmsr"]
+[ext_resource type="Script" uid="uid://bn426ivu3ywl0" path="res://ai/tasks/targeting/set_target_to_nearest_entitytype_in_area.gd" id="1_r15xx"]
 [ext_resource type="Script" uid="uid://dtrtnnaq0t3n5" path="res://ai/tasks/health/die.gd" id="2_r15xx"]
 [ext_resource type="Script" uid="uid://jw2qpaclk80c" path="res://ai/tasks/play_sound.gd" id="2_s2oi7"]
 [ext_resource type="Script" uid="uid://cc5an3lja55fm" path="res://ai/tasks/spawning/summon_fruit_random_force.gd" id="3_r15xx"]
@@ -8,9 +8,10 @@
 
 [sub_resource type="BlackboardPlan" id="BlackboardPlan_8kpok"]
 
-[sub_resource type="BTCondition" id="BTCondition_mprp4"]
-script = ExtResource("1_7mmsr")
-target_class = "FruitPlant"
+[sub_resource type="BTAction" id="BTAction_unv85"]
+script = ExtResource("1_r15xx")
+target_entity_class = Array[String](["FruitPlant"])
+area = &"sight_area"
 
 [sub_resource type="BTAction" id="BTAction_r15xx"]
 script = ExtResource("2_r15xx")
@@ -20,7 +21,7 @@ run_chance = 0.25
 children = [SubResource("BTAction_r15xx")]
 
 [sub_resource type="BTSequence" id="BTSequence_l50bx"]
-children = [SubResource("BTCondition_mprp4"), SubResource("BTProbability_s2oi7")]
+children = [SubResource("BTAction_unv85"), SubResource("BTProbability_s2oi7")]
 
 [sub_resource type="BTCooldown" id="BTCooldown_unv85"]
 duration = 3.0

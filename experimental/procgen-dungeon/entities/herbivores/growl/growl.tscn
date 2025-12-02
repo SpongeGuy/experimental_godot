@@ -1,7 +1,7 @@
 [gd_scene load_steps=26 format=3 uid="uid://bat3bnxti4mlw"]
 
 [ext_resource type="Script" uid="uid://cetoi5weg461o" path="res://entities/herbivores/growl/growl.gd" id="1_v5wa1"]
-[ext_resource type="BehaviorTree" uid="uid://qovuyc6ynb2h" path="res://ai/trees/growl.tres" id="2_4lo47"]
+[ext_resource type="BehaviorTree" uid="uid://qovuyc6ynb2h" path="res://ai/trees/growl/growl.tres" id="2_4lo47"]
 [ext_resource type="Resource" uid="uid://bkls50yi14jlt" path="res://entities/herbivores/growl/growl_stats.tres" id="2_wxk87"]
 [ext_resource type="Texture2D" uid="uid://7u12xfc4dmda" path="res://assets/sprites/debug/growl.png" id="3_4lo47"]
 [ext_resource type="Script" uid="uid://uedw02l07pvv" path="res://entities/hitbox.gd" id="4_wxk87"]
@@ -255,9 +255,9 @@ libraries = {
 
 [node name="Areas" type="Node2D" parent="."]
 
-[node name="Sight" type="Area2D" parent="Areas"]
+[node name="Detection" type="Area2D" parent="Areas"]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Areas/Sight"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Areas/Detection"]
 shape = SubResource("CircleShape2D_kxb8y")
 
 [node name="Hitbox" type="Area2D" parent="Areas" node_paths=PackedStringArray("master")]

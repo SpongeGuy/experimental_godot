@@ -32,10 +32,14 @@ func _handle_debug_key(_keycode: int, action: String) -> void:
 			world_manager.set_cell(cell_position, cell)
 
 func _process(delta: float) -> void:
+	_debug_camera(delta)
+	pass
+		
+func _debug_camera(delta: float) -> void:
 	var camera_movement: Vector2 = Input.get_vector("move_west", "move_east", "move_north", "move_south")
 	if camera_movement.length() >= 0.1 and debug_camera:
 		debug_camera.position += camera_movement * delta * 250
-		
+
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventKey and event.is_pressed() and not event.is_echo():

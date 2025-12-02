@@ -8,7 +8,8 @@ class_name CreatureStats extends Resource
 
 enum CreatureFactions {
 	Herbivore,
-	Carnivore
+	Carnivore,
+	Plant
 }
 
 @export_category("Stats")

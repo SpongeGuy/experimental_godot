@@ -1,6 +1,8 @@
 extends CharacterBody2D
 class_name FruitPlant
 
+@export var stat_sheet: CreatureStats
+var stats: CreatureStats
 
 @onready var sight_area: Area2D = $SightArea
 
@@ -8,7 +10,11 @@ class_name FruitPlant
 
 var nearby_bodies: Array[Node2D] = []
 
-func _ready() -> void:	
+func _ready() -> void:
+	stats = stat_sheet.duplicate()
+	assert(stats)
+	
+	bt_player.blackboard.set_var("sight_area", sight_area)
 	collision_layer = 1 << 4 # layer 5 = fruit
 	
 	if sight_area:
