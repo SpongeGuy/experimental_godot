@@ -1,0 +1,66 @@
+[gd_scene load_steps=12 format=3 uid="uid://vqvqkui4uebx"]
+
+[ext_resource type="Script" uid="uid://82argt110wx4" path="res://entities/items/fruits/greeg.gd" id="1_vu2lr"]
+[ext_resource type="Resource" uid="uid://c0wfng2c1wvp3" path="res://entities/items/fruits/fruit_stats.tres" id="2_ohfuk"]
+[ext_resource type="PackedScene" uid="uid://x52dpnyk785c" path="res://entities/plants/fruit_plant/fruit_plant.tscn" id="3_eg73v"]
+[ext_resource type="Texture2D" uid="uid://5hgw7dvmqh5v" path="res://assets/sprites/debug/fruit.png" id="4_emogs"]
+[ext_resource type="Script" uid="uid://uedw02l07pvv" path="res://entities/hitbox.gd" id="5_1tnxk"]
+[ext_resource type="Script" uid="uid://dxkak4by7qlk" path="res://entities/hurtbox.gd" id="6_k6joc"]
+[ext_resource type="Script" uid="uid://cqo4fg81476qm" path="res://entities/detection.gd" id="7_03opp"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6kqrw"]
+size = Vector2(6, 1)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_2mw2t"]
+radius = 7.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_3lrdi"]
+radius = 7.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_m2xfn"]
+radius = 20.0
+
+[node name="Fruit" type="RigidBody2D" node_paths=PackedStringArray("physics_box", "hitbox", "hurtbox", "detection")]
+gravity_scale = 0.0
+can_sleep = false
+lock_rotation = true
+script = ExtResource("1_vu2lr")
+stat_sheet = ExtResource("2_ohfuk")
+satiate_amount = 100.0
+grow_plant_chance = 0.5
+plant_scene = ExtResource("3_eg73v")
+physics_box = NodePath("PhysicsBox")
+hitbox = NodePath("Hitbox")
+hurtbox = NodePath("Hurtbox")
+detection = NodePath("Detection")
+
+[node name="PhysicsBox" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_6kqrw")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("4_emogs")
+
+[node name="Hitbox" type="Area2D" parent="." node_paths=PackedStringArray("master")]
+script = ExtResource("5_1tnxk")
+master = NodePath("..")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+shape = SubResource("CircleShape2D_2mw2t")
+
+[node name="Hurtbox" type="Area2D" parent="." node_paths=PackedStringArray("master")]
+modulate = Color(0.5451468, 0.06195073, 0.62587184, 1)
+monitoring = false
+monitorable = false
+script = ExtResource("6_k6joc")
+master = NodePath("..")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+shape = SubResource("CircleShape2D_3lrdi")
+
+[node name="Detection" type="Area2D" parent="." node_paths=PackedStringArray("master")]
+script = ExtResource("7_03opp")
+master = NodePath("..")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Detection"]
+shape = SubResource("CircleShape2D_m2xfn")

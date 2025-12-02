@@ -17,7 +17,7 @@ func _tick(_delta: float) -> Status:
 	if agent.accept_player_input:
 		var player_intended_velocity: Vector2 = Input.get_vector("move_west", "move_east", "move_north", "move_south").normalized() * agent.stats.base_speed
 		agent.nav_velocity = player_intended_velocity
-		agent.move()
+		agent.move(_delta)
 	else:
 		var target_pos = nav_agent.get_next_path_position()
 		if nav_agent.get_final_position().distance_to(agent.global_position) < tolerance:
@@ -28,7 +28,7 @@ func _tick(_delta: float) -> Status:
 		var desired_velocity: Vector2 = dir.normalized() * agent.stats.base_speed
 		
 		agent.nav_velocity = desired_velocity
-		agent.move()
+		agent.move(_delta)
 	return RUNNING
 	
 	

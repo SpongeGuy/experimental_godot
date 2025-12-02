@@ -1,4 +1,4 @@
-extends CharacterBody2D
+extends Entity
 class_name Creature
 
 # ------------------------------------------------------------------------
@@ -21,22 +21,17 @@ var _health: int
 var _hunger: float
 var stats: CreatureStats
 var _invincibility_timer: float = 0
-var facing_direction: Vector2
 
-var nearby_bodies: Array[Node2D] = []
+
 
 ## Defines location goals (Vector2) for entities to pathfind towards.
 ## There are two types: long and short. Long should be used for long-term goals in case a creature wants to
 ## travel to a specific location over a long period of time. Short should be used for immediate actions like
 ## collecting an item or fruit.
-var goals: Dictionary = {
-	"long": null,
-	"short": null,
+var goals: Dictionary[String, Vector2] = {
+	"long": Vector2.INF,
+	"short": Vector2.INF,
 }
-
-var hitbox: Area2D
-var hurtbox: Area2D
-var detection: Area2D
 
 
 # use this velocity for pathfinding, all velocities will be added 
@@ -53,8 +48,6 @@ var effect_velocity: Vector2 = Vector2.ZERO
 @export var effect_velocity_decay_factor = 5
 ## Reference to the NavigationAgent2D node for pathfinding.
 @onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
-## Reference to the BTPlayer node for behavior tree execution.
-@onready var bt_player: BTPlayer = $BTPlayer
 
 # ------------------------------------------------------------------------
 # MOVEMENT AND COLLISION FLAGS
@@ -91,58 +84,12 @@ func _ready_statistics() -> void:
 		_hunger = 0.0
 	
 	if not stats.uuid:
-		print(self.name, " ", UUIDGenerator.v4())
 		var uuid: String = UUIDGenerator.v4()
 		stats.uuid = uuid
 		
-func _ready_required_areas() -> void:
-	if not $Areas/Hitbox:
-		hitbox = Area2D.new()
-		var shape = CollisionShape2D.new()
-		shape.shape = RectangleShape2D.new()
-		shape.shape.size = Vector2.ZERO
-		hitbox.monitoring = false
-		hitbox.monitorable = false
-		hitbox.name = "Hitbox"
-		hitbox.add_child(shape)
-		$Areas.add_child(hitbox)
-	hitbox = $Areas/Hitbox
-	hitbox.collision_layer = 1 << 5 # this is a hitbox
-	hitbox.collision_mask = 1 << 6 # look for hurtboxes
-		
-	if not $Areas/Hurtbox:
-		hurtbox = Area2D.new()
-		var shape = CollisionShape2D.new()
-		shape.shape = RectangleShape2D.new()
-		shape.shape.size = Vector2.ZERO
-		hurtbox.monitoring = false
-		hurtbox.monitorable = false
-		hurtbox.name = "Hurtbox"
-		hurtbox.add_child(shape)
-		$Areas.add_child(hurtbox)
-	hurtbox = $Areas/Hurtbox
-	hurtbox.collision_layer = 1 << 6 # this is a hurtbox
-	hurtbox.collision_mask = 1 << 5 # look for hitboxes (probably unnecessary)
-	
-	if not $Areas/Detection:
-		detection = Area2D.new()
-		var shape = CollisionShape2D.new()
-		shape.shape = CircleShape2D.new()
-		shape.shape.radius = 0
-		detection.monitoring = false
-		detection.monitorable = false
-		detection.name = "Detection"
-		detection.add_child(shape)
-		$Areas.add_child(detection)
-	detection = $Areas/Detection
-	detection.collision_mask = (1 << 2) | (1 << 4) # look for creatures and fruit
-	detection.body_entered.connect(_on_enter_detection)
-	detection.body_exited.connect(_on_exit_detection)
-	bt_player.blackboard.set_var("detection", detection)
 
 func _ready() -> void:
 	_ready_statistics()
-	_ready_required_areas()
 	
 	
 	# register name
@@ -166,6 +113,9 @@ func _ready() -> void:
 
 	EventBus.try_change_creature_health.connect(_on_change_health)
 	EventBus.try_change_creature_hunger.connect(_on_change_hunger)
+	
+	can_be_picked = false
+	super._ready()
 
 func _process(delta: float) -> void:
 	if can_go_invincible:
@@ -184,13 +134,16 @@ func update_hunger(delta: float) -> void:
 func update_movement(delta: float) -> void:
 	effect_velocity = lerp(effect_velocity, Vector2.ZERO, effect_velocity_decay_factor * delta)
 	nav_velocity = nav_velocity
-	velocity = effect_velocity + nav_velocity
+	linear_velocity = effect_velocity + nav_velocity
 		
 ## Applies the current velocity using move_and_slide().
-func move() -> void:
+func move(delta: float) -> void:
 	#velocity = lerp(velocity, p_velocity, factor)
 
-	move_and_slide()
+	#move_and_slide()
+	move_and_collide(linear_velocity * delta)
+	pass
+	
 
 	
 ## Handles health change events targeted at this creature.
@@ -240,10 +193,4 @@ func give_hunger(amount: float):
 	_hunger += amount
 	EventBus.creature_got_hunger.emit(self, amount)
 	
-# for organizing nearby nodes
-func _on_enter_detection(body: Node2D) -> void:
-	if body != self:
-		nearby_bodies.append(body)
-	
-func _on_exit_detection(body: Node2D) -> void:
-	nearby_bodies.erase(body)
+

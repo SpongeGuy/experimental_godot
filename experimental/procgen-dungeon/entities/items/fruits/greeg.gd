@@ -1,4 +1,4 @@
-extends RigidBody2D
+extends Item
 class_name Fruit
 
 @export var stat_sheet: CreatureStats
@@ -17,6 +17,8 @@ var _spawned_time: float = 0.0
 const DESPAWN_TIME: float = 60.0
 
 func _ready() -> void:
+	name = "Fruit"
+	stats = stat_sheet.duplicate()
 	physics_material_override = PhysicsMaterial.new()
 	physics_material_override.bounce = bounce
 	physics_material_override.friction = friction

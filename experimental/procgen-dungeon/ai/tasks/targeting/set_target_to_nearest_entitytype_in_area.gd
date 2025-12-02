@@ -85,6 +85,7 @@ func _tick(_delta: float) -> Status:
 				if blacklist:
 					if etype != body.stats.get("entity_type") and body != agent:
 						valid_entities.append(body)
+			
 		elif target_entity_class and body.get("stats") and body.stats.get("entity_class") and body != agent:
 			for eclass in target_entity_class:
 				if not blacklist:

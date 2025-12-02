@@ -32,7 +32,7 @@ func _handle_debug_key(_keycode: int, action: String) -> void:
 			world_manager.set_cell(cell_position, cell)
 
 func _process(delta: float) -> void:
-	_debug_camera(delta)
+	#_debug_camera(delta)
 	pass
 		
 func _debug_camera(delta: float) -> void:

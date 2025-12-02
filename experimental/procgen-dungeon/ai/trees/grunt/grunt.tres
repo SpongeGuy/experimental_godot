@@ -185,7 +185,7 @@ value = SubResource("BBVariant_agbi4")
 [sub_resource type="BTAction" id="BTAction_t3fvu"]
 script = ExtResource("11_tlc2v")
 target_entity_class = Array[String](["Fruit"])
-area = &"detection"
+area = &"Detection"
 
 [sub_resource type="BTAction" id="BTAction_tlc2v"]
 script = ExtResource("8_c5ent")
