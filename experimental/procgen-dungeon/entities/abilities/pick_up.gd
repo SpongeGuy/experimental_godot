@@ -20,6 +20,10 @@ func activate(master: Entity) -> void:
 			
 			
 	if nearest:
-		master.inventory.push_back(nearest)
-		nearest.set_held_state(true, master)
-		nearest.global_position = master.global_position + (master.hold_offset * (master.inventory.size()))
+		master.add_item_to_inventory(nearest)
+		nearest.set_rigid_physics_active(true)
+		nearest.set_held_state(true)
+		if nearest is Creature:
+			nearest.nav_velocity = Vector2.ZERO
+		print(nearest.linear_velocity)
+		

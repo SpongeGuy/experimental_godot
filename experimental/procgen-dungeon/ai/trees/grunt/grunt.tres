@@ -1,4 +1,4 @@
-[gd_resource type="BehaviorTree" load_steps=86 format=3 uid="uid://7sa2dhcn0k84"]
+[gd_resource type="BehaviorTree" load_steps=89 format=3 uid="uid://7sa2dhcn0k84"]
 
 [ext_resource type="Script" uid="uid://cuxbc2kb6xqxd" path="res://ai/tasks/health/take_damage.gd" id="1_jwrcf"]
 [ext_resource type="Script" uid="uid://jw2qpaclk80c" path="res://ai/tasks/play_sound.gd" id="2_c5ent"]
@@ -157,10 +157,22 @@ children = [SubResource("BTSelector_hyiyp")]
 
 [sub_resource type="BTCondition" id="BTCondition_alme7"]
 script = ExtResource("4_t3fvu")
-radius = 50.0
+radius = 175.0
 
 [sub_resource type="BTWait" id="BTWait_kxk1o"]
-duration = 2.5
+duration = 0.5
+
+[sub_resource type="BTCondition" id="BTCondition_c5ent"]
+script = ExtResource("4_t3fvu")
+radius = 175.0
+
+[sub_resource type="BTSequence" id="BTSequence_tlc2v"]
+children = [SubResource("BTWait_kxk1o"), SubResource("BTCondition_c5ent")]
+
+[sub_resource type="BTRepeat" id="BTRepeat_t3fvu"]
+times = 5
+abort_on_failure = true
+children = [SubResource("BTSequence_tlc2v")]
 
 [sub_resource type="BTAction" id="BTAction_ucdji"]
 script = ExtResource("5_3s7d5")
@@ -171,7 +183,7 @@ sound = ExtResource("6_27p1r")
 
 [sub_resource type="BTSequence" id="BTSequence_kxk1o"]
 custom_name = "If nearby fruit, stop and eat the fruit"
-children = [SubResource("BTCondition_alme7"), SubResource("BTWait_kxk1o"), SubResource("BTAction_ucdji"), SubResource("BTAction_kosrh")]
+children = [SubResource("BTCondition_alme7"), SubResource("BTRepeat_t3fvu"), SubResource("BTAction_ucdji"), SubResource("BTAction_kosrh")]
 
 [sub_resource type="BBVariant" id="BBVariant_agbi4"]
 type = 1
@@ -203,7 +215,7 @@ children = [SubResource("BTProbability_ypr8g")]
 
 [sub_resource type="BTAction" id="BTAction_qu6iv"]
 script = ExtResource("9_jwrcf")
-tolerance = 1.5
+tolerance = 10.0
 
 [sub_resource type="BTTimeLimit" id="BTTimeLimit_lbuxp"]
 time_limit = 2.5

@@ -17,12 +17,35 @@ class_name Creature
 @export var hunger_override: float = 0
 @export var can_go_invincible: bool = true
 @export var invincibility_time: float = 2
+var _stun_time: float = 0.0 # later on implement stunning based on this value.
 var _health: int
 var _hunger: float
 var stats: CreatureStats
 var _invincibility_timer: float = 0
 
+func set_bt_player_active(active: bool) -> void:
+	if active == true:
+		if bt_player and _stun_time <= 0:
+			bt_player.active = true
+	else:
+		if bt_player:
+			bt_player.active = false
 
+func add_to_stun_time(stun_time: float) -> void:
+	if _stun_time <= 0:
+		graphical_module.scale.y = -1
+		set_bt_player_active(false)
+		set_rigid_physics_active(true)
+	_stun_time += stun_time
+
+func update_stun(delta: float) -> void:
+	if _stun_time <= 0:
+		return
+	_stun_time = max(_stun_time - delta, 0)
+	if _stun_time <= 0 and not is_held:
+		graphical_module.scale.y = 1
+		set_rigid_physics_active(false)
+		set_bt_player_active(true)
 
 ## Defines location goals (Vector2) for entities to pathfind towards.
 ## There are two types: long and short. Long should be used for long-term goals in case a creature wants to
@@ -39,6 +62,9 @@ var goals: Dictionary[String, Vector2] = {
 # move_and_slide() should never be called directly in this script
 ## Velocity used for navigation and pathfinding; combined with other velocities each frame.
 var nav_velocity: Vector2 = Vector2.ZERO
+
+## This is what is used with move_and_collide(). All of the velocities are added up to this number.
+var total_velocity: Vector2 = Vector2.ZERO
 
 # add onto this velocity for temporary effects like knockback
 # this variable constantly lerps back to 0
@@ -114,7 +140,6 @@ func _ready() -> void:
 	EventBus.try_change_creature_health.connect(_on_change_health)
 	EventBus.try_change_creature_hunger.connect(_on_change_hunger)
 	
-	can_be_picked = false
 	super._ready()
 
 func _process(delta: float) -> void:
@@ -124,6 +149,7 @@ func _process(delta: float) -> void:
 func _physics_process(delta: float) -> void:
 	update_hunger(delta)
 	update_movement(delta)
+	update_stun(delta)
 	
 ## Increases hunger over time and updates the behavior tree blackboard.
 func update_hunger(delta: float) -> void:
@@ -135,16 +161,12 @@ func update_movement(delta: float) -> void:
 	effect_velocity = lerp(effect_velocity, Vector2.ZERO, effect_velocity_decay_factor * delta)
 	nav_velocity = nav_velocity
 	linear_velocity = effect_velocity + nav_velocity
+	facing_direction = linear_velocity.normalized()
 		
 ## Applies the current velocity using move_and_slide().
 func move(delta: float) -> void:
-	#velocity = lerp(velocity, p_velocity, factor)
-
-	#move_and_slide()
 	move_and_collide(linear_velocity * delta)
-	pass
 	
-
 	
 ## Handles health change events targeted at this creature.
 func _on_change_health(target: Creature, amount: int, source: Node2D):

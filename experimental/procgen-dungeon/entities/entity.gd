@@ -2,9 +2,10 @@ extends RigidBody2D
 class_name Entity
 
 @export var abilities: Dictionary[String, Ability] = {
-	"ability_p": null,
-	"ability_t": null,
-	"consume_ability": null,
+	"ability_p": null, # pick up ability
+	"ability_t": null, # toss / drop ability
+	"ability_u": null, # use ability (for items currently picked up)
+	# passive, active, movement abilities unique to entity
 	"ability_1": null,
 	"ability_2": null,
 	"ability_3": null,
@@ -30,29 +31,38 @@ var nearby_bodies: Array[Entity] = []
 @export var hold_offset: Vector2 = Vector2(0, -10)
 @export var can_be_picked: bool = true
 
-@export var physics_box: CollisionShape2D
-@export var bt_player: BTPlayer
+func add_item_to_inventory(item: Entity) -> void:
+	inventory.push_back(item)
+	item.set_held_state(true, self)
+	item.global_position = global_position + Vector2(0, -5) + (hold_offset * (inventory.size()))
+	
+func fix_inventory() -> void:
+	var temp_inventory: Array[Entity] = []
+	for item in inventory:
+		if is_instance_valid(item):
+			temp_inventory.append(item)
+	inventory = temp_inventory
 
 var is_held: bool = false
 
 func set_held_state(held: bool, holder: Entity = null) -> void:
 	is_held = held
 	if held:
-		set_rigid_physics_active(true)
 		physics_box.disabled = true
-		if bt_player:
-			bt_player.active = false
+		linear_velocity = Vector2.ZERO
+		set_bt_player_active(false)
 		if holder:
 			reparent(holder)
 	else:
-		set_rigid_physics_active(false)
 		physics_box.disabled = false
-		if bt_player:
-			bt_player.active = true
-		reparent(get_tree().current_scene)
+		set_bt_player_active(true)
+		reparent(get_tree().current_scene.get_node("World"))
 
 
-
+@export_category("References")
+@export var physics_box: CollisionShape2D
+@export var bt_player: BTPlayer
+@export var graphical_module: Node2D
 @export_group("Areas")
 @export var hitbox: Hitbox
 @export var hurtbox: Hurtbox
@@ -63,13 +73,15 @@ func set_held_state(held: bool, holder: Entity = null) -> void:
 
 func _ready() -> void:
 	_setup_physics_properties()
+	
+func set_bt_player_active(active: bool) -> void:
+	if bt_player:
+		bt_player.active = active
 
 func set_rigid_physics_active(active: bool) -> void:
 	if active:
 		freeze = false
-		if bt_player:
-			bt_player.active = false
+		set_bt_player_active(false)
 	else:
 		freeze = true
-		if bt_player:
-			bt_player.active = true
+		set_bt_player_active(true)

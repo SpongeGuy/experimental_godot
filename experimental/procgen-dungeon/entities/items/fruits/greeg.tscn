@@ -6,10 +6,10 @@
 [ext_resource type="Texture2D" uid="uid://5hgw7dvmqh5v" path="res://assets/sprites/debug/fruit.png" id="4_emogs"]
 [ext_resource type="Script" uid="uid://uedw02l07pvv" path="res://entities/hitbox.gd" id="5_1tnxk"]
 [ext_resource type="Script" uid="uid://dxkak4by7qlk" path="res://entities/hurtbox.gd" id="6_k6joc"]
-[ext_resource type="Script" uid="uid://cqo4fg81476qm" path="res://entities/detection.gd" id="7_03opp"]
+[ext_resource type="Script" path="res://entities/detection.gd" id="7_03opp"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_6kqrw"]
-size = Vector2(6, 1)
+[sub_resource type="CircleShape2D" id="CircleShape2D_1tnxk"]
+radius = 3.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_2mw2t"]
 radius = 7.0
@@ -35,7 +35,7 @@ hurtbox = NodePath("Hurtbox")
 detection = NodePath("Detection")
 
 [node name="PhysicsBox" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_6kqrw")
+shape = SubResource("CircleShape2D_1tnxk")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
