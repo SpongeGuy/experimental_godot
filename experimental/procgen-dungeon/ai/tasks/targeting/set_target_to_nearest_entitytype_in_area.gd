@@ -12,7 +12,7 @@
 ## - Supports filtering by entity class (e.g., ["Creature"]) or entity type (e.g., ["Grunt", "Growl"]).
 ## - Blacklist mode inverts the filter: entities are included if they do NOT match the provided classes/types.
 ## - Only one filter mode (class or type) is applied per body; type filter takes precedence if both are set.
-## - Entities must have a "stats" node with "entity_class" or "entity_type" properties for filtering.
+## - Entities must have a "identification" property with "entity_class" or "entity_type" properties for filtering.
 ## - Distance is calculated using global positions.
 ## - Requires a valid Area2D blackboard variable specified in the 'area' export.
 ## - Retrieves a NavigationAgent2D from the agent in _enter(), though it is not used in the current implementation (potential for future pathfinding integration).
@@ -74,25 +74,25 @@ func _tick(_delta: float) -> Status:
 
 	var valid_entities: Array = []
 	
-	for body in target_area.get_overlapping_bodies():
+	for body: Entity in target_area.get_overlapping_bodies():
 		if not is_instance_valid(body) or body == agent:
 			continue
-		if target_entity_type and body.stats.entity_type:
+		if target_entity_type and body.identification.entity_type:
 			for etype in target_entity_type:
 				if not blacklist:
-					if etype == body.stats.get("entity_type") and body != agent:
+					if etype == body.identification.get("entity_type") and body != agent:
 						valid_entities.append(body)
 				if blacklist:
-					if etype != body.stats.get("entity_type") and body != agent:
+					if etype != body.identification.get("entity_type") and body != agent:
 						valid_entities.append(body)
 			
-		elif target_entity_class and body.get("stats") and body.stats.get("entity_class") and body != agent:
+		elif target_entity_class and body.get("identification") and body.identification.get("entity_class") and body != agent:
 			for eclass in target_entity_class:
 				if not blacklist:
-					if eclass == body.stats.entity_class:
+					if eclass == body.identification.entity_class:
 						valid_entities.append(body)
 				if blacklist:
-					if eclass != body.stats.entity_class:
+					if eclass != body.identification.entity_class:
 						valid_entities.append(body)
 		
 	var closest_distance := 9999999.0

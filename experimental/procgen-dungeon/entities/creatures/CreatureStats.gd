@@ -1,16 +1,6 @@
 class_name CreatureStats extends Resource
 
-@export_category("Identification")
-@export var entity_class: String = "Creature"
-@export var entity_type: String = ""
-@export var uuid: String
-@export var entity_faction: CreatureFactions
 
-enum CreatureFactions {
-	Herbivore,
-	Carnivore,
-	Plant
-}
 
 @export_category("Stats")
 @export var max_health: int = 5

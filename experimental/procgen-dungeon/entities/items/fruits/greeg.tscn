@@ -1,12 +1,84 @@
-[gd_scene load_steps=12 format=3 uid="uid://vqvqkui4uebx"]
+[gd_scene load_steps=22 format=3 uid="uid://vqvqkui4uebx"]
 
 [ext_resource type="Script" uid="uid://82argt110wx4" path="res://entities/items/fruits/greeg.gd" id="1_vu2lr"]
 [ext_resource type="Resource" uid="uid://c0wfng2c1wvp3" path="res://entities/items/fruits/fruit_stats.tres" id="2_ohfuk"]
-[ext_resource type="PackedScene" uid="uid://x52dpnyk785c" path="res://entities/plants/fruit_plant/fruit_plant.tscn" id="3_eg73v"]
+[ext_resource type="Script" uid="uid://b51snbs5v4dol" path="res://entities/creatures/CreatureStats.gd" id="3_2mw2t"]
+[ext_resource type="BehaviorTree" uid="uid://dypyatoxtwy56" path="res://ai/trees/fruit_plant.tres" id="4_3lrdi"]
 [ext_resource type="Texture2D" uid="uid://5hgw7dvmqh5v" path="res://assets/sprites/debug/fruit.png" id="4_emogs"]
-[ext_resource type="Script" uid="uid://uedw02l07pvv" path="res://entities/hitbox.gd" id="5_1tnxk"]
-[ext_resource type="Script" uid="uid://dxkak4by7qlk" path="res://entities/hurtbox.gd" id="6_k6joc"]
-[ext_resource type="Script" path="res://entities/detection.gd" id="7_03opp"]
+[ext_resource type="Script" uid="uid://uedw02l07pvv" path="res://entities/Hitbox.gd" id="5_1tnxk"]
+[ext_resource type="Texture2D" uid="uid://dw2ampmx7uq0e" path="res://assets/sprites/debug/debug_plant.png" id="5_m2xfn"]
+[ext_resource type="Script" uid="uid://dxkak4by7qlk" path="res://entities/Hurtbox.gd" id="6_k6joc"]
+[ext_resource type="Script" uid="uid://bghauax2lkx7o" path="res://entities/EntityIdentification.gd" id="6_o26oq"]
+[ext_resource type="Script" uid="uid://cqo4fg81476qm" path="res://entities/DetectionArea.gd" id="7_03opp"]
+
+[sub_resource type="GDScript" id="GDScript_ne801"]
+script/source = "extends CharacterBody2D
+class_name FruitPlant
+
+@export var stat_sheet: CreatureStats
+var stats: CreatureStats
+
+@onready var sight_area: Area2D = $SightArea
+
+@onready var bt_player: BTPlayer = $BTPlayer
+
+var nearby_bodies: Array[Node2D] = []
+
+func _ready() -> void:
+	stats = stat_sheet.duplicate()
+	assert(stats)
+	
+	bt_player.blackboard.set_var(\"sight_area\", sight_area)
+	collision_layer = 1 << 4 # layer 5 = fruit
+	
+	if sight_area:
+		sight_area.collision_mask = (1 << 4) # only look at fruits and other trees
+		sight_area.body_entered.connect(_on_enter_sight_area)
+		sight_area.body_exited.connect(_on_exit_sight_area)
+
+
+# for organizing nearby nodes
+func _on_enter_sight_area(body: Node2D) -> void:
+	if body != self:
+		nearby_bodies.append(body)
+	
+func _on_exit_sight_area(body: Node2D) -> void:
+	nearby_bodies.erase(body)
+"
+
+[sub_resource type="Resource" id="Resource_5liww"]
+script = ExtResource("3_2mw2t")
+hunger_rate = 0.0
+base_speed = 0.0
+metadata/_custom_type_script = "uid://b51snbs5v4dol"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rgslm"]
+size = Vector2(16, 4)
+
+[sub_resource type="BlackboardPlan" id="BlackboardPlan_rgslm"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_aetls"]
+radius = 50.01
+
+[sub_resource type="PackedScene" id="PackedScene_3sixa"]
+_bundled = {
+"conn_count": 0,
+"conns": PackedInt32Array(),
+"editable_instances": [],
+"names": PackedStringArray("FruitPlant", "CharacterBody2D", "script", "stat_sheet", "PhysicsBox", "CollisionShape2D", "shape", "BTPlayer", "BTPlayer", "behavior_tree", "blackboard_plan", "Areas", "Node2D", "SightArea", "Area2D", "CollisionShape2D", "CollisionShape2D", "shape", "Graphical", "Node2D", "Sprite2D", "Sprite2D", "texture_filter", "position", "texture"),
+"node_count": 8,
+"node_paths": [NodePath("."), NodePath("."), NodePath("."), NodePath("./Areas"), NodePath("./Areas/SightArea"), NodePath("."), NodePath("./Graphical")],
+"nodes": PackedInt32Array(-1, -1, 1, 0, -1, 2, 2, 0, 3, 1, 0, 1073741824, 0, 5, 4, -1, 1, 6, 2, 0, 1073741825, 0, 8, 7, -1, 2, 9, 3, 10, 4, 0, 1073741826, 0, 12, 11, -1, 0, 0, 1073741827, 0, 14, 13, -1, 0, 0, 1073741828, 0, 16, 15, -1, 1, 17, 5, 0, 1073741829, 0, 19, 18, -1, 0, 0, 1073741830, 0, 21, 20, -1, 3, 22, 6, 23, 7, 24, 8, 0),
+"variants": [SubResource("GDScript_ne801"), SubResource("Resource_5liww"), SubResource("RectangleShape2D_rgslm"), ExtResource("4_3lrdi"), SubResource("BlackboardPlan_rgslm"), SubResource("CircleShape2D_aetls"), 1, Vector2(0, -11), ExtResource("5_m2xfn")],
+"version": 3
+}
+
+[sub_resource type="Resource" id="Resource_fmjt0"]
+script = ExtResource("6_o26oq")
+entity_class = "Fruit"
+entity_type = "Greeg"
+entity_faction = 3
+metadata/_custom_type_script = "uid://bghauax2lkx7o"
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_1tnxk"]
 radius = 3.0
@@ -20,19 +92,20 @@ radius = 7.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_m2xfn"]
 radius = 20.0
 
-[node name="Fruit" type="RigidBody2D" node_paths=PackedStringArray("physics_box", "hitbox", "hurtbox", "detection")]
-gravity_scale = 0.0
+[node name="Fruit" type="RigidBody2D" node_paths=PackedStringArray("physics_box", "graphical_module", "hitbox", "hurtbox", "detection_area")]
 can_sleep = false
 lock_rotation = true
 script = ExtResource("1_vu2lr")
 stat_sheet = ExtResource("2_ohfuk")
 satiate_amount = 100.0
 grow_plant_chance = 0.5
-plant_scene = ExtResource("3_eg73v")
+plant_scene = SubResource("PackedScene_3sixa")
+entity_identification_sheet = SubResource("Resource_fmjt0")
 physics_box = NodePath("PhysicsBox")
+graphical_module = NodePath("Sprite2D")
 hitbox = NodePath("Hitbox")
 hurtbox = NodePath("Hurtbox")
-detection = NodePath("Detection")
+detection_area = NodePath("Detection")
 
 [node name="PhysicsBox" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_1tnxk")

@@ -4,8 +4,8 @@
 [ext_resource type="BehaviorTree" uid="uid://qovuyc6ynb2h" path="res://ai/trees/growl/growl.tres" id="2_4lo47"]
 [ext_resource type="Resource" uid="uid://bkls50yi14jlt" path="res://entities/creatures/herbivores/growl/growl_stats.tres" id="2_wxk87"]
 [ext_resource type="Texture2D" uid="uid://7u12xfc4dmda" path="res://assets/sprites/debug/growl.png" id="3_4lo47"]
-[ext_resource type="Script" uid="uid://uedw02l07pvv" path="res://entities/hitbox.gd" id="4_wxk87"]
-[ext_resource type="Script" uid="uid://dxkak4by7qlk" path="res://entities/hurtbox.gd" id="5_jvkfj"]
+[ext_resource type="Script" uid="uid://uedw02l07pvv" path="res://entities/Hitbox.gd" id="4_wxk87"]
+[ext_resource type="Script" uid="uid://dxkak4by7qlk" path="res://entities/Hurtbox.gd" id="5_jvkfj"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_16ug5"]
 radius = 4.0

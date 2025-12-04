@@ -1,6 +1,6 @@
 extends Node
 
-@export var master: Entity
+@export var master: PickupableEntity
 
 func try_pick_up_ability() -> void:
 	if master.abilities["ability_p"]:

@@ -1,21 +1,34 @@
-[gd_scene load_steps=28 format=3 uid="uid://bt8g3fryrf86u"]
+[gd_scene load_steps=32 format=3 uid="uid://bt8g3fryrf86u"]
 
 [ext_resource type="Script" uid="uid://7v0f06txffw3" path="res://entities/creatures/herbivores/grunt/grunt.gd" id="1_elef4"]
 [ext_resource type="BehaviorTree" uid="uid://7sa2dhcn0k84" path="res://ai/trees/grunt/grunt.tres" id="2_16ug5"]
-[ext_resource type="Resource" uid="uid://0cmgrkq34v8p" path="res://entities/creatures/herbivores/grunt/grunt_stats.tres" id="2_41b5i"]
 [ext_resource type="Texture2D" uid="uid://cmvmeul0haba4" path="res://assets/sprites/debug/debug_man.png" id="2_47y2e"]
+[ext_resource type="Script" uid="uid://b51snbs5v4dol" path="res://entities/creatures/CreatureStats.gd" id="2_rp142"]
 [ext_resource type="Script" uid="uid://b8kdmyw2bdtdj" path="res://entities/abilities/ability.gd" id="3_7brml"]
+[ext_resource type="Script" uid="uid://bghauax2lkx7o" path="res://entities/EntityIdentification.gd" id="3_rp142"]
 [ext_resource type="Script" uid="uid://b4rjvaj1in8km" path="res://entities/abilities/pick_up.gd" id="4_1xktf"]
-[ext_resource type="Script" uid="uid://uedw02l07pvv" path="res://entities/hitbox.gd" id="4_41b5i"]
-[ext_resource type="Script" path="res://entities/detection.gd" id="4_dulx8"]
+[ext_resource type="Script" uid="uid://uedw02l07pvv" path="res://entities/Hitbox.gd" id="4_41b5i"]
+[ext_resource type="Script" uid="uid://cqo4fg81476qm" path="res://entities/DetectionArea.gd" id="4_dulx8"]
 [ext_resource type="Script" uid="uid://cwiqlmof17nfc" path="res://entities/abilities/toss.gd" id="5_1xktf"]
-[ext_resource type="Script" uid="uid://dxkak4by7qlk" path="res://entities/hurtbox.gd" id="5_30e0p"]
+[ext_resource type="Script" uid="uid://dxkak4by7qlk" path="res://entities/Hurtbox.gd" id="5_30e0p"]
+[ext_resource type="Script" uid="uid://cnoc1rtkx7b60" path="res://entities/InteractionArea.gd" id="10_rpw7k"]
 
-[sub_resource type="Resource" id="Resource_7brml"]
+[sub_resource type="Resource" id="Resource_igg7t"]
+script = ExtResource("2_rp142")
+max_health = 3
+metadata/_custom_type_script = "uid://b51snbs5v4dol"
+
+[sub_resource type="Resource" id="Resource_nbgq3"]
+script = ExtResource("3_rp142")
+entity_class = "Grunt"
+entity_type = "Grunt"
+metadata/_custom_type_script = "uid://bghauax2lkx7o"
+
+[sub_resource type="Resource" id="Resource_rp142"]
 script = ExtResource("4_1xktf")
 metadata/_custom_type_script = "uid://b4rjvaj1in8km"
 
-[sub_resource type="Resource" id="Resource_rpw7k"]
+[sub_resource type="Resource" id="Resource_rxcga"]
 script = ExtResource("5_1xktf")
 metadata/_custom_type_script = "uid://cwiqlmof17nfc"
 
@@ -163,29 +176,30 @@ size = Vector2(14, 16)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dulx8"]
 size = Vector2(0, 0)
 
-[node name="Grunt" type="RigidBody2D" node_paths=PackedStringArray("physics_box", "bt_player", "graphical_module", "hitbox", "hurtbox", "detection")]
+[node name="Grunt" type="RigidBody2D" node_paths=PackedStringArray("physics_box", "bt_player", "graphical_module", "hitbox", "hurtbox", "detection_area", "interaction_area")]
 freeze = true
 freeze_mode = 1
 script = ExtResource("1_elef4")
-stat_sheet = ExtResource("2_41b5i")
+stat_sheet = SubResource("Resource_igg7t")
 overriding_hunger = true
 hunger_override = 500.0
+entity_identification_sheet = SubResource("Resource_nbgq3")
 abilities = Dictionary[String, ExtResource("3_7brml")]({
 "ability_1": null,
 "ability_2": null,
 "ability_3": null,
 "ability_4": null,
-"ability_p": SubResource("Resource_7brml"),
-"ability_t": SubResource("Resource_rpw7k"),
+"ability_p": SubResource("Resource_rp142"),
+"ability_t": SubResource("Resource_rxcga"),
 "ability_u": null
 })
-inventory_size = 12
 physics_box = NodePath("PhysicsBox")
 bt_player = NodePath("BTPlayer")
 graphical_module = NodePath("Graphical")
 hitbox = NodePath("Areas/Hitbox")
 hurtbox = NodePath("Areas/Hurtbox")
-detection = NodePath("Areas/Detection")
+detection_area = NodePath("Areas/Detection")
+interaction_area = NodePath("Areas/Interaction")
 
 [node name="PhysicsBox" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_16ug5")
@@ -242,6 +256,14 @@ master = NodePath("../..")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Areas/Hurtbox"]
 shape = SubResource("RectangleShape2D_dulx8")
+
+[node name="Interaction" type="Area2D" parent="Areas" node_paths=PackedStringArray("master")]
+position = Vector2(0, -2)
+script = ExtResource("10_rpw7k")
+master = NodePath("../..")
+
+[node name="CollisionShape2D" type="CollisionPolygon2D" parent="Areas/Interaction"]
+polygon = PackedVector2Array(1, 4, 1, -6, 23, -11, 23, 11)
 
 [node name="Graphical" type="Node2D" parent="."]
 

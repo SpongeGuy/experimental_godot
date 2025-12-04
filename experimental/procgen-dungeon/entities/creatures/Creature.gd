@@ -1,4 +1,4 @@
-extends Entity
+extends PickupableEntity
 class_name Creature
 
 # ------------------------------------------------------------------------
@@ -41,17 +41,26 @@ func add_to_stun_time(stun_time: float) -> void:
 func update_stun(delta: float) -> void:
 	if _stun_time <= 0:
 		return
-	_stun_time = max(_stun_time - delta, 0)
+	if not is_held:
+		_stun_time = max(_stun_time - delta, 0)
 	if _stun_time <= 0 and not is_held:
 		graphical_module.scale.y = 1
 		set_rigid_physics_active(false)
+		set_bt_player_active(true)
+		
+func set_rigid_physics_active(active: bool) -> void:
+	if active:
+		freeze = false
+		set_bt_player_active(false)
+	else:
+		freeze = true
 		set_bt_player_active(true)
 
 ## Defines location goals (Vector2) for entities to pathfind towards.
 ## There are two types: long and short. Long should be used for long-term goals in case a creature wants to
 ## travel to a specific location over a long period of time. Short should be used for immediate actions like
 ## collecting an item or fruit.
-var goals: Dictionary[String, Vector2] = {
+@export var goals: Dictionary[String, Vector2] = {
 	"long": Vector2.INF,
 	"short": Vector2.INF,
 }
@@ -86,13 +95,14 @@ var effect_velocity: Vector2 = Vector2.ZERO
 @export var use_rvo_avoidance: bool = true
 
 @export var use_pathfinding: bool = true # false -> straight-line movement (ghosts, flyers, etc)
-
+@export var aim_direction: Vector2 = Vector2.ZERO
 
 # ------------------------------------------------------------------------
 # PLAYER CONTROL
 # ------------------------------------------------------------------------
 @export_subgroup("Player Possession")
 @export var accept_player_input: bool = false
+var reticle: Node2D
 
 ## Initializes the creature's statistics, duplicating the stat sheet and setting initial health and hunger.
 func _ready_statistics() -> void:
@@ -109,17 +119,16 @@ func _ready_statistics() -> void:
 	else:
 		_hunger = 0.0
 	
-	if not stats.uuid:
-		var uuid: String = UUIDGenerator.v4()
-		stats.uuid = uuid
+func _ready_reticle() -> void:
+	var reticle_scene = preload("res://systems/reticle/reticle.tscn")
+	if accept_player_input:
+		reticle = reticle_scene.instantiate()
+		add_child(reticle)
 		
 
 func _ready() -> void:
 	_ready_statistics()
-	
-	
-	# register name
-	EntityRegister.add_entity_type_to_register(stats.entity_class, stats.entity_type)
+	_ready_reticle()
 	
 	nav_agent.avoidance_enabled = use_rvo_avoidance
 	nav_agent.radius = avoidance_radius
@@ -141,32 +150,71 @@ func _ready() -> void:
 	EventBus.try_change_creature_hunger.connect(_on_change_hunger)
 	
 	super._ready()
+	
+func _setup_physics_properties() -> void:
+	if bt_player:
+		if freeze:
+			bt_player.active = true
+		else:
+			bt_player.active = false
+	super._setup_physics_properties()
+	
 
 func _process(delta: float) -> void:
 	if can_go_invincible:
 		_invincibility_timer = max(_invincibility_timer - delta, 0)
 
 func _physics_process(delta: float) -> void:
+	super._physics_process(delta)
 	update_hunger(delta)
 	update_movement(delta)
 	update_stun(delta)
+	update_facing_direction(delta)
 	
 ## Increases hunger over time and updates the behavior tree blackboard.
 func update_hunger(delta: float) -> void:
 	_hunger = min(_hunger + stats.hunger_rate * delta, stats.max_hunger)
 	bt_player.blackboard.set_var("hunger", _hunger)
+	
+func update_facing_direction(delta: float) -> void:
+	var controller_facing_input: Vector2 = Input.get_vector("aim_west", "aim_east", "aim_north", "aim_south")
+	if accept_player_input:
+		if controller_facing_input != Vector2.ZERO:
+			facing_direction = controller_facing_input
+		elif total_velocity != Vector2.ZERO:
+			facing_direction = total_velocity.normalized()
+	elif total_velocity != Vector2.ZERO:
+		facing_direction = total_velocity.normalized()
+		
+	if reticle:
+		reticle.rotation = lerp_angle(reticle.rotation, facing_direction.angle(), 20 * delta)
+		
 		
 ## Updates the creature's velocity by combining navigation and effect velocities.
 func update_movement(delta: float) -> void:
 	effect_velocity = lerp(effect_velocity, Vector2.ZERO, effect_velocity_decay_factor * delta)
 	nav_velocity = nav_velocity
-	linear_velocity = effect_velocity + nav_velocity
-	facing_direction = linear_velocity.normalized()
-		
-## Applies the current velocity using move_and_slide().
-func move(delta: float) -> void:
-	move_and_collide(linear_velocity * delta)
+	#linear_velocity = effect_velocity + nav_velocity
+	total_velocity = effect_velocity + nav_velocity
 	
+		
+## Applies the current velocity with sliding on collisions using move_and_collide().
+func move(delta: float) -> void:
+	var motion = total_velocity * delta
+	var max_slides = 4  # Safety limit to prevent infinite loops in complex geometry
+	var slides = 0
+	
+	while motion != Vector2.ZERO and slides < max_slides:
+		var collision = move_and_collide(motion)
+		if collision == null:
+			break  # No collision, full motion applied
+		
+		# Slide the remaining motion along the wall
+		motion = collision.get_remainder().slide(collision.get_normal())
+		slides += 1
+	
+	if slides >= max_slides:
+		print_debug("Warning: Max slides reached for creature movement")
 	
 ## Handles health change events targeted at this creature.
 func _on_change_health(target: Creature, amount: int, source: Node2D):

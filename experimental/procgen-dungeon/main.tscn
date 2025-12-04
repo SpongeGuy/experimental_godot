@@ -1,12 +1,12 @@
 [gd_scene load_steps=57 format=3 uid="uid://pqp2ku3r68hb"]
 
-[ext_resource type="Script" uid="uid://wojinhjolg8h" path="res://core/world_manager.gd" id="1_0xm2m"]
-[ext_resource type="Script" uid="uid://hr3074cc5wf5" path="res://world.gd" id="3_1bvp3"]
+[ext_resource type="Script" uid="uid://wojinhjolg8h" path="res://core/WorldManager.gd" id="1_0xm2m"]
+[ext_resource type="Script" uid="uid://hr3074cc5wf5" path="res://World.gd" id="3_1bvp3"]
 [ext_resource type="Texture2D" uid="uid://dj0mcwh3yn3lf" path="res://assets/sprites/tilesets/16x16_tiles_debug_correct.png" id="3_272bh"]
 [ext_resource type="Script" uid="uid://vysodgmiux3v" path="res://debug.gd" id="3_h2yge"]
-[ext_resource type="PackedScene" uid="uid://x52dpnyk785c" path="res://entities/plants/fruit_plant/fruit_plant.tscn" id="4_5vw27"]
 [ext_resource type="PackedScene" uid="uid://bt8g3fryrf86u" path="res://entities/creatures/herbivores/grunt/grunt.tscn" id="5_kek77"]
 [ext_resource type="Script" uid="uid://cpp6n8go876it" path="res://playerdebug.gd" id="6_4c57u"]
+[ext_resource type="PackedScene" uid="uid://6x2sla5rcri4" path="res://entities/plants/fruit_tree/fruit_tree.tscn" id="7_272bh"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_tlwt5"]
 vertices = PackedVector2Array(1.140625, 8, -1.140625, 8, -1.140625, -1.140625, 1.140625, -1.140625)
@@ -1075,9 +1075,6 @@ texture_filter = 1
 tile_map_data = PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 0, 0)
 tile_set = SubResource("TileSet_036b0")
 
-[node name="FruitPlant" parent="World" instance=ExtResource("4_5vw27")]
-position = Vector2(-26, -14)
-
 [node name="Grunt2" parent="World" instance=ExtResource("5_kek77")]
 position = Vector2(-171, -98)
 accept_player_input = true
@@ -1090,24 +1087,30 @@ script = ExtResource("6_4c57u")
 master = NodePath("..")
 
 [node name="Grunt" parent="World" instance=ExtResource("5_kek77")]
-position = Vector2(-91, -119)
+position = Vector2(-31, -115)
 
 [node name="Debug" type="Node" parent="." node_paths=PackedStringArray("world_manager", "tilemap_layer")]
 script = ExtResource("3_h2yge")
 world_manager = NodePath("..")
 tilemap_layer = NodePath("../World/Terrain")
 
-[node name="FruitPlant" parent="." instance=ExtResource("4_5vw27")]
-position = Vector2(-213, -33)
+[node name="FruitTree" parent="." instance=ExtResource("7_272bh")]
+position = Vector2(-21, -48)
+
+[node name="FruitTree2" parent="." instance=ExtResource("7_272bh")]
+position = Vector2(-148, -62)
 
 [node name="Grunt" parent="." instance=ExtResource("5_kek77")]
-position = Vector2(-128, -19)
+position = Vector2(-269, -140)
 
 [node name="Grunt2" parent="." instance=ExtResource("5_kek77")]
-position = Vector2(0, -80)
+position = Vector2(-149, -180)
 
 [node name="Grunt3" parent="." instance=ExtResource("5_kek77")]
-position = Vector2(68, 48)
+position = Vector2(-97, 23)
 
 [node name="Grunt4" parent="." instance=ExtResource("5_kek77")]
-position = Vector2(-34, 40)
+position = Vector2(46, 27)
+
+[node name="Grunt5" parent="." instance=ExtResource("5_kek77")]
+position = Vector2(-222, -29)

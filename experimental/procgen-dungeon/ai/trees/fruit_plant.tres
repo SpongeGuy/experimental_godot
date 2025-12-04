@@ -11,7 +11,7 @@
 [sub_resource type="BTAction" id="BTAction_unv85"]
 script = ExtResource("1_r15xx")
 target_entity_class = Array[String](["FruitPlant"])
-area = &"sight_area"
+area = &"DetectionArea"
 
 [sub_resource type="BTAction" id="BTAction_r15xx"]
 script = ExtResource("2_r15xx")
