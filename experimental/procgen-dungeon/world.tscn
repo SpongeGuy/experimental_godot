@@ -1,9 +1,8 @@
-[gd_scene load_steps=55 format=3 uid="uid://cvdaxbbpa33xa"]
+[gd_scene load_steps=54 format=3 uid="uid://cvdaxbbpa33xa"]
 
 [ext_resource type="Texture2D" uid="uid://dj0mcwh3yn3lf" path="res://assets/sprites/tilesets/16x16_tiles_debug_correct.png" id="2_tlwt5"]
 [ext_resource type="Script" uid="uid://vysodgmiux3v" path="res://debug.gd" id="3_tlwt5"]
 [ext_resource type="PackedScene" uid="uid://bt8g3fryrf86u" path="res://entities/creatures/herbivores/grunt/grunt.tscn" id="5_036b0"]
-[ext_resource type="PackedScene" uid="uid://x52dpnyk785c" path="res://entities/plants/fruit_plant/fruit_plant.tscn" id="6_dwbse"]
 [ext_resource type="Script" uid="uid://cpp6n8go876it" path="res://playerdebug.gd" id="6_pkg7o"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_tlwt5"]
@@ -1071,9 +1070,6 @@ tile_set = SubResource("TileSet_036b0")
 [node name="Debug" type="Node" parent="." node_paths=PackedStringArray("debug_camera")]
 script = ExtResource("3_tlwt5")
 debug_camera = NodePath("../Grunt2/Camera2D")
-
-[node name="FruitPlant" parent="." instance=ExtResource("6_dwbse")]
-position = Vector2(-26, -14)
 
 [node name="Grunt2" parent="." instance=ExtResource("5_036b0")]
 position = Vector2(-171, -98)

@@ -1,10 +1,16 @@
-[gd_scene load_steps=14 format=3 uid="uid://junvmaoj628f"]
+[gd_scene load_steps=14 format=3 uid="uid://iufcpijfr4o"]
 
-[ext_resource type="Script" uid="uid://gfyx8o53se1c" path="res://entities/creatures/herbivores/flea/flea.gd" id="1_a7d46"]
 [ext_resource type="Texture2D" uid="uid://b5r8lav311kd4" path="res://assets/sprites/debug/flea-sheet.png" id="1_ix4je"]
 [ext_resource type="Script" uid="uid://b51snbs5v4dol" path="res://entities/creatures/CreatureStats.gd" id="2_dfuno"]
 [ext_resource type="BehaviorTree" uid="uid://cil714tfo8o1q" path="res://ai/trees/flea/flea.tres" id="3_nhb3y"]
 [ext_resource type="Script" uid="uid://uedw02l07pvv" path="res://entities/Hitbox.gd" id="3_of2h2"]
+
+[sub_resource type="GDScript" id="GDScript_sdoyw"]
+script/source = "extends Creature
+
+
+
+"
 
 [sub_resource type="Resource" id="Resource_yxtqn"]
 script = ExtResource("2_dfuno")
@@ -61,7 +67,7 @@ radius = 9.0
 radius = 58.00862
 
 [node name="Flea" type="CharacterBody2D"]
-script = ExtResource("1_a7d46")
+script = SubResource("GDScript_sdoyw")
 stat_sheet = SubResource("Resource_yxtqn")
 
 [node name="PhysicsBox" type="CollisionShape2D" parent="."]

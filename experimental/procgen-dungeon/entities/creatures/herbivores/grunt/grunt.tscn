@@ -15,7 +15,6 @@
 
 [sub_resource type="Resource" id="Resource_igg7t"]
 script = ExtResource("2_rp142")
-max_health = 3
 metadata/_custom_type_script = "uid://b51snbs5v4dol"
 
 [sub_resource type="Resource" id="Resource_nbgq3"]
@@ -26,10 +25,12 @@ metadata/_custom_type_script = "uid://bghauax2lkx7o"
 
 [sub_resource type="Resource" id="Resource_rp142"]
 script = ExtResource("4_1xktf")
+cooldown = 1.0
 metadata/_custom_type_script = "uid://b4rjvaj1in8km"
 
 [sub_resource type="Resource" id="Resource_rxcga"]
 script = ExtResource("5_1xktf")
+cooldown = 1.0
 metadata/_custom_type_script = "uid://cwiqlmof17nfc"
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_16ug5"]
@@ -233,6 +234,7 @@ libraries = {
 [node name="Areas" type="Node2D" parent="."]
 
 [node name="Detection" type="Area2D" parent="Areas" node_paths=PackedStringArray("master")]
+collision_mask = 20
 script = ExtResource("4_dulx8")
 master = NodePath("../..")
 
@@ -242,6 +244,8 @@ shape = SubResource("CircleShape2D_kxb8y")
 [node name="Hitbox" type="Area2D" parent="Areas" node_paths=PackedStringArray("master")]
 modulate = Color(0.6368417, 0, 0.24741349, 1)
 position = Vector2(0, -2)
+collision_layer = 32
+collision_mask = 64
 script = ExtResource("4_41b5i")
 master = NodePath("../..")
 
@@ -249,6 +253,8 @@ master = NodePath("../..")
 shape = SubResource("RectangleShape2D_s8cp5")
 
 [node name="Hurtbox" type="Area2D" parent="Areas" node_paths=PackedStringArray("master")]
+collision_layer = 64
+collision_mask = 32
 monitoring = false
 monitorable = false
 script = ExtResource("5_30e0p")
@@ -259,6 +265,7 @@ shape = SubResource("RectangleShape2D_dulx8")
 
 [node name="Interaction" type="Area2D" parent="Areas" node_paths=PackedStringArray("master")]
 position = Vector2(0, -2)
+collision_mask = 20
 script = ExtResource("10_rpw7k")
 master = NodePath("../..")
 

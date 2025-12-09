@@ -1,22 +1,19 @@
 extends Node
 
-@export var world_manager: Node
+@export var world_manager: WorldManager
 @export var tilemap_layer: TileMapLayer
 
 @export var debug_camera: Camera2D
 
+var large_chunk: Array[Vector2i] = [
+	Vector2i(0, 0), Vector2i(1, 0), Vector2i(2, 0)
+]
+
 func _ready() -> void:
 	
-	world_manager.generate_debug_chunk_at_global(Vector2i(-1, 0))
-	world_manager.generate_debug_chunk_at_global(Vector2i(0, 0))
-	world_manager.generate_debug_chunk_at_global(Vector2i(1, 0))
-	world_manager.generate_debug_chunk_at_global(Vector2i(0, -1))
-	world_manager.generate_debug_chunk_at_global(Vector2i(-1, -1))
-	world_manager.generate_debug_chunk_at_global(Vector2i(-1, -2))
-	world_manager.generate_debug_chunk_at_global(Vector2i(-2, -1))
-	world_manager.generate_debug_chunk_at_global(Vector2i(-2, -2))
-	
-	
+	for x in range (-3, 3):
+		for y in range(-2, 2):
+			world_manager.generate_debug_chunk_at_global(Vector2i(x, y))
 	
 
 var debug_keys: Dictionary = {

@@ -15,7 +15,7 @@ enum CellType {NONE, GROUND, SOFT_WALL, HARD_WALL}
 var position: Vector2i
 var nav_weight: float
 var type: CellType
-var health: int
+var health: float
 
 func _init(pos: Vector2i) -> void:
 	position = pos

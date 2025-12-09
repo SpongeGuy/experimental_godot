@@ -22,19 +22,27 @@ func _setup_identification() -> void:
 	"ability_3": null,
 	"ability_4": null,
 }
+
+func _update_ability_cooldowns(delta: float) -> void:
+	for ability in abilities:
+		if abilities[ability] is Ability:
+			abilities[ability].update_cooldown(delta)
+
 @export var facing_direction: Vector2 = Vector2.RIGHT
 
 
-@export_group("Physics Properties")
-@export var bounce: float = 0.51
+@export_group("Physics Property Overrides")
+@export var bounce: float = 0.5
 @export var friction: float = 1.0
 @export var base_linear_damp: float = 6.0
 @export var base_mass: float = 1
+@export var absorbent: bool = false
 
 func _setup_physics_properties() -> void:
 	physics_material_override = PhysicsMaterial.new()
 	physics_material_override.bounce = bounce
 	physics_material_override.friction = friction
+	physics_material_override.absorbent = absorbent
 
 	linear_damp = base_linear_damp
 	mass = base_mass
@@ -42,7 +50,8 @@ func _setup_physics_properties() -> void:
 	
 	lock_rotation = true
 	
-
+func _process(delta: float) -> void:
+	_update_ability_cooldowns(delta)
 	
 func _ready() -> void:
 	_setup_identification()
@@ -62,7 +71,7 @@ func _physics_process(delta: float) -> void:
 @export var bt_player: BTPlayer
 @export var graphical_module: Node2D
 @export var hitbox: Hitbox
-@export var hurtbox: Hurtbox
+@export var hurtbox: Hurtbox ## Disabled by default. Use animationplayers to enable the hurtbox when necessary.
 @export var detection_area: DetectionArea
 @export var interaction_area: InteractionArea
 @export var other_areas: Array[Area2D]

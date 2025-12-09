@@ -9,19 +9,32 @@ class_name Creature
 # ------------------------------------------------------------------------
 # INTERNAL STATE
 # ------------------------------------------------------------------------
-@export_subgroup("Internal State")
+## Defines location goals (Vector2) for entities to pathfind towards.
+## There are two types: long and short. Long should be used for long-term goals in case a creature wants to
+## travel to a specific location over a long period of time. Short should be used for immediate actions like
+## collecting an item or fruit.
+@export var goals: Dictionary[String, Vector2] = {
+	"long": Vector2.INF,
+	"short": Vector2.INF,
+}
+
+
 ## Flag to override the creature's health with a custom value.
+@export_group("Health")
 @export var overriding_health: bool = false
-@export var health_override: int = 0
+@export var health_override: float = 0
+@export_group("Hunger")
 @export var overriding_hunger: bool = false
 @export var hunger_override: float = 0
+@export_group("Invincibility")
 @export var can_go_invincible: bool = true
 @export var invincibility_time: float = 2
 var _stun_time: float = 0.0 # later on implement stunning based on this value.
-var _health: int
+var _health: float
 var _hunger: float
 var stats: CreatureStats
 var _invincibility_timer: float = 0
+var controller_rs_input: Vector2
 
 func set_bt_player_active(active: bool) -> void:
 	if active == true:
@@ -32,11 +45,11 @@ func set_bt_player_active(active: bool) -> void:
 			bt_player.active = false
 
 func add_to_stun_time(stun_time: float) -> void:
-	if _stun_time <= 0:
+	_stun_time += stun_time
+	if _stun_time >= 0:
 		graphical_module.scale.y = -1
 		set_bt_player_active(false)
 		set_rigid_physics_active(true)
-	_stun_time += stun_time
 
 func update_stun(delta: float) -> void:
 	if _stun_time <= 0:
@@ -50,20 +63,16 @@ func update_stun(delta: float) -> void:
 		
 func set_rigid_physics_active(active: bool) -> void:
 	if active:
+		# for creatures, this makes them a physics object (able to be knocked around by external impulses)
 		freeze = false
 		set_bt_player_active(false)
 	else:
+		# returns the creature back to kinematic behavior mode
 		freeze = true
 		set_bt_player_active(true)
+		linear_velocity = Vector2.ZERO
 
-## Defines location goals (Vector2) for entities to pathfind towards.
-## There are two types: long and short. Long should be used for long-term goals in case a creature wants to
-## travel to a specific location over a long period of time. Short should be used for immediate actions like
-## collecting an item or fruit.
-@export var goals: Dictionary[String, Vector2] = {
-	"long": Vector2.INF,
-	"short": Vector2.INF,
-}
+
 
 
 # use this velocity for pathfinding, all velocities will be added 
@@ -87,7 +96,7 @@ var effect_velocity: Vector2 = Vector2.ZERO
 # ------------------------------------------------------------------------
 # MOVEMENT AND COLLISION FLAGS
 # ------------------------------------------------------------------------
-@export_subgroup("Movement & Collision")
+@export_group("Movement & Collision")
 @export var avoidance_radius: float = 32.0
 
 @export var collide_with_terrain: bool = true
@@ -100,7 +109,7 @@ var effect_velocity: Vector2 = Vector2.ZERO
 # ------------------------------------------------------------------------
 # PLAYER CONTROL
 # ------------------------------------------------------------------------
-@export_subgroup("Player Possession")
+@export_group("Player Possession")
 @export var accept_player_input: bool = false
 var reticle: Node2D
 
@@ -161,6 +170,7 @@ func _setup_physics_properties() -> void:
 	
 
 func _process(delta: float) -> void:
+	super._process(delta)
 	if can_go_invincible:
 		_invincibility_timer = max(_invincibility_timer - delta, 0)
 
@@ -177,10 +187,10 @@ func update_hunger(delta: float) -> void:
 	bt_player.blackboard.set_var("hunger", _hunger)
 	
 func update_facing_direction(delta: float) -> void:
-	var controller_facing_input: Vector2 = Input.get_vector("aim_west", "aim_east", "aim_north", "aim_south")
+	controller_rs_input = Input.get_vector("aim_west", "aim_east", "aim_north", "aim_south")
 	if accept_player_input:
-		if controller_facing_input != Vector2.ZERO:
-			facing_direction = controller_facing_input
+		if controller_rs_input != Vector2.ZERO:
+			facing_direction = controller_rs_input
 		elif total_velocity != Vector2.ZERO:
 			facing_direction = total_velocity.normalized()
 	elif total_velocity != Vector2.ZERO:
@@ -213,11 +223,11 @@ func move(delta: float) -> void:
 		motion = collision.get_remainder().slide(collision.get_normal())
 		slides += 1
 	
-	if slides >= max_slides:
-		print_debug("Warning: Max slides reached for creature movement")
+	#if slides >= max_slides:
+		#print_debug("Warning: Max slides reached for creature movement")
 	
 ## Handles health change events targeted at this creature.
-func _on_change_health(target: Creature, amount: int, source: Node2D):
+func _on_change_health(target: Creature, amount: float, source: Node2D):
 	if target == self:
 		if amount < 0:
 			take_damage(amount, source)
@@ -225,19 +235,23 @@ func _on_change_health(target: Creature, amount: int, source: Node2D):
 			heal(amount, source)
 			
 ## Increases the creature's health and emits a healed event.
-func heal(amount: int, healer: Node2D):
+func heal(amount: float, healer: Node2D):
 	_health += amount
 	EventBus.creature_healed.emit(self, amount, healer)
-		
-## Applies damage to the creature if not invincible, updates invincibility, and emits a damaged event.
-func take_damage(amount: int, attacker: Node2D):
-	if can_go_invincible and _invincibility_timer > 0:
-		return
+	
+func go_invincible(duration: float = invincibility_time) -> void:
 	if can_go_invincible:
 		_invincibility_timer = invincibility_time
 		
+## Applies damage to the creature if not invincible, updates invincibility, and emits a damaged event.
+func take_damage(amount: float, attacker: Node2D) -> bool:
+	if can_go_invincible and _invincibility_timer > 0:
+		return false
+	go_invincible()
 	_health += amount
+	print("taking %s damage: %s" % [amount, self])
 	EventBus.creature_damaged.emit(self, amount, attacker)
+	return true
 	
 	
 ## Handles the creature's death, emitting a died event and queuing for free.

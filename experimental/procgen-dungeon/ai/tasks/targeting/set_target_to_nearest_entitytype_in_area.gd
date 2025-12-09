@@ -74,7 +74,7 @@ func _tick(_delta: float) -> Status:
 
 	var valid_entities: Array = []
 	
-	for body: Entity in target_area.get_overlapping_bodies():
+	for body in target_area.get_overlapping_bodies():
 		if not is_instance_valid(body) or body == agent:
 			continue
 		if target_entity_type and body.identification.entity_type:

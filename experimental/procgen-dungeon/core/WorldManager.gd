@@ -1,5 +1,5 @@
 # world manager
-
+class_name WorldManager
 extends Node
 
 @export var tilemap_layer: TileMapLayer

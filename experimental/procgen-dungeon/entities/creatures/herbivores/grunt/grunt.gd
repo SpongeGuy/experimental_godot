@@ -11,9 +11,11 @@ func _physics_process(delta: float) -> void:
 	if _health <= 0:
 		queue_free()
 
-func take_damage(amount: int, attacker: Node2D):
-	super.take_damage(amount, attacker)
-	hurt_animation.play("hurt")
-	AudioManager.play_at_position(hurt_sound, position)
+func take_damage(amount: float, attacker: Node2D) -> bool:
+	if super.take_damage(amount, attacker):
+		hurt_animation.play("hurt")
+		AudioManager.play_at_position(hurt_sound, position)
+		return true
+	return false
 	
 

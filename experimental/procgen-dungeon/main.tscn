@@ -1,12 +1,16 @@
-[gd_scene load_steps=57 format=3 uid="uid://pqp2ku3r68hb"]
+[gd_scene load_steps=63 format=3 uid="uid://pqp2ku3r68hb"]
 
 [ext_resource type="Script" uid="uid://wojinhjolg8h" path="res://core/WorldManager.gd" id="1_0xm2m"]
 [ext_resource type="Script" uid="uid://hr3074cc5wf5" path="res://World.gd" id="3_1bvp3"]
 [ext_resource type="Texture2D" uid="uid://dj0mcwh3yn3lf" path="res://assets/sprites/tilesets/16x16_tiles_debug_correct.png" id="3_272bh"]
 [ext_resource type="Script" uid="uid://vysodgmiux3v" path="res://debug.gd" id="3_h2yge"]
+[ext_resource type="Script" uid="uid://b8kdmyw2bdtdj" path="res://entities/abilities/ability.gd" id="5_4c57u"]
 [ext_resource type="PackedScene" uid="uid://bt8g3fryrf86u" path="res://entities/creatures/herbivores/grunt/grunt.tscn" id="5_kek77"]
 [ext_resource type="Script" uid="uid://cpp6n8go876it" path="res://playerdebug.gd" id="6_4c57u"]
+[ext_resource type="Script" uid="uid://b4rjvaj1in8km" path="res://entities/abilities/pick_up.gd" id="6_efxa6"]
 [ext_resource type="PackedScene" uid="uid://6x2sla5rcri4" path="res://entities/plants/fruit_tree/fruit_tree.tscn" id="7_272bh"]
+[ext_resource type="Script" uid="uid://cwiqlmof17nfc" path="res://entities/abilities/toss.gd" id="7_dg77c"]
+[ext_resource type="PackedScene" uid="uid://cjntdbldpv6ok" path="res://entities/items/stone/stone.tscn" id="10_efxa6"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_tlwt5"]
 vertices = PackedVector2Array(1.140625, 8, -1.140625, 8, -1.140625, -1.140625, 1.140625, -1.140625)
@@ -1061,13 +1065,26 @@ terrain_set_0/terrain_1/color = Color(0.5019608, 0.4392157, 0.2509804, 1)
 navigation_layer_0/layers = 1
 sources/0 = SubResource("TileSetAtlasSource_aqk2v")
 
-[node name="WorldManager" type="Node" node_paths=PackedStringArray("tilemap_layer")]
+[sub_resource type="Resource" id="Resource_rp142"]
+script = ExtResource("6_efxa6")
+cooldown = 1.0
+metadata/_custom_type_script = "uid://b4rjvaj1in8km"
+
+[sub_resource type="Resource" id="Resource_ycdy4"]
+script = ExtResource("7_dg77c")
+toss_force = 550.0
+cooldown = 1.0
+metadata/_custom_type_script = "uid://cwiqlmof17nfc"
+
+[node name="WorldManager" type="Node2D" node_paths=PackedStringArray("tilemap_layer")]
 script = ExtResource("1_0xm2m")
 tilemap_layer = NodePath("World/Terrain")
 
 [node name="World" type="Node2D" parent="."]
 y_sort_enabled = true
 script = ExtResource("3_1bvp3")
+
+[node name="Camera2D" type="Camera2D" parent="World"]
 
 [node name="Terrain" type="TileMapLayer" parent="World"]
 z_index = -1
@@ -1076,41 +1093,53 @@ tile_map_data = PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 0, 0)
 tile_set = SubResource("TileSet_036b0")
 
 [node name="Grunt2" parent="World" instance=ExtResource("5_kek77")]
-position = Vector2(-171, -98)
+position = Vector2(0, 1)
 accept_player_input = true
-
-[node name="Camera2D" type="Camera2D" parent="World/Grunt2"]
-position = Vector2(-1, 0)
+abilities = Dictionary[String, ExtResource("5_4c57u")]({
+"ability_1": null,
+"ability_2": null,
+"ability_3": null,
+"ability_4": null,
+"ability_p": SubResource("Resource_rp142"),
+"ability_t": SubResource("Resource_ycdy4"),
+"ability_u": null
+})
 
 [node name="playerdebug" type="Node" parent="World/Grunt2" node_paths=PackedStringArray("master")]
 script = ExtResource("6_4c57u")
 master = NodePath("..")
 
+[node name="Stone3" parent="World" instance=ExtResource("10_efxa6")]
+position = Vector2(-114, -89)
+
 [node name="Grunt" parent="World" instance=ExtResource("5_kek77")]
-position = Vector2(-31, -115)
+position = Vector2(95, -68)
+
+[node name="Grunt3" parent="World" instance=ExtResource("5_kek77")]
+position = Vector2(131, 85)
+
+[node name="Grunt4" parent="World" instance=ExtResource("5_kek77")]
+position = Vector2(-129, -19)
+
+[node name="Grunt5" parent="World" instance=ExtResource("5_kek77")]
+position = Vector2(-154, 59)
+
+[node name="FruitTree" parent="World" instance=ExtResource("7_272bh")]
+position = Vector2(152, 159)
+
+[node name="FruitTree2" parent="World" instance=ExtResource("7_272bh")]
+position = Vector2(-66, -127)
+
+[node name="FruitTree3" parent="World" instance=ExtResource("7_272bh")]
+position = Vector2(-211, 127)
+
+[node name="Stone" parent="World" instance=ExtResource("10_efxa6")]
+position = Vector2(249, -67)
+
+[node name="Stone2" parent="World" instance=ExtResource("10_efxa6")]
+position = Vector2(17, 131)
 
 [node name="Debug" type="Node" parent="." node_paths=PackedStringArray("world_manager", "tilemap_layer")]
 script = ExtResource("3_h2yge")
 world_manager = NodePath("..")
 tilemap_layer = NodePath("../World/Terrain")
-
-[node name="FruitTree" parent="." instance=ExtResource("7_272bh")]
-position = Vector2(-21, -48)
-
-[node name="FruitTree2" parent="." instance=ExtResource("7_272bh")]
-position = Vector2(-148, -62)
-
-[node name="Grunt" parent="." instance=ExtResource("5_kek77")]
-position = Vector2(-269, -140)
-
-[node name="Grunt2" parent="." instance=ExtResource("5_kek77")]
-position = Vector2(-149, -180)
-
-[node name="Grunt3" parent="." instance=ExtResource("5_kek77")]
-position = Vector2(-97, 23)
-
-[node name="Grunt4" parent="." instance=ExtResource("5_kek77")]
-position = Vector2(46, 27)
-
-[node name="Grunt5" parent="." instance=ExtResource("5_kek77")]
-position = Vector2(-222, -29)

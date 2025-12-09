@@ -4,11 +4,11 @@ extends Node
 
 func try_pick_up_ability() -> void:
 	if master.abilities["ability_p"]:
-		master.abilities["ability_p"].activate(master)
+		master.abilities["ability_p"].try_activate(master)
 		
 func try_toss_ability() -> void:
 	if master.abilities["ability_t"]:
-		master.abilities["ability_t"].activate(master)
+		master.abilities["ability_t"].try_activate(master)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("pick_up"):
