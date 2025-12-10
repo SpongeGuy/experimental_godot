@@ -8,7 +8,7 @@ class_name AbilityToss
 
 func _init() -> void:
 	ability_type = Type.ACTIVE
-	cooldown = 1.0
+	cooldown = 0.2
 	
 func activate(master: Entity, direction: Vector2) -> bool:
 	assert(master)

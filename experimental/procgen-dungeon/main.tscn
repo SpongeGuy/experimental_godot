@@ -1074,7 +1074,7 @@ metadata/_custom_type_script = "uid://b4rjvaj1in8km"
 [sub_resource type="Resource" id="Resource_ycdy4"]
 script = ExtResource("7_dg77c")
 toss_force = 550.0
-cooldown = 1.0
+cooldown = 0.1
 metadata/_custom_type_script = "uid://cwiqlmof17nfc"
 
 [node name="WorldManager" type="Node2D" node_paths=PackedStringArray("tilemap_layer")]

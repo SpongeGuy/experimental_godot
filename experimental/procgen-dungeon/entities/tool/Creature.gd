@@ -28,7 +28,7 @@ class_name Creature
 @export var hunger_override: float = 0
 @export_group("Invincibility")
 @export var can_go_invincible: bool = true
-@export var invincibility_time: float = 2
+@export var invincibility_time: float = 1
 var _stun_time: float = 0.0 # later on implement stunning based on this value.
 var _health: float
 var _hunger: float
