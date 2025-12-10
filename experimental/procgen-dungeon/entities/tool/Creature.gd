@@ -138,6 +138,7 @@ func _ready_reticle() -> void:
 func _ready() -> void:
 	_ready_statistics()
 	_ready_reticle()
+	set_rigid_physics_active(false)
 	
 	nav_agent.avoidance_enabled = use_rvo_avoidance
 	nav_agent.radius = avoidance_radius
@@ -223,8 +224,7 @@ func move(delta: float) -> void:
 		motion = collision.get_remainder().slide(collision.get_normal())
 		slides += 1
 	
-	#if slides >= max_slides:
-		#print_debug("Warning: Max slides reached for creature movement")
+
 	
 ## Handles health change events targeted at this creature.
 func _on_change_health(target: Creature, amount: float, source: Node2D):
@@ -249,7 +249,6 @@ func take_damage(amount: float, attacker: Node2D) -> bool:
 		return false
 	go_invincible()
 	_health += amount
-	print("taking %s damage: %s" % [amount, self])
 	EventBus.creature_damaged.emit(self, amount, attacker)
 	return true
 	

@@ -1,11 +1,11 @@
 [gd_scene load_steps=12 format=3 uid="uid://cjntdbldpv6ok"]
 
 [ext_resource type="Script" uid="uid://d3vtx7fn1qn0b" path="res://entities/items/Item.gd" id="1_qdbxf"]
-[ext_resource type="Script" uid="uid://bghauax2lkx7o" path="res://entities/EntityIdentification.gd" id="2_hwpfa"]
+[ext_resource type="Script" uid="uid://bghauax2lkx7o" path="res://entities/tool/EntityIdentification.gd" id="2_hwpfa"]
 [ext_resource type="Texture2D" uid="uid://25t12o0v7mgb" path="res://assets/sprites/debug/stone.png" id="2_mrs87"]
-[ext_resource type="Script" uid="uid://uedw02l07pvv" path="res://entities/Hitbox.gd" id="3_hwpfa"]
-[ext_resource type="Script" uid="uid://dxkak4by7qlk" path="res://entities/Hurtbox.gd" id="4_5vky4"]
-[ext_resource type="Script" uid="uid://cqo4fg81476qm" path="res://entities/DetectionArea.gd" id="5_yp0qv"]
+[ext_resource type="Script" uid="uid://uedw02l07pvv" path="res://entities/tool/Hitbox.gd" id="3_hwpfa"]
+[ext_resource type="Script" uid="uid://cqo4fg81476qm" path="res://entities/tool/DetectionArea.gd" id="5_yp0qv"]
+[ext_resource type="Script" uid="uid://dsriwa0xveul0" path="res://entities/tool/KineticHurtbox.gd" id="7_5vky4"]
 
 [sub_resource type="Resource" id="Resource_5vky4"]
 script = ExtResource("2_hwpfa")
@@ -20,14 +20,16 @@ radius = 6.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_th1m5"]
 radius = 6.0
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_c2ejs"]
-radius = 3.0
-
 [sub_resource type="CircleShape2D" id="CircleShape2D_3i8pe"]
 radius = 30.0
 
-[node name="Stone" type="RigidBody2D" node_paths=PackedStringArray("physics_box", "graphical_module", "hitbox", "hurtbox", "detection_area")]
+[sub_resource type="CircleShape2D" id="CircleShape2D_5vky4"]
+radius = 6.0
+
+[node name="Stone" type="RigidBody2D" node_paths=PackedStringArray("kinetic_hurtbox", "physics_box", "graphical_module", "hitbox", "detection_area")]
+mass = 5.0
 script = ExtResource("1_qdbxf")
+kinetic_hurtbox = NodePath("KineticHurtbox")
 entity_identification_sheet = SubResource("Resource_5vky4")
 bounce = 1.0
 friction = 5.0
@@ -35,7 +37,6 @@ absorbent = true
 physics_box = NodePath("CollisionShape2D")
 graphical_module = NodePath("Graphical")
 hitbox = NodePath("Hitbox")
-hurtbox = NodePath("Hurtbox")
 detection_area = NodePath("DetectionArea")
 metadata/_custom_type_script = "uid://d3vtx7fn1qn0b"
 
@@ -49,6 +50,7 @@ texture = ExtResource("2_mrs87")
 shape = SubResource("CircleShape2D_8ocd7")
 
 [node name="Hitbox" type="Area2D" parent="." node_paths=PackedStringArray("master")]
+visible = false
 collision_layer = 32
 collision_mask = 64
 script = ExtResource("3_hwpfa")
@@ -58,18 +60,8 @@ metadata/_custom_type_script = "uid://uedw02l07pvv"
 [node name="Shape" type="CollisionShape2D" parent="Hitbox"]
 shape = SubResource("CircleShape2D_th1m5")
 
-[node name="Hurtbox" type="Area2D" parent="." node_paths=PackedStringArray("master")]
-collision_layer = 64
-collision_mask = 32
-script = ExtResource("4_5vky4")
-master = NodePath("..")
-metadata/_custom_type_script = "uid://dxkak4by7qlk"
-
-[node name="Shape" type="CollisionShape2D" parent="Hurtbox"]
-shape = SubResource("CircleShape2D_c2ejs")
-disabled = true
-
 [node name="DetectionArea" type="Area2D" parent="." node_paths=PackedStringArray("master")]
+visible = false
 collision_mask = 20
 script = ExtResource("5_yp0qv")
 master = NodePath("..")
@@ -78,3 +70,14 @@ metadata/_custom_type_script = "uid://cqo4fg81476qm"
 [node name="Shape" type="CollisionShape2D" parent="DetectionArea"]
 modulate = Color(16.704, 53.848, 62.491, 1)
 shape = SubResource("CircleShape2D_3i8pe")
+
+[node name="KineticHurtbox" type="Area2D" parent="." node_paths=PackedStringArray("master")]
+collision_layer = 64
+collision_mask = 32
+script = ExtResource("7_5vky4")
+master = NodePath("..")
+metadata/_custom_type_script = "uid://dsriwa0xveul0"
+
+[node name="Shape" type="CollisionShape2D" parent="KineticHurtbox"]
+shape = SubResource("CircleShape2D_5vky4")
+disabled = true

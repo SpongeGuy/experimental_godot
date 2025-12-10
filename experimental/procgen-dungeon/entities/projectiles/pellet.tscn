@@ -1,0 +1,67 @@
+[gd_scene load_steps=7 format=3 uid="uid://cq1r5q3ygerv6"]
+
+[ext_resource type="Script" uid="uid://bhr8kymqcfiht" path="res://entities/projectiles/pellet.gd" id="1_wgehi"]
+[ext_resource type="Texture2D" uid="uid://c33k11sdbsw6a" path="res://assets/sprites/debug/pellet.png" id="2_wgehi"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_vh0tt"]
+radius = 5.0
+
+[sub_resource type="Animation" id="Animation_kjugk"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_vh0tt"]
+resource_name = "blink"
+length = 0.25
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.125),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 1]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_xdnb6"]
+_data = {
+&"RESET": SubResource("Animation_kjugk"),
+&"blink": SubResource("Animation_vh0tt")
+}
+
+[node name="Pellet" type="Area2D"]
+collision_layer = 64
+collision_mask = 32
+script = ExtResource("1_wgehi")
+base_attack_damage = 1.0
+
+[node name="Shape" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_vh0tt")
+
+[node name="Graphical" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="Graphical"]
+texture_filter = 1
+texture = ExtResource("2_wgehi")
+hframes = 2
+
+[node name="Blink" type="AnimationPlayer" parent="Graphical"]
+reset_on_save = false
+libraries = {
+&"": SubResource("AnimationLibrary_xdnb6")
+}

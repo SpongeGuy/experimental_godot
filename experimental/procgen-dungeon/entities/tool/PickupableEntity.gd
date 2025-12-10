@@ -2,9 +2,15 @@ extends Entity
 class_name PickupableEntity
 
 @export_group("Kinetic Damage")
+@export var kinetic_hurtbox: KineticHurtbox
 @export var do_kinetic_damage: bool = true
 @export var min_damage_velocity: float = 150.0
-@export var damage_per_unit_mass_velocity: float = 0.01
+@export var scale_per_speed: float = 200 ## +1 scale per unit pixel/second travelled
+@export var max_hurtbox_scale: float = 2
+@export var base_kinetic_damage: float = 1
+@export var damage_per_speed: float = 400 ## +1 damage per unit pixel/second travelled
+@export var max_kinetic_damage: float = 30
+var _potential_kinetic_damage: float = 0
 var _last_thrower: Entity = null
 var _last_thrower_timer: float = 0.0
 var _last_thrower_timer_duration: float = 1.0
@@ -14,14 +20,12 @@ func set_last_thrower(thrower: Entity) -> void:
 	_last_thrower = thrower
 
 func _nullify_last_thrower(delta: float) -> void:
-	print(self, " ", linear_velocity.distance_squared_to(Vector2.ZERO))
 	if linear_velocity.distance_squared_to(Vector2.ZERO) >= 1:
 		if _last_thrower_timer > 0.0:
 			_last_thrower_timer = _last_thrower_timer_duration
 		return
 	if linear_velocity.distance_squared_to(Vector2.ZERO) <= 0.1:
 		_last_thrower_timer = max(_last_thrower_timer - delta, 0.0)
-		print(self, _last_thrower_timer)
 	if _last_thrower_timer <= 0.0:
 		_last_thrower = null
 
@@ -29,8 +33,14 @@ func _ready() -> void:
 	contact_monitor = true
 	max_contacts_reported = 16
 	super._ready()
-
-func _handle_kinetic_damage() -> void:
+	
+func _handle_kinetic_hurtbox() -> void:
+	if not kinetic_hurtbox:
+		return
+	
+	kinetic_hurtbox.scale = Vector2.ONE
+	kinetic_hurtbox.collision_shape.disabled = true
+	
 	if not do_kinetic_damage or is_held:
 		return
 		
@@ -38,20 +48,20 @@ func _handle_kinetic_damage() -> void:
 	if speed < min_damage_velocity:
 		return
 	
-	for body in get_colliding_bodies():
-		if body == _last_thrower:
-			continue
-		if body == self or not body is Creature: # TODO: CHANGE THIS LATER
-			continue
-		
-		var impact_magnitude: float = mass * speed
-		var damage = impact_magnitude * damage_per_unit_mass_velocity
-		if damage > 0:
-			EventBus.try_change_creature_health.emit(body, -damage, self)
+	var speed_above_minimum = speed - min_damage_velocity
+	var extra_scale = speed_above_minimum / scale_per_speed
+	var scale_factor = 1.0 + extra_scale
+	scale_factor = min(scale_factor, max_hurtbox_scale)
+	
+	var extra_damage = speed_above_minimum / damage_per_speed
+	_potential_kinetic_damage = min(base_kinetic_damage + extra_damage, max_kinetic_damage)
+	
+	kinetic_hurtbox.scale = Vector2.ONE * scale_factor
+	kinetic_hurtbox.collision_shape.disabled = false
 		
 func _physics_process(delta: float) -> void:
 	super._physics_process(delta)
-	_handle_kinetic_damage()
+	_handle_kinetic_hurtbox()
 	_nullify_last_thrower(delta)
 	
 

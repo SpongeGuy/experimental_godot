@@ -6,7 +6,7 @@ func _init() -> void:
 	ability_type = Type.ACTIVE
 	cooldown = 1.0
 	
-func activate(master: Entity) -> bool:
+func activate(master: Entity, direction: Vector2) -> bool:
 	assert(master)
 	if master.inventory.size() >= master.inventory_size:
 		return false # inventory full

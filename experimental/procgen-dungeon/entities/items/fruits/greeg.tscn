@@ -2,14 +2,14 @@
 
 [ext_resource type="Script" uid="uid://82argt110wx4" path="res://entities/items/fruits/greeg.gd" id="1_vu2lr"]
 [ext_resource type="Resource" uid="uid://c0wfng2c1wvp3" path="res://entities/items/fruits/fruit_stats.tres" id="2_ohfuk"]
-[ext_resource type="Script" uid="uid://b51snbs5v4dol" path="res://entities/creatures/CreatureStats.gd" id="3_2mw2t"]
+[ext_resource type="Script" uid="uid://b51snbs5v4dol" path="res://entities/tool/CreatureStats.gd" id="3_2mw2t"]
 [ext_resource type="BehaviorTree" uid="uid://dypyatoxtwy56" path="res://ai/trees/fruit_plant.tres" id="4_3lrdi"]
 [ext_resource type="Texture2D" uid="uid://5hgw7dvmqh5v" path="res://assets/sprites/debug/fruit.png" id="4_emogs"]
-[ext_resource type="Script" uid="uid://uedw02l07pvv" path="res://entities/Hitbox.gd" id="5_1tnxk"]
+[ext_resource type="Script" uid="uid://uedw02l07pvv" path="res://entities/tool/Hitbox.gd" id="5_1tnxk"]
 [ext_resource type="Texture2D" uid="uid://dw2ampmx7uq0e" path="res://assets/sprites/debug/debug_plant.png" id="5_m2xfn"]
-[ext_resource type="Script" uid="uid://dxkak4by7qlk" path="res://entities/Hurtbox.gd" id="6_k6joc"]
-[ext_resource type="Script" uid="uid://bghauax2lkx7o" path="res://entities/EntityIdentification.gd" id="6_o26oq"]
-[ext_resource type="Script" uid="uid://cqo4fg81476qm" path="res://entities/DetectionArea.gd" id="7_03opp"]
+[ext_resource type="Script" uid="uid://bghauax2lkx7o" path="res://entities/tool/EntityIdentification.gd" id="6_o26oq"]
+[ext_resource type="Script" uid="uid://cqo4fg81476qm" path="res://entities/tool/DetectionArea.gd" id="7_03opp"]
+[ext_resource type="Script" uid="uid://dsriwa0xveul0" path="res://entities/tool/KineticHurtbox.gd" id="11_3lrdi"]
 
 [sub_resource type="GDScript" id="GDScript_ne801"]
 script/source = "extends CharacterBody2D
@@ -86,11 +86,11 @@ radius = 3.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_2mw2t"]
 radius = 7.0
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_3lrdi"]
-radius = 7.0
-
 [sub_resource type="CircleShape2D" id="CircleShape2D_m2xfn"]
 radius = 20.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_o26oq"]
+radius = 4.0
 
 [node name="Fruit" type="RigidBody2D" node_paths=PackedStringArray("physics_box", "graphical_module", "hitbox", "hurtbox", "detection_area")]
 can_sleep = false
@@ -98,13 +98,13 @@ lock_rotation = true
 script = ExtResource("1_vu2lr")
 stat_sheet = ExtResource("2_ohfuk")
 satiate_amount = 100.0
-grow_plant_chance = 0.5
+grow_plant_chance = 0.25
 plant_scene = SubResource("PackedScene_3sixa")
 entity_identification_sheet = SubResource("Resource_fmjt0")
 physics_box = NodePath("PhysicsBox")
 graphical_module = NodePath("Sprite2D")
 hitbox = NodePath("Hitbox")
-hurtbox = NodePath("Hurtbox")
+hurtbox = NodePath("")
 detection_area = NodePath("Detection")
 
 [node name="PhysicsBox" type="CollisionShape2D" parent="."]
@@ -115,25 +115,29 @@ texture_filter = 1
 texture = ExtResource("4_emogs")
 
 [node name="Hitbox" type="Area2D" parent="." node_paths=PackedStringArray("master")]
+collision_layer = 32
+collision_mask = 64
 script = ExtResource("5_1tnxk")
 master = NodePath("..")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
 shape = SubResource("CircleShape2D_2mw2t")
 
-[node name="Hurtbox" type="Area2D" parent="." node_paths=PackedStringArray("master")]
-modulate = Color(0.5451468, 0.06195073, 0.62587184, 1)
-monitoring = false
-monitorable = false
-script = ExtResource("6_k6joc")
-master = NodePath("..")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
-shape = SubResource("CircleShape2D_3lrdi")
-
 [node name="Detection" type="Area2D" parent="." node_paths=PackedStringArray("master")]
+collision_mask = 20
 script = ExtResource("7_03opp")
 master = NodePath("..")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Detection"]
 shape = SubResource("CircleShape2D_m2xfn")
+
+[node name="KineticHurtbox" type="Area2D" parent="." node_paths=PackedStringArray("master")]
+collision_layer = 64
+collision_mask = 32
+script = ExtResource("11_3lrdi")
+master = NodePath("..")
+metadata/_custom_type_script = "uid://dsriwa0xveul0"
+
+[node name="Shape" type="CollisionShape2D" parent="KineticHurtbox"]
+shape = SubResource("CircleShape2D_o26oq")
+disabled = true

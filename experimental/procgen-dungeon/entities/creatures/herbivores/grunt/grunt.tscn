@@ -3,15 +3,15 @@
 [ext_resource type="Script" uid="uid://7v0f06txffw3" path="res://entities/creatures/herbivores/grunt/grunt.gd" id="1_elef4"]
 [ext_resource type="BehaviorTree" uid="uid://7sa2dhcn0k84" path="res://ai/trees/grunt/grunt.tres" id="2_16ug5"]
 [ext_resource type="Texture2D" uid="uid://cmvmeul0haba4" path="res://assets/sprites/debug/debug_man.png" id="2_47y2e"]
-[ext_resource type="Script" uid="uid://b51snbs5v4dol" path="res://entities/creatures/CreatureStats.gd" id="2_rp142"]
+[ext_resource type="Script" uid="uid://b51snbs5v4dol" path="res://entities/tool/CreatureStats.gd" id="2_rp142"]
 [ext_resource type="Script" uid="uid://b8kdmyw2bdtdj" path="res://entities/abilities/ability.gd" id="3_7brml"]
-[ext_resource type="Script" uid="uid://bghauax2lkx7o" path="res://entities/EntityIdentification.gd" id="3_rp142"]
+[ext_resource type="Script" uid="uid://bghauax2lkx7o" path="res://entities/tool/EntityIdentification.gd" id="3_rp142"]
 [ext_resource type="Script" uid="uid://b4rjvaj1in8km" path="res://entities/abilities/pick_up.gd" id="4_1xktf"]
-[ext_resource type="Script" uid="uid://uedw02l07pvv" path="res://entities/Hitbox.gd" id="4_41b5i"]
-[ext_resource type="Script" uid="uid://cqo4fg81476qm" path="res://entities/DetectionArea.gd" id="4_dulx8"]
+[ext_resource type="Script" uid="uid://uedw02l07pvv" path="res://entities/tool/Hitbox.gd" id="4_41b5i"]
+[ext_resource type="Script" uid="uid://cqo4fg81476qm" path="res://entities/tool/DetectionArea.gd" id="4_dulx8"]
 [ext_resource type="Script" uid="uid://cwiqlmof17nfc" path="res://entities/abilities/toss.gd" id="5_1xktf"]
-[ext_resource type="Script" uid="uid://dxkak4by7qlk" path="res://entities/Hurtbox.gd" id="5_30e0p"]
-[ext_resource type="Script" uid="uid://cnoc1rtkx7b60" path="res://entities/InteractionArea.gd" id="10_rpw7k"]
+[ext_resource type="Script" uid="uid://dxkak4by7qlk" path="res://entities/tool/Hurtbox.gd" id="5_30e0p"]
+[ext_resource type="Script" uid="uid://cnoc1rtkx7b60" path="res://entities/tool/InteractionArea.gd" id="10_rpw7k"]
 
 [sub_resource type="Resource" id="Resource_igg7t"]
 script = ExtResource("2_rp142")
@@ -19,18 +19,20 @@ metadata/_custom_type_script = "uid://b51snbs5v4dol"
 
 [sub_resource type="Resource" id="Resource_nbgq3"]
 script = ExtResource("3_rp142")
-entity_class = "Grunt"
+entity_class = "Creature"
 entity_type = "Grunt"
 metadata/_custom_type_script = "uid://bghauax2lkx7o"
 
 [sub_resource type="Resource" id="Resource_rp142"]
 script = ExtResource("4_1xktf")
 cooldown = 1.0
+activation_direction = null
 metadata/_custom_type_script = "uid://b4rjvaj1in8km"
 
 [sub_resource type="Resource" id="Resource_rxcga"]
 script = ExtResource("5_1xktf")
 cooldown = 1.0
+activation_direction = null
 metadata/_custom_type_script = "uid://cwiqlmof17nfc"
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_16ug5"]

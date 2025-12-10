@@ -1,7 +1,7 @@
 @tool
 extends BTAction
 
-@export var tolerance := 50.0
+@export var tolerance := 5.0
 
 var nav_agent: NavigationAgent2D
 

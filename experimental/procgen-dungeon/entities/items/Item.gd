@@ -10,3 +10,4 @@ func _ready() -> void:
 
 func activate(master: Entity) -> void:
 	pass
+

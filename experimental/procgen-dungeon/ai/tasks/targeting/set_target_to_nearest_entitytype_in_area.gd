@@ -75,6 +75,7 @@ func _tick(_delta: float) -> Status:
 	var valid_entities: Array = []
 	
 	for body in target_area.get_overlapping_bodies():
+		
 		if not is_instance_valid(body) or body == agent:
 			continue
 		if target_entity_type and body.identification.entity_type:
@@ -98,11 +99,12 @@ func _tick(_delta: float) -> Status:
 	var closest_distance := 9999999.0
 	var nearest_entity: Node2D = null
 	for entity in valid_entities:
+		
 		var dist: float = agent.global_position.distance_to(entity.global_position)
 		if dist < closest_distance:
 			closest_distance = dist
 			nearest_entity = entity
-			
+	
 	if nearest_entity:
 		blackboard.set_var("target_entity", nearest_entity)
 		return SUCCESS

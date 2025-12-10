@@ -1,21 +1,31 @@
-[gd_scene load_steps=14 format=3 uid="uid://iufcpijfr4o"]
+[gd_scene load_steps=23 format=3 uid="uid://iufcpijfr4o"]
 
 [ext_resource type="Texture2D" uid="uid://b5r8lav311kd4" path="res://assets/sprites/debug/flea-sheet.png" id="1_ix4je"]
-[ext_resource type="Script" uid="uid://b51snbs5v4dol" path="res://entities/creatures/CreatureStats.gd" id="2_dfuno"]
+[ext_resource type="Script" uid="uid://c67adbcjjyip3" path="res://entities/tool/Creature.gd" id="1_yxtqn"]
+[ext_resource type="Script" uid="uid://b51snbs5v4dol" path="res://entities/tool/CreatureStats.gd" id="2_dfuno"]
+[ext_resource type="Script" uid="uid://bghauax2lkx7o" path="res://entities/tool/EntityIdentification.gd" id="3_h8jrm"]
 [ext_resource type="BehaviorTree" uid="uid://cil714tfo8o1q" path="res://ai/trees/flea/flea.tres" id="3_nhb3y"]
-[ext_resource type="Script" uid="uid://uedw02l07pvv" path="res://entities/Hitbox.gd" id="3_of2h2"]
+[ext_resource type="Script" uid="uid://uedw02l07pvv" path="res://entities/tool/Hitbox.gd" id="3_of2h2"]
+[ext_resource type="Script" uid="uid://b8kdmyw2bdtdj" path="res://entities/abilities/ability.gd" id="4_pgluq"]
+[ext_resource type="Script" uid="uid://dxkak4by7qlk" path="res://entities/tool/Hurtbox.gd" id="4_yxtqn"]
+[ext_resource type="PackedScene" uid="uid://cq1r5q3ygerv6" path="res://entities/projectiles/pellet.tscn" id="5_7bn8s"]
+[ext_resource type="Script" uid="uid://clavl1t17fvdn" path="res://entities/abilities/shoot_pellet/ability_shoot_pellet.gd" id="5_iax4q"]
+[ext_resource type="Script" uid="uid://cqo4fg81476qm" path="res://entities/tool/DetectionArea.gd" id="5_pya63"]
 
-[sub_resource type="GDScript" id="GDScript_sdoyw"]
-script/source = "extends Creature
-
-
-
-"
-
-[sub_resource type="Resource" id="Resource_yxtqn"]
+[sub_resource type="Resource" id="Resource_fqi0s"]
 script = ExtResource("2_dfuno")
-base_speed = 75.0
 metadata/_custom_type_script = "uid://b51snbs5v4dol"
+
+[sub_resource type="Resource" id="Resource_pgluq"]
+script = ExtResource("3_h8jrm")
+entity_class = "Creature"
+entity_type = "Flea"
+metadata/_custom_type_script = "uid://bghauax2lkx7o"
+
+[sub_resource type="Resource" id="Resource_7bn8s"]
+script = ExtResource("5_iax4q")
+pellet = ExtResource("5_7bn8s")
+metadata/_custom_type_script = "uid://clavl1t17fvdn"
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_16ug5"]
 radius = 4.0
@@ -60,15 +70,34 @@ _data = {
 &"walk": SubResource("Animation_ix4je")
 }
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_ix4je"]
-radius = 9.0
+[sub_resource type="CircleShape2D" id="CircleShape2D_h8jrm"]
+radius = 8.0
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_nhb3y"]
-radius = 58.00862
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yxtqn"]
 
-[node name="Flea" type="CharacterBody2D"]
-script = SubResource("GDScript_sdoyw")
-stat_sheet = SubResource("Resource_yxtqn")
+[sub_resource type="CircleShape2D" id="CircleShape2D_yxtqn"]
+radius = 252.03174
+
+[node name="Flea" type="RigidBody2D" node_paths=PackedStringArray("physics_box", "bt_player", "graphical_module", "hitbox", "hurtbox", "detection_area")]
+script = ExtResource("1_yxtqn")
+stat_sheet = SubResource("Resource_fqi0s")
+entity_identification_sheet = SubResource("Resource_pgluq")
+abilities = Dictionary[String, ExtResource("4_pgluq")]({
+"ability_1": SubResource("Resource_7bn8s"),
+"ability_2": null,
+"ability_3": null,
+"ability_4": null,
+"ability_p": null,
+"ability_t": null,
+"ability_u": null
+})
+physics_box = NodePath("PhysicsBox")
+bt_player = NodePath("BTPlayer")
+graphical_module = NodePath("Graphical")
+hitbox = NodePath("Areas/Hitbox")
+hurtbox = NodePath("Areas/Hurtbox")
+detection_area = NodePath("Areas/DetectionArea")
+metadata/_custom_type_script = "uid://c67adbcjjyip3"
 
 [node name="PhysicsBox" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_16ug5")
@@ -88,16 +117,36 @@ libraries = {
 
 [node name="Areas" type="Node2D" parent="."]
 
-[node name="Hitbox" type="Area2D" parent="Areas"]
+[node name="Hitbox" type="Area2D" parent="Areas" node_paths=PackedStringArray("master")]
+position = Vector2(0, 1)
 script = ExtResource("3_of2h2")
+master = NodePath("../..")
+metadata/_custom_type_script = "uid://uedw02l07pvv"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Areas/Hitbox"]
-shape = SubResource("CircleShape2D_ix4je")
+[node name="Shape" type="CollisionShape2D" parent="Areas/Hitbox"]
+position = Vector2(-0.5, 0)
+shape = SubResource("CircleShape2D_h8jrm")
 
-[node name="Detection" type="Area2D" parent="Areas"]
+[node name="Hurtbox" type="Area2D" parent="Areas" node_paths=PackedStringArray("master")]
+collision_layer = 64
+collision_mask = 32
+script = ExtResource("4_yxtqn")
+master = NodePath("../..")
+metadata/_custom_type_script = "uid://dxkak4by7qlk"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Areas/Detection"]
-shape = SubResource("CircleShape2D_nhb3y")
+[node name="Shape" type="CollisionShape2D" parent="Areas/Hurtbox"]
+shape = SubResource("RectangleShape2D_yxtqn")
+disabled = true
+
+[node name="DetectionArea" type="Area2D" parent="Areas" node_paths=PackedStringArray("master")]
+collision_mask = 20
+script = ExtResource("5_pya63")
+master = NodePath("../..")
+metadata/_custom_type_script = "uid://cqo4fg81476qm"
+
+[node name="Shape" type="CollisionShape2D" parent="Areas/DetectionArea"]
+modulate = Color(16.704, 53.848, 62.491, 1)
+shape = SubResource("CircleShape2D_yxtqn")
 
 [node name="Graphical" type="Node2D" parent="."]
 

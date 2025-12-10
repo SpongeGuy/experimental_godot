@@ -21,7 +21,9 @@ func _enter_tree() -> void:
 	collision_shape.disabled = true
 
 func _ready() -> void:
-	
+	for child in get_children():
+		if child is CollisionShape2D or ConvexPolygonShape2D or ConcavePolygonShape2D:
+			collision_shape = child
 	collision_layer = 1 << 6 # this is a hurtbox
 	collision_mask = 1 << 5 # look for hitboxes (probably unnecessary)
 	area_entered.connect(try_do_damage)
@@ -30,5 +32,9 @@ func _ready() -> void:
 	
 
 func try_do_damage(area: Area2D):
-	if area is Hitbox and area.master != master:
-		EventBus.try_change_creature_health.emit(area.master, -master.stats.base_attack_damage, master)
+	if area is Hitbox and area.master != master and master._last_thrower != area.master:
+		if master is Item:
+			EventBus.try_change_creature_health.emit(area.master, -1, master)
+		elif master is Creature:
+			EventBus.try_change_creature_health.emit(area.master, -master.stats.base_attack_damage, master)
+		

@@ -10,7 +10,7 @@ func _init() -> void:
 	ability_type = Type.ACTIVE
 	cooldown = 1.0
 	
-func activate(master: Entity) -> bool:
+func activate(master: Entity, direction: Vector2) -> bool:
 	assert(master)
 	master.fix_inventory()
 	if master.inventory.is_empty():
@@ -22,7 +22,6 @@ func activate(master: Entity) -> bool:
 	if tossed is Creature:
 		tossed.add_to_stun_time(stun_time)
 		tossed.go_invincible(tossed_invincibility_time)
-		print(tossed._invincibility_timer)
 		
 	if master.linear_velocity != Vector2.ZERO or (master is Creature and master.controller_rs_input != Vector2.ZERO):
 		tossed.apply_central_impulse(master.facing_direction * toss_force)

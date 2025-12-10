@@ -29,13 +29,13 @@ children = [SubResource("BTSequence_l50bx")]
 
 [sub_resource type="BTRandomWait" id="BTRandomWait_r15xx"]
 min_duration = 0.0
-max_duration = 4.0
+max_duration = 6.0
 
 [sub_resource type="BTAction" id="BTAction_q5g1f"]
 script = ExtResource("2_r15xx")
 
 [sub_resource type="BTProbability" id="BTProbability_eqxgy"]
-run_chance = 0.03
+run_chance = 0.05
 children = [SubResource("BTAction_q5g1f")]
 
 [sub_resource type="BTAction" id="BTAction_s2oi7"]

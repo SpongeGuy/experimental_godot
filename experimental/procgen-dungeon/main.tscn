@@ -1,4 +1,4 @@
-[gd_scene load_steps=63 format=3 uid="uid://pqp2ku3r68hb"]
+[gd_scene load_steps=64 format=3 uid="uid://pqp2ku3r68hb"]
 
 [ext_resource type="Script" uid="uid://wojinhjolg8h" path="res://core/WorldManager.gd" id="1_0xm2m"]
 [ext_resource type="Script" uid="uid://hr3074cc5wf5" path="res://World.gd" id="3_1bvp3"]
@@ -10,7 +10,8 @@
 [ext_resource type="Script" uid="uid://b4rjvaj1in8km" path="res://entities/abilities/pick_up.gd" id="6_efxa6"]
 [ext_resource type="PackedScene" uid="uid://6x2sla5rcri4" path="res://entities/plants/fruit_tree/fruit_tree.tscn" id="7_272bh"]
 [ext_resource type="Script" uid="uid://cwiqlmof17nfc" path="res://entities/abilities/toss.gd" id="7_dg77c"]
-[ext_resource type="PackedScene" uid="uid://cjntdbldpv6ok" path="res://entities/items/stone/stone.tscn" id="10_efxa6"]
+[ext_resource type="PackedScene" uid="uid://cjntdbldpv6ok" path="res://entities/items/stone/stone.tscn" id="10_dg77c"]
+[ext_resource type="PackedScene" uid="uid://iufcpijfr4o" path="res://entities/creatures/herbivores/flea/flea.tscn" id="11_dg77c"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_tlwt5"]
 vertices = PackedVector2Array(1.140625, 8, -1.140625, 8, -1.140625, -1.140625, 1.140625, -1.140625)
@@ -1092,7 +1093,9 @@ texture_filter = 1
 tile_map_data = PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 0, 0)
 tile_set = SubResource("TileSet_036b0")
 
-[node name="Grunt2" parent="World" instance=ExtResource("5_kek77")]
+[node name="Entities" type="Node2D" parent="World"]
+
+[node name="Grunt2" parent="World/Entities" instance=ExtResource("5_kek77")]
 position = Vector2(0, 1)
 accept_player_input = true
 abilities = Dictionary[String, ExtResource("5_4c57u")]({
@@ -1105,39 +1108,42 @@ abilities = Dictionary[String, ExtResource("5_4c57u")]({
 "ability_u": null
 })
 
-[node name="playerdebug" type="Node" parent="World/Grunt2" node_paths=PackedStringArray("master")]
+[node name="playerdebug" type="Node" parent="World/Entities/Grunt2" node_paths=PackedStringArray("master")]
 script = ExtResource("6_4c57u")
 master = NodePath("..")
 
-[node name="Stone3" parent="World" instance=ExtResource("10_efxa6")]
-position = Vector2(-114, -89)
+[node name="Flea2" parent="World/Entities" instance=ExtResource("11_dg77c")]
+position = Vector2(149, 22)
 
-[node name="Grunt" parent="World" instance=ExtResource("5_kek77")]
-position = Vector2(95, -68)
+[node name="Stone" parent="World/Entities" instance=ExtResource("10_dg77c")]
+position = Vector2(-145, 9)
 
-[node name="Grunt3" parent="World" instance=ExtResource("5_kek77")]
-position = Vector2(131, 85)
+[node name="Stone2" parent="World/Entities" instance=ExtResource("10_dg77c")]
+position = Vector2(-73, -93)
 
-[node name="Grunt4" parent="World" instance=ExtResource("5_kek77")]
-position = Vector2(-129, -19)
+[node name="Stone3" parent="World/Entities" instance=ExtResource("10_dg77c")]
+position = Vector2(107, 83)
 
-[node name="Grunt5" parent="World" instance=ExtResource("5_kek77")]
-position = Vector2(-154, 59)
+[node name="Grunt" parent="World/Entities" instance=ExtResource("5_kek77")]
+position = Vector2(-34, 113)
 
-[node name="FruitTree" parent="World" instance=ExtResource("7_272bh")]
-position = Vector2(152, 159)
+[node name="Grunt3" parent="World/Entities" instance=ExtResource("5_kek77")]
+position = Vector2(191, 156)
 
-[node name="FruitTree2" parent="World" instance=ExtResource("7_272bh")]
-position = Vector2(-66, -127)
+[node name="Grunt4" parent="World/Entities" instance=ExtResource("5_kek77")]
+position = Vector2(257, -123)
 
-[node name="FruitTree3" parent="World" instance=ExtResource("7_272bh")]
-position = Vector2(-211, 127)
+[node name="Grunt5" parent="World/Entities" instance=ExtResource("5_kek77")]
+position = Vector2(-180, -111)
 
-[node name="Stone" parent="World" instance=ExtResource("10_efxa6")]
-position = Vector2(249, -67)
+[node name="FruitTree" parent="World/Entities" instance=ExtResource("7_272bh")]
+position = Vector2(123, -104)
 
-[node name="Stone2" parent="World" instance=ExtResource("10_efxa6")]
-position = Vector2(17, 131)
+[node name="FruitTree2" parent="World/Entities" instance=ExtResource("7_272bh")]
+position = Vector2(-291, 121)
+
+[node name="FruitTree3" parent="World/Entities" instance=ExtResource("7_272bh")]
+position = Vector2(284, 206)
 
 [node name="Debug" type="Node" parent="." node_paths=PackedStringArray("world_manager", "tilemap_layer")]
 script = ExtResource("3_h2yge")
