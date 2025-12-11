@@ -4,6 +4,7 @@ extends BTAction
 @export var tolerance := 5.0
 
 var nav_agent: NavigationAgent2D
+var safe_velocity := Vector2.ZERO   
 
 func _generate_name() -> String:
 	return "Pathfind and move with tolerance %s" % [
@@ -12,6 +13,7 @@ func _generate_name() -> String:
 
 func _enter() -> void:
 	nav_agent = agent.get("nav_agent")
+	nav_agent.velocity_computed.connect(_on_velocity_computed)
 
 func _tick(_delta: float) -> Status:
 	if agent.accept_player_input:
@@ -26,9 +28,11 @@ func _tick(_delta: float) -> Status:
 		var dir: Vector2 = agent.global_position.direction_to(target_pos)
 		
 		var desired_velocity: Vector2 = dir.normalized() * agent.stats.base_speed
-		
+		print(agent, desired_velocity, safe_velocity)
+		nav_agent.velocity = desired_velocity
 		agent.nav_velocity = desired_velocity
 		agent.move(_delta)
 	return RUNNING
 	
-	
+func _on_velocity_computed(received_safe_velocity: Vector2) -> void:
+	safe_velocity = received_safe_velocity

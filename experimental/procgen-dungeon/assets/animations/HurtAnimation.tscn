@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://barw2vctheoii"]
+
+[ext_resource type="Script" uid="uid://b15e1tgj2220x" path="res://assets/animations/hurt_animation.gd" id="1_av2vu"]
+
+[node name="HurtAnimation" type="AnimationPlayer"]
+script = ExtResource("1_av2vu")

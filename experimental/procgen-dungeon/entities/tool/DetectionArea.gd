@@ -14,7 +14,7 @@ func _enter_tree() -> void:
 	add_child(collision_shape)
 	collision_shape.name = "Shape"
 	if Engine.is_editor_hint():
-		collision_shape.owner = get_tree().edited_scene_root
+		collision_shape.owner = get_tree().edited_scene_rootfiles
 	else:
 		collision_shape.owner = owner
 			

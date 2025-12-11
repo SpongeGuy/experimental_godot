@@ -14,8 +14,13 @@ func _ready() -> void:
 func try_do_damage(area: Area2D):
 	if area is Hitbox and area is not Projectile and area.master != master:
 		EventBus.try_change_creature_health.emit(area.master, -base_attack_damage, master)
-		queue_free()
+		die()
+		
+
 
 func _process(delta: float) -> void:
 	position += velocity * delta
 	
+	
+func die() -> void:
+	queue_free()

@@ -1,0 +1,99 @@
+[gd_resource type="BehaviorTree" load_steps=31 format=3 uid="uid://cyp5ye301rhnt"]
+
+[ext_resource type="Script" uid="uid://bf5nhj25r4baj" path="res://ai/tasks/goals/check_goal.gd" id="1_y378j"]
+[ext_resource type="Script" uid="uid://b6cl7yuiiuy8b" path="res://ai/tasks/goals/set_nav_target_position_to_goal.gd" id="2_6udxd"]
+[ext_resource type="Script" uid="uid://cgicdjlkja61" path="res://ai/tasks/movement/pathfind_and_move.gd" id="3_is7g4"]
+[ext_resource type="Script" uid="uid://ejeoq3qog3ek" path="res://ai/tasks/goals/clear_goal.gd" id="4_47786"]
+[ext_resource type="Script" uid="uid://c02sjh5irbkpm" path="res://ai/tasks/goals/set_target_position_to_random_in_range.gd" id="5_rkkln"]
+[ext_resource type="Script" uid="uid://cam1jx3eclq6n" path="res://ai/tasks/goals/set_goal_to_target_position.gd" id="6_wyqdi"]
+
+[sub_resource type="BlackboardPlan" id="BlackboardPlan_xb32s"]
+
+[sub_resource type="BBNode" id="BBNode_s6rmm"]
+saved_value = NodePath("Node/Walk")
+resource_name = "Node/Walk"
+
+[sub_resource type="BTPlayAnimation" id="BTPlayAnimation_uk0ik"]
+animation_player = SubResource("BBNode_s6rmm")
+animation_name = &"walk"
+
+[sub_resource type="BTSequence" id="BTSequence_fmoox"]
+children = [SubResource("BTPlayAnimation_uk0ik")]
+
+[sub_resource type="BTAlwaysSucceed" id="BTAlwaysSucceed_xw4hq"]
+children = [SubResource("BTSequence_fmoox")]
+
+[sub_resource type="BTCondition" id="BTCondition_urg7n"]
+script = ExtResource("1_y378j")
+goal_type = "short"
+
+[sub_resource type="BTAction" id="BTAction_u0u3l"]
+script = ExtResource("2_6udxd")
+goal_type = "short"
+
+[sub_resource type="BTAction" id="BTAction_0b6yq"]
+script = ExtResource("3_is7g4")
+tolerance = 15.0
+
+[sub_resource type="BTTimeLimit" id="BTTimeLimit_pl04c"]
+time_limit = 1.0
+children = [SubResource("BTAction_0b6yq")]
+
+[sub_resource type="BTAction" id="BTAction_7506r"]
+script = ExtResource("4_47786")
+goal_type = "short"
+
+[sub_resource type="BTSequence" id="BTSequence_y378j"]
+children = [SubResource("BTAction_u0u3l"), SubResource("BTTimeLimit_pl04c"), SubResource("BTAction_7506r")]
+
+[sub_resource type="BTAlwaysSucceed" id="BTAlwaysSucceed_6udxd"]
+children = [SubResource("BTSequence_y378j")]
+
+[sub_resource type="BTSequence" id="BTSequence_d2ee4"]
+children = [SubResource("BTCondition_urg7n"), SubResource("BTAlwaysSucceed_6udxd")]
+
+[sub_resource type="BTAction" id="BTAction_jf1n6"]
+script = ExtResource("5_rkkln")
+range_min = 500.0
+range_max = 900.0
+
+[sub_resource type="BTAction" id="BTAction_84bxy"]
+script = ExtResource("6_wyqdi")
+goal_type = "short"
+
+[sub_resource type="BTAction" id="BTAction_c4nlq"]
+script = ExtResource("2_6udxd")
+goal_type = "short"
+
+[sub_resource type="BTAction" id="BTAction_kpcam"]
+script = ExtResource("3_is7g4")
+tolerance = 15.0
+
+[sub_resource type="BTTimeLimit" id="BTTimeLimit_h4qfk"]
+time_limit = 1.0
+children = [SubResource("BTAction_kpcam")]
+
+[sub_resource type="BTAction" id="BTAction_3jki1"]
+script = ExtResource("4_47786")
+goal_type = "short"
+
+[sub_resource type="BTSequence" id="BTSequence_5vfkc"]
+children = [SubResource("BTAction_jf1n6"), SubResource("BTAction_84bxy"), SubResource("BTAction_c4nlq"), SubResource("BTTimeLimit_h4qfk"), SubResource("BTAction_3jki1")]
+
+[sub_resource type="BTSelector" id="BTSelector_r5ra3"]
+children = [SubResource("BTSequence_d2ee4"), SubResource("BTSequence_5vfkc")]
+
+[sub_resource type="BTSequence" id="BTSequence_brcs2"]
+custom_name = "Wander"
+children = [SubResource("BTSelector_r5ra3")]
+
+[sub_resource type="BTSequence" id="BTSequence_hgc45"]
+custom_name = "Main Loop"
+children = [SubResource("BTSequence_brcs2")]
+
+[sub_resource type="BTSequence" id="BTSequence_tk2fo"]
+children = [SubResource("BTAlwaysSucceed_xw4hq"), SubResource("BTSequence_hgc45")]
+
+[resource]
+blackboard_plan = SubResource("BlackboardPlan_xb32s")
+root_task = SubResource("BTSequence_tk2fo")

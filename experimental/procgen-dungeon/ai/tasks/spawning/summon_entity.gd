@@ -21,5 +21,5 @@ func _tick(_delta: float) -> Status:
 	
 	var child := scene.instantiate()
 	child.global_position = agent.global_position + relative_position
-	agent.get_tree().current_scene.add_child(child)
+	EntityManager.add_entity_to_world(child)
 	return SUCCESS

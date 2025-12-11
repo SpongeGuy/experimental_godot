@@ -1,0 +1,158 @@
+[gd_scene load_steps=22 format=3 uid="uid://csah3oaw4efnx"]
+
+[ext_resource type="Script" uid="uid://c67adbcjjyip3" path="res://entities/tool/Creature.gd" id="1_bu01p"]
+[ext_resource type="Script" uid="uid://uedw02l07pvv" path="res://entities/tool/Hitbox.gd" id="2_fdojh"]
+[ext_resource type="Script" uid="uid://b51snbs5v4dol" path="res://entities/tool/CreatureStats.gd" id="2_m5dhp"]
+[ext_resource type="BehaviorTree" uid="uid://cpl3oyl1n1rlo" path="res://ai/trees/spike/spike.tres" id="2_n4dsg"]
+[ext_resource type="Script" uid="uid://bghauax2lkx7o" path="res://entities/tool/EntityIdentification.gd" id="3_0muhm"]
+[ext_resource type="Script" uid="uid://dxkak4by7qlk" path="res://entities/tool/Hurtbox.gd" id="3_6s4yp"]
+[ext_resource type="Script" uid="uid://cqo4fg81476qm" path="res://entities/tool/DetectionArea.gd" id="4_6uvk8"]
+[ext_resource type="Script" uid="uid://b8kdmyw2bdtdj" path="res://entities/abilities/ability.gd" id="4_d101w"]
+[ext_resource type="Texture2D" uid="uid://cs7rx7l0pxol4" path="res://assets/sprites/debug/spike.png" id="5_1dwgw"]
+[ext_resource type="Script" uid="uid://dxkdboarb7lyi" path="res://entities/abilities/activate_hurtbox_static/ability_activate_hurtbox_static.gd" id="5_om7kr"]
+
+[sub_resource type="Resource" id="Resource_wko2i"]
+script = ExtResource("2_m5dhp")
+max_health = 10.0
+base_speed = 25.0
+metadata/_custom_type_script = "uid://b51snbs5v4dol"
+
+[sub_resource type="Resource" id="Resource_5kmov"]
+script = ExtResource("3_0muhm")
+entity_class = "Creature"
+entity_type = "Spike"
+metadata/_custom_type_script = "uid://bghauax2lkx7o"
+
+[sub_resource type="Resource" id="Resource_ixear"]
+script = ExtResource("5_om7kr")
+cooldown = 2.0
+metadata/_custom_type_script = "uid://dxkdboarb7lyi"
+
+[sub_resource type="BlackboardPlan" id="BlackboardPlan_kgoev"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_b8ryv"]
+size = Vector2(12, 14)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_x48kx"]
+radius = 21.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_jl21y"]
+radius = 134.00374
+
+[sub_resource type="Animation" id="Animation_htkqp"]
+resource_name = "walk"
+length = 0.2
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../Graphic/Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 1]
+}
+
+[sub_resource type="Animation" id="Animation_cbdn4"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../Graphic/Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_nfjxj"]
+_data = {
+&"RESET": SubResource("Animation_cbdn4"),
+&"walk": SubResource("Animation_htkqp")
+}
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ijui2"]
+radius = 3.0
+
+[node name="Spike" type="RigidBody2D" node_paths=PackedStringArray("nav_agent", "physics_box", "bt_player", "graphical_module", "hitbox", "hurtbox", "detection_area")]
+script = ExtResource("1_bu01p")
+stat_sheet = SubResource("Resource_wko2i")
+nav_agent = NodePath("NavigationAgent2D")
+entity_identification_sheet = SubResource("Resource_5kmov")
+abilities = Dictionary[String, ExtResource("4_d101w")]({
+"ability_1": SubResource("Resource_ixear"),
+"ability_2": null,
+"ability_3": null,
+"ability_4": null,
+"ability_p": null,
+"ability_t": null,
+"ability_u": null
+})
+physics_box = NodePath("PhysicsBox")
+bt_player = NodePath("BTPlayer")
+graphical_module = NodePath("Graphic")
+hitbox = NodePath("Areas/Hitbox")
+hurtbox = NodePath("Areas/Hurtbox")
+detection_area = NodePath("Areas/DetectionArea")
+metadata/_custom_type_script = "uid://c67adbcjjyip3"
+
+[node name="BTPlayer" type="BTPlayer" parent="."]
+behavior_tree = ExtResource("2_n4dsg")
+blackboard_plan = SubResource("BlackboardPlan_kgoev")
+
+[node name="Areas" type="Node2D" parent="."]
+
+[node name="Hitbox" type="Area2D" parent="Areas" node_paths=PackedStringArray("master")]
+collision_layer = 32
+collision_mask = 64
+script = ExtResource("2_fdojh")
+master = NodePath("../..")
+metadata/_custom_type_script = "uid://uedw02l07pvv"
+
+[node name="Shape" type="CollisionShape2D" parent="Areas/Hitbox"]
+shape = SubResource("RectangleShape2D_b8ryv")
+
+[node name="Hurtbox" type="Area2D" parent="Areas" node_paths=PackedStringArray("master")]
+collision_layer = 64
+collision_mask = 32
+script = ExtResource("3_6s4yp")
+master = NodePath("../..")
+metadata/_custom_type_script = "uid://dxkak4by7qlk"
+
+[node name="Shape" type="CollisionShape2D" parent="Areas/Hurtbox"]
+shape = SubResource("CircleShape2D_x48kx")
+disabled = true
+
+[node name="DetectionArea" type="Area2D" parent="Areas" node_paths=PackedStringArray("master")]
+collision_mask = 20
+script = ExtResource("4_6uvk8")
+master = NodePath("../..")
+metadata/_custom_type_script = "uid://cqo4fg81476qm"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Areas/DetectionArea"]
+shape = SubResource("CircleShape2D_jl21y")
+
+[node name="Node" type="Node" parent="."]
+
+[node name="Walk" type="AnimationPlayer" parent="Node"]
+libraries = {
+&"": SubResource("AnimationLibrary_nfjxj")
+}
+
+[node name="Graphic" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="Graphic"]
+texture_filter = 1
+texture = ExtResource("5_1dwgw")
+hframes = 2
+
+[node name="PhysicsBox" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_ijui2")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]

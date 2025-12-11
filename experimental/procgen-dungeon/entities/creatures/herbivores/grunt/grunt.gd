@@ -2,7 +2,7 @@ class_name Grunt
 extends Creature
 
 # grunt exclusive things go here, but it's the simplest enemy type so probably not
-@onready var hurt_animation: AnimationPlayer = $Animations/HurtAnimation
+#@onready var hurt_animation: AnimationPlayer = $Animations/HurtAnimation
 var hurt_sound: AudioStream = preload("res://assets/sounds/grunt/grunt_hurt.mp3")
 
 	
@@ -13,8 +13,7 @@ func _physics_process(delta: float) -> void:
 
 func take_damage(amount: float, attacker: Node2D) -> bool:
 	if super.take_damage(amount, attacker):
-		hurt_animation.play("hurt")
-		AudioManager.play_at_position(hurt_sound, position)
+		AudioManager.play_at_position(hurt_sound, global_position)
 		return true
 	return false
 	

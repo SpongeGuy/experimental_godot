@@ -14,6 +14,7 @@
 
 [sub_resource type="Resource" id="Resource_fqi0s"]
 script = ExtResource("2_dfuno")
+max_health = 2.0
 metadata/_custom_type_script = "uid://b51snbs5v4dol"
 
 [sub_resource type="Resource" id="Resource_pgluq"]
@@ -78,9 +79,10 @@ radius = 8.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_yxtqn"]
 radius = 252.03174
 
-[node name="Flea" type="RigidBody2D" node_paths=PackedStringArray("physics_box", "bt_player", "graphical_module", "hitbox", "hurtbox", "detection_area")]
+[node name="Flea" type="RigidBody2D" node_paths=PackedStringArray("nav_agent", "physics_box", "bt_player", "graphical_module", "hitbox", "hurtbox", "detection_area")]
 script = ExtResource("1_yxtqn")
 stat_sheet = SubResource("Resource_fqi0s")
+nav_agent = NodePath("NavigationAgent2D")
 entity_identification_sheet = SubResource("Resource_pgluq")
 abilities = Dictionary[String, ExtResource("4_pgluq")]({
 "ability_1": SubResource("Resource_7bn8s"),
@@ -119,6 +121,8 @@ libraries = {
 
 [node name="Hitbox" type="Area2D" parent="Areas" node_paths=PackedStringArray("master")]
 position = Vector2(0, 1)
+collision_layer = 32
+collision_mask = 64
 script = ExtResource("3_of2h2")
 master = NodePath("../..")
 metadata/_custom_type_script = "uid://uedw02l07pvv"

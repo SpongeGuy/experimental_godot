@@ -1,0 +1,17 @@
+[gd_resource type="Theme" load_steps=4 format=3 uid="uid://duxove58mhhbh"]
+
+[ext_resource type="FontFile" uid="uid://duh6vqg6iuiaq" path="res://assets/fonts/anthurium.ttf" id="1_smkcm"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_smkcm"]
+bg_color = Color(0.15427488, 0.15905166, 0.16554064, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s54ot"]
+bg_color = Color(0.18590444, 0.7097235, 0.37430674, 1)
+
+[resource]
+Label/constants/line_spacing = -2
+Label/fonts/font = ExtResource("1_smkcm")
+ProgressBar/fonts/font = ExtResource("1_smkcm")
+ProgressBar/styles/background = SubResource("StyleBoxFlat_smkcm")
+ProgressBar/styles/fill = SubResource("StyleBoxFlat_s54ot")
+VBoxContainer/constants/separation = -2

@@ -26,7 +26,7 @@ func try_grow_plant_and_die() -> void:
 	if randf() < grow_plant_chance and plant_scene:
 		var plant := plant_scene.instantiate()
 		plant.global_position = global_position + Vector2(randf_range(-40, 40), randf_range(-40, 40))
-		get_tree().current_scene.add_child(plant)
+		EntityManager.add_entity_to_world(plant)
 	queue_free()
 	
 func eat(by: Node = null) -> void:

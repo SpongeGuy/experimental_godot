@@ -35,7 +35,7 @@ max_duration = 6.0
 script = ExtResource("2_r15xx")
 
 [sub_resource type="BTProbability" id="BTProbability_eqxgy"]
-run_chance = 0.05
+run_chance = 0.025
 children = [SubResource("BTAction_q5g1f")]
 
 [sub_resource type="BTAction" id="BTAction_s2oi7"]
@@ -57,7 +57,6 @@ children = [SubResource("BTProbability_eqxgy"), SubResource("BTSequence_r15xx")]
 children = [SubResource("BTRandomWait_r15xx"), SubResource("BTSelector_s2oi7")]
 
 [sub_resource type="BTCooldown" id="BTCooldown_spoqv"]
-duration = 5.0
 start_cooled = true
 children = [SubResource("BTSequence_s2oi7")]
 

@@ -98,7 +98,7 @@ func set_held_state(held: bool, holder: PickupableEntity = null) -> void:
 	else:
 		physics_box.disabled = false
 		set_bt_player_active(true)
-		reparent(get_tree().current_scene.get_node("World"))
+		reparent(EntityManager.get_world())
 
 	
 func set_bt_player_active(active: bool) -> void:

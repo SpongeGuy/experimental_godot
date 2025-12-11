@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://bt8g3fryrf86u"]
+[gd_scene load_steps=29 format=3 uid="uid://bt8g3fryrf86u"]
 
 [ext_resource type="Script" uid="uid://7v0f06txffw3" path="res://entities/creatures/herbivores/grunt/grunt.gd" id="1_elef4"]
 [ext_resource type="BehaviorTree" uid="uid://7sa2dhcn0k84" path="res://ai/trees/grunt/grunt.tres" id="2_16ug5"]
@@ -26,56 +26,17 @@ metadata/_custom_type_script = "uid://bghauax2lkx7o"
 [sub_resource type="Resource" id="Resource_rp142"]
 script = ExtResource("4_1xktf")
 cooldown = 1.0
-activation_direction = null
 metadata/_custom_type_script = "uid://b4rjvaj1in8km"
 
 [sub_resource type="Resource" id="Resource_rxcga"]
 script = ExtResource("5_1xktf")
 cooldown = 1.0
-activation_direction = null
 metadata/_custom_type_script = "uid://cwiqlmof17nfc"
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_16ug5"]
 radius = 4.0
 
 [sub_resource type="BlackboardPlan" id="BlackboardPlan_16ug5"]
-
-[sub_resource type="Animation" id="Animation_fssug"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Graphical/Sprite2D:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 1)]
-}
-
-[sub_resource type="Animation" id="Animation_elef4"]
-resource_name = "hurt"
-length = 0.2
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Graphical/Sprite2D:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(1, 0, 0, 1), Color(1, 1, 1, 1)]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_ipa5w"]
-_data = {
-&"RESET": SubResource("Animation_fssug"),
-&"hurt": SubResource("Animation_elef4")
-}
 
 [sub_resource type="Animation" id="Animation_kxb8y"]
 length = 0.001
@@ -179,13 +140,14 @@ size = Vector2(14, 16)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dulx8"]
 size = Vector2(0, 0)
 
-[node name="Grunt" type="RigidBody2D" node_paths=PackedStringArray("physics_box", "bt_player", "graphical_module", "hitbox", "hurtbox", "detection_area", "interaction_area")]
+[node name="Grunt" type="RigidBody2D" node_paths=PackedStringArray("nav_agent", "physics_box", "bt_player", "graphical_module", "hitbox", "hurtbox", "detection_area", "interaction_area")]
 freeze = true
 freeze_mode = 1
 script = ExtResource("1_elef4")
 stat_sheet = SubResource("Resource_igg7t")
 overriding_hunger = true
 hunger_override = 500.0
+nav_agent = NodePath("NavigationAgent2D")
 entity_identification_sheet = SubResource("Resource_nbgq3")
 abilities = Dictionary[String, ExtResource("3_7brml")]({
 "ability_1": null,
@@ -214,12 +176,6 @@ blackboard_plan = SubResource("BlackboardPlan_16ug5")
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 
 [node name="Animations" type="Node" parent="."]
-
-[node name="HurtAnimation" type="AnimationPlayer" parent="Animations"]
-root_node = NodePath("../..")
-libraries = {
-&"": SubResource("AnimationLibrary_ipa5w")
-}
 
 [node name="Tilter" type="AnimationPlayer" parent="Animations"]
 root_node = NodePath("../..")

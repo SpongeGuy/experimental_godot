@@ -2,14 +2,14 @@ extends RigidBody2D
 class_name Entity
 
 @export var entity_identification_sheet: EntityIdentification
-var identification
+var identification: EntityIdentification
 
 func _setup_identification() -> void:
 	identification = entity_identification_sheet.duplicate()
 	if not identification.uuid:
 		var uuid: String = UUIDGenerator.v4()
 		identification.uuid = uuid
-	EntityRegister.add_entity_type_to_register(identification.entity_class, identification.entity_type)
+	EntityManager.add_entity_type_to_register(identification.entity_class, identification.entity_type)
 
 @export var abilities: Dictionary[String, Ability] = {
 	"ability_p": null, # pick up ability

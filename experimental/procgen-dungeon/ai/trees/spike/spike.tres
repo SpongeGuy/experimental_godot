@@ -1,0 +1,24 @@
+[gd_resource type="BehaviorTree" load_steps=7 format=3 uid="uid://cpl3oyl1n1rlo"]
+
+[sub_resource type="BlackboardPlan" id="BlackboardPlan_g0ika"]
+
+[sub_resource type="BBNode" id="BBNode_54kvx"]
+saved_value = NodePath("Node/Walk")
+resource_name = "Node/Walk"
+
+[sub_resource type="BTPlayAnimation" id="BTPlayAnimation_c7ggw"]
+animation_player = SubResource("BBNode_54kvx")
+animation_name = &"walk"
+
+[sub_resource type="BTSequence" id="BTSequence_ycrre"]
+children = [SubResource("BTPlayAnimation_c7ggw")]
+
+[sub_resource type="BTAlwaysSucceed" id="BTAlwaysSucceed_kffnv"]
+children = [SubResource("BTSequence_ycrre")]
+
+[sub_resource type="BTSequence" id="BTSequence_gt5lr"]
+children = [SubResource("BTAlwaysSucceed_kffnv")]
+
+[resource]
+blackboard_plan = SubResource("BlackboardPlan_g0ika")
+root_task = SubResource("BTSequence_gt5lr")

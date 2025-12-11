@@ -1,6 +1,6 @@
-[gd_scene load_steps=64 format=3 uid="uid://pqp2ku3r68hb"]
+[gd_scene load_steps=68 format=3 uid="uid://pqp2ku3r68hb"]
 
-[ext_resource type="Script" uid="uid://wojinhjolg8h" path="res://core/WorldManager.gd" id="1_0xm2m"]
+[ext_resource type="Script" uid="uid://wojinhjolg8h" path="res://systems/core/WorldManager.gd" id="1_0xm2m"]
 [ext_resource type="Script" uid="uid://hr3074cc5wf5" path="res://World.gd" id="3_1bvp3"]
 [ext_resource type="Texture2D" uid="uid://dj0mcwh3yn3lf" path="res://assets/sprites/tilesets/16x16_tiles_debug_correct.png" id="3_272bh"]
 [ext_resource type="Script" uid="uid://vysodgmiux3v" path="res://debug.gd" id="3_h2yge"]
@@ -12,6 +12,10 @@
 [ext_resource type="Script" uid="uid://cwiqlmof17nfc" path="res://entities/abilities/toss.gd" id="7_dg77c"]
 [ext_resource type="PackedScene" uid="uid://cjntdbldpv6ok" path="res://entities/items/stone/stone.tscn" id="10_dg77c"]
 [ext_resource type="PackedScene" uid="uid://iufcpijfr4o" path="res://entities/creatures/herbivores/flea/flea.tscn" id="11_dg77c"]
+[ext_resource type="PackedScene" uid="uid://d205sebk1n05n" path="res://entities/creatures/carnivores/devil/devil.tscn" id="12_vivmo"]
+[ext_resource type="PackedScene" uid="uid://cvydd3k4emaap" path="res://systems/ui/player_ui_module.tscn" id="12_ycdy4"]
+[ext_resource type="PackedScene" uid="uid://csah3oaw4efnx" path="res://entities/creatures/herbivores/spike/spike.tscn" id="13_2cqfq"]
+[ext_resource type="Texture2D" uid="uid://dkdqrto1mcx50" path="res://assets/sprites/debug/background.png" id="14_w48qg"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_tlwt5"]
 vertices = PackedVector2Array(1.140625, 8, -1.140625, 8, -1.140625, -1.140625, 1.140625, -1.140625)
@@ -1056,7 +1060,7 @@ texture = ExtResource("3_272bh")
 10:7/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_ioo17")
 
 [sub_resource type="TileSet" id="TileSet_036b0"]
-physics_layer_0/collision_layer = 2
+physics_layer_0/collision_layer = 34
 physics_layer_0/collision_mask = 0
 terrain_set_0/mode = 0
 terrain_set_0/terrain_0/name = "SOFT_WALL"
@@ -1077,25 +1081,29 @@ toss_force = 550.0
 cooldown = 0.1
 metadata/_custom_type_script = "uid://cwiqlmof17nfc"
 
-[node name="WorldManager" type="Node2D" node_paths=PackedStringArray("tilemap_layer")]
+[node name="WorldManager" type="Node" node_paths=PackedStringArray("tilemap_layer", "world")]
 script = ExtResource("1_0xm2m")
-tilemap_layer = NodePath("World/Terrain")
+tilemap_layer = NodePath("StadiumCanvas/World/Terrain")
+world = NodePath("StadiumCanvas/World")
 
-[node name="World" type="Node2D" parent="."]
+[node name="StadiumCanvas" type="CanvasLayer" parent="."]
+
+[node name="World" type="Node2D" parent="StadiumCanvas"]
 y_sort_enabled = true
+position = Vector2(480, 270)
 script = ExtResource("3_1bvp3")
 
-[node name="Camera2D" type="Camera2D" parent="World"]
+[node name="Camera2D" type="Camera2D" parent="StadiumCanvas/World"]
 
-[node name="Terrain" type="TileMapLayer" parent="World"]
+[node name="Terrain" type="TileMapLayer" parent="StadiumCanvas/World"]
 z_index = -1
 texture_filter = 1
 tile_map_data = PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 0, 0)
 tile_set = SubResource("TileSet_036b0")
 
-[node name="Entities" type="Node2D" parent="World"]
+[node name="Entities" type="Node2D" parent="StadiumCanvas/World"]
 
-[node name="Grunt2" parent="World/Entities" instance=ExtResource("5_kek77")]
+[node name="Grunt2" parent="StadiumCanvas/World/Entities" instance=ExtResource("5_kek77")]
 position = Vector2(0, 1)
 accept_player_input = true
 abilities = Dictionary[String, ExtResource("5_4c57u")]({
@@ -1108,44 +1116,73 @@ abilities = Dictionary[String, ExtResource("5_4c57u")]({
 "ability_u": null
 })
 
-[node name="playerdebug" type="Node" parent="World/Entities/Grunt2" node_paths=PackedStringArray("master")]
+[node name="playerdebug" type="Node" parent="StadiumCanvas/World/Entities/Grunt2" node_paths=PackedStringArray("master")]
 script = ExtResource("6_4c57u")
 master = NodePath("..")
 
-[node name="Flea2" parent="World/Entities" instance=ExtResource("11_dg77c")]
+[node name="Flea2" parent="StadiumCanvas/World/Entities" instance=ExtResource("11_dg77c")]
 position = Vector2(149, 22)
 
-[node name="Stone" parent="World/Entities" instance=ExtResource("10_dg77c")]
+[node name="Stone" parent="StadiumCanvas/World/Entities" instance=ExtResource("10_dg77c")]
 position = Vector2(-145, 9)
 
-[node name="Stone2" parent="World/Entities" instance=ExtResource("10_dg77c")]
+[node name="Stone2" parent="StadiumCanvas/World/Entities" instance=ExtResource("10_dg77c")]
 position = Vector2(-73, -93)
 
-[node name="Stone3" parent="World/Entities" instance=ExtResource("10_dg77c")]
+[node name="Stone3" parent="StadiumCanvas/World/Entities" instance=ExtResource("10_dg77c")]
 position = Vector2(107, 83)
 
-[node name="Grunt" parent="World/Entities" instance=ExtResource("5_kek77")]
+[node name="Grunt" parent="StadiumCanvas/World/Entities" instance=ExtResource("5_kek77")]
 position = Vector2(-34, 113)
 
-[node name="Grunt3" parent="World/Entities" instance=ExtResource("5_kek77")]
+[node name="Grunt3" parent="StadiumCanvas/World/Entities" instance=ExtResource("5_kek77")]
 position = Vector2(191, 156)
 
-[node name="Grunt4" parent="World/Entities" instance=ExtResource("5_kek77")]
+[node name="Grunt4" parent="StadiumCanvas/World/Entities" instance=ExtResource("5_kek77")]
 position = Vector2(257, -123)
 
-[node name="Grunt5" parent="World/Entities" instance=ExtResource("5_kek77")]
+[node name="Grunt5" parent="StadiumCanvas/World/Entities" instance=ExtResource("5_kek77")]
 position = Vector2(-180, -111)
 
-[node name="FruitTree" parent="World/Entities" instance=ExtResource("7_272bh")]
+[node name="FruitTree" parent="StadiumCanvas/World/Entities" instance=ExtResource("7_272bh")]
 position = Vector2(123, -104)
 
-[node name="FruitTree2" parent="World/Entities" instance=ExtResource("7_272bh")]
+[node name="FruitTree2" parent="StadiumCanvas/World/Entities" instance=ExtResource("7_272bh")]
 position = Vector2(-291, 121)
 
-[node name="FruitTree3" parent="World/Entities" instance=ExtResource("7_272bh")]
+[node name="FruitTree3" parent="StadiumCanvas/World/Entities" instance=ExtResource("7_272bh")]
 position = Vector2(284, 206)
+
+[node name="Devil" parent="StadiumCanvas/World/Entities" instance=ExtResource("12_vivmo")]
+position = Vector2(-234, 27)
+
+[node name="Devil2" parent="StadiumCanvas/World/Entities" instance=ExtResource("12_vivmo")]
+position = Vector2(-221, 34)
+
+[node name="Devil3" parent="StadiumCanvas/World/Entities" instance=ExtResource("12_vivmo")]
+position = Vector2(-258, 50)
+
+[node name="Spike" parent="StadiumCanvas/World/Entities" instance=ExtResource("13_2cqfq")]
+position = Vector2(-190, 87)
+
+[node name="Spike2" parent="StadiumCanvas/World/Entities" instance=ExtResource("13_2cqfq")]
+position = Vector2(-165, 119)
 
 [node name="Debug" type="Node" parent="." node_paths=PackedStringArray("world_manager", "tilemap_layer")]
 script = ExtResource("3_h2yge")
 world_manager = NodePath("..")
-tilemap_layer = NodePath("../World/Terrain")
+tilemap_layer = NodePath("../StadiumCanvas/World/Terrain")
+
+[node name="Background" type="CanvasLayer" parent="."]
+layer = 0
+
+[node name="Sprite2D" type="Sprite2D" parent="Background"]
+texture_repeat = 2
+texture = ExtResource("14_w48qg")
+region_enabled = true
+region_rect = Rect2(0, 0, 10000, 10000)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 5
+
+[node name="PlayerUiModule" parent="CanvasLayer" instance=ExtResource("12_ycdy4")]

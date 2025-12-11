@@ -3,6 +3,7 @@ class_name WorldManager
 extends Node
 
 @export var tilemap_layer: TileMapLayer
+@export var world: World
 
 var chunks: Dictionary = {} # key: Vector2i(chunk_pos), value: Array[Array[Cell]]
 const CHUNK_SIZE: int = 8

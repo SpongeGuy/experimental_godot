@@ -16,10 +16,11 @@ config/features=PackedStringArray("4.5", "Forward Plus")
 
 [autoload]
 
-EventBus="*res://core/EventBus.gd"
-EntityRegister="*res://core/EntityRegister.gd"
-AudioManager="*res://core/AudioManager.tscn"
-UuidGenerator="*res://core/UUIDGenerator.gd"
+EventBus="*res://systems/core/EventBus.gd"
+EntityManager="*res://systems/core/EntityManager.gd"
+AudioManager="*res://systems/core/AudioManager.tscn"
+UuidGenerator="*res://systems/core/UUIDGenerator.gd"
+PlayerManager="*res://systems/core/PlayerManager.gd"
 
 [display]
 

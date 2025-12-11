@@ -36,6 +36,9 @@ var stats: CreatureStats
 var _invincibility_timer: float = 0
 var controller_rs_input: Vector2
 
+@export_group("Animations")
+@export var hurt_animation: HurtAnimation
+
 func set_bt_player_active(active: bool) -> void:
 	if active == true:
 		if bt_player and _stun_time <= 0:
@@ -75,6 +78,23 @@ func set_rigid_physics_active(active: bool) -> void:
 
 
 
+
+
+
+# ------------------------------------------------------------------------
+# MOVEMENT AND COLLISION FLAGS
+# ------------------------------------------------------------------------
+@export_group("Movement & Collision")
+@export var nav_agent: NavigationAgent2D
+@export var avoidance_radius: float = 32.0
+
+@export var collide_with_terrain: bool = true
+@export var solid_to_creatures: bool = true
+@export var use_rvo_avoidance: bool = true
+
+@export var use_pathfinding: bool = true # false -> straight-line movement (ghosts, flyers, etc)
+@export var aim_direction: Vector2 = Vector2.ZERO
+
 # use this velocity for pathfinding, all velocities will be added 
 # together on every frame and set to this unit's velocity.
 # move_and_slide() should never be called directly in this script
@@ -91,20 +111,7 @@ var effect_velocity: Vector2 = Vector2.ZERO
 ## Decay factor for effect_velocity lerp back to zero.
 @export var effect_velocity_decay_factor = 5
 ## Reference to the NavigationAgent2D node for pathfinding.
-@onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
 
-# ------------------------------------------------------------------------
-# MOVEMENT AND COLLISION FLAGS
-# ------------------------------------------------------------------------
-@export_group("Movement & Collision")
-@export var avoidance_radius: float = 32.0
-
-@export var collide_with_terrain: bool = true
-@export var solid_to_creatures: bool = true
-@export var use_rvo_avoidance: bool = true
-
-@export var use_pathfinding: bool = true # false -> straight-line movement (ghosts, flyers, etc)
-@export var aim_direction: Vector2 = Vector2.ZERO
 
 # ------------------------------------------------------------------------
 # PLAYER CONTROL
@@ -133,19 +140,42 @@ func _ready_reticle() -> void:
 	if accept_player_input:
 		reticle = reticle_scene.instantiate()
 		add_child(reticle)
-		
-
-func _ready() -> void:
-	_ready_statistics()
-	_ready_reticle()
-	set_rigid_physics_active(false)
 	
+func _ready_player() -> void:
+	if not accept_player_input:
+		return
+		
+	PlayerManager.player_instance = self
+	_ready_reticle()
+
+func _ready_animations() -> void:
+	# hurt animation
+	if not hurt_animation:
+		hurt_animation = HurtAnimation.new()
+		for node in graphical_module.get_children():
+			hurt_animation.graphics_nodes.append(node)
+		add_child(hurt_animation)
+
+func _ready_nav_agent() -> void:
 	nav_agent.avoidance_enabled = use_rvo_avoidance
 	nav_agent.radius = avoidance_radius
 	nav_agent.neighbor_distance = avoidance_radius * 3.0
 	nav_agent.max_neighbors = 12
 	nav_agent.time_horizon_agents = 1.8
 	nav_agent.time_horizon_obstacles = 1.2
+	nav_agent.debug_enabled = true
+	
+	
+	nav_agent.velocity_computed.connect(_on_nav_velocity_computed)
+
+func _ready() -> void:
+	_ready_animations()
+	_ready_nav_agent()
+	_ready_statistics()
+	_ready_player()
+	set_rigid_physics_active(false)
+	
+	
 	
 	collision_layer = 1 << 2 # layer 3 = creatures (layer numbers starting from 0)
 	collision_mask = 1 << 1 # layer 2 = terrain / walls
@@ -200,12 +230,16 @@ func update_facing_direction(delta: float) -> void:
 	if reticle:
 		reticle.rotation = lerp_angle(reticle.rotation, facing_direction.angle(), 20 * delta)
 		
-		
+func _on_nav_velocity_computed(safe_velocity: Vector2):
+	#nav_velocity = safe_velocity		
+	pass
+
 ## Updates the creature's velocity by combining navigation and effect velocities.
 func update_movement(delta: float) -> void:
 	effect_velocity = lerp(effect_velocity, Vector2.ZERO, effect_velocity_decay_factor * delta)
-	nav_velocity = nav_velocity
-	#linear_velocity = effect_velocity + nav_velocity
+
+	if not use_pathfinding:
+		nav_velocity = Vector2.ZERO
 	total_velocity = effect_velocity + nav_velocity
 	
 		
@@ -214,6 +248,7 @@ func move(delta: float) -> void:
 	var motion = total_velocity * delta
 	var max_slides = 4  # Safety limit to prevent infinite loops in complex geometry
 	var slides = 0
+	nav_agent.velocity = total_velocity
 	
 	while motion != Vector2.ZERO and slides < max_slides:
 		var collision = move_and_collide(motion)
@@ -249,7 +284,10 @@ func take_damage(amount: float, attacker: Node2D) -> bool:
 		return false
 	go_invincible()
 	_health += amount
+	hurt_animation.play_hurt()
 	EventBus.creature_damaged.emit(self, amount, attacker)
+	if _health <= 0.0:
+		die(attacker)
 	return true
 	
 	

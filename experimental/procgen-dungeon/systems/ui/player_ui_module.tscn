@@ -1,0 +1,107 @@
+[gd_scene load_steps=6 format=3 uid="uid://cvydd3k4emaap"]
+
+[ext_resource type="Theme" uid="uid://duxove58mhhbh" path="res://systems/ui/player_ui_module_theme.tres" id="1_2wwkv"]
+[ext_resource type="Script" uid="uid://deqtoa2vbw5lu" path="res://systems/ui/player_ui_module.gd" id="1_88s3x"]
+
+[sub_resource type="Animation" id="Animation_88s3x"]
+resource_name = "health_bar_fade"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ProgressBar:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_wyav1"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ProgressBar:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_nlfva"]
+_data = {
+&"RESET": SubResource("Animation_wyav1"),
+&"health_bar_fade": SubResource("Animation_88s3x")
+}
+
+[node name="PlayerUiModule" type="Control" node_paths=PackedStringArray("player_name_label", "player_health_label", "player_health_number", "player_health_bar_node", "player_health_bar", "health_bar_animation")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_88s3x")
+player_name_label = NodePath("Control/player_name")
+player_health_label = NodePath("Control/HBoxContainer/health_label")
+player_health_number = NodePath("Control/HBoxContainer/health_number")
+player_health_bar_node = NodePath("HealthBar")
+player_health_bar = NodePath("HealthBar/ProgressBar")
+health_bar_animation = NodePath("HealthBar/AnimationPlayer")
+
+[node name="label_label" type="Label" parent="."]
+texture_filter = 1
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+theme = ExtResource("1_2wwkv")
+text = "anthurium stadium prototype"
+
+[node name="Control" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_top = 14.0
+offset_right = 49.0
+offset_bottom = 54.0
+theme = ExtResource("1_2wwkv")
+
+[node name="player_name" type="Label" parent="Control"]
+texture_filter = 1
+layout_mode = 2
+theme = ExtResource("1_2wwkv")
+text = "hi"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control"]
+layout_mode = 2
+
+[node name="health_label" type="Label" parent="Control/HBoxContainer"]
+texture_filter = 1
+layout_mode = 2
+theme = ExtResource("1_2wwkv")
+text = "health:"
+
+[node name="health_number" type="Label" parent="Control/HBoxContainer"]
+texture_filter = 1
+layout_mode = 2
+theme = ExtResource("1_2wwkv")
+text = "3"
+
+[node name="HealthBar" type="Node2D" parent="."]
+
+[node name="ProgressBar" type="ProgressBar" parent="HealthBar"]
+texture_filter = 1
+offset_left = -11.0
+offset_top = -2.0
+offset_right = 11.0
+theme = ExtResource("1_2wwkv")
+value = 33.45
+show_percentage = false
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="HealthBar"]
+libraries = {
+&"": SubResource("AnimationLibrary_nlfva")
+}

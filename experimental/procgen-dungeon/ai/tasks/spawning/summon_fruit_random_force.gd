@@ -29,7 +29,7 @@ func _tick(_delta: float) -> Status:
 		return FAILURE
 	
 	var child := scene.instantiate()
-	agent.get_tree().current_scene.add_child(child)
+	EntityManager.add_entity_to_world(child)
 	child.global_position = agent.global_position + relative_position + Vector2(randf_range(-1, 1), randf_range(-1, 1))
 
 	if child is RigidBody2D:
