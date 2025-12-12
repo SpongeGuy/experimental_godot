@@ -1,9 +1,19 @@
 extends Control
 
+@export var death_label: Label
+
 @export_group("Health Label")
 @export var player_name_label: Label
 @export var player_health_label: Label
 @export var player_health_number: Label
+
+@export_group("Hunger Label")
+@export var player_hunger_label: Label
+@export var player_hunger_number: Label
+
+@export_group("Score Label")
+@export var player_score_label: Label
+@export var player_score_number: Label
 
 @export_group("Health Bar")
 @export var player_health_bar_node: Node2D
@@ -25,11 +35,17 @@ func _process(delta: float) -> void:
 		player_health_label.visible = true
 		player_health_number.visible = true
 		player_health_number.text = str(PlayerManager.player_instance._health)
+		player_hunger_number.text = str(round(PlayerManager.player_instance._hunger))
+		player_score_number.text = str(PlayerManager.player_instance.score)
 		
 		player_name_label.text = str(PlayerManager.player_instance.identification.entity_type)
 		
 		_update_player_health_bar_visuals() # TODO: ADD A signal which detects when player instance has been changed
 		
+		if PlayerManager.player_instance: 
+			death_label.visible = false 
+		else: 
+			death_label.visible = true
 		
 		var prev_timer: float = _show_health_bar_timer
 		if _show_health_bar_timer > 0.0:

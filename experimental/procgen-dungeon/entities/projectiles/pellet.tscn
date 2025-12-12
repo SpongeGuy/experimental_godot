@@ -59,6 +59,7 @@ shape = SubResource("CircleShape2D_vh0tt")
 texture_filter = 1
 texture = ExtResource("2_wgehi")
 hframes = 2
+frame = 1
 
 [node name="Blink" type="AnimationPlayer" parent="Graphical"]
 reset_on_save = false

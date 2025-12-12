@@ -27,7 +27,6 @@ radius = 30.0
 radius = 6.0
 
 [node name="Stone" type="RigidBody2D" node_paths=PackedStringArray("kinetic_hurtbox", "physics_box", "graphical_module", "hitbox", "detection_area")]
-mass = 5.0
 script = ExtResource("1_qdbxf")
 kinetic_hurtbox = NodePath("KineticHurtbox")
 entity_identification_sheet = SubResource("Resource_5vky4")

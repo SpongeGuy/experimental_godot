@@ -1,17 +1,20 @@
-[gd_resource type="BehaviorTree" load_steps=89 format=3 uid="uid://7sa2dhcn0k84"]
+[gd_resource type="BehaviorTree" load_steps=99 format=3 uid="uid://7sa2dhcn0k84"]
 
 [ext_resource type="Script" uid="uid://cuxbc2kb6xqxd" path="res://ai/tasks/health/take_damage.gd" id="1_jwrcf"]
 [ext_resource type="Script" uid="uid://jw2qpaclk80c" path="res://ai/tasks/play_sound.gd" id="2_c5ent"]
-[ext_resource type="AudioStream" uid="uid://b4vxkxjxrmnr2" path="res://assets/sounds/grunt/grunt_hurt.mp3" id="3_tlc2v"]
+[ext_resource type="Script" uid="uid://cg5m0ddq11saj" path="res://ai/tasks/targeting/face_towards_target_entity.gd" id="3_3s7d5"]
+[ext_resource type="Script" uid="uid://bht3ytcgp5a1i" path="res://ai/tasks/use_ability.gd" id="4_27p1r"]
 [ext_resource type="Script" uid="uid://vxa0kxnsbcss" path="res://ai/tasks/targeting/is_target_in_radius.gd" id="4_t3fvu"]
-[ext_resource type="Script" uid="uid://d38ke8qdnl1eh" path="res://ai/tasks/hunger/eat_fruit.gd" id="5_3s7d5"]
-[ext_resource type="AudioStream" uid="uid://b2alk1whurrwv" path="res://assets/sounds/grunt/grunt_bite.mp3" id="6_27p1r"]
 [ext_resource type="Script" uid="uid://dij57qyw0s13g" path="res://ai/tasks/movement/set_pathfind_target_to_blackboard_target_entity.gd" id="8_c5ent"]
 [ext_resource type="AudioStream" uid="uid://di1sbylhimh3y" path="res://assets/sounds/grunt/grunt_hungry.mp3" id="8_qnfrp"]
 [ext_resource type="Script" uid="uid://cgicdjlkja61" path="res://ai/tasks/movement/pathfind_and_move.gd" id="9_jwrcf"]
 [ext_resource type="AudioStream" uid="uid://brqsnr3iryhfr" path="res://assets/sounds/grunt/grunt1.mp3" id="10_d84gv"]
-[ext_resource type="Script" uid="uid://vy7v57abpwsp" path="res://ai/tasks/choose_random_pos.gd" id="11_b4hvv"]
 [ext_resource type="Script" uid="uid://bn426ivu3ywl0" path="res://ai/tasks/targeting/set_target_to_nearest_entitytype_in_area.gd" id="11_tlc2v"]
+[ext_resource type="Script" uid="uid://bf5nhj25r4baj" path="res://ai/tasks/goals/check_goal.gd" id="12_27p1r"]
+[ext_resource type="Script" uid="uid://b6cl7yuiiuy8b" path="res://ai/tasks/goals/set_nav_target_position_to_goal.gd" id="13_p5dae"]
+[ext_resource type="Script" uid="uid://ejeoq3qog3ek" path="res://ai/tasks/goals/clear_goal.gd" id="14_qnfrp"]
+[ext_resource type="Script" uid="uid://c02sjh5irbkpm" path="res://ai/tasks/goals/set_target_position_to_random_in_range.gd" id="15_hysg8"]
+[ext_resource type="Script" uid="uid://cam1jx3eclq6n" path="res://ai/tasks/goals/set_goal_to_target_position.gd" id="16_d84gv"]
 
 [sub_resource type="BlackboardPlan" id="BlackboardPlan_ihcj0"]
 
@@ -23,8 +26,11 @@ resource_name = "Animations/MoveAnimation"
 animation_player = SubResource("BBNode_alme7")
 animation_name = &"walk"
 
-[sub_resource type="BTRunLimit" id="BTRunLimit_m5e10"]
+[sub_resource type="BTSequence" id="BTSequence_3s7d5"]
 children = [SubResource("BTPlayAnimation_qu6iv")]
+
+[sub_resource type="BTRunLimit" id="BTRunLimit_m5e10"]
+children = [SubResource("BTSequence_3s7d5")]
 
 [sub_resource type="BTAlwaysSucceed" id="BTAlwaysSucceed_m5e10"]
 children = [SubResource("BTRunLimit_m5e10")]
@@ -35,8 +41,8 @@ children = [SubResource("BTAlwaysSucceed_m5e10")]
 
 [sub_resource type="BBVariant" id="BBVariant_c5ent"]
 type = 3
-saved_value = 750.0
-resource_name = "750.0"
+saved_value = 250.0
+resource_name = "250.0"
 
 [sub_resource type="BTCheckVar" id="BTCheckVar_tlc2v"]
 variable = &"hunger"
@@ -47,25 +53,13 @@ value = SubResource("BBVariant_c5ent")
 duration = 5.0
 children = [SubResource("BTCheckVar_tlc2v")]
 
-[sub_resource type="BBNode" id="BBNode_3s7d5"]
-saved_value = NodePath("HurtAnimation")
-resource_name = "HurtAnimation"
-
-[sub_resource type="BTPlayAnimation" id="BTPlayAnimation_27p1r"]
-animation_player = SubResource("BBNode_3s7d5")
-animation_name = &"hurt"
-
 [sub_resource type="BTAction" id="BTAction_p5dae"]
 script = ExtResource("1_jwrcf")
 damage = 1
 
-[sub_resource type="BTAction" id="BTAction_qnfrp"]
-script = ExtResource("2_c5ent")
-sound = ExtResource("3_tlc2v")
-
 [sub_resource type="BTSequence" id="BTSequence_hysg8"]
 custom_name = "Hunger pangs"
-children = [SubResource("BTCooldown_t3fvu"), SubResource("BTPlayAnimation_27p1r"), SubResource("BTAction_p5dae"), SubResource("BTAction_qnfrp")]
+children = [SubResource("BTCooldown_t3fvu"), SubResource("BTAction_p5dae")]
 
 [sub_resource type="BTAlwaysSucceed" id="BTAlwaysSucceed_d84gv"]
 children = [SubResource("BTSequence_hysg8")]
@@ -87,8 +81,8 @@ children = [SubResource("BTPlayAnimation_jwj43")]
 
 [sub_resource type="BBVariant" id="BBVariant_m5e10"]
 type = 3
-saved_value = 500.0
-resource_name = "500.0"
+saved_value = 100.0
+resource_name = "100.0"
 
 [sub_resource type="BTCheckVar" id="BTCheckVar_ypr8g"]
 variable = &"hunger"
@@ -118,8 +112,8 @@ children = [SubResource("BTCheckVar_ypr8g"), SubResource("BTSetVar_81cv7"), SubR
 
 [sub_resource type="BBVariant" id="BBVariant_g3jbg"]
 type = 3
-saved_value = 100.0
-resource_name = "100.0"
+saved_value = 0.0
+resource_name = "0.0"
 
 [sub_resource type="BTCheckVar" id="BTCheckVar_phada"]
 variable = &"hunger"
@@ -157,14 +151,17 @@ children = [SubResource("BTSelector_hyiyp")]
 
 [sub_resource type="BTCondition" id="BTCondition_alme7"]
 script = ExtResource("4_t3fvu")
-radius = 175.0
+radius = 20.0
+
+[sub_resource type="BTAction" id="BTAction_hysg8"]
+script = ExtResource("3_3s7d5")
 
 [sub_resource type="BTWait" id="BTWait_kxk1o"]
-duration = 0.5
+duration = 0.35
 
 [sub_resource type="BTCondition" id="BTCondition_c5ent"]
 script = ExtResource("4_t3fvu")
-radius = 175.0
+radius = 20.0
 
 [sub_resource type="BTSequence" id="BTSequence_tlc2v"]
 children = [SubResource("BTWait_kxk1o"), SubResource("BTCondition_c5ent")]
@@ -174,16 +171,20 @@ times = 5
 abort_on_failure = true
 children = [SubResource("BTSequence_tlc2v")]
 
-[sub_resource type="BTAction" id="BTAction_ucdji"]
-script = ExtResource("5_3s7d5")
+[sub_resource type="BTAction" id="BTAction_b4hvv"]
+script = ExtResource("4_27p1r")
+ability = "ability_p"
 
-[sub_resource type="BTAction" id="BTAction_kosrh"]
-script = ExtResource("2_c5ent")
-sound = ExtResource("6_27p1r")
+[sub_resource type="BTAction" id="BTAction_ptcaq"]
+script = ExtResource("4_27p1r")
+ability = "ability_u"
+
+[sub_resource type="BTDelay" id="BTDelay_3s7d5"]
+children = [SubResource("BTAction_ptcaq")]
 
 [sub_resource type="BTSequence" id="BTSequence_kxk1o"]
 custom_name = "If nearby fruit, stop and eat the fruit"
-children = [SubResource("BTCondition_alme7"), SubResource("BTRepeat_t3fvu"), SubResource("BTAction_ucdji"), SubResource("BTAction_kosrh")]
+children = [SubResource("BTCondition_alme7"), SubResource("BTAction_hysg8"), SubResource("BTRepeat_t3fvu"), SubResource("BTAction_b4hvv"), SubResource("BTDelay_3s7d5")]
 
 [sub_resource type="BBVariant" id="BBVariant_agbi4"]
 type = 1
@@ -256,45 +257,69 @@ children = [SubResource("BTCooldown_phada")]
 custom_name = "Make a sound"
 children = [SubResource("BTAlwaysSucceed_ydfj1")]
 
-[sub_resource type="BTAction" id="BTAction_kxk1o"]
-script = ExtResource("11_b4hvv")
-range_min = 25.0
+[sub_resource type="BTCondition" id="BTCondition_3s7d5"]
+script = ExtResource("12_27p1r")
+goal_type = "short"
+
+[sub_resource type="BTAction" id="BTAction_27p1r"]
+script = ExtResource("13_p5dae")
+goal_type = "short"
+
+[sub_resource type="BTAction" id="BTAction_qnfrp"]
+script = ExtResource("9_jwrcf")
+tolerance = 15.0
+
+[sub_resource type="BTTimeLimit" id="BTTimeLimit_hysg8"]
+time_limit = 1.0
+children = [SubResource("BTAction_qnfrp")]
+
+[sub_resource type="BTAction" id="BTAction_d84gv"]
+script = ExtResource("14_qnfrp")
+goal_type = "short"
+
+[sub_resource type="BTSequence" id="BTSequence_ptcaq"]
+children = [SubResource("BTAction_27p1r"), SubResource("BTTimeLimit_hysg8"), SubResource("BTAction_d84gv")]
+
+[sub_resource type="BTAlwaysSucceed" id="BTAlwaysSucceed_jihgd"]
+children = [SubResource("BTSequence_ptcaq")]
+
+[sub_resource type="BTSequence" id="BTSequence_krr00"]
+children = [SubResource("BTCondition_3s7d5"), SubResource("BTAlwaysSucceed_jihgd")]
+
+[sub_resource type="BTAction" id="BTAction_367sa"]
+script = ExtResource("15_hysg8")
+range_min = 15.0
 range_max = 50.0
 
-[sub_resource type="BTProbability" id="BTProbability_alme7"]
-run_chance = 0.1
-children = [SubResource("BTAction_kxk1o")]
+[sub_resource type="BTAction" id="BTAction_523y7"]
+script = ExtResource("16_d84gv")
+goal_type = "short"
 
-[sub_resource type="BTSequence" id="BTSequence_thmw6"]
-custom_name = "target long"
-children = [SubResource("BTProbability_alme7")]
+[sub_resource type="BTAction" id="BTAction_8uijv"]
+script = ExtResource("13_p5dae")
+goal_type = "short"
 
-[sub_resource type="BTAction" id="BTAction_l4anq"]
-script = ExtResource("11_b4hvv")
-
-[sub_resource type="BTSequence" id="BTSequence_kosrh"]
-custom_name = "target short"
-children = [SubResource("BTAction_l4anq")]
-
-[sub_resource type="BTSelector" id="BTSelector_l4anq"]
-custom_name = "Pick a long or short distance to move randomly"
-children = [SubResource("BTSequence_thmw6"), SubResource("BTSequence_kosrh")]
-
-[sub_resource type="BTAction" id="BTAction_jwj43"]
+[sub_resource type="BTAction" id="BTAction_winv5"]
 script = ExtResource("9_jwrcf")
-tolerance = 2.0
+tolerance = 15.0
 
-[sub_resource type="BTTimeLimit" id="BTTimeLimit_l4anq"]
-time_limit = 2.5
-children = [SubResource("BTAction_jwj43")]
+[sub_resource type="BTTimeLimit" id="BTTimeLimit_6m7cj"]
+time_limit = 1.0
+children = [SubResource("BTAction_winv5")]
 
-[sub_resource type="BTSequence" id="BTSequence_0iyhc"]
-custom_name = "Pathfind and move"
-children = [SubResource("BTTimeLimit_l4anq")]
+[sub_resource type="BTAction" id="BTAction_1n0kw"]
+script = ExtResource("14_qnfrp")
+goal_type = "short"
+
+[sub_resource type="BTSequence" id="BTSequence_i8o13"]
+children = [SubResource("BTAction_367sa"), SubResource("BTAction_523y7"), SubResource("BTAction_8uijv"), SubResource("BTTimeLimit_6m7cj"), SubResource("BTAction_1n0kw")]
+
+[sub_resource type="BTSelector" id="BTSelector_x3411"]
+children = [SubResource("BTSequence_krr00"), SubResource("BTSequence_i8o13")]
 
 [sub_resource type="BTSequence" id="BTSequence_jwj43"]
 custom_name = "Wander"
-children = [SubResource("BTSequence_3806r"), SubResource("BTSelector_l4anq"), SubResource("BTSequence_0iyhc")]
+children = [SubResource("BTSequence_3806r"), SubResource("BTSelector_x3411")]
 
 [sub_resource type="BTSelector" id="BTSelector_kxk1o"]
 custom_name = "Wander or seek food"

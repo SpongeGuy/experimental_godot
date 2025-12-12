@@ -92,7 +92,7 @@ radius = 20.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_o26oq"]
 radius = 4.0
 
-[node name="Fruit" type="RigidBody2D" node_paths=PackedStringArray("physics_box", "graphical_module", "hitbox", "hurtbox", "detection_area")]
+[node name="Fruit" type="RigidBody2D" node_paths=PackedStringArray("kinetic_hurtbox", "physics_box", "graphical_module", "hitbox", "detection_area")]
 can_sleep = false
 lock_rotation = true
 script = ExtResource("1_vu2lr")
@@ -100,11 +100,11 @@ stat_sheet = ExtResource("2_ohfuk")
 satiate_amount = 100.0
 grow_plant_chance = 0.25
 plant_scene = SubResource("PackedScene_3sixa")
+kinetic_hurtbox = NodePath("KineticHurtbox")
 entity_identification_sheet = SubResource("Resource_fmjt0")
 physics_box = NodePath("PhysicsBox")
 graphical_module = NodePath("Sprite2D")
 hitbox = NodePath("Hitbox")
-hurtbox = NodePath("")
 detection_area = NodePath("Detection")
 
 [node name="PhysicsBox" type="CollisionShape2D" parent="."]

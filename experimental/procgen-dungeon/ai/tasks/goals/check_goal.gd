@@ -9,6 +9,8 @@ func _generate_name() -> String:
 	]
 
 
+# if agent goal exists, return success
+# if agent goal does not exist, return failure
 func _tick(_delta: float) -> Status:
 	assert(goal_type)
 	if agent.goals[goal_type] == Vector2.INF:

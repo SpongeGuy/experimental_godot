@@ -6,10 +6,10 @@
 [ext_resource type="Script" uid="uid://bghauax2lkx7o" path="res://entities/tool/EntityIdentification.gd" id="3_h8jrm"]
 [ext_resource type="BehaviorTree" uid="uid://cil714tfo8o1q" path="res://ai/trees/flea/flea.tres" id="3_nhb3y"]
 [ext_resource type="Script" uid="uid://uedw02l07pvv" path="res://entities/tool/Hitbox.gd" id="3_of2h2"]
-[ext_resource type="Script" uid="uid://b8kdmyw2bdtdj" path="res://entities/abilities/ability.gd" id="4_pgluq"]
+[ext_resource type="Script" uid="uid://b8kdmyw2bdtdj" path="res://entities/abilities/Ability.gd" id="4_pgluq"]
 [ext_resource type="Script" uid="uid://dxkak4by7qlk" path="res://entities/tool/Hurtbox.gd" id="4_yxtqn"]
 [ext_resource type="PackedScene" uid="uid://cq1r5q3ygerv6" path="res://entities/projectiles/pellet.tscn" id="5_7bn8s"]
-[ext_resource type="Script" uid="uid://clavl1t17fvdn" path="res://entities/abilities/shoot_pellet/ability_shoot_pellet.gd" id="5_iax4q"]
+[ext_resource type="Script" uid="uid://clavl1t17fvdn" path="res://entities/abilities/shoot_pellet/shoot_pellet.gd" id="5_iax4q"]
 [ext_resource type="Script" uid="uid://cqo4fg81476qm" path="res://entities/tool/DetectionArea.gd" id="5_pya63"]
 
 [sub_resource type="Resource" id="Resource_fqi0s"]
@@ -23,9 +23,9 @@ entity_class = "Creature"
 entity_type = "Flea"
 metadata/_custom_type_script = "uid://bghauax2lkx7o"
 
-[sub_resource type="Resource" id="Resource_7bn8s"]
+[sub_resource type="Resource" id="Resource_iax4q"]
 script = ExtResource("5_iax4q")
-pellet = ExtResource("5_7bn8s")
+cooldown = 1.0
 metadata/_custom_type_script = "uid://clavl1t17fvdn"
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_16ug5"]
@@ -85,7 +85,7 @@ stat_sheet = SubResource("Resource_fqi0s")
 nav_agent = NodePath("NavigationAgent2D")
 entity_identification_sheet = SubResource("Resource_pgluq")
 abilities = Dictionary[String, ExtResource("4_pgluq")]({
-"ability_1": SubResource("Resource_7bn8s"),
+"ability_1": SubResource("Resource_iax4q"),
 "ability_2": null,
 "ability_3": null,
 "ability_4": null,

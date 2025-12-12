@@ -19,6 +19,9 @@ func _enter_tree() -> void:
 		collision_shape.owner = owner
 
 func _ready() -> void:
+	for child in get_children():
+		if child is CollisionShape2D or ConvexPolygonShape2D or ConcavePolygonShape2D:
+			collision_shape = child
 	assert(master)
 	collision_layer = 1 << 5 # this is a hitbox
 	collision_mask = 1 << 6 # look for hurtboxes

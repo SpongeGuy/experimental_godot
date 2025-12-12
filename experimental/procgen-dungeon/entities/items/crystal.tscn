@@ -1,0 +1,108 @@
+[gd_scene load_steps=14 format=3 uid="uid://ccfxon61h0we7"]
+
+[ext_resource type="Script" uid="uid://vo8xsu3s4337" path="res://entities/items/crystal.gd" id="1_7522s"]
+[ext_resource type="Script" uid="uid://dsriwa0xveul0" path="res://entities/tool/KineticHurtbox.gd" id="2_hvbkj"]
+[ext_resource type="Script" uid="uid://bghauax2lkx7o" path="res://entities/tool/EntityIdentification.gd" id="2_ktxxo"]
+[ext_resource type="Texture2D" uid="uid://2b415cnegnsx" path="res://assets/sprites/debug/crystal.png" id="3_ktxxo"]
+[ext_resource type="Script" uid="uid://b8kdmyw2bdtdj" path="res://entities/abilities/Ability.gd" id="3_n5d1r"]
+[ext_resource type="Script" uid="uid://dafud7ktopktq" path="res://entities/abilities/crystal_increment_score.gd" id="4_u4m5f"]
+
+[sub_resource type="Resource" id="Resource_n5d1r"]
+script = ExtResource("2_ktxxo")
+entity_class = "Item"
+entity_type = "Crystal"
+entity_faction = 3
+metadata/_custom_type_script = "uid://bghauax2lkx7o"
+
+[sub_resource type="Resource" id="Resource_30asi"]
+script = ExtResource("4_u4m5f")
+metadata/_custom_type_script = "uid://dafud7ktopktq"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hvbkj"]
+radius = 2.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_7522s"]
+radius = 6.0827627
+
+[sub_resource type="Animation" id="Animation_n5d1r"]
+resource_name = "shine"
+length = 0.1
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../Graphical/Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.033333335, 0.06666667),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 1, 2]
+}
+
+[sub_resource type="Animation" id="Animation_u4m5f"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../Graphical/Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_30asi"]
+_data = {
+&"RESET": SubResource("Animation_u4m5f"),
+&"shine": SubResource("Animation_n5d1r")
+}
+
+[node name="Crystal" type="RigidBody2D" node_paths=PackedStringArray("kinetic_hurtbox", "physics_box", "graphical_module")]
+script = ExtResource("1_7522s")
+kinetic_hurtbox = NodePath("KineticHurtbox")
+entity_identification_sheet = SubResource("Resource_n5d1r")
+abilities = Dictionary[String, ExtResource("3_n5d1r")]({
+"ability_1": SubResource("Resource_30asi"),
+"ability_2": null,
+"ability_3": null,
+"ability_4": null,
+"ability_p": null,
+"ability_t": null,
+"ability_u": null
+})
+physics_box = NodePath("CollisionShape2D")
+graphical_module = NodePath("Graphical")
+metadata/_custom_type_script = "uid://d3vtx7fn1qn0b"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_hvbkj")
+
+[node name="KineticHurtbox" type="Area2D" parent="." node_paths=PackedStringArray("master")]
+collision_layer = 64
+collision_mask = 32
+script = ExtResource("2_hvbkj")
+master = NodePath("..")
+metadata/_custom_type_script = "uid://dsriwa0xveul0"
+
+[node name="Shape" type="CollisionShape2D" parent="KineticHurtbox"]
+shape = SubResource("CircleShape2D_7522s")
+disabled = true
+
+[node name="Graphical" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="Graphical"]
+texture_filter = 1
+texture = ExtResource("3_ktxxo")
+hframes = 3
+
+[node name="Node" type="Node" parent="."]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Node"]
+libraries = {
+&"": SubResource("AnimationLibrary_30asi")
+}

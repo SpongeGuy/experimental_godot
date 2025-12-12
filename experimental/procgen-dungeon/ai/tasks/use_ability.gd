@@ -18,9 +18,19 @@ func _generate_name() -> String:
 func _tick(delta: float) -> Status:
 	if agent is not Entity:
 		return FAILURE
+	
+	if not agent.abilities[ability]:
+		return FAILURE
+		
+	var target_entity = blackboard.get_var("target_entity")
+	if not is_instance_valid(target_entity):
+		blackboard.set_var("target_entity", null)
+		return FAILURE
+	
 	var activation_direction: Vector2 = (blackboard.get_var("target_entity").global_position - agent.global_position).normalized()
 	if not activation_direction:
-		return FAILURE
+		return FAILURE	
+	
 	if agent.abilities[ability].try_activate(agent, activation_direction):
 		return SUCCESS
 	else:

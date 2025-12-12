@@ -4,6 +4,8 @@ class_name Entity
 @export var entity_identification_sheet: EntityIdentification
 var identification: EntityIdentification
 
+@export var score: float = 0
+
 func _setup_identification() -> void:
 	identification = entity_identification_sheet.duplicate()
 	if not identification.uuid:
@@ -53,18 +55,34 @@ func _setup_physics_properties() -> void:
 func _process(delta: float) -> void:
 	_update_ability_cooldowns(delta)
 	
+## this activates the bt_player after this node's children have been set up
+## children of this class need to call super._ready() AFTER their overrides, NOT before
+func _ready_bt_player_after_waiting() -> void:
+	await get_tree().process_frame
+	if bt_player:
+		bt_player.active = true
+	
+
+	
 func _ready() -> void:
+	EventBus.entity_spawned.emit(position, self)
 	_setup_identification()
-	_setup_physics_properties()
+	_setup_physics_properties()	
+
 
 var nearby_bodies_in_detection_area: Array[Entity] = []
 var nearby_bodies_in_interaction_area: Array[Entity] = []
 
-
-
 func _physics_process(delta: float) -> void:
 	if interaction_area:
 		interaction_area.rotation = facing_direction.angle()
+		
+	for child in graphical_module.get_children():
+		if child is Sprite2D:
+			if facing_direction.x < 0.0:
+				child.flip_h = true
+			else:
+				child.flip_h = false
 
 @export_group("References")
 @export var physics_box: CollisionShape2D
@@ -75,3 +93,7 @@ func _physics_process(delta: float) -> void:
 @export var detection_area: DetectionArea
 @export var interaction_area: InteractionArea
 @export var other_areas: Array[Area2D]
+
+
+func die(killer: Node2D) -> void:
+	queue_free()

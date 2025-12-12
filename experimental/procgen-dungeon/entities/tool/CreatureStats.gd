@@ -1,7 +1,6 @@
 class_name CreatureStats extends Resource
 
 
-
 @export_category("Stats")
 @export var max_health: float = 5
 @export var max_hunger: float = 1000

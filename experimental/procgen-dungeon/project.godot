@@ -21,12 +21,13 @@ EntityManager="*res://systems/core/EntityManager.gd"
 AudioManager="*res://systems/core/AudioManager.tscn"
 UuidGenerator="*res://systems/core/UUIDGenerator.gd"
 PlayerManager="*res://systems/core/PlayerManager.gd"
+WorldManager="*res://systems/core/WorldManager.gd"
+WaveSpawnManager="*res://systems/core/WaveSpawnManager.gd"
 
 [display]
 
 window/size/viewport_width=960
 window/size/viewport_height=540
-window/size/mode=3
 window/size/initial_position_type=3
 window/size/window_width_override=1280
 window/size/window_height_override=720
@@ -88,6 +89,11 @@ aim_west={
 aim_south={
 "deadzone": 0.2,
 "events": [Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":-1,"axis":3,"axis_value":1.0,"script":null)
+]
+}
+use={
+"deadzone": 0.2,
+"events": [Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":0,"pressure":0.0,"pressed":true,"script":null)
 ]
 }
 

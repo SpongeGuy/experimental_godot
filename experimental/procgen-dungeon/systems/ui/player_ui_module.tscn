@@ -1,22 +1,12 @@
-[gd_scene load_steps=6 format=3 uid="uid://cvydd3k4emaap"]
+[gd_scene load_steps=8 format=3 uid="uid://cvydd3k4emaap"]
 
 [ext_resource type="Theme" uid="uid://duxove58mhhbh" path="res://systems/ui/player_ui_module_theme.tres" id="1_2wwkv"]
 [ext_resource type="Script" uid="uid://deqtoa2vbw5lu" path="res://systems/ui/player_ui_module.gd" id="1_88s3x"]
+[ext_resource type="FontFile" uid="uid://duh6vqg6iuiaq" path="res://assets/fonts/anthurium.ttf" id="3_wyav1"]
 
-[sub_resource type="Animation" id="Animation_88s3x"]
-resource_name = "health_bar_fade"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("ProgressBar:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
-}
+[sub_resource type="LabelSettings" id="LabelSettings_nlfva"]
+font = ExtResource("3_wyav1")
+font_size = 32
 
 [sub_resource type="Animation" id="Animation_wyav1"]
 length = 0.001
@@ -33,13 +23,28 @@ tracks/0/keys = {
 "values": [Color(1, 1, 1, 1)]
 }
 
+[sub_resource type="Animation" id="Animation_88s3x"]
+resource_name = "health_bar_fade"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ProgressBar:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_nlfva"]
 _data = {
 &"RESET": SubResource("Animation_wyav1"),
 &"health_bar_fade": SubResource("Animation_88s3x")
 }
 
-[node name="PlayerUiModule" type="Control" node_paths=PackedStringArray("player_name_label", "player_health_label", "player_health_number", "player_health_bar_node", "player_health_bar", "health_bar_animation")]
+[node name="PlayerUiModule" type="Control" node_paths=PackedStringArray("death_label", "player_name_label", "player_health_label", "player_health_number", "player_hunger_label", "player_hunger_number", "player_score_label", "player_score_number", "player_health_bar_node", "player_health_bar", "health_bar_animation")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -47,20 +52,88 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_88s3x")
+death_label = NodePath("death_label")
 player_name_label = NodePath("Control/player_name")
-player_health_label = NodePath("Control/HBoxContainer/health_label")
-player_health_number = NodePath("Control/HBoxContainer/health_number")
+player_health_label = NodePath("Control/health/health_label")
+player_health_number = NodePath("Control/health/health_number")
+player_hunger_label = NodePath("Control/hunger/hunger_label")
+player_hunger_number = NodePath("Control/hunger/hunger_number")
+player_score_label = NodePath("Control/score/score_label")
+player_score_number = NodePath("Control/score/score_number")
 player_health_bar_node = NodePath("HealthBar")
 player_health_bar = NodePath("HealthBar/ProgressBar")
 health_bar_animation = NodePath("HealthBar/AnimationPlayer")
 
-[node name="label_label" type="Label" parent="."]
+[node name="stadium_label" type="Label" parent="."]
 texture_filter = 1
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 23.0
 theme = ExtResource("1_2wwkv")
 text = "anthurium stadium prototype"
+
+[node name="stadium_label2" type="Label" parent="."]
+texture_filter = 1
+layout_mode = 0
+offset_left = 312.0
+offset_top = 526.0
+offset_right = 470.0
+offset_bottom = 549.0
+theme = ExtResource("1_2wwkv")
+text = "x to pick up"
+
+[node name="stadium_label3" type="Label" parent="."]
+texture_filter = 1
+layout_mode = 0
+offset_left = 453.0
+offset_top = 526.0
+offset_right = 611.0
+offset_bottom = 549.0
+theme = ExtResource("1_2wwkv")
+text = "b to toss"
+
+[node name="stadium_label4" type="Label" parent="."]
+texture_filter = 1
+layout_mode = 0
+offset_left = 583.0
+offset_top = 526.0
+offset_right = 741.0
+offset_bottom = 549.0
+theme = ExtResource("1_2wwkv")
+text = "a to use"
+
+[node name="stadium_label5" type="Label" parent="."]
+texture_filter = 1
+layout_mode = 0
+offset_left = 387.0
+offset_top = -2.0
+offset_right = 633.0
+offset_bottom = 21.0
+theme = ExtResource("1_2wwkv")
+text = "collect the crystals and kill the monsters!"
+
+[node name="death_label" type="Label" parent="."]
+texture_filter = 1
+layout_mode = 0
+offset_left = 371.0
+offset_top = 226.0
+offset_right = 617.0
+offset_bottom = 277.0
+theme = ExtResource("1_2wwkv")
+text = "you have died.
+press 'a' to restart."
+label_settings = SubResource("LabelSettings_nlfva")
+horizontal_alignment = 1
+
+[node name="music_label" type="Label" parent="."]
+texture_filter = 1
+layout_mode = 0
+offset_left = 853.0
+offset_top = 527.0
+offset_right = 1011.0
+offset_bottom = 550.0
+theme = ExtResource("1_2wwkv")
+text = "music by tottomori"
 
 [node name="Control" type="VBoxContainer" parent="."]
 layout_mode = 0
@@ -73,18 +146,48 @@ theme = ExtResource("1_2wwkv")
 texture_filter = 1
 layout_mode = 2
 theme = ExtResource("1_2wwkv")
-text = "hi"
+text = "player creature name"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Control"]
+[node name="health" type="HBoxContainer" parent="Control"]
 layout_mode = 2
 
-[node name="health_label" type="Label" parent="Control/HBoxContainer"]
+[node name="health_label" type="Label" parent="Control/health"]
 texture_filter = 1
 layout_mode = 2
 theme = ExtResource("1_2wwkv")
 text = "health:"
 
-[node name="health_number" type="Label" parent="Control/HBoxContainer"]
+[node name="health_number" type="Label" parent="Control/health"]
+texture_filter = 1
+layout_mode = 2
+theme = ExtResource("1_2wwkv")
+text = "3"
+
+[node name="score" type="HBoxContainer" parent="Control"]
+layout_mode = 2
+
+[node name="score_label" type="Label" parent="Control/score"]
+texture_filter = 1
+layout_mode = 2
+theme = ExtResource("1_2wwkv")
+text = "score:"
+
+[node name="score_number" type="Label" parent="Control/score"]
+texture_filter = 1
+layout_mode = 2
+theme = ExtResource("1_2wwkv")
+text = "3"
+
+[node name="hunger" type="HBoxContainer" parent="Control"]
+layout_mode = 2
+
+[node name="hunger_label" type="Label" parent="Control/hunger"]
+texture_filter = 1
+layout_mode = 2
+theme = ExtResource("1_2wwkv")
+text = "hunger:"
+
+[node name="hunger_number" type="Label" parent="Control/hunger"]
 texture_filter = 1
 layout_mode = 2
 theme = ExtResource("1_2wwkv")

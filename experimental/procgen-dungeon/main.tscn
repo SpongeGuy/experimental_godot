@@ -1,20 +1,12 @@
-[gd_scene load_steps=68 format=3 uid="uid://pqp2ku3r68hb"]
+[gd_scene load_steps=58 format=3 uid="uid://pqp2ku3r68hb"]
 
-[ext_resource type="Script" uid="uid://wojinhjolg8h" path="res://systems/core/WorldManager.gd" id="1_0xm2m"]
+[ext_resource type="Script" uid="uid://bu7mhqhgciuo" path="res://main.gd" id="1_5vw27"]
+[ext_resource type="Script" uid="uid://0bgm3vynk8ci" path="res://systems/core/WaveSpawnManager.gd" id="2_yaehf"]
 [ext_resource type="Script" uid="uid://hr3074cc5wf5" path="res://World.gd" id="3_1bvp3"]
 [ext_resource type="Texture2D" uid="uid://dj0mcwh3yn3lf" path="res://assets/sprites/tilesets/16x16_tiles_debug_correct.png" id="3_272bh"]
 [ext_resource type="Script" uid="uid://vysodgmiux3v" path="res://debug.gd" id="3_h2yge"]
-[ext_resource type="Script" uid="uid://b8kdmyw2bdtdj" path="res://entities/abilities/ability.gd" id="5_4c57u"]
-[ext_resource type="PackedScene" uid="uid://bt8g3fryrf86u" path="res://entities/creatures/herbivores/grunt/grunt.tscn" id="5_kek77"]
-[ext_resource type="Script" uid="uid://cpp6n8go876it" path="res://playerdebug.gd" id="6_4c57u"]
-[ext_resource type="Script" uid="uid://b4rjvaj1in8km" path="res://entities/abilities/pick_up.gd" id="6_efxa6"]
-[ext_resource type="PackedScene" uid="uid://6x2sla5rcri4" path="res://entities/plants/fruit_tree/fruit_tree.tscn" id="7_272bh"]
-[ext_resource type="Script" uid="uid://cwiqlmof17nfc" path="res://entities/abilities/toss.gd" id="7_dg77c"]
-[ext_resource type="PackedScene" uid="uid://cjntdbldpv6ok" path="res://entities/items/stone/stone.tscn" id="10_dg77c"]
-[ext_resource type="PackedScene" uid="uid://iufcpijfr4o" path="res://entities/creatures/herbivores/flea/flea.tscn" id="11_dg77c"]
-[ext_resource type="PackedScene" uid="uid://d205sebk1n05n" path="res://entities/creatures/carnivores/devil/devil.tscn" id="12_vivmo"]
+[ext_resource type="Script" uid="uid://17rohnawy68v" path="res://debug_music_player.gd" id="8_5vw27"]
 [ext_resource type="PackedScene" uid="uid://cvydd3k4emaap" path="res://systems/ui/player_ui_module.tscn" id="12_ycdy4"]
-[ext_resource type="PackedScene" uid="uid://csah3oaw4efnx" path="res://entities/creatures/herbivores/spike/spike.tscn" id="13_2cqfq"]
 [ext_resource type="Texture2D" uid="uid://dkdqrto1mcx50" path="res://assets/sprites/debug/background.png" id="14_w48qg"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_tlwt5"]
@@ -1070,21 +1062,12 @@ terrain_set_0/terrain_1/color = Color(0.5019608, 0.4392157, 0.2509804, 1)
 navigation_layer_0/layers = 1
 sources/0 = SubResource("TileSetAtlasSource_aqk2v")
 
-[sub_resource type="Resource" id="Resource_rp142"]
-script = ExtResource("6_efxa6")
-cooldown = 1.0
-metadata/_custom_type_script = "uid://b4rjvaj1in8km"
-
-[sub_resource type="Resource" id="Resource_ycdy4"]
-script = ExtResource("7_dg77c")
-toss_force = 550.0
-cooldown = 0.1
-metadata/_custom_type_script = "uid://cwiqlmof17nfc"
-
-[node name="WorldManager" type="Node" node_paths=PackedStringArray("tilemap_layer", "world")]
-script = ExtResource("1_0xm2m")
-tilemap_layer = NodePath("StadiumCanvas/World/Terrain")
+[node name="Main" type="Node" node_paths=PackedStringArray("world")]
+script = ExtResource("1_5vw27")
 world = NodePath("StadiumCanvas/World")
+
+[node name="WaveSpawnManager" type="Node" parent="."]
+script = ExtResource("2_yaehf")
 
 [node name="StadiumCanvas" type="CanvasLayer" parent="."]
 
@@ -1103,74 +1086,8 @@ tile_set = SubResource("TileSet_036b0")
 
 [node name="Entities" type="Node2D" parent="StadiumCanvas/World"]
 
-[node name="Grunt2" parent="StadiumCanvas/World/Entities" instance=ExtResource("5_kek77")]
-position = Vector2(0, 1)
-accept_player_input = true
-abilities = Dictionary[String, ExtResource("5_4c57u")]({
-"ability_1": null,
-"ability_2": null,
-"ability_3": null,
-"ability_4": null,
-"ability_p": SubResource("Resource_rp142"),
-"ability_t": SubResource("Resource_ycdy4"),
-"ability_u": null
-})
-
-[node name="playerdebug" type="Node" parent="StadiumCanvas/World/Entities/Grunt2" node_paths=PackedStringArray("master")]
-script = ExtResource("6_4c57u")
-master = NodePath("..")
-
-[node name="Flea2" parent="StadiumCanvas/World/Entities" instance=ExtResource("11_dg77c")]
-position = Vector2(149, 22)
-
-[node name="Stone" parent="StadiumCanvas/World/Entities" instance=ExtResource("10_dg77c")]
-position = Vector2(-145, 9)
-
-[node name="Stone2" parent="StadiumCanvas/World/Entities" instance=ExtResource("10_dg77c")]
-position = Vector2(-73, -93)
-
-[node name="Stone3" parent="StadiumCanvas/World/Entities" instance=ExtResource("10_dg77c")]
-position = Vector2(107, 83)
-
-[node name="Grunt" parent="StadiumCanvas/World/Entities" instance=ExtResource("5_kek77")]
-position = Vector2(-34, 113)
-
-[node name="Grunt3" parent="StadiumCanvas/World/Entities" instance=ExtResource("5_kek77")]
-position = Vector2(191, 156)
-
-[node name="Grunt4" parent="StadiumCanvas/World/Entities" instance=ExtResource("5_kek77")]
-position = Vector2(257, -123)
-
-[node name="Grunt5" parent="StadiumCanvas/World/Entities" instance=ExtResource("5_kek77")]
-position = Vector2(-180, -111)
-
-[node name="FruitTree" parent="StadiumCanvas/World/Entities" instance=ExtResource("7_272bh")]
-position = Vector2(123, -104)
-
-[node name="FruitTree2" parent="StadiumCanvas/World/Entities" instance=ExtResource("7_272bh")]
-position = Vector2(-291, 121)
-
-[node name="FruitTree3" parent="StadiumCanvas/World/Entities" instance=ExtResource("7_272bh")]
-position = Vector2(284, 206)
-
-[node name="Devil" parent="StadiumCanvas/World/Entities" instance=ExtResource("12_vivmo")]
-position = Vector2(-234, 27)
-
-[node name="Devil2" parent="StadiumCanvas/World/Entities" instance=ExtResource("12_vivmo")]
-position = Vector2(-221, 34)
-
-[node name="Devil3" parent="StadiumCanvas/World/Entities" instance=ExtResource("12_vivmo")]
-position = Vector2(-258, 50)
-
-[node name="Spike" parent="StadiumCanvas/World/Entities" instance=ExtResource("13_2cqfq")]
-position = Vector2(-190, 87)
-
-[node name="Spike2" parent="StadiumCanvas/World/Entities" instance=ExtResource("13_2cqfq")]
-position = Vector2(-165, 119)
-
-[node name="Debug" type="Node" parent="." node_paths=PackedStringArray("world_manager", "tilemap_layer")]
+[node name="Debug" type="Node" parent="." node_paths=PackedStringArray("tilemap_layer")]
 script = ExtResource("3_h2yge")
-world_manager = NodePath("..")
 tilemap_layer = NodePath("../StadiumCanvas/World/Terrain")
 
 [node name="Background" type="CanvasLayer" parent="."]
@@ -1186,3 +1103,12 @@ region_rect = Rect2(0, 0, 10000, 10000)
 layer = 5
 
 [node name="PlayerUiModule" parent="CanvasLayer" instance=ExtResource("12_ycdy4")]
+
+[node name="Node2D" type="Node2D" parent="CanvasLayer"]
+
+[node name="debug_music_player" type="Node" parent="." node_paths=PackedStringArray("music_player")]
+script = ExtResource("8_5vw27")
+music_player = NodePath("AudioStreamPlayer")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="debug_music_player"]
+volume_db = -39.0

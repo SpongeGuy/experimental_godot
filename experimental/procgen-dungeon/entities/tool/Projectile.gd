@@ -1,4 +1,3 @@
-@tool
 extends Area2D
 class_name Projectile
 
@@ -21,6 +20,6 @@ func try_do_damage(area: Area2D):
 func _process(delta: float) -> void:
 	position += velocity * delta
 	
-	
+
 func die() -> void:
 	queue_free()

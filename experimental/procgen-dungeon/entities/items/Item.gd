@@ -8,6 +8,4 @@ func _ready() -> void:
 	collision_mask |= (1 << 2) # creatures collide and kick items around
 	super._ready()
 
-func activate(master: Entity) -> void:
-	pass
 

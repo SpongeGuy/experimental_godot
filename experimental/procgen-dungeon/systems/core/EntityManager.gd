@@ -24,5 +24,5 @@ func get_world() -> World:
 func _get_world() -> void:
 	if not _world:
 		for child in get_tree().root.get_children():
-			if child is WorldManager:
+			if child is Main:
 				_world = child.world

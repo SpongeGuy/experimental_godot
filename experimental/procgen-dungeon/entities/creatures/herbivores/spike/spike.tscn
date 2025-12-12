@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://csah3oaw4efnx"]
+[gd_scene load_steps=25 format=3 uid="uid://csah3oaw4efnx"]
 
 [ext_resource type="Script" uid="uid://c67adbcjjyip3" path="res://entities/tool/Creature.gd" id="1_bu01p"]
 [ext_resource type="Script" uid="uid://uedw02l07pvv" path="res://entities/tool/Hitbox.gd" id="2_fdojh"]
@@ -7,14 +7,14 @@
 [ext_resource type="Script" uid="uid://bghauax2lkx7o" path="res://entities/tool/EntityIdentification.gd" id="3_0muhm"]
 [ext_resource type="Script" uid="uid://dxkak4by7qlk" path="res://entities/tool/Hurtbox.gd" id="3_6s4yp"]
 [ext_resource type="Script" uid="uid://cqo4fg81476qm" path="res://entities/tool/DetectionArea.gd" id="4_6uvk8"]
-[ext_resource type="Script" uid="uid://b8kdmyw2bdtdj" path="res://entities/abilities/ability.gd" id="4_d101w"]
+[ext_resource type="Script" uid="uid://b8kdmyw2bdtdj" path="res://entities/abilities/Ability.gd" id="4_d101w"]
 [ext_resource type="Texture2D" uid="uid://cs7rx7l0pxol4" path="res://assets/sprites/debug/spike.png" id="5_1dwgw"]
-[ext_resource type="Script" uid="uid://dxkdboarb7lyi" path="res://entities/abilities/activate_hurtbox_static/ability_activate_hurtbox_static.gd" id="5_om7kr"]
+[ext_resource type="Script" uid="uid://dxkdboarb7lyi" path="res://entities/abilities/activate_hurtbox_static/activate_hurtbox_static.gd" id="5_om7kr"]
 
 [sub_resource type="Resource" id="Resource_wko2i"]
 script = ExtResource("2_m5dhp")
 max_health = 10.0
-base_speed = 25.0
+base_speed = 15.0
 metadata/_custom_type_script = "uid://b51snbs5v4dol"
 
 [sub_resource type="Resource" id="Resource_5kmov"]
@@ -39,6 +39,21 @@ radius = 21.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_jl21y"]
 radius = 134.00374
 
+[sub_resource type="Animation" id="Animation_cbdn4"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../Graphic/Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
 [sub_resource type="Animation" id="Animation_htkqp"]
 resource_name = "walk"
 length = 0.2
@@ -56,25 +71,47 @@ tracks/0/keys = {
 "values": [0, 1]
 }
 
-[sub_resource type="Animation" id="Animation_cbdn4"]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_nfjxj"]
+_data = {
+&"RESET": SubResource("Animation_cbdn4"),
+&"walk": SubResource("Animation_htkqp")
+}
+
+[sub_resource type="Animation" id="Animation_gyy6t"]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("../Graphic/Sprite2D:frame")
+tracks/0/path = NodePath("Graphic/Sprite2D:scale")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [0]
+"update": 0,
+"values": [Vector2(1, 1)]
 }
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_nfjxj"]
+[sub_resource type="Animation" id="Animation_pvgxy"]
+resource_name = "attack"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Graphic/Sprite2D:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1.25, 1.25), Vector2(1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ymwyg"]
 _data = {
-&"RESET": SubResource("Animation_cbdn4"),
-&"walk": SubResource("Animation_htkqp")
+&"RESET": SubResource("Animation_gyy6t"),
+&"attack": SubResource("Animation_pvgxy")
 }
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ijui2"]
@@ -84,6 +121,7 @@ radius = 3.0
 script = ExtResource("1_bu01p")
 stat_sheet = SubResource("Resource_wko2i")
 nav_agent = NodePath("NavigationAgent2D")
+can_be_picked = false
 entity_identification_sheet = SubResource("Resource_5kmov")
 abilities = Dictionary[String, ExtResource("4_d101w")]({
 "ability_1": SubResource("Resource_ixear"),
@@ -143,6 +181,12 @@ shape = SubResource("CircleShape2D_jl21y")
 [node name="Walk" type="AnimationPlayer" parent="Node"]
 libraries = {
 &"": SubResource("AnimationLibrary_nfjxj")
+}
+
+[node name="Attack" type="AnimationPlayer" parent="Node"]
+root_node = NodePath("../..")
+libraries = {
+&"": SubResource("AnimationLibrary_ymwyg")
 }
 
 [node name="Graphic" type="Node2D" parent="."]

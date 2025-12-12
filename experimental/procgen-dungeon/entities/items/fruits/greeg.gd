@@ -28,8 +28,10 @@ func try_grow_plant_and_die() -> void:
 		plant.global_position = global_position + Vector2(randf_range(-40, 40), randf_range(-40, 40))
 		EntityManager.add_entity_to_world(plant)
 	queue_free()
-	
-func eat(by: Node = null) -> void:
-	if by is Creature:
-		EventBus.try_change_creature_hunger.emit(by, -satiate_amount)
-	queue_free()
+
+func activate(master: Entity, direction: Vector2) -> bool:
+	if master is Creature:
+		EventBus.try_change_creature_hunger.emit(master, -satiate_amount)
+		queue_free()
+		return true
+	return false
