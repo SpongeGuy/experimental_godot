@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://bh4n1rm2nmwhv"]
+
+[ext_resource type="PackedScene" uid="uid://dhnc1qesuxmnv" path="res://debug_plant.tscn" id="1_lvjdj"]
+[ext_resource type="PackedScene" uid="uid://c255vr1dvri6w" path="res://player.tscn" id="2_rdi1l"]
+
+[node name="debug" type="Node2D"]
+z_as_relative = false
+y_sort_enabled = true
+
+[node name="PlantStandard" parent="." instance=ExtResource("1_lvjdj")]
+position = Vector2(88, 2)
+
+[node name="Player" parent="." instance=ExtResource("2_rdi1l")]
+
+[node name="Camera2D" type="Camera2D" parent="."]

@@ -5,8 +5,6 @@ class_name Fruit
 var stats: CreatureStats
 
 @export var satiate_amount: float = 70.0
-@export_range(0, 1) var grow_plant_chance: float = 0.35
-@export var plant_scene: PackedScene
 
 var _spawned_time: float = 0.0
 const DESPAWN_TIME: float = 60.0
@@ -18,16 +16,6 @@ func _ready() -> void:
 	_spawned_time = Time.get_ticks_msec() / 1000.0
 	super._ready()
 	
-func _process(_delta: float) -> void:
-	if Time.get_ticks_msec() / 1000.0 - _spawned_time > DESPAWN_TIME:
-		try_grow_plant_and_die()
-		
-func try_grow_plant_and_die() -> void:
-	if randf() < grow_plant_chance and plant_scene:
-		var plant := plant_scene.instantiate()
-		plant.global_position = global_position + Vector2(randf_range(-40, 40), randf_range(-40, 40))
-		EntityManager.add_entity_to_world(plant)
-	queue_free()
 
 func activate(master: Entity, direction: Vector2) -> bool:
 	if master is Creature:

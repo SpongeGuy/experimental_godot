@@ -4,35 +4,38 @@ var chunks: Dictionary = {} # key: Vector2i(chunk_pos), value: Array[Array[Cell]
 const CHUNK_SIZE: int = 8
 var global_seed: int = randi()
 
+var player: Entity
+
 var tilemap_layers: Dictionary[String, TileMapLayer] = {
-	"base": null
+	"base": null,
+	"creep": null,
 }
 
 var cell_terrain_type: Dictionary = {
 	Cell.CellType.NONE: -1,
 	Cell.CellType.SOFT_WALL: 0,
 	Cell.CellType.GROUND: 1,
+	Cell.CellType.HARD_WALL: 2,
 }
 
-func generate_debug_chunk_at_global(chunk_pos: Vector2i, tilemap: TileMapLayer) -> void:		
+func generate_debug_chunk_at_global(chunk_pos: Vector2i, tilemap: TileMapLayer, cell_type: Cell.CellType) -> void:		
 	create_chunk(chunk_pos)
 	var chunk = get_chunk(chunk_pos)
 	for y in CHUNK_SIZE:
 		for x in CHUNK_SIZE:
-			chunk[y][x].type = Cell.CellType.GROUND
+			chunk[y][x].type = cell_type
 			chunk[y][x].health = 3
 			chunk[y][x].destroyed.connect(_on_cell_destroyed.bind(tilemap))
 	
 	_update_chunk_visuals(chunk_pos, tilemap)
 
-func create_chunk(chunk_pos: Vector2i) -> Array:
+func create_chunk(chunk_pos: Vector2i) -> Array: 
 	var chunk: Array = []
 	for y in CHUNK_SIZE:
 		var row: Array = []
 		for x in CHUNK_SIZE:
 			var cell_pos: Vector2i = chunk_pos * CHUNK_SIZE + Vector2i(x, y)
-			var cell: Cell = Cell.new(cell_pos)
-			cell.type = Cell.CellType.NONE
+			var cell: Cell = Cell.new(cell_pos, Cell.CellType.NONE)
 			row.append(cell)
 		chunk.append(row)
 		
@@ -66,18 +69,155 @@ func set_cell(cell_pos: Vector2i, new_cell: Cell, tilemap: TileMapLayer) -> void
 	var local_pos: Vector2i = cell_pos % CHUNK_SIZE
 	chunk[local_pos.y][local_pos.x] = new_cell
 	_update_cell_tiling(cell_pos, tilemap)
+	
+func get_cell_at_world_pos(world_pos: Vector2, tilemap: TileMapLayer) -> Cell:
+	var cell_pos = world_to_cell(world_pos, tilemap)
+	return get_cell(cell_pos)
+
+func get_chunk_at_world_pos(world_pos: Vector2, tilemap: TileMapLayer) -> Vector2i:
+	var cell_pos = world_to_cell(world_pos, tilemap)
+	return cell_pos_to_chunk(cell_pos)
+
+func get_cells_in_radius(center_pos: Vector2i, radius: int) -> Array[Cell]:
+	"""
+	get cells in a SQUARE radius
+	"""
+	var cells: Array[Cell] = []
+	
+	for y in range(-radius, radius + 1):
+		for x in range(-radius, radius + 1):
+			var check_pos = center_pos + Vector2i(x, y)
+			var cell = get_cell(check_pos)
+			if cell != null:
+				cells.append(cell)
+	
+	return cells
+	
+func get_cells_in_circular_radius(center_pos: Vector2i, radius: float) -> Array[Cell]:
+	"""
+	Get all cells within a circular radius
+	"""
+	var cells: Array[Cell] = []
+	var radius_squared = radius * radius
+	var check_radius = int(ceil(radius))
+	
+	for y in range(-check_radius, check_radius + 1):
+		for x in range(-check_radius, check_radius + 1):
+			var offset = Vector2i(x, y)
+			var dist_squared = offset.x * offset.x + offset.y * offset.y
+			
+			if dist_squared <= radius_squared:
+				var check_pos = center_pos + offset
+				var cell = get_cell(check_pos)
+				if cell != null:
+					cells.append(cell)
+	
+	return cells
+	
+func get_entities_in_radius(center_world_pos: Vector2, radius: float, tilemap: TileMapLayer) -> Array[Node2D]:
+	"""
+	Get all entities within a radius of a world position.
+	Useful for creature AI detection and area queries.
+	"""
+	var entities: Array[Node2D] = []
+	var center_cell = world_to_cell(center_world_pos, tilemap)
+	var cell_radius = int(ceil(radius / tilemap.tile_set.tile_size.x))
+	
+	var cells = get_cells_in_radius(center_cell, cell_radius)
+	for cell in cells:
+		var cell_world_pos = cell_to_world(cell.position, tilemap)
+		if center_world_pos.distance_to(cell_world_pos) <= radius:
+			for entity in cell.entities_on_cell:
+				if is_instance_valid(entity):
+					entities.append(entity)
+	
+	return entities
+
+
+
 
 func world_to_cell(world_pos: Vector2, tilemap: TileMapLayer) -> Vector2i:
-	"""
-	Converts world position to cell/tile coordinates.
-	"""
 	return tilemap.local_to_map(world_pos)
 
 func cell_to_world(cell_pos: Vector2i, tilemap: TileMapLayer) -> Vector2:
-	"""
-	Converts cell/tile coordinates to world position (center of tile).
-	"""
 	return tilemap.map_to_local(cell_pos)
+	
+func _is_valid_spawn_cell(cell_pos: Vector2i) -> bool:
+	"""
+	Helper function to check if a cell position is valid for spawning.
+	Returns true if:
+	- The chunk exists in WorldManager
+	- The cell exists
+	- The cell is GROUND type (walkable)
+	"""
+	var chunk_pos = WorldManager.cell_pos_to_chunk(cell_pos)
+	if not WorldManager.chunks.has(chunk_pos):
+		return false
+	
+	var cell = WorldManager.get_cell(cell_pos)
+	if cell == null:
+		return false
+	
+	return cell.type == Cell.CellType.GROUND
+
+func find_valid_spawn_position(radius_min: float, radius_max: float, tilemap: TileMapLayer) -> Vector2:
+	"""
+	Find a valid spawn position within radius range of the player.
+	Only spawns on GROUND tiles within existing chunks.
+	"""
+	if not tilemap:
+		push_error("Tilemap not provided to find_valid_spawn_position")
+		return Vector2.INF
+	
+	if not player:
+		push_warning("No player assigned to WorldManager")
+		return Vector2.INF
+	
+	var player_pos = player.global_position
+	
+	var max_attempts = 50
+	for attempt in max_attempts:
+		var angle = randf() * TAU
+		var distance = randf_range(radius_min, radius_max)
+		var offset = Vector2(cos(angle), sin(angle)) * distance
+		var world_pos = player_pos + offset
+		
+		var cell_pos = world_to_cell(world_pos, tilemap)
+		
+		if _is_valid_spawn_cell(cell_pos):
+			return cell_to_world(cell_pos, tilemap)
+	
+	push_warning("Could not find valid spawn position after %d attempts (radius: %.1f - %.1f)" % [max_attempts, radius_min, radius_max])
+	return Vector2.INF
+
+func find_cluster_spawn_position(cluster_center: Vector2, radius_min: float, radius_max: float, tilemap: TileMapLayer) -> Vector2:
+	"""
+	Find a spawn position near a cluster center.
+	Only spawns on GROUND tiles within existing chunks.
+	"""
+	if not tilemap:
+		push_warning("Tilemap not found, falling back to cluster center")
+		return cluster_center
+	
+	var max_attempts = 30
+	for attempt in max_attempts:
+		var angle = randf() * TAU
+		var distance = randf_range(radius_min, radius_max)
+		var offset = Vector2(cos(angle), sin(angle)) * distance
+		var world_pos = cluster_center + offset
+		
+		var cell_pos = world_to_cell(world_pos, tilemap)
+		
+		if _is_valid_spawn_cell(cell_pos):
+			return cell_to_world(cell_pos, tilemap)
+	
+	var center_cell = world_to_cell(cluster_center, tilemap)
+	if _is_valid_spawn_cell(center_cell):
+		return cluster_center
+	
+	push_warning("Could not find cluster spawn position after %d attempts, using center anyway" % max_attempts)
+	return cluster_center
+
 
 func spawn_cell_blob(center_world_pos: Vector2, radius: float, cell_type: Cell.CellType, tilemap: TileMapLayer) -> Array[Vector2i]:
 	"""
@@ -101,13 +241,61 @@ func spawn_cell_blob(center_world_pos: Vector2, radius: float, cell_type: Cell.C
 			var dist_squared = center_world_pos.distance_squared_to(world_check_pos)
 			
 			if dist_squared <= radius_squared:
-				var new_cell = Cell.new(check_pos)
-				new_cell.type = cell_type
+				var new_cell = Cell.new(check_pos, cell_type)
 				new_cell.health = 3
 				new_cell.destroyed.connect(_on_cell_destroyed.bind(tilemap))
 				
 				set_cell(check_pos, new_cell, tilemap)
 				created_cells.append(check_pos)
+	
+	return created_cells
+
+func spawn_cell_hollow_rect(top_left_tile: Vector2i, width: int, height: int, cell_type: Cell.CellType, thickness: int = 1, tilemap: TileMapLayer = null) -> Array[Vector2i]:
+	"""
+	Spawns a hollow rectangle (outline only) made of cells.
+	
+	Parameters:
+	- top_left_tile: Top-left cell position (inclusive)
+	- width, height: Size in cells (must be >= 2 * thickness)
+	- cell_type: Type of cell to place on the border
+	- thickness: How many cells thick the border should be (1 = single line, 2 = double, etc.)
+	- tilemap: The TileMapLayer to update
+	
+	Returns: Array of all cell positions that were created/modified
+	"""
+	if width < 2 * thickness or height < 2 * thickness:
+		push_warning("Rectangle too small for border thickness %d (min size: %d x %d)" % [thickness, 2*thickness, 2*thickness])
+		return []
+	
+	var created_cells: Array[Vector2i] = []
+	
+	# Helper function to spawn a cell
+	var spawn := func(pos: Vector2i):
+		var new_cell = Cell.new(pos, cell_type)
+		new_cell.health = 3
+		new_cell.destroyed.connect(_on_cell_destroyed.bind(tilemap))
+		set_cell(pos, new_cell, tilemap)
+		created_cells.append(pos)
+	
+	# Top border
+	for t in range(thickness):
+		for x in range(width):
+			spawn.call(top_left_tile + Vector2i(x, t))
+	
+	# Bottom border
+	for t in range(thickness):
+		for x in range(width):
+			spawn.call(top_left_tile + Vector2i(x, height - 1 - t))
+	
+	# Left border (excluding corners already done by top/bottom)
+	for t in range(thickness):
+		for y in range(thickness, height - thickness):
+			spawn.call(top_left_tile + Vector2i(t, y))
+	
+	# Right border (excluding corners)
+	for t in range(thickness):
+		for y in range(thickness, height - thickness):
+			spawn.call(top_left_tile + Vector2i(width - 1 - t, y))
 	
 	return created_cells
 
@@ -147,8 +335,7 @@ func spawn_irregular_blob(center_world_pos: Vector2, radius: float, cell_type: C
 				var combined = noise_value + (dist_factor * 0.5)
 				
 				if combined > noise_threshold:
-					var new_cell = Cell.new(check_pos)
-					new_cell.type = cell_type
+					var new_cell = Cell.new(check_pos, cell_type)
 					new_cell.health = 3
 					new_cell.destroyed.connect(_on_cell_destroyed.bind(tilemap))
 					
@@ -157,14 +344,7 @@ func spawn_irregular_blob(center_world_pos: Vector2, radius: float, cell_type: C
 	
 	return created_cells
 	
-func spawn_cell_border(
-	top_left_tile: Vector2i,
-	width: int,
-	height: int,
-	cell_type: Cell.CellType,
-	thickness: int = 1,
-	tilemap: TileMapLayer = null
-) -> Array[Vector2i]:
+func spawn_cell_border(top_left_tile: Vector2i, width: int, height: int, cell_type: Cell.CellType, thickness: int = 1, tilemap: TileMapLayer = null) -> Array[Vector2i]:
 	"""
 	Spawns only the border (outline) of a rectangle made of cells.
 
@@ -185,14 +365,11 @@ func spawn_cell_border(
 
 	# Helper lambda to safely spawn a cell
 	var spawn := func(pos: Vector2i):
-		var cell := get_cell(pos)
-		if cell == null or cell.type == Cell.CellType.NONE:
-			var new_cell = Cell.new(pos)
-			new_cell.type = cell_type
-			new_cell.health = 3
-			new_cell.destroyed.connect(_on_cell_destroyed.bind(tilemap))
-			set_cell(pos, new_cell, tilemap)
-			created_cells.append(pos)
+		var new_cell = Cell.new(pos, cell_type)
+		new_cell.health = 3
+		new_cell.destroyed.connect(_on_cell_destroyed.bind(tilemap))
+		set_cell(pos, new_cell, tilemap)
+		created_cells.append(pos)
 
 	# Top border
 	for t in range(thickness):
@@ -268,8 +445,7 @@ func spawn_scattered_cells(center_world_pos: Vector2, radius: float, cell_type: 
 			var dist_squared = center_world_pos.distance_squared_to(world_check_pos)
 			
 			if dist_squared <= radius_squared and randf() < density:
-				var new_cell = Cell.new(check_pos)
-				new_cell.type = cell_type
+				var new_cell = Cell.new(check_pos, cell_type)
 				new_cell.health = 3
 				new_cell.destroyed.connect(_on_cell_destroyed.bind(tilemap))
 				
@@ -288,8 +464,7 @@ func spawn_cell_rect(top_left_tile: Vector2i, width: int, height: int, cell_type
 	for y in range(height):
 		for x in range(width):
 			var cell_pos = top_left_tile + Vector2i(x, y)
-			var new_cell = Cell.new(cell_pos)
-			new_cell.type = cell_type
+			var new_cell = Cell.new(cell_pos, cell_type)
 			new_cell.health = 3
 			new_cell.destroyed.connect(_on_cell_destroyed.bind(tilemap))
 			
@@ -306,8 +481,7 @@ func destroy_cell(cell_pos: Vector2i, tilemap: TileMapLayer) -> bool:
 	if not cell or cell.type == Cell.CellType.NONE:
 		return false
 	
-	var new_cell = Cell.new(cell_pos)
-	new_cell.type = Cell.CellType.NONE
+	var new_cell = Cell.new(cell_pos, Cell.CellType.NONE)
 	
 	var chunk_pos := cell_pos_to_chunk(cell_pos)
 	var local_pos := cell_pos % CHUNK_SIZE
@@ -315,6 +489,8 @@ func destroy_cell(cell_pos: Vector2i, tilemap: TileMapLayer) -> bool:
 	chunk[local_pos.y][local_pos.x] = new_cell
 	
 	_update_tilemap_tile(cell_pos, new_cell, tilemap)
+	
+	_update_cell_tiling(cell_pos, tilemap)
 	return true
 
 func _on_cell_destroyed(cell_pos: Vector2i, _flag: int, tilemap: TileMapLayer) -> void:

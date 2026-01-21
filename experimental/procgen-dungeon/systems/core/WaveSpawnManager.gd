@@ -28,49 +28,8 @@ var wave_configs: Array[Dictionary] = [
 					{"scene": preload("res://entities/items/stone/stone.tscn"), "points": 1, "weight": 0.25},
 				]
 			},
-			{
-				"spawn_delay": 4.0,
-				"total_points": 2,
-				"min_spawn_delay": 0.0,
-				"max_spawn_delay": 2.0,
-				"spawn_radius_min": 50.0,
-				"spawn_radius_max": 150.0,
-				"cluster_spawn": true,
-				"cluster_radius_min": 1.0,
-				"cluster_radius_max": 50.0,
-				"allowed_entities": [
-					{"scene": preload("res://entities/creatures/herbivores/flea/flea.tscn"), "points": 1, "weight": 0.5},
-				]
-			},
-			{
-				"spawn_delay": 2.0,
-				"total_points": 10,
-				"min_spawn_delay": 0.5,
-				"max_spawn_delay": 2.0,
-				"spawn_radius_min": 150.0,
-				"spawn_radius_max": 500.0,
-				"cluster_spawn": false,
-				"cluster_radius_min": 0.0,
-				"cluster_radius_max": 0.0,
-				"allowed_entities": [
-					{"scene": preload("res://entities/creatures/herbivores/spike/spike.tscn"), "points": 2, "weight": 2},
-					{"scene": preload("res://entities/creatures/herbivores/grunt/grunt.tscn"), "points": 1, "weight": 0.75},
-				]
-			},
-			{
-				"spawn_delay": 0.0,
-				"total_points": 3,
-				"min_spawn_delay": 0.5,
-				"max_spawn_delay": 2.0,
-				"spawn_radius_min": 150.0,
-				"spawn_radius_max": 500.0,
-				"cluster_spawn": false,
-				"cluster_radius_min": 0.0,
-				"cluster_radius_max": 0.0,
-				"allowed_entities": [
-					{"scene": preload("res://entities/plants/fruit_tree/fruit_tree.tscn"), "points": 1, "weight": 2},
-				]
-			},
+
+			
 			{
 				"spawn_delay": 0.0,
 				"total_points": 2,
@@ -114,6 +73,7 @@ var wave_configs: Array[Dictionary] = [
 				]
 			},
 			
+			
 		]
 	},
 	{
@@ -134,7 +94,22 @@ var wave_configs: Array[Dictionary] = [
 				]
 			},
 			{
-				"spawn_delay": 3.0,
+				"spawn_delay": 2.0,
+				"total_points": 10,
+				"min_spawn_delay": 0.5,
+				"max_spawn_delay": 2.0,
+				"spawn_radius_min": 150.0,
+				"spawn_radius_max": 500.0,
+				"cluster_spawn": false,
+				"cluster_radius_min": 0.0,
+				"cluster_radius_max": 0.0,
+				"allowed_entities": [
+					{"scene": preload("res://entities/creatures/herbivores/spike/spike.tscn"), "points": 2, "weight": 2},
+					{"scene": preload("res://entities/creatures/herbivores/grunt/grunt.tscn"), "points": 1, "weight": 0.75},
+				]
+			},
+			{
+				"spawn_delay": 33.0,
 				"total_points": 5,
 				"min_spawn_delay": 0.2,
 				"max_spawn_delay": 0.5,
@@ -146,7 +121,21 @@ var wave_configs: Array[Dictionary] = [
 				"allowed_entities": [
 					{"scene": preload("res://entities/creatures/carnivores/devil/devil.tscn"), "points": 1, "weight": 0.5},
 				]
-			}
+			},
+			{
+				"spawn_delay": 4.0,
+				"total_points": 2,
+				"min_spawn_delay": 0.0,
+				"max_spawn_delay": 2.0,
+				"spawn_radius_min": 50.0,
+				"spawn_radius_max": 150.0,
+				"cluster_spawn": true,
+				"cluster_radius_min": 1.0,
+				"cluster_radius_max": 50.0,
+				"allowed_entities": [
+					{"scene": preload("res://entities/creatures/herbivores/flea/flea.tscn"), "points": 1, "weight": 0.5},
+				]
+			},
 		]
 	},
 ]
@@ -260,49 +249,20 @@ func _find_valid_spawn_position(radius_min: float, radius_max: float) -> Vector2
 		push_error("Tilemap layer '%s' not found in WorldManager" % tilemap_layer_name)
 		return Vector2.INF
 	
-	var player = get_tree().get_first_node_in_group("player")
-	var origin = player.global_position if player else Vector2.ZERO
-	
-	var max_attempts = 50
-	for attempt in max_attempts:
-		var angle = randf() * TAU
-		var distance = randf_range(radius_min, radius_max)
-		var world_pos = origin + Vector2(cos(angle), sin(angle)) * distance
-		
-		var tile_pos = WorldManager.world_to_cell(world_pos, tilemap)
-		var cell = WorldManager.get_cell(tile_pos)
-		
-		if cell and cell.type == Cell.CellType.GROUND:
-			return WorldManager.cell_to_world(tile_pos, tilemap)
-	
-	push_warning("Could not find valid spawn position after 50 attempts")
-	return Vector2.INF
+	return WorldManager.find_valid_spawn_position(radius_min, radius_max, tilemap)
 
 func _find_cluster_spawn_position(cluster_center: Vector2, radius_min: float, radius_max: float) -> Vector2:
 	var tilemap = _get_tilemap()
 	if not tilemap:
+		push_warning("Tilemap not found, falling back to cluster center")
 		return cluster_center
 	
-	var max_attempts = 30
-	for attempt in max_attempts:
-		var angle = randf() * TAU
-		var distance = randf_range(radius_min, radius_max)
-		var world_pos = cluster_center + Vector2(cos(angle), sin(angle)) * distance
-		
-		var tile_pos = WorldManager.world_to_cell(world_pos, tilemap)
-		var cell = WorldManager.get_cell(tile_pos)
-		
-		if cell and cell.type == Cell.CellType.GROUND:
-			return WorldManager.cell_to_world(tile_pos, tilemap)
-	
-	# Fallback to cluster center if no nearby position found
-	return cluster_center
+	return WorldManager.find_cluster_spawn_position(cluster_center, radius_min, radius_max, tilemap)
 
 func _spawn_entity(scene: PackedScene, position: Vector2) -> void:
 	var entity = scene.instantiate()
 	entity.global_position = position
 	entity_container.add_child(entity)
-	EventBus.entity_spawned.emit(position, entity)
 
 func _get_tilemap() -> TileMapLayer:
 	return WorldManager.tilemap_layers.get(tilemap_layer_name)

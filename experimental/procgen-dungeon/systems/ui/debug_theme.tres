@@ -1,0 +1,9 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://p42ckaae4fds"]
+
+[ext_resource type="FontFile" uid="uid://c2v1lgd1jxyud" path="res://assets/fonts/Notalot18.ttf" id="1_ywvq5"]
+
+[resource]
+Label/constants/line_spacing = 1
+Label/font_sizes/font_size = 7
+Label/fonts/font = ExtResource("1_ywvq5")
+VBoxContainer/constants/separation = 0

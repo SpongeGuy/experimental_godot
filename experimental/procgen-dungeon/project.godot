@@ -23,12 +23,13 @@ UuidGenerator="*res://systems/core/UUIDGenerator.gd"
 PlayerManager="*res://systems/core/PlayerManager.gd"
 WorldManager="*res://systems/core/WorldManager.gd"
 WaveSpawnManager="*res://systems/core/WaveSpawnManager.gd"
+CreepMaster="*res://systems/core/CreepMaster.gd"
 
 [display]
 
 window/size/viewport_width=960
 window/size/viewport_height=540
-window/size/initial_position_type=3
+window/size/mode=3
 window/size/window_width_override=1280
 window/size/window_height_override=720
 window/stretch/mode="viewport"

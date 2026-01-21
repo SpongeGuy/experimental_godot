@@ -1,0 +1,63 @@
+[gd_scene load_steps=8 format=3 uid="uid://c255vr1dvri6w"]
+
+[ext_resource type="Script" uid="uid://bbp6gfohdl1e6" path="res://player.gd" id="1_i3pqv"]
+[ext_resource type="Texture2D" uid="uid://bddfo21radyd7" path="res://assets/textures/sprites/debug/ferret.png" id="2_hqtel"]
+[ext_resource type="Script" uid="uid://c61weh44fpdxy" path="res://inventory.gd" id="4_hqtel"]
+[ext_resource type="Script" uid="uid://dh2eclcxp3vc7" path="res://CosmeticCollider.gd" id="4_sweqy"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_onrkg"]
+radius = 6.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hqtel"]
+radius = 15.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_i3pqv"]
+radius = 6.0
+
+[node name="Player" type="RigidBody2D"]
+collision_layer = 4
+gravity_scale = 0.0
+lock_rotation = true
+freeze = true
+freeze_mode = 1
+script = ExtResource("1_i3pqv")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -8)
+shape = SubResource("CircleShape2D_onrkg")
+
+[node name="Sprites" type="Node2D" parent="."]
+position = Vector2(0, -8)
+
+[node name="ScaleController" type="Node2D" parent="Sprites"]
+
+[node name="Main" type="Sprite2D" parent="Sprites/ScaleController"]
+texture_filter = 1
+texture = ExtResource("2_hqtel")
+hframes = 4
+vframes = 3
+
+[node name="Hand" type="Marker2D" parent="Sprites/ScaleController"]
+position = Vector2(2, 3)
+
+[node name="Inventory" type="Node2D" parent="." node_paths=PackedStringArray("pickup_area")]
+script = ExtResource("4_hqtel")
+pickup_area = NodePath("../Pickup")
+
+[node name="Pickup" type="Area2D" parent="."]
+position = Vector2(1, -8)
+collision_layer = 0
+collision_mask = 14
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Pickup"]
+position = Vector2(-1, 0)
+shape = SubResource("CircleShape2D_hqtel")
+
+[node name="CosmeticCollider" type="Area2D" parent="."]
+collision_layer = 128
+collision_mask = 128
+script = ExtResource("4_sweqy")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CosmeticCollider"]
+position = Vector2(0, -8)
+shape = SubResource("CircleShape2D_i3pqv")

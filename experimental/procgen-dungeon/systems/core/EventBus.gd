@@ -15,3 +15,6 @@ signal try_change_creature_hunger(target: Creature, amount: float)
 signal wave_started(wave_number: int, total_points: int)
 signal wave_completed(wave_number: int)
 signal entity_spawned(position: Vector2, entity: Entity)
+
+# creep
+

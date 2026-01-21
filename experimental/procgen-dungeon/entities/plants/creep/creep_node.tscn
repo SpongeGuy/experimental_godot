@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=3 uid="uid://duftqdwqcdage"]
+
+[ext_resource type="Script" uid="uid://cft6ns4aj5cm3" path="res://entities/plants/creep/creep_node.gd" id="1_f01as"]
+[ext_resource type="Texture2D" uid="uid://kysnpxlfu22h" path="res://assets/sprites/debug/creep_fruiting.png" id="2_d2561"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_f01as"]
+size = Vector2(16, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_d2561"]
+size = Vector2(16, 16)
+
+[node name="CreepNode" type="Node2D"]
+script = ExtResource("1_f01as")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("2_d2561")
+
+[node name="Hitbox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+shape = SubResource("RectangleShape2D_f01as")
+
+[node name="Hurtbox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+shape = SubResource("RectangleShape2D_d2561")

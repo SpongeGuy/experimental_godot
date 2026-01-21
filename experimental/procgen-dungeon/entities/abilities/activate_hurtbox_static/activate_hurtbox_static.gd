@@ -23,4 +23,6 @@ func _do_hurtbox_timing(master: Entity) -> void:
 		return
 	master.hurtbox.collision_shape.disabled = false
 	await master.get_tree().create_timer(duration).timeout
+	if not is_instance_valid(master):
+		return
 	master.hurtbox.collision_shape.disabled = true
