@@ -36,8 +36,28 @@ var health_values: Array[float] = [
 	220
 ]
 
+var required_nutrition: Array[float] = [
+	5,
+	15,
+	30,
+	45,
+	60,
+	75, 
+]
+
 func _ready() -> void:
 	_grow(0)
+
+func _try_grow(progress: int = 1) -> void:
+	var chunk_pos: Vector2i = WorldManager.world_to_chunk(position)
+	var local_pos: Vector2i = WorldManager.world_to_local(position)
+	var chunk: Chunk = WorldManager.chunks.get(chunk_pos)
+	print(WorldManager.chunks)
+	var cell: Cell = chunk.get_cell(local_pos)
+	if cell.nutrition < required_nutrition[progression + progress]:
+		return
+	_grow(progress)
+	
 
 func _grow(progress: int = 1) -> void:
 	if (progress + progression) >= sprites.size():
@@ -79,7 +99,7 @@ func _process(delta: float) -> void:
 	if growth_timer > growth_limit:
 		growth_timer = 0
 		if randf() < 0.2:
-			_grow()
+			_try_grow()
 			pass
 		
 	

@@ -13,7 +13,9 @@ func _init(pos: Vector2i) -> void:
 	for i in range(CHUNK_SIZE * CHUNK_SIZE):
 		cells[i] = Cell.create_empty()
 
-func get_cell(local_x: int, local_y: int) -> Cell:
+func get_cell(local_pos: Vector2i) -> Cell:
+	var local_x: int = local_pos.x
+	var local_y: int = local_pos.y
 	# get cell using local chunk coordinates with (0, 0) being the origin
 	if local_x < 0 or local_x >= CHUNK_SIZE or local_y < 0 or local_y >= CHUNK_SIZE:
 		push_warning("Get cell local coordinate out of bounds! returning null")
@@ -64,12 +66,10 @@ func count_cells_of_type(type: Cell.Type) -> Array[Cell]:
 var plant = preload("res://debug_plant.tscn")
 
 func try_spawn_plant() -> void:
-	var random_x: int = randi_range(0, CHUNK_SIZE - 1)
-	var random_y: int = randi_range(0, CHUNK_SIZE - 1)
-	var cell: Cell = get_cell(random_x, random_y)
+	var random: Vector2i = Vector2i(randi_range(0, CHUNK_SIZE - 1), randi_range(0, CHUNK_SIZE - 1))
+	var cell: Cell = get_cell(random)
 	if cell.type == Cell.Type.GROUND:
 		var p = plant.instantiate()
 		var random_offset: Vector2 = Vector2(randi_range(0, Cell.CELL_SIZE - 1), randi_range(0, Cell.CELL_SIZE - 1))
-		p.position = WorldManager.chunk_to_world(chunk_pos, Vector2i(random_x, random_y)) + random_offset
+		p.position = WorldManager.chunk_to_world(chunk_pos, random) + random_offset
 		EntityManager.add_entity_to_world(p)
-		

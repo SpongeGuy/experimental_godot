@@ -24,7 +24,7 @@ func _setup_terrain_definitions() -> void:
 	
 	terrain_definitions[0] = {
 		1: {"name": "dirt_wall", "type": Cell.Type.WALL, "nutrition": 0.0, "moisture": 0.0, "traversability": 0.0, "health": 10.0, "max_health": 10.0, "indestructible": false},
-		0: {"name": "dirt_path", "type": Cell.Type.GROUND, "nutrition": 0.0, "moisture": 0.0, "traversability": 1.0, "health": 10.0, "max_health": 10.0, "indestructible": true},
+		0: {"name": "dirt_path", "type": Cell.Type.GROUND, "nutrition": 15.0, "moisture": 5.0, "traversability": 1.0, "health": 10.0, "max_health": 10.0, "indestructible": true},
 	}
 	
 	# add more terrain definitions here...
@@ -74,8 +74,8 @@ func _create_cell_from_terrain(terrain_set: int, terrain: int) -> Cell:
 		cell.traversability = 0.0
 		cell.type = Cell.Type.NULL
 	return cell
-	
-	
+
+
 
 # COORDINATE CONVERSION # -----------------------------------------------------------------------------
 
@@ -86,7 +86,8 @@ func world_to_chunk(world_pos: Vector2) -> Vector2i:
 	return Vector2i(
 		floori(world_pos.x / Chunk.CHUNK_SIZE),
 		floori(world_pos.y / Chunk.CHUNK_SIZE),
-	)	
+	)
+
 func world_to_local(world_pos: Vector2) -> Vector2i:
 	# convert world position to local chunk position
 	# chunks are split into 64 units, which are represented by a local coordinate from (0, 0) to (7, 7)
@@ -126,7 +127,7 @@ func get_cell(world_pos: Vector2i) -> Cell:
 	if not chunks.has(chunk_pos):
 		return null
 		
-	return chunks[chunk_pos].get_cell(local_pos.x, local_pos.y)
+	return chunks[chunk_pos].get_cell(local_pos)
 		
 func set_cell_terrain(world_pos: Vector2i, terrain_set: int, terrain: int) -> void:
 	# set a cell's terrain and trigger auto tiling
