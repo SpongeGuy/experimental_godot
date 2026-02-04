@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://cnvejttu2n3fm"]
+
+[ext_resource type="Script" uid="uid://lewycgqt3nuf" path="res://scripts/components/hunger_component.gd" id="1_pjxul"]
+
+[node name="HungerComponent" type="Node" unique_id=1204093445]
+script = ExtResource("1_pjxul")

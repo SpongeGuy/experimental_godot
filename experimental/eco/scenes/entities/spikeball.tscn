@@ -1,0 +1,69 @@
+[gd_scene load_steps=9 format=3 uid="uid://c8ix3yqaysf6x"]
+
+[ext_resource type="Texture2D" uid="uid://dclt7m557u0sx" path="res://assets/textures/sprites/items/spike_ball.png" id="1_2iijl"]
+[ext_resource type="Script" uid="uid://di25j6ayd7d50" path="res://scripts/entities/spikeball.gd" id="1_y0u1h"]
+[ext_resource type="Texture2D" uid="uid://mc5bm81kwyan" path="res://assets/textures/sprites/characters/shadow.png" id="2_anwbn"]
+[ext_resource type="Script" uid="uid://dh2eclcxp3vc7" path="res://scripts/classes/CosmeticCollider.gd" id="3_gel80"]
+[ext_resource type="Script" uid="uid://b4psmuljmes7u" path="res://scripts/classes/Hurtbox.gd" id="4_0bs5c"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_2iijl"]
+radius = 4.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_0bs5c"]
+radius = 4.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_y0u1h"]
+radius = 5.0
+
+[node name="Spikeball" type="RigidBody2D" node_paths=PackedStringArray("physics_collider", "main_sprite")]
+texture_filter = 1
+collision_layer = 2
+collision_mask = 7
+mass = 3.0
+gravity_scale = 0.0
+lock_rotation = true
+freeze_mode = 1
+script = ExtResource("1_y0u1h")
+physics_collider = NodePath("CollisionShape2D")
+main_sprite = NodePath("Sprites/ScaleController/MainSprite")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -6)
+shape = SubResource("CircleShape2D_2iijl")
+
+[node name="Sprites" type="Node2D" parent="."]
+
+[node name="ScaleController" type="Node2D" parent="Sprites"]
+
+[node name="MainSprite" type="Sprite2D" parent="Sprites/ScaleController"]
+position = Vector2(0, -6)
+texture = ExtResource("1_2iijl")
+
+[node name="Shadow" type="Sprite2D" parent="Sprites/ScaleController"]
+modulate = Color(1, 1, 1, 0.5019608)
+z_index = -1
+position = Vector2(0, -3)
+scale = Vector2(0.755, 0.755)
+texture = ExtResource("2_anwbn")
+
+[node name="CosmeticCollider" type="Area2D" parent="."]
+position = Vector2(0, -2)
+collision_layer = 128
+collision_mask = 128
+script = ExtResource("3_gel80")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CosmeticCollider"]
+position = Vector2(0, -4)
+shape = SubResource("CircleShape2D_0bs5c")
+
+[node name="Hurtbox" type="Area2D" parent="." node_paths=PackedStringArray("master")]
+position = Vector2(0, -6)
+collision_layer = 512
+collision_mask = 256
+script = ExtResource("4_0bs5c")
+master = NodePath("..")
+metadata/_custom_type_script = "uid://b4psmuljmes7u"
+
+[node name="Shape" type="CollisionShape2D" parent="Hurtbox"]
+shape = SubResource("CircleShape2D_y0u1h")
+disabled = true

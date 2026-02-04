@@ -1,0 +1,55 @@
+[gd_scene format=3 uid="uid://ciwmor8gg4coo"]
+
+[ext_resource type="Script" uid="uid://0vtvx65s6qof" path="res://scripts/entities/fruit.gd" id="1_t45jj"]
+[ext_resource type="Script" uid="uid://dh2eclcxp3vc7" path="res://scripts/classes/CosmeticCollider.gd" id="3_7yftu"]
+[ext_resource type="Texture2D" uid="uid://b8u7843gkm3am" path="res://assets/textures/sprites/items/eclair.png" id="3_12611"]
+[ext_resource type="Texture2D" uid="uid://mc5bm81kwyan" path="res://assets/textures/sprites/characters/shadow.png" id="4_asr7n"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_dajs1"]
+radius = 3.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_t45jj"]
+radius = 3.0
+
+[node name="Food" type="RigidBody2D" unique_id=1774392450 node_paths=PackedStringArray("physics_collider", "main_sprite") groups=["pickupable"]]
+texture_filter = 1
+collision_layer = 2
+collision_mask = 7
+gravity_scale = 0.0
+lock_rotation = true
+freeze_mode = 1
+script = ExtResource("1_t45jj")
+physics_collider = NodePath("CollisionShape2D")
+main_sprite = NodePath("Sprites/ScaleController/MainSprite")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=514576291]
+position = Vector2(0, -4)
+shape = SubResource("CircleShape2D_dajs1")
+
+[node name="CosmeticCollider" type="Area2D" parent="." unique_id=1034264554]
+collision_layer = 128
+collision_mask = 128
+script = ExtResource("3_7yftu")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CosmeticCollider" unique_id=851407012]
+position = Vector2(0, -4)
+shape = SubResource("CircleShape2D_t45jj")
+
+[node name="Sprites" type="Node2D" parent="." unique_id=913498835]
+
+[node name="ScaleController" type="Node2D" parent="Sprites" unique_id=1093413322]
+
+[node name="MainSprite" type="Sprite2D" parent="Sprites/ScaleController" unique_id=369072108]
+texture_filter = 1
+position = Vector2(0.2, -5)
+texture = ExtResource("3_12611")
+hframes = 5
+
+[node name="Shadow" type="Sprite2D" parent="Sprites/ScaleController" unique_id=979758963]
+modulate = Color(1, 1, 1, 0.5254902)
+z_index = -1
+position = Vector2(0.5, -2)
+scale = Vector2(0.53, 0.53)
+texture = ExtResource("4_asr7n")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

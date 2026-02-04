@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://b4lu77q3c3mn7"]
+
+[ext_resource type="Texture2D" uid="uid://b4io1tgk8do3x" path="res://assets/textures/sprites/effects/water_particle.png" id="1_x3a2q"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ytw5j"]
+particle_flag_disable_z = true
+angle_min = -183.49998
+angle_max = 148.20001
+initial_velocity_max = 68.63
+gravity = Vector3(0, 0, 0)
+
+[node name="SpitEffect" type="GPUParticles2D"]
+texture_filter = 1
+emitting = false
+texture = ExtResource("1_x3a2q")
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_ytw5j")

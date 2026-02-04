@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://dxtsyxx4fnsyb"]
+
+[ext_resource type="Script" uid="uid://ct6rvkbt6i8lb" path="res://scripts/components/cheek_component.gd" id="1_0xojq"]
+
+[node name="CheekComponent" type="Node" unique_id=334151953]
+script = ExtResource("1_0xojq")

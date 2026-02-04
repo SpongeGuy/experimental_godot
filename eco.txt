@@ -1,0 +1,64 @@
+I’m designing a game that is based upon an ecological simulation. It is a top down video game where the player manages resources and collects items. But it is arcadified and fun and snappy. I’m struggling with designing time to reward. 
+
+the goal of the game revolves around the ecosystem and food. the player finds themselves in a strange alien forest of fantastical creatures which all play their role in the strange ecosystem of this place. the player has 12 days to stockpile enough food in their den to hibernate through the intense winter.
+
+Right now i have a player that can store items in a simple size 5 inventory, although storing things in this inventory takes 2 seconds, so make sure you are safe when storing items in your cheeks. The goal of the player is to collect enough food and store it in their den before nightfall. Items are rigidbody2d entities that can be picked up and stored. Fruits count as items. The player has health and hunger and inventory attributes. The player should feel like they are in the middle to lower parts of the food chain, so the player has a feeling of pressure and excitement.
+
+Terrain is simulated using cells which hold information about the terrain, like nutrition and moisture, traversability, terrain type, etc.
+
+Plants can spawn on tiles and grow as long as they have an adequate amount of nutrition (which they slowly sap from the ground) and moisture. Plants are similar to creatures in that they can be damaged and have health.
+
+Creatures will be sometimes ordinary and sometimes fantastical. Some will be more powerful than others. However, an important few need to have the capability of cycling nutrition around the ecosystem. Plants cannot grow if there is no nutrition, so creatures will store a nutrition value and if they die, their carcass will slowly leech into the surrounding tiles. Creatures can also spread nutrition in other ways like creating food or by pooping. Some creatures should be docile and some should be aggressive, some should be passive until threatened.
+
+how long should a day/night cycle be?
+between 3-7 minutes depending on the season. I'm thinking that the game has four seasons and four days where spring and fall days last 5 minutes, summer lasts 7, and winter lasts 3. the overall aim of each run is to survive winter.
+
+death is permanent, and the player will have to start over from the beginning to continue. however, the player will unlock various things during runs which may have an effect on future runs.
+
+what kind of creature is the player?
+the player is a hamster ferret hybrid; a creature which is fast and nimble but cannot really fight without tools. the player can use tools either found in the environment or dropped from animals (naturally or on death) to accomplish certain tasks. this animal does not have to worry about fluctuating temperatures as it gets a white winter coat when the climate gets cold. the player can store five smaller items in their cheeks for temporary storage. this allows leeway in gameplay, perhaps allowing more creative solutions to problems.
+
+how does hunger work mechanically?
+every creature has these parameters:
+    hunger
+        a rate, value, and max value.
+        it is recommended to determine behavior based on a ratio: value/max.
+        controls the creature's urge to seek and consume food.
+        this rate is directly proportional to the velocity of the creature
+    nutrition
+        a base amount of hunger satiated when the creature is consumed by another.
+    fat
+        acts as long term storage of nutrition to determine certain characteristics.
+        fat is gained when the creature eats while not hungry.
+        fat is lost when the creature has a high hunger percentage.
+    age
+        controls the life stage of the creature.
+        higher age means faster hunger rate.
+
+what happens when the player stores food in their den?
+there is visual and auditory feedback, but no points or anything like that. i was thinking that perhaps it could be neat that after the end of each day (like the player reaches their den at night and engages sleep) a screen would count up some of the actions you performed and things you did and reward you points based on that.
+
+is there a progression system between runs/days?
+i think there should be a progression system between runs, but probably not days; the player wouldn't have any sort of external like cutscene that would give them more information about how to play the game. perhaps there could be game modifiers or different difficulties or different playable characters to unlock but that is way way down the line.
+
+what should feel more rewarding: the act of gathering food or successfully returning it to the den?
+ideally returning it to the den should feel very rewarding. i imagine that food gets harder and harder to find as the days go on so the player will have to travel further and further to get food, which means they will be in contact with more potentially dangerous predators and environmental factors. so enduring a long journey and some danger should feel rewarding, but not tedious.
+
+how aware should the player be of the ecosystem simulation?
+ideally, the systems should allow for casual play which involves a simple gatherer type style of playing where the most the player does is wander around and gather fruit (or carcasses) and bring them back to the den. the player does not need to know how to manipulate the ecosystem in any way to complete their first runthrough of the game. however, it may make it easier to survive the winter by knowing how to do this. creatures other than the player should have behaviors that passively let the player know that they have the capability to change their environment. perhaps a creature will plant seeds or scare other creatures away. i'm not totally sure on how to develop ideas for manipulating this fantasy ecosystem.
+
+should predators hunt other creatures creating opportunities/distractions for the player?
+yes, absolutely. there are no teams in this game and every animal is out for themselves.
+
+thoughts on short-term vs long-term goals?
+it should be said that the player needs to have their share of collected food during the day AND also bring back food to the den. the player can either eat while out and about or don't eat during the day (just bring back food) and the player will automatically eat a share of food from the stockpile in the den. 
+
+i think that the biggest cause of "fun friction" is the prospect of deepening the game too much before i really know how the more "shallower" parts of the game feel, like hunting for food, avoiding predators, and making it back to the den safely.
+
+
+
+
+
+
+
+
