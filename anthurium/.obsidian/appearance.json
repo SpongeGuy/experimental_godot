@@ -1,0 +1,10 @@
+{
+  "cssTheme": "Material Gruvbox",
+  "theme": "obsidian",
+  "textFontFamily": "Consolas",
+  "interfaceFontFamily": "Consolas",
+  "baseFontSize": 13,
+  "monospaceFontFamily": "Consolas",
+  "nativeMenus": true,
+  "accentColor": "#e51010"
+}

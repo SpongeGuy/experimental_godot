@@ -1,0 +1,56 @@
+[gd_scene format=3 uid="uid://bknngsclh2idp"]
+
+[ext_resource type="Texture2D" uid="uid://3n3f3bsucluj" path="res://assets/textures/characters/imp.png" id="1_l7lie"]
+[ext_resource type="Texture2D" uid="uid://brm8tbiplb1bk" path="res://assets/textures/misc/shadow.png" id="2_1s1ue"]
+[ext_resource type="Script" uid="uid://snopn0q86518" path="res://scripts/classes/StateMachine.gd" id="3_1s1ue"]
+[ext_resource type="Script" uid="uid://c58w8kgm688wm" path="res://scripts/movement_component.gd" id="3_p4e6c"]
+[ext_resource type="Script" uid="uid://87ix88q4hl51" path="res://scripts/states/pathfind_wander.gd" id="5_8uyt1"]
+[ext_resource type="Script" uid="uid://d1ukjsox3nmlp" path="res://scripts/target_seeker.gd" id="7_tcjw4"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_p4e6c"]
+radius = 2.0
+
+[node name="CharacterBody2D" type="CharacterBody2D" unique_id=251087214]
+texture_filter = 1
+
+[node name="Sprites" type="Node2D" parent="." unique_id=228812393]
+position = Vector2(0, -7)
+
+[node name="Main" type="Sprite2D" parent="Sprites" unique_id=956959455]
+texture = ExtResource("1_l7lie")
+
+[node name="Shadow" type="Sprite2D" parent="Sprites" unique_id=1999810860]
+z_index = -1
+position = Vector2(0, 7)
+texture = ExtResource("2_1s1ue")
+hframes = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2021561705]
+shape = SubResource("CircleShape2D_p4e6c")
+
+[node name="MovementComponent" type="Node" parent="." unique_id=253635708]
+script = ExtResource("3_p4e6c")
+max_speed = 30.0
+acceleration = 100.0
+friction = 200.0
+
+[node name="StateMachine" type="Node" parent="." unique_id=1101086753 node_paths=PackedStringArray("initial_state")]
+script = ExtResource("3_1s1ue")
+initial_state = NodePath("PathfindWanderState")
+metadata/_custom_type_script = "uid://snopn0q86518"
+
+[node name="PathfindWanderState" type="Node" parent="StateMachine" unique_id=1732767096 node_paths=PackedStringArray("movement", "target_seeker", "navigation_agent", "chase_state")]
+script = ExtResource("5_8uyt1")
+movement = NodePath("../../MovementComponent")
+target_seeker = NodePath("../../TargetSeeker")
+navigation_agent = NodePath("../../NavigationAgent2D")
+chase_state = NodePath(".")
+metadata/_custom_type_script = "uid://87ix88q4hl51"
+
+[node name="TargetSeeker" type="Node" parent="." unique_id=1682987206]
+script = ExtResource("7_tcjw4")
+metadata/_custom_type_script = "uid://d1ukjsox3nmlp"
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=1421348589]
+path_desired_distance = 8.0
+target_desired_distance = 16.0

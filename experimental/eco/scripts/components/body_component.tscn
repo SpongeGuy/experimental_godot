@@ -1,8 +1,0 @@
-[gd_scene format=3 uid="uid://deqs6iif7k5f7"]
-
-[ext_resource type="Script" uid="uid://cf8ox2vm3uxvc" path="res://scripts/components/body_component.gd" id="1_nut0x"]
-
-[node name="BodyComponent" type="Node" unique_id=685286089]
-script = ExtResource("1_nut0x")
-hand_positions = null
-mouth_positions = null
