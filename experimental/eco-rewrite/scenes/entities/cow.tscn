@@ -1,0 +1,142 @@
+[gd_scene format=3 uid="uid://dgw85j68aqfnv"]
+
+[ext_resource type="Texture2D" uid="uid://scy3ykor30uy" path="res://assets/textures/sprites/characters/cow.png" id="1_n3exx"]
+[ext_resource type="Texture2D" uid="uid://mc5bm81kwyan" path="res://assets/textures/sprites/characters/shadow.png" id="2_y6s0v"]
+[ext_resource type="Script" uid="uid://pukqcrjm0xoe" path="res://scripts/components/health_component.gd" id="3_wm41f"]
+[ext_resource type="Script" uid="uid://bsovq5vfsib37" path="res://scripts/components/health_effects_components.gd" id="4_vg2fe"]
+[ext_resource type="Script" uid="uid://xbtqboafa7we" path="res://scripts/components/nutrition_component.gd" id="5_iqv4j"]
+[ext_resource type="Script" uid="uid://cfd5fusxtk5pe" path="res://scripts/components/eye_component.gd" id="6_o01hf"]
+[ext_resource type="Script" uid="uid://dktmv0l4imqik" path="res://scripts/components/brain.gd" id="7_vg2fe"]
+[ext_resource type="Script" uid="uid://docyotvw2rj1f" path="res://scripts/components/movement_component.gd" id="8_iqv4j"]
+[ext_resource type="Script" uid="uid://lewycgqt3nuf" path="res://scripts/components/hunger_component.gd" id="9_o01hf"]
+[ext_resource type="Script" uid="uid://cf8ox2vm3uxvc" path="res://scripts/components/movement_effects_component.gd" id="10_amfbr"]
+[ext_resource type="Script" uid="uid://k441oiijh5v2" path="res://scripts/goals/wander_goal.gd" id="11_xu8ec"]
+[ext_resource type="Script" uid="uid://c2jmjw7ehpobw" path="res://scripts/components/intent_executor.gd" id="12_gr3lb"]
+[ext_resource type="Script" uid="uid://jr7cib8gkwqk" path="res://scripts/goals/idle_goal.gd" id="12_ob581"]
+[ext_resource type="Script" uid="uid://bgui5vf5xd41j" path="res://scripts/goals/seek_food_goal.gd" id="13_56oil"]
+[ext_resource type="Script" uid="uid://dh2eclcxp3vc7" path="res://scripts/classes/CosmeticCollider.gd" id="15_3ogt2"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_y6s0v"]
+radius = 5.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_amfbr"]
+radius = 28.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vjskl"]
+size = Vector2(11, 7)
+
+[node name="Cow" type="RigidBody2D" unique_id=1319855037]
+texture_filter = 1
+collision_layer = 4
+gravity_scale = 0.0
+freeze = true
+freeze_mode = 1
+
+[node name="Sprites" type="Node2D" parent="." unique_id=122835483]
+
+[node name="Main" type="Sprite2D" parent="Sprites" unique_id=544730335]
+position = Vector2(0, -8)
+texture = ExtResource("1_n3exx")
+
+[node name="Sprite2D2" type="Sprite2D" parent="Sprites" unique_id=2019765933]
+modulate = Color(1, 1, 1, 0.40784314)
+z_index = -1
+position = Vector2(0, -3)
+texture = ExtResource("2_y6s0v")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2147110576]
+position = Vector2(-1, 0)
+shape = SubResource("CircleShape2D_y6s0v")
+
+[node name="HealthComponent" type="Node" parent="." unique_id=2056799684]
+script = ExtResource("3_wm41f")
+metadata/_custom_type_script = "uid://pukqcrjm0xoe"
+
+[node name="HealthEffectsComponents" type="Node" parent="." unique_id=894605195 node_paths=PackedStringArray("master_origin", "main_sprite", "health_component")]
+script = ExtResource("4_vg2fe")
+master_origin = NodePath("..")
+main_sprite = NodePath("../Sprites/Main")
+health_component = NodePath("../HealthComponent")
+metadata/_custom_type_script = "uid://bsovq5vfsib37"
+
+[node name="NutritionComponent" type="Node" parent="." unique_id=806129870]
+script = ExtResource("5_iqv4j")
+metadata/_custom_type_script = "uid://xbtqboafa7we"
+
+[node name="EyeComponent" type="Node" parent="." unique_id=1084308984 node_paths=PackedStringArray("master_origin", "sight_area")]
+script = ExtResource("6_o01hf")
+master_origin = NodePath("..")
+sight_area = NodePath("../Area2D")
+metadata/_custom_type_script = "uid://cfd5fusxtk5pe"
+
+[node name="Area2D" type="Area2D" parent="." unique_id=212893199]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1095979649]
+position = Vector2(0, -5)
+shape = SubResource("CircleShape2D_amfbr")
+
+[node name="MovementComponent" type="Node" parent="." unique_id=102819634 node_paths=PackedStringArray("navigation_agent", "master_origin")]
+script = ExtResource("8_iqv4j")
+movement_speed = 25.0
+navigation_agent = NodePath("../NavigationAgent2D")
+master_origin = NodePath("..")
+metadata/_custom_type_script = "uid://docyotvw2rj1f"
+
+[node name="HungerComponent" type="Node" parent="." unique_id=392105494]
+script = ExtResource("9_o01hf")
+hunger_rate = 10.0
+metadata/_custom_type_script = "uid://lewycgqt3nuf"
+
+[node name="MovementEffectsComponent" type="Node" parent="." unique_id=383789724 node_paths=PackedStringArray("main_sprite")]
+script = ExtResource("10_amfbr")
+main_sprite = NodePath("../Sprites/Main")
+metadata/_custom_type_script = "uid://cf8ox2vm3uxvc"
+
+[node name="Brain" type="Node" parent="." unique_id=841367030 node_paths=PackedStringArray("creature", "intent_executor")]
+script = ExtResource("7_vg2fe")
+creature = NodePath("..")
+intent_executor = NodePath("../IntentExecutor")
+priority_threshold = 0.0
+metadata/_custom_type_script = "uid://dktmv0l4imqik"
+
+[node name="WanderGoal" type="Node" parent="Brain" unique_id=1528479212 node_paths=PackedStringArray("master_origin")]
+script = ExtResource("11_xu8ec")
+master_origin = NodePath("../..")
+goal_name = "wander"
+penalty_reduce_factor = 0.35
+metadata/_custom_type_script = "uid://k441oiijh5v2"
+
+[node name="IdleGoal" type="Node" parent="Brain" unique_id=1575203256]
+script = ExtResource("12_ob581")
+goal_name = "idle"
+metadata/_custom_type_script = "uid://jr7cib8gkwqk"
+
+[node name="SeekFoodGoal" type="Node" parent="Brain" unique_id=1356326101 node_paths=PackedStringArray("hunger_component")]
+script = ExtResource("13_56oil")
+hunger_component = NodePath("../../HungerComponent")
+goal_name = "seek_food"
+metadata/_custom_type_script = "uid://bgui5vf5xd41j"
+
+[node name="IntentExecutor" type="Node" parent="." unique_id=1953694107 node_paths=PackedStringArray("master_origin", "brain")]
+script = ExtResource("12_gr3lb")
+master_origin = NodePath("..")
+brain = NodePath("../Brain")
+metadata/_custom_type_script = "uid://c2jmjw7ehpobw"
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=75694498]
+
+[node name="CosmeticCollider" type="Area2D" parent="." unique_id=410550357]
+collision_layer = 128
+collision_mask = 128
+script = ExtResource("15_3ogt2")
+metadata/_custom_type_script = "uid://dh2eclcxp3vc7"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CosmeticCollider" unique_id=1843035962]
+position = Vector2(-1.5, -6.5)
+shape = SubResource("RectangleShape2D_vjskl")
+
+[connection signal="died" from="HealthComponent" to="HealthEffectsComponents" method="die"]
+[connection signal="harmed" from="HealthComponent" to="HealthEffectsComponents" method="play_harmed_effects"]
+[connection signal="goal_complete" from="MovementComponent" to="Brain" method="_on_goal_complete"]
+[connection signal="moving" from="MovementComponent" to="MovementEffectsComponent" method="update_sprite_facing"]
+[connection signal="starve" from="HungerComponent" to="HealthComponent" method="take_damage"]

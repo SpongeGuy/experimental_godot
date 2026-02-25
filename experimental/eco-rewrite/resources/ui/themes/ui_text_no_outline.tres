@@ -1,0 +1,28 @@
+[gd_resource type="Theme" format=3 uid="uid://cuuiyegyvou2c"]
+
+[ext_resource type="FontFile" uid="uid://40p0i5dge2iv" path="res://assets/fonts/Pepiacjm.ttf" id="1_ea7v8"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_gn7on"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ykqln"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ea7v8"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ea7v8"]
+bg_color = Color(0.57198584, 0.15704745, 0.7876119, 0.28627452)
+
+[resource]
+ItemList/colors/font_color = Color(1, 1, 1, 1)
+ItemList/constants/line_separation = 0
+ItemList/constants/v_separation = 0
+ItemList/font_sizes/font_size = 16
+ItemList/fonts/font = ExtResource("1_ea7v8")
+ItemList/styles/hovered = SubResource("StyleBoxEmpty_gn7on")
+ItemList/styles/panel = SubResource("StyleBoxEmpty_ykqln")
+Label/constants/line_spacing = 0
+Label/constants/outline_size = 0
+Label/font_sizes/font_size = 16
+Label/fonts/font = ExtResource("1_ea7v8")
+Label/styles/focus = SubResource("StyleBoxEmpty_ea7v8")
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_ea7v8")
+VBoxContainer/constants/separation = -2

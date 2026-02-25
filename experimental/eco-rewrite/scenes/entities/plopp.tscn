@@ -1,0 +1,84 @@
+[gd_scene format=3 uid="uid://cojbig6055kf2"]
+
+[ext_resource type="Texture2D" uid="uid://c6mm3rv3iyrrd" path="res://assets/textures/sprites/characters/plopp/plopp.png" id="1_wjh01"]
+[ext_resource type="Script" uid="uid://docyotvw2rj1f" path="res://scripts/components/movement_component.gd" id="2_0na6w"]
+[ext_resource type="Texture2D" uid="uid://mc5bm81kwyan" path="res://assets/textures/sprites/characters/shadow.png" id="2_sdqm3"]
+[ext_resource type="Script" uid="uid://dktmv0l4imqik" path="res://scripts/components/brain.gd" id="3_v0h3j"]
+[ext_resource type="Script" uid="uid://c2jmjw7ehpobw" path="res://scripts/components/intent_executor.gd" id="4_sdqm3"]
+[ext_resource type="Script" uid="uid://k441oiijh5v2" path="res://scripts/goals/wander_goal.gd" id="4_v0h3j"]
+[ext_resource type="Script" uid="uid://dh2eclcxp3vc7" path="res://scripts/classes/CosmeticCollider.gd" id="7_758uy"]
+[ext_resource type="Script" uid="uid://c2yrc0nurc2lv" path="res://scripts/components/entity_spawner_component.gd" id="8_e0hur"]
+[ext_resource type="PackedScene" uid="uid://cnbxjokws30b3" path="res://scenes/entities/orb.tscn" id="9_7u0i1"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_wjh01"]
+radius = 5.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_e0hur"]
+radius = 5.0
+
+[node name="Plopp" type="RigidBody2D" unique_id=1543836370]
+texture_filter = 1
+gravity_scale = 0.0
+
+[node name="Node2D" type="Node2D" parent="." unique_id=1270293885]
+position = Vector2(0, -8)
+
+[node name="Sprite" type="Sprite2D" parent="Node2D" unique_id=1941550762]
+texture = ExtResource("1_wjh01")
+hframes = 6
+vframes = 2
+
+[node name="Shadow" type="Sprite2D" parent="Node2D" unique_id=892728313]
+modulate = Color(1, 1, 1, 0.4745098)
+z_index = -1
+position = Vector2(0, 5)
+texture = ExtResource("2_sdqm3")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2001206073]
+shape = SubResource("CircleShape2D_wjh01")
+
+[node name="MovementComponent" type="Node" parent="." unique_id=463630305 node_paths=PackedStringArray("navigation_agent", "master_origin")]
+script = ExtResource("2_0na6w")
+movement_speed = 30.0
+navigation_agent = NodePath("../NavigationAgent2D")
+master_origin = NodePath("..")
+metadata/_custom_type_script = "uid://docyotvw2rj1f"
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=773255779]
+debug_enabled = true
+
+[node name="Brain" type="Node" parent="." unique_id=1542604482 node_paths=PackedStringArray("creature", "intent_executor")]
+script = ExtResource("3_v0h3j")
+creature = NodePath("..")
+intent_executor = NodePath("../IntentExecutor")
+metadata/_custom_type_script = "uid://dktmv0l4imqik"
+
+[node name="WanderGoal" type="Node" parent="Brain" unique_id=1523029570 node_paths=PackedStringArray("master_origin")]
+script = ExtResource("4_v0h3j")
+tolerance = 50.0
+master_origin = NodePath("../..")
+metadata/_custom_type_script = "uid://k441oiijh5v2"
+
+[node name="IntentExecutor" type="Node" parent="." unique_id=925324123 node_paths=PackedStringArray("master_origin", "brain")]
+script = ExtResource("4_sdqm3")
+master_origin = NodePath("..")
+brain = NodePath("../Brain")
+metadata/_custom_type_script = "uid://c2jmjw7ehpobw"
+
+[node name="CosmeticCollider" type="Area2D" parent="." unique_id=1056629720]
+collision_layer = 128
+collision_mask = 128
+script = ExtResource("7_758uy")
+metadata/_custom_type_script = "uid://dh2eclcxp3vc7"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CosmeticCollider" unique_id=1460010806]
+position = Vector2(0, -7)
+shape = SubResource("CircleShape2D_e0hur")
+
+[node name="EntitySpawnerComponent" type="Node" parent="." unique_id=1038408314 node_paths=PackedStringArray("master_origin")]
+script = ExtResource("8_e0hur")
+entity_to_spawn = ExtResource("9_7u0i1")
+master_origin = NodePath("..")
+metadata/_custom_type_script = "uid://c2yrc0nurc2lv"
+
+[connection signal="goal_complete" from="MovementComponent" to="Brain" method="_on_goal_complete"]

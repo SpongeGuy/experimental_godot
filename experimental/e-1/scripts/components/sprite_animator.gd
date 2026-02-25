@@ -1,0 +1,69 @@
+extends Node
+class_name SpriteAnimator
+
+@export var sprite: Sprite2D
+
+@export var animations: Array[SpriteAnimation]
+@export var facing: FacingComponent
+
+var current_animation: SpriteAnimation
+var current_frame: int = 0
+var animation_timer: float = 0.0
+
+var stopped: bool = false
+
+signal animation_finished(animation: SpriteAnimation)
+signal animation_loaded(animation: SpriteAnimation)
+signal frame_elapsed(frame: int)
+
+	
+func update_animation(delta: float, modifier: float = 1.0) -> void:
+	if not current_animation:
+		return
+	
+	if stopped:
+		return
+	
+	var old_frame: int = current_frame
+	animation_timer += delta * modifier * current_animation.speed
+	if animation_timer >= current_animation.frames:
+		animation_timer = 0.0
+		if not current_animation.loop:
+			animation_finished.emit(SpriteAnimation)
+			stop()
+			
+	if not current_animation:
+		return
+	
+	current_frame = floor(animation_timer)
+	
+	if old_frame != current_frame:
+		frame_elapsed.emit(current_frame)
+	sprite.frame_coords = Vector2i(current_frame, current_animation.row)
+	
+func stop() -> void:
+	stopped = true
+	
+func play() -> void:
+	stopped = false
+
+func load_animation(animation_name: StringName) -> void:
+	for animation in animations:
+		if animation.name != animation_name:
+			continue
+		current_animation = animation
+	current_frame = 0
+	animation_timer = 0.0
+	play()
+	animation_loaded.emit(current_animation)
+	
+func reset_animation() -> void:
+	current_frame = 0
+	animation_timer = 0.0
+	play()
+
+func _on_movement_component_changed_direction(old_direction: Vector2, new_direction: Vector2) -> void:
+	if new_direction.x > 0:
+		sprite.scale.x = 1.0
+	else:
+		sprite.scale.x = -1.0

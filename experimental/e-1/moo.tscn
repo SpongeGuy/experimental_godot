@@ -1,0 +1,151 @@
+[gd_scene format=3 uid="uid://dj0qusmlduf58"]
+
+[ext_resource type="Texture2D" uid="uid://cnupb8molkjhd" path="res://assets/textures/characters/cow.png" id="1_or62e"]
+[ext_resource type="Texture2D" uid="uid://brm8tbiplb1bk" path="res://assets/textures/misc/shadow.png" id="2_yqh5i"]
+[ext_resource type="Script" uid="uid://37f5rafomsw5" path="res://scripts/components/sprite_animator.gd" id="3_4kqr2"]
+[ext_resource type="Script" uid="uid://cym0ubd2tvsch" path="res://scripts/resources/SpriteAnimation.gd" id="4_5jko3"]
+[ext_resource type="Script" uid="uid://c58w8kgm688wm" path="res://scripts/components/movement_component.gd" id="5_kcbif"]
+[ext_resource type="Script" uid="uid://snopn0q86518" path="res://scripts/classes/StateMachine.gd" id="6_t7nlo"]
+[ext_resource type="Script" uid="uid://rhl072pc6k5q" path="res://scripts/components/health_component.gd" id="6_vuq2g"]
+[ext_resource type="Script" uid="uid://dku8bbt6kwf0j" path="res://scripts/states/idle.gd" id="7_16cu2"]
+[ext_resource type="Script" uid="uid://87ix88q4hl51" path="res://scripts/states/pathfind_wander.gd" id="8_43p5x"]
+[ext_resource type="Script" uid="uid://cm60qigtuuwr0" path="res://scripts/states/pathfind_to_target.gd" id="9_16cu2"]
+[ext_resource type="Script" uid="uid://d1ukjsox3nmlp" path="res://scripts/components/target_seeker.gd" id="9_t7nlo"]
+[ext_resource type="Script" uid="uid://bs3goj5nruk66" path="res://scripts/states/eating_object.gd" id="10_b0l5w"]
+[ext_resource type="Script" uid="uid://bnlw0glswo6ff" path="res://scripts/components/nearby_object_detector.gd" id="11_k7j4b"]
+[ext_resource type="Script" uid="uid://ibgyf864g08i" path="res://scripts/components/manual_state_switcher.gd" id="12_b0l5w"]
+[ext_resource type="Script" uid="uid://dk6vro3btpxyj" path="res://scripts/classes/Hitbox.gd" id="15_j1t24"]
+[ext_resource type="Script" uid="uid://bfeyy2elbrj4b" path="res://scripts/components/damage_animation_component.gd" id="16_l184a"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_yqh5i"]
+radius = 4.1231055
+
+[sub_resource type="Resource" id="Resource_cvgtd"]
+script = ExtResource("4_5jko3")
+name = &"walk"
+frames = 4
+speed = 3.0
+metadata/_custom_type_script = "uid://cym0ubd2tvsch"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_l184a"]
+size = Vector2(13, 8)
+
+[node name="Moo" type="CharacterBody2D" unique_id=930105822 groups=["creature"]]
+texture_filter = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1236747465]
+shape = SubResource("CircleShape2D_yqh5i")
+
+[node name="Sprites" type="Node2D" parent="." unique_id=866362728]
+
+[node name="Main" type="Sprite2D" parent="Sprites" unique_id=2144201920]
+texture = ExtResource("1_or62e")
+offset = Vector2(0, -8.5)
+hframes = 4
+
+[node name="Shadow" type="Sprite2D" parent="Sprites" unique_id=64627799]
+z_index = -1
+texture = ExtResource("2_yqh5i")
+hframes = 3
+
+[node name="MovementComponent" type="Node" parent="." unique_id=1379066]
+script = ExtResource("5_kcbif")
+max_speed = 10.0
+metadata/_custom_type_script = "uid://c58w8kgm688wm"
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=1820776135]
+path_desired_distance = 8.0
+target_desired_distance = 16.0
+
+[node name="Behavior" type="Node" parent="." unique_id=1448887182]
+
+[node name="TargetSeeker" type="Node" parent="Behavior" unique_id=1715259716]
+script = ExtResource("9_t7nlo")
+detection_radius = 256.0
+target_groups = Array[String](["orb"])
+metadata/_custom_type_script = "uid://d1ukjsox3nmlp"
+
+[node name="StateMachine" type="Node" parent="Behavior" unique_id=1097973526 node_paths=PackedStringArray("initial_state")]
+script = ExtResource("6_t7nlo")
+initial_state = NodePath("IdleState")
+metadata/_custom_type_script = "uid://snopn0q86518"
+
+[node name="IdleState" type="Node" parent="Behavior/StateMachine" unique_id=2027542964 node_paths=PackedStringArray("exit_state", "movement", "animator")]
+script = ExtResource("7_16cu2")
+exit_state = NodePath("../PathfindWanderState")
+movement = NodePath("../../../MovementComponent")
+animator = NodePath("../../SpriteAnimator")
+idle_duration_max = 5.0
+metadata/_custom_type_script = "uid://dku8bbt6kwf0j"
+
+[node name="PathfindWanderState" type="Node" parent="Behavior/StateMachine" unique_id=621273392 node_paths=PackedStringArray("movement", "target_seeker", "navigation_agent", "chase_state", "idle_state", "animator")]
+script = ExtResource("8_43p5x")
+movement = NodePath("../../../MovementComponent")
+target_seeker = NodePath("../../TargetSeeker")
+navigation_agent = NodePath("../../../NavigationAgent2D")
+chase_state = NodePath("../PathfindToTarget")
+idle_state = NodePath("../IdleState")
+animator = NodePath("../../SpriteAnimator")
+wander_radius = 100.0
+metadata/_custom_type_script = "uid://87ix88q4hl51"
+
+[node name="PathfindToTarget" type="Node" parent="Behavior/StateMachine" unique_id=1842744918 node_paths=PackedStringArray("movement", "target_seeker", "navigation_agent", "exit_state", "animator")]
+script = ExtResource("9_16cu2")
+movement = NodePath("../../../MovementComponent")
+target_seeker = NodePath("../../TargetSeeker")
+navigation_agent = NodePath("../../../NavigationAgent2D")
+exit_state = NodePath("../IdleState")
+animator = NodePath("../../SpriteAnimator")
+metadata/_custom_type_script = "uid://cm60qigtuuwr0"
+
+[node name="EatingObjectState" type="Node" parent="Behavior/StateMachine" unique_id=1320323596 node_paths=PackedStringArray("exit_state")]
+script = ExtResource("10_b0l5w")
+exit_state = NodePath("../IdleState")
+metadata/_custom_type_script = "uid://bs3goj5nruk66"
+
+[node name="SpriteAnimator" type="Node" parent="Behavior" unique_id=1161864839 node_paths=PackedStringArray("sprite")]
+script = ExtResource("3_4kqr2")
+sprite = NodePath("../../Sprites/Main")
+animations = Array[ExtResource("4_5jko3")]([SubResource("Resource_cvgtd")])
+metadata/_custom_type_script = "uid://37f5rafomsw5"
+
+[node name="NearbyOrbLogic" type="Node" parent="Behavior" unique_id=427836841]
+
+[node name="NearbyObjectDetector" type="Node" parent="Behavior/NearbyOrbLogic" unique_id=2125702866]
+script = ExtResource("11_k7j4b")
+target_groups = Array[String](["orb"])
+metadata/_custom_type_script = "uid://bnlw0glswo6ff"
+
+[node name="ManualStateSwitcher" type="Node" parent="Behavior/NearbyOrbLogic" unique_id=234938464 node_paths=PackedStringArray("state_machine", "state")]
+script = ExtResource("12_b0l5w")
+state_machine = NodePath("../../StateMachine")
+state = NodePath("../../StateMachine/EatingObjectState")
+metadata/_custom_type_script = "uid://ibgyf864g08i"
+
+[node name="Hitbox" type="Area2D" parent="." unique_id=1489588161 node_paths=PackedStringArray("collision_shape")]
+script = ExtResource("15_j1t24")
+collision_shape = NodePath("CollisionShape2D")
+metadata/_custom_type_script = "uid://dk6vro3btpxyj"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=740531181]
+position = Vector2(-0.5, -6)
+shape = SubResource("RectangleShape2D_l184a")
+
+[node name="Health&Damage" type="Node" parent="." unique_id=1502482634]
+
+[node name="HealthComponent" type="Node" parent="Health&Damage" unique_id=1225626260 node_paths=PackedStringArray("hitbox")]
+script = ExtResource("6_vuq2g")
+max_health = 5.0
+health = 5.0
+hitbox = NodePath("../../Hitbox")
+metadata/_custom_type_script = "uid://rhl072pc6k5q"
+
+[node name="DamageAnimationComponent" type="Node" parent="Health&Damage" unique_id=419794391 node_paths=PackedStringArray("health_component", "sprite")]
+script = ExtResource("16_l184a")
+flash_duration = 0.5
+health_component = NodePath("../HealthComponent")
+sprite = NodePath("../../Sprites/Main")
+metadata/_custom_type_script = "uid://bfeyy2elbrj4b"
+
+[connection signal="changed_direction" from="MovementComponent" to="Behavior/SpriteAnimator" method="_on_movement_component_changed_direction"]
+[connection signal="object_nearby" from="Behavior/NearbyOrbLogic/NearbyObjectDetector" to="Behavior/NearbyOrbLogic/ManualStateSwitcher" method="object_switch"]

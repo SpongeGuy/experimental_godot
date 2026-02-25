@@ -5,6 +5,8 @@ signal state_switched(old_state: State, new_state: State)
 
 var current_state: State
 
+var data: Dictionary = {}
+
 @export var initial_state: State
 
 func _ready() -> void:
@@ -22,4 +24,5 @@ func switch(new_state: State) -> void:
 	state_switched.emit(current_state, new_state)
 	current_state = new_state
 	current_state.enter()
+	
 	

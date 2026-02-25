@@ -1,0 +1,109 @@
+[gd_scene format=3 uid="uid://bvgr5ff6rsmhp"]
+
+[ext_resource type="Script" uid="uid://buehpfvxc8tu2" path="res://scripts/classes/Item.gd" id="1_b2ne1"]
+[ext_resource type="Script" uid="uid://dh2eclcxp3vc7" path="res://scripts/classes/CosmeticCollider.gd" id="2_8su55"]
+[ext_resource type="Texture2D" uid="uid://cqm13o2ljoafi" path="res://assets/textures/sprites/items/apple.png" id="3_ycg70"]
+[ext_resource type="Texture2D" uid="uid://mc5bm81kwyan" path="res://assets/textures/sprites/characters/shadow.png" id="4_thejo"]
+[ext_resource type="Script" uid="uid://xbtqboafa7we" path="res://scripts/components/nutrition_component.gd" id="5_y1jmm"]
+[ext_resource type="Script" uid="uid://gn0mj8ndpngj" path="res://scripts/components/ability_component.gd" id="6_plegb"]
+[ext_resource type="Script" uid="uid://c1mr02v3wyhvn" path="res://scripts/abilities/EatAbility.gd" id="7_s6ap6"]
+[ext_resource type="Script" uid="uid://cubefeg4bwilq" path="res://scripts/components/ability_effects_component.gd" id="8_u3xgd"]
+[ext_resource type="AudioStream" uid="uid://b6pjw7yuvw7m6" path="res://assets/sounds/effects/munch.wav" id="9_4q12u"]
+[ext_resource type="Script" uid="uid://b02meog3jxxvd" path="res://scripts/components/consumable_component.gd" id="10_01636"]
+[ext_resource type="Script" uid="uid://d3kr02qmhwpv1" path="res://scripts/components/consumable_effects_component.gd" id="11_0u506"]
+[ext_resource type="Script" uid="uid://cishos2mlu2ua" path="res://scripts/components/sprite_physics_component.gd" id="12_i05gn"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_dajs1"]
+radius = 3.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_t45jj"]
+radius = 3.0
+
+[sub_resource type="Resource" id="Resource_vh0ae"]
+script = ExtResource("7_s6ap6")
+metadata/_custom_type_script = "uid://c1mr02v3wyhvn"
+
+[node name="Apple" type="RigidBody2D" unique_id=1774392450 node_paths=PackedStringArray("physics_collider", "ability_component", "consumable_component", "sprite_physics_component") groups=["pickupable"]]
+texture_filter = 1
+collision_layer = 2
+collision_mask = 7
+gravity_scale = 0.0
+lock_rotation = true
+freeze_mode = 1
+script = ExtResource("1_b2ne1")
+main_color = Color(1, 0.2901961, 0.2901961, 1)
+secondary_color = Color(0.29411766, 0.4117647, 0.18431373, 1)
+physics_collider = NodePath("CollisionShape2D")
+ability_component = NodePath("AbilityComponent")
+consumable_component = NodePath("ConsumableComponent")
+sprite_physics_component = NodePath("SpritePhysicsComponent")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=514576291]
+position = Vector2(0, -4)
+shape = SubResource("CircleShape2D_dajs1")
+
+[node name="CosmeticCollider" type="Area2D" parent="." unique_id=1034264554]
+collision_layer = 128
+collision_mask = 128
+script = ExtResource("2_8su55")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CosmeticCollider" unique_id=851407012]
+position = Vector2(0, -4)
+shape = SubResource("CircleShape2D_t45jj")
+
+[node name="Sprites" type="Node2D" parent="." unique_id=913498835]
+
+[node name="ScaleController" type="Node2D" parent="Sprites" unique_id=1093413322]
+
+[node name="MainSprite" type="Sprite2D" parent="Sprites/ScaleController" unique_id=369072108]
+texture_filter = 1
+position = Vector2(0.2, -5)
+texture = ExtResource("3_ycg70")
+hframes = 5
+
+[node name="Shadow" type="Sprite2D" parent="Sprites/ScaleController" unique_id=979758963]
+modulate = Color(1, 1, 1, 0.5254902)
+z_index = -1
+position = Vector2(0.5, -2)
+scale = Vector2(0.53, 0.53)
+texture = ExtResource("4_thejo")
+
+[node name="NutritionComponent" type="Node" parent="." unique_id=277733905]
+script = ExtResource("5_y1jmm")
+nutrition = 5.0
+metadata/_custom_type_script = "uid://xbtqboafa7we"
+
+[node name="AbilityComponent" type="Node" parent="." unique_id=1548815656 node_paths=PackedStringArray("master_origin", "consumable_component")]
+script = ExtResource("6_plegb")
+master_origin = NodePath("..")
+use_effect = SubResource("Resource_vh0ae")
+consumable_component = NodePath("../ConsumableComponent")
+metadata/_custom_type_script = "uid://gn0mj8ndpngj"
+
+[node name="AbilityEffectsComponent" type="Node" parent="." unique_id=466884916 node_paths=PackedStringArray("master_origin")]
+script = ExtResource("8_u3xgd")
+master_origin = NodePath("..")
+used_sound = ExtResource("9_4q12u")
+metadata/_custom_type_script = "uid://cubefeg4bwilq"
+
+[node name="ConsumableComponent" type="Node" parent="." unique_id=1428285450 node_paths=PackedStringArray("sprite")]
+script = ExtResource("10_01636")
+sprite = NodePath("../Sprites/ScaleController/MainSprite")
+metadata/_custom_type_script = "uid://b02meog3jxxvd"
+
+[node name="ConsumableEffectsComponent" type="Node" parent="." unique_id=1137567837 node_paths=PackedStringArray("consumable_component", "master_origin")]
+script = ExtResource("11_0u506")
+consumable_component = NodePath("../ConsumableComponent")
+master_origin = NodePath("..")
+metadata/_custom_type_script = "uid://d3kr02qmhwpv1"
+
+[node name="SpritePhysicsComponent" type="Node" parent="." unique_id=1456153405 node_paths=PackedStringArray("master_origin", "main_sprite")]
+script = ExtResource("12_i05gn")
+master_origin = NodePath("..")
+main_sprite = NodePath("../Sprites/ScaleController/MainSprite")
+metadata/_custom_type_script = "uid://cishos2mlu2ua"
+
+[connection signal="used" from="AbilityComponent" to="AbilityEffectsComponent" method="_on_ability_component_used"]
+[connection signal="used" from="AbilityComponent" to="ConsumableComponent" method="advance_stage"]
+[connection signal="fully_consumed" from="ConsumableComponent" to="ConsumableEffectsComponent" method="_on_consumable_component_fully_consumed"]
+[connection signal="deactivate" from="ConsumableEffectsComponent" to="AbilityComponent" method="deactivate"]

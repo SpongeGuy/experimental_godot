@@ -2,26 +2,57 @@
 
 [ext_resource type="Texture2D" uid="uid://3n3f3bsucluj" path="res://assets/textures/characters/imp.png" id="1_l7lie"]
 [ext_resource type="Texture2D" uid="uid://brm8tbiplb1bk" path="res://assets/textures/misc/shadow.png" id="2_1s1ue"]
+[ext_resource type="Script" uid="uid://d4dkusgurvri8" path="res://scripts/classes/Hurtbox.gd" id="2_5fmm0"]
 [ext_resource type="Script" uid="uid://snopn0q86518" path="res://scripts/classes/StateMachine.gd" id="3_1s1ue"]
-[ext_resource type="Script" uid="uid://c58w8kgm688wm" path="res://scripts/movement_component.gd" id="3_p4e6c"]
+[ext_resource type="Script" uid="uid://c58w8kgm688wm" path="res://scripts/components/movement_component.gd" id="3_p4e6c"]
 [ext_resource type="Script" uid="uid://87ix88q4hl51" path="res://scripts/states/pathfind_wander.gd" id="5_8uyt1"]
-[ext_resource type="Script" uid="uid://d1ukjsox3nmlp" path="res://scripts/target_seeker.gd" id="7_tcjw4"]
+[ext_resource type="Script" uid="uid://dku8bbt6kwf0j" path="res://scripts/states/idle.gd" id="6_8uyt1"]
+[ext_resource type="Script" uid="uid://5gwlwmm34xkr" path="res://scripts/states/stand_still_and_attack_nearby_state.gd" id="7_2pkbq"]
+[ext_resource type="Script" uid="uid://d1ukjsox3nmlp" path="res://scripts/components/target_seeker.gd" id="7_tcjw4"]
+[ext_resource type="Script" uid="uid://37f5rafomsw5" path="res://scripts/components/sprite_animator.gd" id="9_3lqw4"]
+[ext_resource type="Script" uid="uid://cym0ubd2tvsch" path="res://scripts/resources/SpriteAnimation.gd" id="9_jkrmy"]
+[ext_resource type="Resource" uid="uid://cwbwd07ubl63o" path="res://scripts/resources/sprite_animations/imp.tres" id="10_2lysy"]
+[ext_resource type="Script" uid="uid://bnlw0glswo6ff" path="res://scripts/components/nearby_object_detector.gd" id="11_qpk72"]
+[ext_resource type="Script" uid="uid://ibgyf864g08i" path="res://scripts/components/manual_state_switcher.gd" id="12_2pkbq"]
+[ext_resource type="Script" uid="uid://dmj5t57v7kvmh" path="res://scripts/abilities/melee_hit.gd" id="14_nkryd"]
+[ext_resource type="Script" uid="uid://rhl072pc6k5q" path="res://scripts/components/health_component.gd" id="15_iow7o"]
+[ext_resource type="Script" uid="uid://dk6vro3btpxyj" path="res://scripts/classes/Hitbox.gd" id="16_ox78c"]
+[ext_resource type="Script" uid="uid://bfeyy2elbrj4b" path="res://scripts/components/damage_animation_component.gd" id="18_4d1om"]
+[ext_resource type="Script" uid="uid://b2i2svq4b2ia2" path="res://scripts/components/rotator.gd" id="19_l60g2"]
+[ext_resource type="Script" uid="uid://bolv5v2qg2xl0" path="res://scripts/components/facing_component.gd" id="19_q2yoy"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_p4e6c"]
 radius = 2.0
 
-[node name="CharacterBody2D" type="CharacterBody2D" unique_id=251087214]
+[sub_resource type="Resource" id="Resource_l60g2"]
+script = ExtResource("9_jkrmy")
+name = &"attack"
+row = 1
+frames = 6
+speed = 5.0
+loop = false
+metadata/_custom_type_script = "uid://cym0ubd2tvsch"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5fmm0"]
+size = Vector2(6, 12)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8lxaw"]
+size = Vector2(9.5, 10.5)
+
+[node name="Imp" type="CharacterBody2D" unique_id=251087214 groups=["creature"]]
 texture_filter = 1
+collision_layer = 2
 
 [node name="Sprites" type="Node2D" parent="." unique_id=228812393]
-position = Vector2(0, -7)
 
 [node name="Main" type="Sprite2D" parent="Sprites" unique_id=956959455]
 texture = ExtResource("1_l7lie")
+offset = Vector2(0, -8)
+hframes = 6
+vframes = 2
 
 [node name="Shadow" type="Sprite2D" parent="Sprites" unique_id=1999810860]
 z_index = -1
-position = Vector2(0, 7)
 texture = ExtResource("2_1s1ue")
 hframes = 3
 
@@ -34,23 +65,118 @@ max_speed = 30.0
 acceleration = 100.0
 friction = 200.0
 
-[node name="StateMachine" type="Node" parent="." unique_id=1101086753 node_paths=PackedStringArray("initial_state")]
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=1421348589]
+path_desired_distance = 8.0
+target_desired_distance = 16.0
+
+[node name="Ability" type="Node" parent="." unique_id=1519039175]
+
+[node name="AbilityMeleeHit" type="Node" parent="Ability" unique_id=1624640189 node_paths=PackedStringArray("hurtbox")]
+script = ExtResource("14_nkryd")
+hurtbox = NodePath("../../Rotator/Hurtbox")
+active_start = 1.0
+active_end = 2.0
+metadata/_custom_type_script = "uid://dmj5t57v7kvmh"
+
+[node name="Behavior" type="Node" parent="." unique_id=1509428135]
+
+[node name="StateMachine" type="Node" parent="Behavior" unique_id=1101086753 node_paths=PackedStringArray("initial_state")]
 script = ExtResource("3_1s1ue")
 initial_state = NodePath("PathfindWanderState")
 metadata/_custom_type_script = "uid://snopn0q86518"
 
-[node name="PathfindWanderState" type="Node" parent="StateMachine" unique_id=1732767096 node_paths=PackedStringArray("movement", "target_seeker", "navigation_agent", "chase_state")]
+[node name="PathfindWanderState" type="Node" parent="Behavior/StateMachine" unique_id=1732767096 node_paths=PackedStringArray("movement", "target_seeker", "navigation_agent", "chase_state", "idle_state", "animator")]
 script = ExtResource("5_8uyt1")
-movement = NodePath("../../MovementComponent")
+movement = NodePath("../../../MovementComponent")
 target_seeker = NodePath("../../TargetSeeker")
-navigation_agent = NodePath("../../NavigationAgent2D")
+navigation_agent = NodePath("../../../NavigationAgent2D")
 chase_state = NodePath(".")
+idle_state = NodePath("../IdleState")
+animator = NodePath("../../SpriteAnimator")
 metadata/_custom_type_script = "uid://87ix88q4hl51"
 
-[node name="TargetSeeker" type="Node" parent="." unique_id=1682987206]
+[node name="IdleState" type="Node" parent="Behavior/StateMachine" unique_id=1438784667 node_paths=PackedStringArray("exit_state", "movement", "animator")]
+script = ExtResource("6_8uyt1")
+exit_state = NodePath("../PathfindWanderState")
+movement = NodePath("../../../MovementComponent")
+animator = NodePath("../../SpriteAnimator")
+metadata/_custom_type_script = "uid://dku8bbt6kwf0j"
+
+[node name="StandStillAndAttackNearbyState" type="Node" parent="Behavior/StateMachine" unique_id=778228443 node_paths=PackedStringArray("exit_state", "ability", "facing", "animator")]
+script = ExtResource("7_2pkbq")
+exit_state = NodePath("../IdleState")
+ability = NodePath("../../../Ability/AbilityMeleeHit")
+facing = NodePath("../../../FacingComponent")
+animator = NodePath("../../SpriteAnimator")
+metadata/_custom_type_script = "uid://5gwlwmm34xkr"
+
+[node name="TargetSeeker" type="Node" parent="Behavior" unique_id=1682987206]
 script = ExtResource("7_tcjw4")
 metadata/_custom_type_script = "uid://d1ukjsox3nmlp"
 
-[node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=1421348589]
-path_desired_distance = 8.0
-target_desired_distance = 16.0
+[node name="SpriteAnimator" type="Node" parent="Behavior" unique_id=1419515504 node_paths=PackedStringArray("sprite")]
+script = ExtResource("9_3lqw4")
+sprite = NodePath("../../Sprites/Main")
+animations = Array[ExtResource("9_jkrmy")]([ExtResource("10_2lysy"), SubResource("Resource_l60g2")])
+
+[node name="NearbyCreatureLogic" type="Node" parent="Behavior" unique_id=445665047]
+
+[node name="NearbyObjectDetector" type="Node" parent="Behavior/NearbyCreatureLogic" unique_id=1041896356]
+script = ExtResource("11_qpk72")
+target_groups = Array[String](["creature"])
+metadata/_custom_type_script = "uid://bnlw0glswo6ff"
+
+[node name="ManualStateSwitcher" type="Node" parent="Behavior/NearbyCreatureLogic" unique_id=332376040 node_paths=PackedStringArray("state_machine", "state")]
+script = ExtResource("12_2pkbq")
+state_machine = NodePath("../../StateMachine")
+state = NodePath("../../StateMachine/StandStillAndAttackNearbyState")
+metadata/_custom_type_script = "uid://ibgyf864g08i"
+
+[node name="Hitbox" type="Area2D" parent="." unique_id=777869948 node_paths=PackedStringArray("collision_shape")]
+script = ExtResource("16_ox78c")
+collision_shape = NodePath("CollisionShape2D")
+metadata/_custom_type_script = "uid://dk6vro3btpxyj"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=888522486]
+position = Vector2(1, -7)
+shape = SubResource("RectangleShape2D_5fmm0")
+
+[node name="Health&Damage" type="Node" parent="." unique_id=458780311]
+
+[node name="HealthComponent" type="Node" parent="Health&Damage" unique_id=1409254189 node_paths=PackedStringArray("hitbox")]
+script = ExtResource("15_iow7o")
+max_health = 5.0
+health = 5.0
+hitbox = NodePath("../../Hitbox")
+metadata/_custom_type_script = "uid://rhl072pc6k5q"
+
+[node name="DamageAnimationComponent" type="Node" parent="Health&Damage" unique_id=2025871263 node_paths=PackedStringArray("health_component", "sprite")]
+script = ExtResource("18_4d1om")
+flash_duration = 0.5
+health_component = NodePath("../HealthComponent")
+sprite = NodePath("../../Sprites/Main")
+metadata/_custom_type_script = "uid://bfeyy2elbrj4b"
+
+[node name="FacingComponent" type="Node" parent="." unique_id=1809902158 node_paths=PackedStringArray("rotator")]
+script = ExtResource("19_q2yoy")
+rotator = NodePath("../Rotator")
+metadata/_custom_type_script = "uid://bolv5v2qg2xl0"
+
+[node name="Rotator" type="Node2D" parent="." unique_id=2044893447]
+position = Vector2(0, -7)
+script = ExtResource("19_l60g2")
+weight = 10.0
+
+[node name="Hurtbox" type="Area2D" parent="Rotator" unique_id=786370964 node_paths=PackedStringArray("collision_shape")]
+position = Vector2(0, 7)
+script = ExtResource("2_5fmm0")
+damage = 1.0
+collision_shape = NodePath("CollisionShape2D")
+metadata/_custom_type_script = "uid://d4dkusgurvri8"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Rotator/Hurtbox" unique_id=819422418]
+position = Vector2(12, -7)
+shape = SubResource("RectangleShape2D_8lxaw")
+
+[connection signal="changed_direction" from="MovementComponent" to="Behavior/SpriteAnimator" method="_on_movement_component_changed_direction"]
+[connection signal="object_nearby" from="Behavior/NearbyCreatureLogic/NearbyObjectDetector" to="Behavior/NearbyCreatureLogic/ManualStateSwitcher" method="object_switch"]

@@ -1,0 +1,82 @@
+[gd_scene format=3 uid="uid://dhnc1qesuxmnv"]
+
+[ext_resource type="Script" uid="uid://b14qamdeql8es" path="res://scripts/entities/plant.gd" id="1_nuukc"]
+[ext_resource type="Texture2D" uid="uid://bwb0j82r2cd84" path="res://assets/textures/sprites/environment/plants/forest/grass.png" id="2_nuukc"]
+[ext_resource type="Script" uid="uid://cfd5fusxtk5pe" path="res://scripts/components/eye_component.gd" id="3_tjw4y"]
+[ext_resource type="Script" uid="uid://pukqcrjm0xoe" path="res://scripts/components/health_component.gd" id="4_ei1xi"]
+[ext_resource type="Script" uid="uid://xbtqboafa7we" path="res://scripts/components/nutrition_component.gd" id="5_8qa5u"]
+[ext_resource type="Script" uid="uid://i1m6mnq8d5oa" path="res://scripts/components/plant_component.gd" id="6_ngt1a"]
+[ext_resource type="Script" uid="uid://dftmlmaom06c1" path="res://scripts/components/PlantEffectsComponent.gd" id="7_hqs5f"]
+[ext_resource type="Script" uid="uid://bsovq5vfsib37" path="res://scripts/components/health_effects_components.gd" id="8_spkhx"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_nuukc"]
+resource_local_to_scene = true
+radius = 2.5
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_4rboh"]
+resource_local_to_scene = true
+radius = 2.0
+
+[node name="Plant" type="Node2D" unique_id=712725836 groups=["plant"]]
+texture_filter = 1
+script = ExtResource("1_nuukc")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=810623032]
+position = Vector2(0, -3)
+texture = ExtResource("2_nuukc")
+
+[node name="SearchRadius" type="Area2D" parent="." unique_id=927296849]
+collision_layer = 0
+collision_mask = 16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SearchRadius" unique_id=401787439]
+shape = SubResource("CircleShape2D_nuukc")
+
+[node name="PlantBody" type="Area2D" parent="." unique_id=1412932263]
+collision_layer = 16
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlantBody" unique_id=1665269217]
+shape = SubResource("CircleShape2D_4rboh")
+
+[node name="EyeComponent" type="Node" parent="." unique_id=1565472131 node_paths=PackedStringArray("master_origin", "sight_area")]
+script = ExtResource("3_tjw4y")
+master_origin = NodePath("..")
+sight_area = NodePath("../SearchRadius")
+metadata/_custom_type_script = "uid://cfd5fusxtk5pe"
+
+[node name="HealthComponent" type="Node" parent="." unique_id=2025302724]
+script = ExtResource("4_ei1xi")
+invincibility_time = 0.0
+metadata/_custom_type_script = "uid://pukqcrjm0xoe"
+
+[node name="NutritionComponent" type="Node" parent="." unique_id=1847195179]
+script = ExtResource("5_8qa5u")
+metadata/_custom_type_script = "uid://xbtqboafa7we"
+
+[node name="PlantComponent" type="Node" parent="." unique_id=142505626 node_paths=PackedStringArray("master_origin", "health_component", "nutrition_component", "eye_component")]
+script = ExtResource("6_ngt1a")
+master_origin = NodePath("..")
+health_component = NodePath("../HealthComponent")
+nutrition_component = NodePath("../NutritionComponent")
+eye_component = NodePath("../EyeComponent")
+metadata/_custom_type_script = "uid://i1m6mnq8d5oa"
+
+[node name="PlantEffectsComponent" type="Node" parent="." unique_id=2130658144 node_paths=PackedStringArray("sprite")]
+script = ExtResource("7_hqs5f")
+sprite = NodePath("../Sprite2D")
+metadata/_custom_type_script = "uid://dftmlmaom06c1"
+
+[node name="HealthEffectsComponents" type="Node" parent="." unique_id=607350549 node_paths=PackedStringArray("master_origin", "main_sprite", "health_component")]
+script = ExtResource("8_spkhx")
+master_origin = NodePath("..")
+main_sprite = NodePath("../Sprite2D")
+health_component = NodePath("../HealthComponent")
+invincibility_flash_enabled = false
+die_animation_time = 0.0
+metadata/_custom_type_script = "uid://bsovq5vfsib37"
+
+[connection signal="area_entered" from="SearchRadius" to="EyeComponent" method="handle_area_entered"]
+[connection signal="area_exited" from="SearchRadius" to="EyeComponent" method="handle_area_exited"]
+[connection signal="died" from="HealthComponent" to="HealthEffectsComponents" method="die"]
+[connection signal="grew" from="PlantComponent" to="PlantEffectsComponent" method="update_sprite"]

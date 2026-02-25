@@ -15,9 +15,9 @@
               "state": {
                 "file": "Main.canvas",
                 "viewState": {
-                  "x": 5533.114859561415,
-                  "y": -1558.322199004277,
-                  "zoom": 1
+                  "x": 6012.526532887574,
+                  "y": -2922.492485928011,
+                  "zoom": -0.5999999999999999
                 }
               },
               "icon": "lucide-layout-dashboard",
@@ -81,7 +81,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 300,
+    "collapsed": true
   },
   "right": {
     "id": "5205ab617a22bbc5",
@@ -186,24 +187,25 @@
       "bases:Create new base": false
     }
   },
-  "active": "94eb2d0a1aa33c53",
+  "active": "caf9e8bd2feef08d",
   "lastOpenFiles": [
-    "assets/pico/picotachi_74_2025.gif",
-    "assets/pico/runner_0.gif",
-    "assets/pico/comit.gif",
-    "assets/pico/zaag_194.gif",
-    "assets/pico/pippitron_4.gif",
-    "assets/pico/tad17_12.gif",
+    "assets/mina/gif-trinketwisp-1643782697440_7u88-2920988492.gif",
+    "assets/mina/gif_ropejump-2473167005.gif",
+    "assets/mina/gif-bossstinky-1643782697452_mcu8.1080-723182484.gif",
+    "assets/mina/gif-trainyardgameplay4-1643782697436_9dta-1251101453.gif",
+    "assets/mina/gif_hub-1675329364.gif",
+    "assets/mina/gif_levelup-1413413371.gif",
+    "assets/mina/gif_bayougameplay2-1295520514.gif",
+    "assets/link/gif_bayougameplay2-1295520514.gif",
+    "assets/gif_bayougameplay2-1295520514.gif",
+    "assets/link/tumblr_oezm4dWUfK1qd4q8ao1_500-873178731.gif",
+    "assets/tumblr_oezm4dWUfK1qd4q8ao1_500-873178731.gif",
+    "assets/link",
+    "assets/Untitled Folder",
     "assets/pico",
     "pico",
     "Untitled Folder",
-    "assets/mina/5ebb5a4dddb16403ba418eee4e6419ae.gif",
-    "assets/mina/198df3845223e008c6247b1f414f1f0e.gif",
-    "assets/mina/6771ac9313d233f2183ed4c3d6734e04.gif",
-    "assets/mina/a57f9185bce9841dfeed9a155dcb1236.gif",
-    "a57f9185bce9841dfeed9a155dcb1236.gif",
     "assets/mina",
-    "assets/Untitled Folder",
     "assets",
     "ass",
     "fewf.md",

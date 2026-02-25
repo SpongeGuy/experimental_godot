@@ -14,12 +14,29 @@ config/name="e1"
 run/main_scene="uid://b5tywkohv6dpv"
 config/features=PackedStringArray("4.6", "Forward Plus")
 
+[autoload]
+
+AudioManager="*uid://uiuetvnukvsw"
+
 [display]
 
 window/size/viewport_width=640
 window/size/viewport_height=360
 window/size/mode=3
 window/stretch/mode="viewport"
+
+[global_group]
+
+orb=""
+creature=""
+
+[layer_names]
+
+2d_physics/layer_1="terrain"
+2d_physics/layer_2="creatures"
+2d_physics/layer_3="items"
+2d_physics/layer_7="hitbox"
+2d_physics/layer_8="hurtbox"
 
 [physics]
 
