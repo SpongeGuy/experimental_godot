@@ -51,26 +51,20 @@ func _play_hit_flash() -> void:
 	
 	var mat: ShaderMaterial = _get_or_create_flash_material()
 	sprite.material = mat
+	mat.set_shader_parameter("stage", 0)
+	mat.set_shader_parameter("fade", 0.0)
 	flash_tween = create_tween()
 	
 	var stage_duration: float = 0.065
 	
-	for i in range(3):
-		var s := i
-		flash_tween.tween_callback(func(_s = s): mat.set_shader_parameter("stage", _s))
-		flash_tween.tween_callback(func(): mat.set_shader_parameter("stage_blend", 0.0))
-		flash_tween.tween_method(
-			func(v: float): mat.set_shader_parameter("stage_blend", v),
-			0.0, 1.0, stage_duration
-		)
-		
-	flash_tween.tween_callback(func(): mat.set_shader_parameter("stage", 3))
+	flash_tween.tween_callback(func(): mat.set_shader_parameter("stage", 1)).set_delay(stage_duration)
+	flash_tween.tween_callback(func(): mat.set_shader_parameter("stage", 2)).set_delay(stage_duration)
+	flash_tween.tween_callback(func(): mat.set_shader_parameter("stage", 3)).set_delay(stage_duration)
 	flash_tween.tween_callback(func(): mat.set_shader_parameter("stage_blend", 0.0))
 	flash_tween.tween_method(
 		func(v: float): mat.set_shader_parameter("stage_blend", v),
 		0.0, 1.0, 0.1
 	)
-	
 	flash_tween.tween_callback(func(): sprite.material = null)
 	
 

@@ -5,9 +5,14 @@ class_name PathfindWanderState
 @export var wall_avoidance: WallAvoidance
 @export var target_seeker: TargetSeeker
 @export var navigation_agent: NavigationAgent2D
+
+@export var animator: SpriteAnimator
+@export var facing: FacingComponent
+
+@export_group("States")
 @export var chase_state: State
 @export var idle_state: State
-@export var animator: SpriteAnimator
+@export_group("Variables")
 
 @export var timer_length: float = 5.0
 var wander_timer: float = 0.0
@@ -40,7 +45,10 @@ func update(delta: float) -> void:
 	if wander_timer <= 0:
 		interrupted.emit()
 		_pick_new_pathfinding_location(owner.position)
+	
 		
+	
+func physics_update(delta: float) -> void:
 	var next_path_position: Vector2 = navigation_agent.get_next_path_position()
 	wander_direction = (next_path_position - owner.global_position).normalized()
 	var steering = wander_direction
@@ -61,16 +69,13 @@ func update(delta: float) -> void:
 		
 	movement.set_desired_direction(steering)
 	
-	
-		
-	
-func physics_update(delta: float) -> void:
 	movement.physics_update(delta, owner)
 	
 	if animator:
 		animator.update_animation(delta, movement.velocity.length() * 0.2)
 		
-	
+	if facing:
+		facing.change_direction(steering)
 
 func exit() -> void:
 	if target_seeker:

@@ -1,7 +1,7 @@
 shader_type canvas_item;
 
 uniform int stage = 0;
-uniform float stage_blend: hint_range(0.0, 1.0) = 0.0;
+uniform float fade: hint_range(0.0, 1.0) = 0.0;
 
 void fragment() {
 	vec4 base = texture(TEXTURE, UV);
@@ -32,7 +32,7 @@ void fragment() {
 	} else if (stage == 3) {
 		// normal colors tinted red, fading away
 		vec3 red_tint = mix(base.rgb, vec3(1.0, 0.2, 0.2), 0.6);
-		result.rgb = mix(red_tint, base.rgb, stage_blend);
+		result.rgb = mix(red_tint, base.rgb, fade);
 		
 	}
 	

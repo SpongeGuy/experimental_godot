@@ -6,6 +6,7 @@ class_name HealthComponent
 @export var hitbox: Hitbox ## not mandatory
 
 signal taken_damage(amount: float, source: Node2D)
+signal died()
 
 @export var invincibility_length: float = 1.5
 var invincibility_timer: float = 0.0
@@ -29,7 +30,6 @@ func take_damage(amount: float, source: Node2D) -> void:
 	taken_damage.emit(amount, source)
 	
 	if health <= 0:
-		owner.queue_free()
+		died.emit()
 
 
-	

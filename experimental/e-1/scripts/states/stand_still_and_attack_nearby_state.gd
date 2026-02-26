@@ -43,7 +43,7 @@ func update(delta: float) -> void:
 	
 func physics_update(delta: float) -> void:
 	if facing and hit_target:
-		facing.facing_direction = (hit_target.global_position - owner.global_position).normalized()
+		facing.change_direction((hit_target.global_position - owner.global_position).normalized())
 		
 	if animator:
 		animator.update_animation(delta)

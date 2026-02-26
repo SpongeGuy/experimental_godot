@@ -61,9 +61,3 @@ func reset_animation() -> void:
 	current_frame = 0
 	animation_timer = 0.0
 	play()
-
-func _on_movement_component_changed_direction(old_direction: Vector2, new_direction: Vector2) -> void:
-	if new_direction.x > 0:
-		sprite.scale.x = 1.0
-	else:
-		sprite.scale.x = -1.0
