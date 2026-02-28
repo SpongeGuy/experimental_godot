@@ -1,16 +1,17 @@
 extends State
-class_name PathfindWanderState
+class_name PathfindWanderAndSeekState
 
 @export var movement: MovementComponent
-@export var wall_avoidance: WallAvoidance
-@export var target_seeker: TargetSeeker
 @export var navigation_agent: NavigationAgent2D
+@export var target_seeker: TargetSeeker
+
+@export_group("Optional")
 
 @export var animator: SpriteAnimator
 @export var facing: FacingComponent
 
 @export_group("States")
-@export var chase_state: State
+@export var aggro_state: State
 @export var idle_state: State
 @export_group("Variables")
 
@@ -19,13 +20,17 @@ var wander_timer: float = 0.0
 var wander_direction: Vector2 = Vector2.ZERO
 @export var wander_radius: float = 250.0
 
+@export var idle_chance: float = 0.3
+
 
 signal picked_new_path(target_position: Vector2)
 signal found_target(target: Node2D)
 signal interrupted()
 
 func enter() -> void:
+	randomize()
 	_pick_new_pathfinding_location(owner.position)
+	
 	if target_seeker:
 		target_seeker.target_found.connect(_on_target_found)
 		
@@ -38,37 +43,25 @@ func enter() -> void:
 	
 	if animator:
 		animator.load_animation("walk")
-		
+
+
+
 func update(delta: float) -> void:
-	var old_wander_direction: Vector2 = wander_direction
 	wander_timer -= delta
 	if wander_timer <= 0:
 		interrupted.emit()
 		_pick_new_pathfinding_location(owner.position)
 	
-		
+	if target_seeker:
+		var target = target_seeker.find_nearest_target(owner.global_position, movement.velocity.normalized())
+		if target:
+			found_target.emit(target)
 	
 func physics_update(delta: float) -> void:
 	var next_path_position: Vector2 = navigation_agent.get_next_path_position()
 	wander_direction = (next_path_position - owner.global_position).normalized()
 	var steering = wander_direction
-	
-	
-	if wall_avoidance:
-		var avoidance = wall_avoidance.get_avoidance_vector(owner.global_position)
-		steering += avoidance
-		
-	if target_seeker:
-		var target = target_seeker.find_nearest_target(
-			owner.global_position,
-			movement.velocity.normalized()
-		)
-		
-		if target:
-			found_target.emit(target)
-		
 	movement.set_desired_direction(steering)
-	
 	movement.physics_update(delta, owner)
 	
 	if animator:
@@ -76,6 +69,8 @@ func physics_update(delta: float) -> void:
 		
 	if facing:
 		facing.change_direction(steering)
+
+
 
 func exit() -> void:
 	if target_seeker:
@@ -87,7 +82,11 @@ func exit() -> void:
 	interrupted.disconnect(_decide_if_idle)
 	
 	found_target.disconnect(_on_target_found)
-		
+
+
+
+
+
 func _pick_new_pathfinding_location(origin: Vector2) -> void:
 	var angle: float = randf() * TAU
 	var distance = randf() * wander_radius
@@ -101,13 +100,11 @@ func _on_navigation_finished() -> void:
 	_pick_new_pathfinding_location(owner.position)
 
 func _on_target_found(target: Node2D) -> void:
-	if chase_state:
-		state_machine.switch(chase_state)
-
+	if aggro_state:
+		state_machine.switch(aggro_state)
 
 func _decide_if_idle() -> void:
-	var chance: float = 0.3
-	if randf() < 0.3:
+	if randf() < idle_chance:
 		state_machine.switch(idle_state)
 
 

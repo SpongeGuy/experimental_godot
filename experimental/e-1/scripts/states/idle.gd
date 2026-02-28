@@ -3,8 +3,9 @@ class_name IdleState
 
 @export var exit_state: State
 @export var movement: MovementComponent
+@export_group("Optional")
 @export var animator: SpriteAnimator
-
+@export_group("Variables")
 @export var idle_duration_min: float = 1.0
 @export var idle_duration_max: float = 1.0
 var timer: float = 0.0

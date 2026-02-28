@@ -2,6 +2,7 @@ extends Area2D
 class_name Hitbox
 
 @export var collision_shape: CollisionShape2D
+@export var friends: FriendComponent
 
 signal hit_received(damage_amount: float, source: Node2D)
 
@@ -15,6 +16,8 @@ func _on_hurtbox_contact(area: Area2D) -> void:
 	if area is not Hurtbox:
 		return
 	if area.owner == owner:
+		return
+	if friends and friends.is_friend(area.owner):
 		return
 	hit_received.emit(area.damage, area.owner)
 

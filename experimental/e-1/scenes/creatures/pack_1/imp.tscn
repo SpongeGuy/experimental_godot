@@ -4,8 +4,8 @@
 [ext_resource type="Texture2D" uid="uid://brm8tbiplb1bk" path="res://assets/textures/misc/shadow.png" id="2_1s1ue"]
 [ext_resource type="Script" uid="uid://d4dkusgurvri8" path="res://scripts/classes/Hurtbox.gd" id="2_5fmm0"]
 [ext_resource type="Script" uid="uid://snopn0q86518" path="res://scripts/classes/StateMachine.gd" id="3_1s1ue"]
-[ext_resource type="Script" uid="uid://c58w8kgm688wm" path="res://scripts/components/movement_component.gd" id="3_p4e6c"]
-[ext_resource type="Script" uid="uid://87ix88q4hl51" path="res://scripts/states/pathfind_wander.gd" id="5_8uyt1"]
+[ext_resource type="Script" uid="uid://c58w8kgm688wm" path="res://scripts/components/movement/movement_component.gd" id="3_p4e6c"]
+[ext_resource type="Script" uid="uid://87ix88q4hl51" path="res://scripts/states/pathfind/pathfind_wander_and_seek.gd" id="5_8uyt1"]
 [ext_resource type="Script" uid="uid://dku8bbt6kwf0j" path="res://scripts/states/idle.gd" id="6_8uyt1"]
 [ext_resource type="Script" uid="uid://5gwlwmm34xkr" path="res://scripts/states/stand_still_and_attack_nearby_state.gd" id="7_2pkbq"]
 [ext_resource type="Script" uid="uid://d1ukjsox3nmlp" path="res://scripts/components/target_seeker.gd" id="7_tcjw4"]
@@ -13,7 +13,6 @@
 [ext_resource type="Script" uid="uid://cym0ubd2tvsch" path="res://scripts/resources/SpriteAnimation.gd" id="9_jkrmy"]
 [ext_resource type="Script" uid="uid://b8tiyc5hi81ap" path="res://scripts/states/death.gd" id="9_yowsf"]
 [ext_resource type="Resource" uid="uid://cwbwd07ubl63o" path="res://scripts/resources/sprite_animations/imp.tres" id="10_2lysy"]
-[ext_resource type="Script" uid="uid://bnlw0glswo6ff" path="res://scripts/components/nearby_object_detector.gd" id="11_qpk72"]
 [ext_resource type="Script" uid="uid://ibgyf864g08i" path="res://scripts/components/manual_state_switcher.gd" id="12_2pkbq"]
 [ext_resource type="Script" uid="uid://dmj5t57v7kvmh" path="res://scripts/abilities/melee_hit.gd" id="14_nkryd"]
 [ext_resource type="Script" uid="uid://rhl072pc6k5q" path="res://scripts/components/health_component.gd" id="15_iow7o"]
@@ -30,9 +29,17 @@ radius = 2.0
 script = ExtResource("9_jkrmy")
 name = &"attack"
 row = 1
-frames = 6
+frames = 2
 speed = 5.0
 loop = false
+metadata/_custom_type_script = "uid://cym0ubd2tvsch"
+
+[sub_resource type="Resource" id="Resource_3nn10"]
+script = ExtResource("9_jkrmy")
+name = &"prepping"
+row = 2
+frames = 2
+speed = 2.0
 metadata/_custom_type_script = "uid://cym0ubd2tvsch"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5fmm0"]
@@ -50,8 +57,8 @@ collision_layer = 2
 [node name="Main" type="Sprite2D" parent="Sprites" unique_id=956959455]
 texture = ExtResource("1_l7lie")
 offset = Vector2(0, -8)
-hframes = 6
-vframes = 2
+hframes = 4
+vframes = 3
 
 [node name="Shadow" type="Sprite2D" parent="Sprites" unique_id=1999810860]
 z_index = -1
@@ -76,39 +83,39 @@ target_desired_distance = 16.0
 [node name="AbilityMeleeHit" type="Node" parent="Ability" unique_id=1624640189 node_paths=PackedStringArray("hurtbox")]
 script = ExtResource("14_nkryd")
 hurtbox = NodePath("../../Facing/Rotator/Hurtbox")
-active_start = 1.0
-active_end = 1.2
+active_end = 0.2
 metadata/_custom_type_script = "uid://dmj5t57v7kvmh"
 
 [node name="Behavior" type="Node" parent="." unique_id=1509428135]
 
 [node name="StateMachine" type="Node" parent="Behavior" unique_id=1101086753 node_paths=PackedStringArray("initial_state")]
 script = ExtResource("3_1s1ue")
-initial_state = NodePath("PathfindWanderState")
+initial_state = NodePath("PathfindWanderAndSeekState")
 metadata/_custom_type_script = "uid://snopn0q86518"
 
-[node name="PathfindWanderState" type="Node" parent="Behavior/StateMachine" unique_id=1732767096 node_paths=PackedStringArray("movement", "target_seeker", "navigation_agent", "animator", "facing", "chase_state", "idle_state")]
+[node name="PathfindWanderAndSeekState" type="Node" parent="Behavior/StateMachine" unique_id=1732767096 node_paths=PackedStringArray("movement", "navigation_agent", "target_seeker", "animator", "facing", "aggro_state", "idle_state")]
 script = ExtResource("5_8uyt1")
 movement = NodePath("../../../MovementComponent")
-target_seeker = NodePath("../../TargetSeeker")
 navigation_agent = NodePath("../../../NavigationAgent2D")
+target_seeker = NodePath("../../TargetSeeker")
 animator = NodePath("../../SpriteAnimator")
 facing = NodePath("../../../Facing/FacingComponent")
-chase_state = NodePath(".")
+aggro_state = NodePath("../StandStillAndUseAbilityState")
 idle_state = NodePath("../IdleState")
 metadata/_custom_type_script = "uid://87ix88q4hl51"
 
 [node name="IdleState" type="Node" parent="Behavior/StateMachine" unique_id=1438784667 node_paths=PackedStringArray("exit_state", "movement", "animator")]
 script = ExtResource("6_8uyt1")
-exit_state = NodePath("../PathfindWanderState")
+exit_state = NodePath("../PathfindWanderAndSeekState")
 movement = NodePath("../../../MovementComponent")
 animator = NodePath("../../SpriteAnimator")
 metadata/_custom_type_script = "uid://dku8bbt6kwf0j"
 
-[node name="StandStillAndAttackNearbyState" type="Node" parent="Behavior/StateMachine" unique_id=778228443 node_paths=PackedStringArray("exit_state", "ability", "facing", "animator")]
+[node name="StandStillAndUseAbilityState" type="Node" parent="Behavior/StateMachine" unique_id=778228443 node_paths=PackedStringArray("exit_state", "ability", "target_seeker", "facing", "animator")]
 script = ExtResource("7_2pkbq")
 exit_state = NodePath("../IdleState")
 ability = NodePath("../../../Ability/AbilityMeleeHit")
+target_seeker = NodePath("../../TargetSeeker")
 facing = NodePath("../../../Facing/FacingComponent")
 animator = NodePath("../../SpriteAnimator")
 metadata/_custom_type_script = "uid://5gwlwmm34xkr"
@@ -119,26 +126,16 @@ metadata/_custom_type_script = "uid://b8tiyc5hi81ap"
 
 [node name="TargetSeeker" type="Node" parent="Behavior" unique_id=1682987206]
 script = ExtResource("7_tcjw4")
+detection_radius = 12.0
+target_groups = Array[String](["creature"])
+check_for_LOS = false
 metadata/_custom_type_script = "uid://d1ukjsox3nmlp"
 
 [node name="SpriteAnimator" type="Node" parent="Behavior" unique_id=1419515504 node_paths=PackedStringArray("sprite", "facing")]
 script = ExtResource("9_3lqw4")
 sprite = NodePath("../../Sprites/Main")
-animations = Array[ExtResource("9_jkrmy")]([ExtResource("10_2lysy"), SubResource("Resource_l60g2")])
+animations = Array[ExtResource("9_jkrmy")]([ExtResource("10_2lysy"), SubResource("Resource_l60g2"), SubResource("Resource_3nn10")])
 facing = NodePath("../../Facing/FacingComponent")
-
-[node name="NearbyCreatureLogic" type="Node" parent="Behavior" unique_id=445665047]
-
-[node name="NearbyObjectDetector" type="Node" parent="Behavior/NearbyCreatureLogic" unique_id=1041896356]
-script = ExtResource("11_qpk72")
-target_groups = Array[String](["creature"])
-metadata/_custom_type_script = "uid://bnlw0glswo6ff"
-
-[node name="ManualStateSwitcher" type="Node" parent="Behavior/NearbyCreatureLogic" unique_id=332376040 node_paths=PackedStringArray("state_machine", "state")]
-script = ExtResource("12_2pkbq")
-state_machine = NodePath("../../StateMachine")
-state = NodePath("../../StateMachine/StandStillAndAttackNearbyState")
-metadata/_custom_type_script = "uid://ibgyf864g08i"
 
 [node name="Hitbox" type="Area2D" parent="." unique_id=777869948 node_paths=PackedStringArray("collision_shape")]
 script = ExtResource("16_ox78c")
@@ -184,6 +181,7 @@ weight = 10.0
 facing = NodePath("../FacingComponent")
 
 [node name="Hurtbox" type="Area2D" parent="Facing/Rotator" unique_id=786370964 node_paths=PackedStringArray("collision_shape")]
+modulate = Color(1, 0, 0, 1)
 position = Vector2(0, 7)
 script = ExtResource("2_5fmm0")
 damage = 1.0
@@ -200,5 +198,4 @@ facing = NodePath("../FacingComponent")
 sprite = NodePath("../../Sprites/Main")
 metadata/_custom_type_script = "uid://5k1r4xftmni4"
 
-[connection signal="object_nearby" from="Behavior/NearbyCreatureLogic/NearbyObjectDetector" to="Behavior/NearbyCreatureLogic/ManualStateSwitcher" method="object_switch"]
 [connection signal="died" from="Health&Damage/HealthComponent" to="Health&Damage/ManualStateSwitcher" method="switch"]

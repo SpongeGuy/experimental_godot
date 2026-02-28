@@ -4,16 +4,16 @@
 [ext_resource type="Texture2D" uid="uid://brm8tbiplb1bk" path="res://assets/textures/misc/shadow.png" id="2_no514"]
 [ext_resource type="Script" uid="uid://snopn0q86518" path="res://scripts/classes/StateMachine.gd" id="3_cu7hw"]
 [ext_resource type="Script" uid="uid://dku8bbt6kwf0j" path="res://scripts/states/idle.gd" id="5_v76s3"]
-[ext_resource type="Script" uid="uid://c58w8kgm688wm" path="res://scripts/components/movement_component.gd" id="6_0g16r"]
+[ext_resource type="Script" uid="uid://c58w8kgm688wm" path="res://scripts/components/movement/movement_component.gd" id="6_0g16r"]
 [ext_resource type="Script" uid="uid://d4ghe7tmemb7n" path="res://scripts/states/plop.gd" id="6_7yckf"]
-[ext_resource type="PackedScene" uid="uid://w3jdtsh8hjup" path="res://orb.tscn" id="7_7yckf"]
+[ext_resource type="PackedScene" uid="uid://w3jdtsh8hjup" path="res://scenes/creatures/pack_1/orb.tscn" id="7_7yckf"]
 [ext_resource type="Script" uid="uid://37f5rafomsw5" path="res://scripts/components/sprite_animator.gd" id="7_v76s3"]
 [ext_resource type="Script" uid="uid://cym0ubd2tvsch" path="res://scripts/resources/SpriteAnimation.gd" id="8_0g16r"]
 [ext_resource type="Script" uid="uid://ibgyf864g08i" path="res://scripts/components/manual_state_switcher.gd" id="11_5uv17"]
 [ext_resource type="Script" uid="uid://5nxa432thrp5" path="res://scripts/components/timer.gd" id="12_erjdm"]
 [ext_resource type="Script" uid="uid://dk6vro3btpxyj" path="res://scripts/classes/Hitbox.gd" id="13_hvleg"]
 [ext_resource type="Script" uid="uid://b8tiyc5hi81ap" path="res://scripts/states/death.gd" id="13_p7nwc"]
-[ext_resource type="Script" uid="uid://87ix88q4hl51" path="res://scripts/states/pathfind_wander.gd" id="13_s2mww"]
+[ext_resource type="Script" uid="uid://87ix88q4hl51" path="res://scripts/states/pathfind/pathfind_wander_and_seek.gd" id="13_s2mww"]
 [ext_resource type="Script" uid="uid://rhl072pc6k5q" path="res://scripts/components/health_component.gd" id="14_ap2mr"]
 [ext_resource type="Script" uid="uid://bfeyy2elbrj4b" path="res://scripts/components/damage_animation_component.gd" id="15_4v1hg"]
 [ext_resource type="Script" uid="uid://bolv5v2qg2xl0" path="res://scripts/components/facing_component.gd" id="16_p8rlf"]
@@ -83,8 +83,9 @@ editor_description = "sets a looping timer that can switch the plopp's state to 
 
 [node name="EasyTimer" type="Node" parent="Behavior/PlopTime" unique_id=1987933931]
 script = ExtResource("12_erjdm")
-time_limit = 15.0
+time_limit = 12.0
 chance_to_emit = 0.5
+randomize_max = 2.0
 metadata/_custom_type_script = "uid://5nxa432thrp5"
 
 [node name="ManualStateSwitcher" type="Node" parent="Behavior/PlopTime" unique_id=1869003206 node_paths=PackedStringArray("state_machine", "state")]
@@ -112,13 +113,12 @@ movement = NodePath("../../../MovementComponent")
 animator = NodePath("../../SpriteAnimator")
 metadata/_custom_type_script = "uid://dku8bbt6kwf0j"
 
-[node name="PathfindWanderState" type="Node" parent="Behavior/StateMachine" unique_id=129570134 node_paths=PackedStringArray("movement", "navigation_agent", "animator", "facing", "chase_state", "idle_state")]
+[node name="PathfindWanderState" type="Node" parent="Behavior/StateMachine" unique_id=129570134 node_paths=PackedStringArray("movement", "navigation_agent", "animator", "facing", "idle_state")]
 script = ExtResource("13_s2mww")
 movement = NodePath("../../../MovementComponent")
 navigation_agent = NodePath("../../../NavigationAgent2D")
 animator = NodePath("../../SpriteAnimator")
 facing = NodePath("../../../Facing/FacingComponent")
-chase_state = NodePath("../IdleState")
 idle_state = NodePath("../IdleState")
 metadata/_custom_type_script = "uid://87ix88q4hl51"
 

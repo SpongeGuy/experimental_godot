@@ -3,18 +3,21 @@
 [ext_resource type="Texture2D" uid="uid://dl81aflnywo62" path="res://assets/textures/characters/stoner.png" id="1_c8s0l"]
 [ext_resource type="Texture2D" uid="uid://brm8tbiplb1bk" path="res://assets/textures/misc/shadow.png" id="2_4nb28"]
 [ext_resource type="Script" uid="uid://snopn0q86518" path="res://scripts/classes/StateMachine.gd" id="3_1iw85"]
-[ext_resource type="Script" uid="uid://87ix88q4hl51" path="res://scripts/states/pathfind_wander.gd" id="4_fk5et"]
-[ext_resource type="Script" uid="uid://bxsrgbr0uwisl" path="res://scripts/components/step_movement_component.gd" id="5_yf3x2"]
+[ext_resource type="Script" uid="uid://bcbqvrhxhj2ty" path="res://scripts/states/pathfind/pathfind_wander_prefer_walls.gd" id="4_yf3x2"]
+[ext_resource type="Script" uid="uid://bxsrgbr0uwisl" path="res://scripts/components/movement/step_movement_component.gd" id="5_yf3x2"]
+[ext_resource type="Script" uid="uid://q4guieta4fy0" path="res://scripts/components/sound_player.gd" id="6_rskhi"]
 [ext_resource type="Script" uid="uid://bolv5v2qg2xl0" path="res://scripts/components/facing_component.gd" id="6_yf3x2"]
 [ext_resource type="Script" uid="uid://5k1r4xftmni4" path="res://scripts/components/sprite_flipper.gd" id="7_7y5a2"]
+[ext_resource type="AudioStream" uid="uid://6m50qyvgibmg" path="res://assets/sounds/effects/rocky/rock_slide.wav" id="7_jq2gp"]
+[ext_resource type="AudioStream" uid="uid://babwhyu4m0vnt" path="res://assets/sounds/effects/rocky/rock_slide3.wav" id="8_jq2gp"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_c8s0l"]
 size = Vector2(16, 16)
 
 [node name="Stoner" type="CharacterBody2D" unique_id=441444084]
 texture_filter = 1
-collision_layer = 3
-collision_mask = 0
+collision_layer = 2051
+collision_mask = 2048
 
 [node name="Node2D" type="Node2D" parent="." unique_id=1345631679]
 
@@ -40,24 +43,29 @@ target_desired_distance = 16.0
 
 [node name="StateMachine" type="Node" parent="Behavior" unique_id=416135154 node_paths=PackedStringArray("initial_state")]
 script = ExtResource("3_1iw85")
-initial_state = NodePath("PathfindWanderState")
+initial_state = NodePath("PathfindWanderPreferWallsState")
 metadata/_custom_type_script = "uid://snopn0q86518"
 
-[node name="PathfindWanderState" type="Node" parent="Behavior/StateMachine" unique_id=374401614 node_paths=PackedStringArray("movement", "navigation_agent", "chase_state", "idle_state")]
-script = ExtResource("4_fk5et")
+[node name="PathfindWanderPreferWallsState" type="Node" parent="Behavior/StateMachine" unique_id=366231209 node_paths=PackedStringArray("movement", "navigation_agent", "idle_state")]
+script = ExtResource("4_yf3x2")
 movement = NodePath("../../StepMovementComponent")
 navigation_agent = NodePath("../../../NavigationAgent2D")
-chase_state = NodePath(".")
 idle_state = NodePath(".")
-timer_length = 20.0
-wander_radius = 1000.0
-metadata/_custom_type_script = "uid://87ix88q4hl51"
+timer_length = 15.0
+wander_radius = 75.0
+metadata/_custom_type_script = "uid://bcbqvrhxhj2ty"
 
 [node name="StepMovementComponent" type="Node" parent="Behavior" unique_id=876431200]
 script = ExtResource("5_yf3x2")
-step_delay = 1.5
+step_delay = 2.5
 step_power = 100.0
+friction = 700.0
 metadata/_custom_type_script = "uid://bxsrgbr0uwisl"
+
+[node name="SoundPlayer" type="Node" parent="Behavior/StepMovementComponent" unique_id=163269614]
+script = ExtResource("6_rskhi")
+possible_sounds = Array[AudioStream]([ExtResource("7_jq2gp"), ExtResource("8_jq2gp")])
+metadata/_custom_type_script = "uid://q4guieta4fy0"
 
 [node name="Facing" type="Node2D" parent="." unique_id=1425992616]
 
@@ -70,3 +78,5 @@ script = ExtResource("7_7y5a2")
 facing = NodePath("../FacingComponent")
 sprite = NodePath("../../Node2D/Main")
 metadata/_custom_type_script = "uid://5k1r4xftmni4"
+
+[connection signal="stepped" from="Behavior/StepMovementComponent" to="Behavior/StepMovementComponent/SoundPlayer" method="play_sound"]

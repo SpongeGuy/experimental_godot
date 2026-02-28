@@ -8,7 +8,7 @@ class_name DamageAnimationComponent
 @export var health_component: HealthComponent
 @export var sprite: Sprite2D
 
-@export var damage_sound: AudioStream = preload("res://assets/sounds/effects/hit.wav")
+@export var damage_sound: AudioStream = preload("res://assets/sounds/effects/damage/hit.wav")
 
 const FLASH_SHADER_PATH = "res://assets/shaders/hit_flash.gdshader"
 var _flash_material: ShaderMaterial

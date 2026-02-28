@@ -5,8 +5,13 @@ class_name StepMovementComponent
 var step_timer: float = 0.0
 @export var step_power: float = 25
 
+signal stepped()
+
+var last_velocity: Vector2 = Vector2.ZERO
+
 func movement_function(delta: float, body: CharacterBody2D) -> void:
 	# lerp velocity to zero always
+	last_velocity = velocity
 	velocity = velocity.move_toward(Vector2.ZERO, delta * friction)
 			
 	if desired_direction.length() > 0:
@@ -16,6 +21,7 @@ func movement_function(delta: float, body: CharacterBody2D) -> void:
 			step_timer = 0.0
 			var target_velocity = desired_direction * max_speed
 			velocity = velocity.move_toward(target_velocity, acceleration * delta * step_power)
+			stepped.emit()
 	else:
 		step_timer = 0.0
 		

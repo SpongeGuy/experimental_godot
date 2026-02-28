@@ -7,7 +7,14 @@ signal target_lost()
 @export var detection_radius: float = 128.0
 @export var target_groups: Array[String] = ["food"]
 @export var vision_angle: float = 360.0
-@export var wall_collision_layer: int = 0
+@export var wall_collision_layer: int = 1
+@export var friends: FriendComponent
+@export var can_target_self: bool = false
+@export var can_target_friends: bool = false
+
+## when disabled, will reduce calculation time
+@export var check_for_LOS: bool = true
+
 
 var current_target: Node2D = null
 var last_known_position: Vector2
@@ -23,24 +30,33 @@ func find_nearest_target(from_position: Vector2, facing_direction: Vector2) -> N
 			# entity does not exist?
 			if not is_instance_valid(target):
 				continue
+
+			if not can_target_self and target == owner:
+				continue
+				
+			if friends and (not can_target_friends and friends.is_friend(target)):
+				continue
 				
 			var to_target = target.global_position - from_position
 			var distance = to_target.length()
 			
 			# too far away?
+			
 			if distance > detection_radius:
 				continue
 				
-			# outside vision cone?
-			if vision_angle < 360.0:
-				var angle_to_target = facing_direction.angle_to(to_target)
-				if abs(angle_to_target) > deg_to_rad((vision_angle) / 2.0):
+			
+			if check_for_LOS:
+				# outside vision cone?
+				if vision_angle < 360.0:
+					var angle_to_target = facing_direction.angle_to(to_target)
+					if abs(angle_to_target) > deg_to_rad((vision_angle) / 2.0):
+						continue
+						
+				# line of sight check; can we actually see it?
+				if not has_line_of_sight(from_position, target.global_position):
 					continue
-					
-			# line of sight check; can we actually see it?
-			if not has_line_of_sight(from_position, target.global_position):
-				continue
-				
+			
 			if distance < best_distance:
 				best_target = target
 				best_distance = distance

@@ -1,6 +1,7 @@
 extends State
 class_name EatingObjectState
 
+@export var target_seeker: TargetSeeker
 @export var timer_length: float = 2.0
 var eat_time: float = 0.0
 @export var eat_radius: float = 25.0
@@ -12,8 +13,7 @@ var eat_target: Node2D
 signal interrupted()
 
 func enter() -> void:
-	if state_machine.data.has("object"):
-		eat_target = state_machine.data.object
+	eat_target = target_seeker.current_target
 		
 	interrupted.connect(_on_interrupted)
 	eat_time = 0.0

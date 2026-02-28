@@ -15,9 +15,9 @@
               "state": {
                 "file": "Main.canvas",
                 "viewState": {
-                  "x": 10732.070508208662,
-                  "y": 265.4790796955193,
-                  "zoom": -0.19999999999999984
+                  "x": 4073.4043319116245,
+                  "y": -1353.9794274001647,
+                  "zoom": 0.20000000000000018
                 }
               },
               "icon": "lucide-layout-dashboard",
@@ -98,7 +98,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Welcome.md",
+                "file": "Main.canvas",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -108,7 +108,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for Welcome"
+              "title": "Backlinks for Main"
             }
           },
           {
@@ -189,6 +189,7 @@
   },
   "active": "caf9e8bd2feef08d",
   "lastOpenFiles": [
+    "assets/a8a7dcec34fd2b1cbe978486706f5a9a.gif",
     "assets/mina/gif-trinketwisp-1643782697440_7u88-2920988492.gif",
     "assets/mina/gif_ropejump-2473167005.gif",
     "assets/mina/gif-bossstinky-1643782697452_mcu8.1080-723182484.gif",
@@ -199,7 +200,6 @@
     "assets/link/gif_bayougameplay2-1295520514.gif",
     "assets/gif_bayougameplay2-1295520514.gif",
     "assets/link/tumblr_oezm4dWUfK1qd4q8ao1_500-873178731.gif",
-    "assets/tumblr_oezm4dWUfK1qd4q8ao1_500-873178731.gif",
     "assets/link",
     "assets/Untitled Folder",
     "assets/pico",

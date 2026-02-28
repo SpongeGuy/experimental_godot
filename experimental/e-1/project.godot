@@ -35,6 +35,7 @@ creature=""
 2d_physics/layer_1="terrain"
 2d_physics/layer_2="creatures"
 2d_physics/layer_3="items"
+2d_physics/layer_4="projectiles"
 2d_physics/layer_7="hitbox"
 2d_physics/layer_8="hurtbox"
 

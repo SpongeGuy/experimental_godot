@@ -32,4 +32,5 @@ func take_damage(amount: float, source: Node2D) -> void:
 	if health <= 0:
 		died.emit()
 
-
+func die() -> void:
+	died.emit()
