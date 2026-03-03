@@ -15,8 +15,8 @@
               "state": {
                 "file": "Main.canvas",
                 "viewState": {
-                  "x": 5199.494742876155,
-                  "y": -4271.799748569458,
+                  "x": 6033.494742876155,
+                  "y": -2957.5475116779553,
                   "zoom": 1
                 }
               },
@@ -81,8 +81,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "right": {
     "id": "5205ab617a22bbc5",
@@ -189,6 +188,9 @@
   },
   "active": "caf9e8bd2feef08d",
   "lastOpenFiles": [
+    "assets/29bff1d939e9485fb207874872220c14.jpg",
+    "assets/b6934303d6afdc73f40005dfc3eb3f48.jpg",
+    "assets/d2d6aa5630828bbc4935fde9fa93aae9.jpg",
     "assets/59f40038822864e4daac697a89b2e5a3.jpg",
     "assets/5edd2471617181ba6ce1d29e329038c0.jpg",
     "assets/ddob4f4-4aec7272-efd7-41f7-a575-1d78783415a6.png",
@@ -197,9 +199,6 @@
     "assets/a8a7dcec34fd2b1cbe978486706f5a9a.gif",
     "assets/mina/gif-trinketwisp-1643782697440_7u88-2920988492.gif",
     "assets/mina/gif_ropejump-2473167005.gif",
-    "assets/mina/gif-bossstinky-1643782697452_mcu8.1080-723182484.gif",
-    "assets/mina/gif-trainyardgameplay4-1643782697436_9dta-1251101453.gif",
-    "assets/mina/gif_hub-1675329364.gif",
     "assets/link",
     "assets/Untitled Folder",
     "assets/pico",
