@@ -3,17 +3,7 @@
 [ext_resource type="Script" uid="uid://coxlcaeimpv4f" path="res://scripts/classes/GameManager.gd" id="1_1bvp3"]
 [ext_resource type="TileSet" uid="uid://j22e5ktbepaf" path="res://new_tile_set.tres" id="1_ig7tw"]
 [ext_resource type="Script" uid="uid://bos4blw4siwtl" path="res://world.gd" id="2_lquwl"]
-[ext_resource type="PackedScene" uid="uid://dj0qusmlduf58" path="res://scenes/creatures/pack_1/moo.tscn" id="4_lquwl"]
-[ext_resource type="PackedScene" uid="uid://bknngsclh2idp" path="res://scenes/creatures/pack_1/imp.tscn" id="5_272bh"]
-[ext_resource type="PackedScene" uid="uid://ysnv23ycbjfo" path="res://scenes/creatures/pack_1/salmon.tscn" id="6_5vw27"]
-[ext_resource type="PackedScene" uid="uid://mrmj82tmo1da" path="res://scenes/creatures/pack_1/plopp.tscn" id="6_kek77"]
-[ext_resource type="PackedScene" uid="uid://ck5p5wxw3fvdy" path="res://scenes/creatures/pack_1/stoner.tscn" id="8_4c57u"]
-
-[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_4c57u"]
-light_mode = 2
-
-[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_kek77"]
-light_mode = 2
+[ext_resource type="PackedScene" uid="uid://0y2ro34sn2r0" path="res://scenes/creatures/pack_1/focks.tscn" id="9_kek77"]
 
 [node name="Main" type="Node" unique_id=1100438637]
 
@@ -35,52 +25,8 @@ tile_set = ExtResource("1_ig7tw")
 [node name="Entities" type="Node2D" parent="Container/World" unique_id=1147209951]
 y_sort_enabled = true
 
-[node name="Salmon" parent="Container/World/Entities" unique_id=596962447 instance=ExtResource("6_5vw27")]
-position = Vector2(-63, 552)
-
-[node name="Moo" parent="Container/World/Entities" unique_id=930105822 instance=ExtResource("4_lquwl")]
-material = SubResource("CanvasItemMaterial_4c57u")
-position = Vector2(-186, 541)
-
-[node name="Plopp" parent="Container/World/Entities" unique_id=1793542708 instance=ExtResource("6_kek77")]
-position = Vector2(39, 467)
-
-[node name="Plopp2" parent="Container/World/Entities" unique_id=1437706323 instance=ExtResource("6_kek77")]
-position = Vector2(206, 553)
-
-[node name="Moo2" parent="Container/World/Entities" unique_id=810931103 instance=ExtResource("4_lquwl")]
-position = Vector2(184, 610)
-
-[node name="Moo3" parent="Container/World/Entities" unique_id=1273781007 instance=ExtResource("4_lquwl")]
-position = Vector2(211, 621)
-
-[node name="Moo4" parent="Container/World/Entities" unique_id=1330637653 instance=ExtResource("4_lquwl")]
-position = Vector2(202, 601)
-
-[node name="Moo5" parent="Container/World/Entities" unique_id=749714348 instance=ExtResource("4_lquwl")]
-position = Vector2(205, 615)
-
-[node name="Imp" parent="Container/World/Entities" unique_id=251087214 instance=ExtResource("5_272bh")]
-position = Vector2(128, 457)
-
-[node name="Imp2" parent="Container/World/Entities" unique_id=1569998479 instance=ExtResource("5_272bh")]
-position = Vector2(-50, 602)
-
-[node name="Salmon2" parent="Container/World/Entities" unique_id=1645052572 instance=ExtResource("6_5vw27")]
-position = Vector2(-75, 430)
-
-[node name="Salmon3" parent="Container/World/Entities" unique_id=641724965 instance=ExtResource("6_5vw27")]
-material = SubResource("CanvasItemMaterial_kek77")
-position = Vector2(86, 616)
-
-[node name="Stoner" parent="Container/World/Entities" unique_id=441444084 instance=ExtResource("8_4c57u")]
-position = Vector2(136, 505)
-
-[node name="Stoner2" parent="Container/World/Entities" unique_id=551539578 instance=ExtResource("8_4c57u")]
-position = Vector2(42, 548)
-
-[node name="Stoner3" parent="Container/World/Entities" unique_id=19638796 instance=ExtResource("8_4c57u")]
-position = Vector2(-75, 489)
+[node name="CharacterBody2D" parent="Container/World/Entities" unique_id=163986961 instance=ExtResource("9_kek77")]
+position = Vector2(22, 512)
 
 [node name="Camera2D" type="Camera2D" parent="Container/World" unique_id=479320714]
 position = Vector2(32, 512)

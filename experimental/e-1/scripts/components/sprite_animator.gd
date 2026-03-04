@@ -4,7 +4,6 @@ class_name SpriteAnimator
 @export var sprite: Sprite2D
 
 @export var animations: Array[SpriteAnimation]
-@export var facing: FacingComponent
 
 var current_animation: SpriteAnimation
 var current_frame: int = 0

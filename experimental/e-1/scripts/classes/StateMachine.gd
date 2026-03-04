@@ -20,10 +20,13 @@ func _physics_process(delta: float) -> void:
 
 func switch(new_state: State) -> void:
 	# if new state is on cooldown, then don't switch to it
+	
 	if new_state.cooldown > 0:
+		
 		return
 	if current_state:
 		current_state.exit()
+	
 	state_switched.emit(current_state, new_state)
 	current_state = new_state
 	current_state.enter()

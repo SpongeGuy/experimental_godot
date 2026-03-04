@@ -1,0 +1,104 @@
+[gd_scene format=3 uid="uid://0y2ro34sn2r0"]
+
+[ext_resource type="Texture2D" uid="uid://brm8tbiplb1bk" path="res://assets/textures/misc/shadow.png" id="1_1st3h"]
+[ext_resource type="Texture2D" uid="uid://c0jwp8wix7koa" path="res://assets/textures/characters/focks.png" id="1_pqnd0"]
+[ext_resource type="Script" uid="uid://rhl072pc6k5q" path="res://scripts/components/health_component.gd" id="2_w85rp"]
+[ext_resource type="Script" uid="uid://bfeyy2elbrj4b" path="res://scripts/components/damage_animation_component.gd" id="3_ei1ea"]
+[ext_resource type="Script" uid="uid://ibgyf864g08i" path="res://scripts/components/manual_state_switcher.gd" id="4_0ov07"]
+[ext_resource type="Script" uid="uid://snopn0q86518" path="res://scripts/classes/StateMachine.gd" id="5_ei1ea"]
+[ext_resource type="Script" uid="uid://c58w8kgm688wm" path="res://scripts/components/movement/movement_component.gd" id="6_0ov07"]
+[ext_resource type="Script" uid="uid://dyq71erbf3ksa" path="res://scripts/states/player_move.gd" id="6_8xb34"]
+[ext_resource type="Script" uid="uid://dier6uauiqj4t" path="res://scripts/states/player_idle.gd" id="7_8xb34"]
+[ext_resource type="Script" uid="uid://37f5rafomsw5" path="res://scripts/components/sprite_animator.gd" id="10_0anbk"]
+[ext_resource type="Script" uid="uid://bolv5v2qg2xl0" path="res://scripts/components/facing_component.gd" id="11_0anbk"]
+[ext_resource type="Script" uid="uid://cym0ubd2tvsch" path="res://scripts/resources/SpriteAnimation.gd" id="11_2jlhe"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8xb34"]
+radius = 4.0
+
+[sub_resource type="Resource" id="Resource_03k0s"]
+script = ExtResource("11_2jlhe")
+name = &"idle"
+metadata/_custom_type_script = "uid://cym0ubd2tvsch"
+
+[sub_resource type="Resource" id="Resource_n4iao"]
+script = ExtResource("11_2jlhe")
+name = &"walk"
+row = 1
+metadata/_custom_type_script = "uid://cym0ubd2tvsch"
+
+[node name="CharacterBody2D" type="CharacterBody2D" unique_id=163986961]
+texture_filter = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=174038696]
+position = Vector2(0.5, 7)
+shape = SubResource("CircleShape2D_8xb34")
+
+[node name="Node2D" type="Node2D" parent="." unique_id=333898871]
+
+[node name="Shadow" type="Sprite2D" parent="Node2D" unique_id=1071683397]
+position = Vector2(0, 9)
+texture = ExtResource("1_1st3h")
+hframes = 3
+
+[node name="Main" type="Sprite2D" parent="Node2D" unique_id=1600768525]
+texture = ExtResource("1_pqnd0")
+hframes = 5
+vframes = 3
+
+[node name="Health&Damage" type="Node" parent="." unique_id=1393877488]
+
+[node name="HealthComponent" type="Node" parent="Health&Damage" unique_id=1840254880 node_paths=PackedStringArray("hitbox")]
+script = ExtResource("2_w85rp")
+max_health = 5.0
+health = 5.0
+hitbox = NodePath("")
+metadata/_custom_type_script = "uid://rhl072pc6k5q"
+
+[node name="DamageAnimationComponent" type="Node" parent="Health&Damage" unique_id=450702520 node_paths=PackedStringArray("health_component", "sprite")]
+script = ExtResource("3_ei1ea")
+flash_duration = 0.5
+health_component = NodePath("../HealthComponent")
+sprite = NodePath("")
+metadata/_custom_type_script = "uid://bfeyy2elbrj4b"
+
+[node name="DeathStateSwitcher" type="Node" parent="Health&Damage" unique_id=685029432 node_paths=PackedStringArray("state_machine", "state")]
+script = ExtResource("4_0ov07")
+state_machine = NodePath("")
+state = NodePath("")
+metadata/_custom_type_script = "uid://ibgyf864g08i"
+
+[node name="StateMachine" type="Node" parent="." unique_id=628928850 node_paths=PackedStringArray("initial_state")]
+script = ExtResource("5_ei1ea")
+initial_state = NodePath("PlayerMoveState")
+metadata/_custom_type_script = "uid://snopn0q86518"
+
+[node name="PlayerMoveState" type="Node" parent="StateMachine" unique_id=571855672 node_paths=PackedStringArray("movement", "facing", "idle_state")]
+script = ExtResource("6_8xb34")
+movement = NodePath("../../MovementComponent")
+facing = NodePath("../../FacingComponent")
+idle_state = NodePath("../PlayerIdleState")
+metadata/_custom_type_script = "uid://dyq71erbf3ksa"
+
+[node name="PlayerIdleState" type="Node" parent="StateMachine" unique_id=616697117 node_paths=PackedStringArray("move_state")]
+script = ExtResource("7_8xb34")
+move_state = NodePath("../PlayerMoveState")
+metadata/_custom_type_script = "uid://dier6uauiqj4t"
+
+[node name="MovementComponent" type="Node" parent="." unique_id=1644116155]
+script = ExtResource("6_0ov07")
+acceleration = 10000.0
+friction = 10000.0
+metadata/_custom_type_script = "uid://c58w8kgm688wm"
+
+[node name="SpriteAnimator" type="Node" parent="." unique_id=669214712 node_paths=PackedStringArray("sprite")]
+script = ExtResource("10_0anbk")
+sprite = NodePath("../Node2D/Main")
+animations = Array[ExtResource("11_2jlhe")]([SubResource("Resource_03k0s"), SubResource("Resource_n4iao")])
+metadata/_custom_type_script = "uid://37f5rafomsw5"
+
+[node name="FacingComponent" type="Node" parent="." unique_id=687960607]
+script = ExtResource("11_0anbk")
+metadata/_custom_type_script = "uid://bolv5v2qg2xl0"
+
+[connection signal="died" from="Health&Damage/HealthComponent" to="Health&Damage/DeathStateSwitcher" method="switch"]
