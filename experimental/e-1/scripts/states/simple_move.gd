@@ -10,7 +10,7 @@ class_name SimpleMovementUpdateState
 
 func enter() -> void:
 	if animator:
-		animator.load_animation("move")
+		animator.load_and_reset_animation("move")
 	
 ## called every frame while this state is active
 func update(delta: float) -> void:

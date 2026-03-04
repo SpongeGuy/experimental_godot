@@ -10,7 +10,7 @@ var plop_timer: float = 0.0
 
 func enter() -> void:
 	if animator:
-		animator.load_animation("plop")
+		animator.load_and_reset_animation("plop")
 	
 func update(delta: float) -> void:
 	plop_timer += delta

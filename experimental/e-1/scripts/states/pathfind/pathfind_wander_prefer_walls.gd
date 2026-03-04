@@ -30,7 +30,7 @@ func enter() -> void:
 	interrupted.connect(_decide_if_idle)
 	
 	if animator:
-		animator.load_animation("walk")
+		animator.load_and_reset_animation("walk")
 		
 func update(delta: float) -> void:
 	var old_wander_direction: Vector2 = wander_direction

@@ -49,3 +49,5 @@ func detect_active_movement() -> void:
 		moving = true 
 		
 	
+func get_actual_velocity() -> Vector2:
+	return velocity

@@ -43,7 +43,7 @@ func enter() -> void:
 	target_lost.connect(_on_target_lost)
 	
 	if animator:
-		animator.load_animation("walk")
+		animator.load_and_reset_animation("walk")
 		
 	if target_reached_state:
 		target_reached.connect(_on_target_reached)

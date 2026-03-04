@@ -15,7 +15,7 @@ func enter() -> void:
 	timer = 0.0
 	resolve_idle_duration()
 	if animator:
-		animator.load_animation("idle")
+		animator.load_and_reset_animation("idle")
 		
 func resolve_idle_duration() -> void:
 	idle_duration = randf_range(idle_duration_min, idle_duration_max)

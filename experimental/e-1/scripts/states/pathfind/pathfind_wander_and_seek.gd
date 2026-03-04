@@ -42,7 +42,7 @@ func enter() -> void:
 	found_target.connect(_on_target_found)
 	
 	if animator:
-		animator.load_animation("walk")
+		animator.load_and_reset_animation("walk")
 
 
 

@@ -30,7 +30,7 @@ func enter() -> void:
 	hit_time = 0.0
 	
 	if animator:
-		animator.load_animation("prepping")
+		animator.load_and_reset_animation("prepping")
 		
 	if ability:
 		ability.finished.connect(_on_ability_finished)
@@ -49,7 +49,7 @@ func update(delta: float) -> void:
 		if facing:
 			facing.change_direction(hit_target.global_position - owner.global_position)
 		if animator:
-			animator.load_animation("attack")
+			animator.load_and_reset_animation("attack")
 		ability.execute()
 		if randf() < chance_to_give_up:
 			interrupted.emit()
@@ -73,7 +73,7 @@ func exit() -> void:
 
 func _on_ability_finished() -> void:
 	if animator:
-		animator.load_animation("prepping")
+		animator.load_and_reset_animation("prepping")
 	if randf() < chance_to_give_up:
 		state_machine.switch(exit_state)
 

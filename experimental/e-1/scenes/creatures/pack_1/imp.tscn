@@ -131,11 +131,10 @@ target_groups = Array[String](["creature"])
 check_for_LOS = false
 metadata/_custom_type_script = "uid://d1ukjsox3nmlp"
 
-[node name="SpriteAnimator" type="Node" parent="Behavior" unique_id=1419515504 node_paths=PackedStringArray("sprite", "facing")]
+[node name="SpriteAnimator" type="Node" parent="Behavior" unique_id=1419515504 node_paths=PackedStringArray("sprite")]
 script = ExtResource("9_3lqw4")
 sprite = NodePath("../../Sprites/Main")
 animations = Array[ExtResource("9_jkrmy")]([ExtResource("10_2lysy"), SubResource("Resource_l60g2"), SubResource("Resource_3nn10")])
-facing = NodePath("../../Facing/FacingComponent")
 
 [node name="Hitbox" type="Area2D" parent="." unique_id=777869948 node_paths=PackedStringArray("collision_shape")]
 script = ExtResource("16_ox78c")

@@ -46,13 +46,25 @@ func stop() -> void:
 func play() -> void:
 	stopped = false
 
-func load_animation(animation_name: StringName) -> void:
+func load_and_reset_animation(animation_name: StringName) -> void:
+	if current_animation and animation_name == current_animation.name:
+		return
 	for animation in animations:
 		if animation.name != animation_name:
 			continue
 		current_animation = animation
 	current_frame = 0
 	animation_timer = 0.0
+	play()
+	animation_loaded.emit(current_animation)
+	
+func load_animation(animation_name: StringName) -> void:
+	if current_animation and animation_name == current_animation.name:
+		return
+	for animation in animations:
+		if animation.name != animation_name:
+			continue
+		current_animation = animation
 	play()
 	animation_loaded.emit(current_animation)
 	

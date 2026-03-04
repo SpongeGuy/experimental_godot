@@ -3,17 +3,18 @@ class_name PlayerIdleState
 ## states should only include logic which alters data.
 ## all other functions should be outsourced to other components, such as visual effects or sounds.
 @export var move_state: State
+@export var movement: MovementComponent
 @export var animator: SpriteAnimator
 
 ## called once when the state machine does its initial switch to this state
 func enter() -> void:
-	if animator:
-		animator.load_animation("idle")
+	pass
 	
 ## called every frame while this state is active
 func update(delta: float) -> void:
 	if animator:
 		animator.update_animation(delta)
+	movement.set_desired_direction(Vector2.ZERO)
 	
 ## called every physics frame while this state is active
 func physics_update(delta: float) -> void:

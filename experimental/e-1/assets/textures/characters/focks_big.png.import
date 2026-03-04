@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b0spj6h1gkhif"
-path="res://.godot/imported/focks.png-f487b786c0b024285fc8f19d8a8fd1c9.ctex"
+uid="uid://c60h22m01ksyn"
+path="res://.godot/imported/focks_big.png-118f4a83d33b174cd34af78a60d12d92.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/textures/characters/focks.png"
-dest_files=["res://.godot/imported/focks.png-f487b786c0b024285fc8f19d8a8fd1c9.ctex"]
+source_file="res://assets/textures/characters/focks_big.png"
+dest_files=["res://.godot/imported/focks_big.png-118f4a83d33b174cd34af78a60d12d92.ctex"]
 
 [params]
 

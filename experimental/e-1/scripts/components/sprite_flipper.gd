@@ -4,10 +4,11 @@ class_name SpriteFlipper
 @export var facing: FacingComponent
 @export var sprite: Sprite2D
 
-func _ready() -> void:
-	facing.changed_direction.connect(flip_sprite)
+func _process(delta: float) -> void:
+	if facing:
+		flip_sprite(facing.get_direction())
 	
-func flip_sprite(_old_direction: Vector2, new_direction: Vector2) -> void:
+func flip_sprite(new_direction: Vector2) -> void:
 	if new_direction.x > 0:
 		sprite.scale.x = 1.0
 	else:
