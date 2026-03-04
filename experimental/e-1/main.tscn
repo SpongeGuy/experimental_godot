@@ -3,7 +3,22 @@
 [ext_resource type="Script" uid="uid://coxlcaeimpv4f" path="res://scripts/classes/GameManager.gd" id="1_1bvp3"]
 [ext_resource type="TileSet" uid="uid://j22e5ktbepaf" path="res://new_tile_set.tres" id="1_ig7tw"]
 [ext_resource type="Script" uid="uid://bos4blw4siwtl" path="res://world.gd" id="2_lquwl"]
+<<<<<<< HEAD
 [ext_resource type="PackedScene" uid="uid://0y2ro34sn2r0" path="res://scenes/creatures/pack_1/focks.tscn" id="9_kek77"]
+=======
+[ext_resource type="PackedScene" uid="uid://dj0qusmlduf58" path="res://scenes/creatures/pack_1/moo.tscn" id="4_lquwl"]
+[ext_resource type="PackedScene" uid="uid://bknngsclh2idp" path="res://scenes/creatures/pack_1/imp.tscn" id="5_272bh"]
+[ext_resource type="PackedScene" uid="uid://ysnv23ycbjfo" path="res://scenes/creatures/pack_1/salmon.tscn" id="6_5vw27"]
+[ext_resource type="PackedScene" uid="uid://mrmj82tmo1da" path="res://scenes/creatures/pack_1/plopp.tscn" id="6_kek77"]
+[ext_resource type="PackedScene" uid="uid://ck5p5wxw3fvdy" path="res://scenes/creatures/pack_1/stoner.tscn" id="8_4c57u"]
+[ext_resource type="Theme" uid="uid://c7dgvxhg4nhv7" path="res://assets/themes/ui_theme.tres" id="9_kek77"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_4c57u"]
+light_mode = 2
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_kek77"]
+light_mode = 2
+>>>>>>> 177994e (fonts)
 
 [node name="Main" type="Node" unique_id=1100438637]
 
@@ -12,6 +27,7 @@ script = ExtResource("1_1bvp3")
 metadata/_custom_type_script = "uid://coxlcaeimpv4f"
 
 [node name="Container" type="Node2D" parent="." unique_id=705830189]
+texture_filter = 1
 
 [node name="World" type="Node2D" parent="Container" unique_id=1059852326]
 texture_filter = 1
@@ -35,3 +51,11 @@ position = Vector2(32, 512)
 z_index = -50
 color = Color(0.10811547, 0.13709787, 2.4065375e-08, 1)
 polygon = PackedVector2Array(1216, -656, -2032, -704, -2144, 1552, 1696, 1552)
+
+[node name="Label" type="Label" parent="Container" unique_id=417832347]
+offset_left = -26.0
+offset_top = 440.0
+offset_right = 110.0
+offset_bottom = 463.0
+theme = ExtResource("9_kek77")
+text = "512347890578904237"
