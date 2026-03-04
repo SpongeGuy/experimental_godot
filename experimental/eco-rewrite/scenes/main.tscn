@@ -6,11 +6,9 @@
 [ext_resource type="PackedScene" uid="uid://c8ix3yqaysf6x" path="res://scenes/entities/spikeball.tscn" id="5_85g3d"]
 [ext_resource type="Texture2D" uid="uid://c2imcfcv03qgd" path="res://assets/textures/sprites/tilesets/tileset_dirt_wall.png" id="5_eb6dy"]
 [ext_resource type="PackedScene" uid="uid://bvgr5ff6rsmhp" path="res://scenes/entities/apple.tscn" id="5_trceg"]
-[ext_resource type="Texture2D" uid="uid://chm477t0sr1w1" path="res://assets/textures/sprites/tilesets/tileset_sandydirt_floor.png" id="6_trceg"]
+[ext_resource type="Texture2D" uid="uid://bbkr2t4djt4hm" path="res://assets/textures/sprites/tilesets/tileset_sandydirt_floor.png" id="6_trceg"]
 [ext_resource type="Script" uid="uid://bkeaqpuag1aa7" path="res://scripts/utils/cursor.gd" id="7_a8y0u"]
 [ext_resource type="PackedScene" uid="uid://cnbxjokws30b3" path="res://scenes/entities/orb.tscn" id="7_dp3eg"]
-[ext_resource type="PackedScene" uid="uid://dgw85j68aqfnv" path="res://scenes/entities/cow.tscn" id="7_jbj1t"]
-[ext_resource type="PackedScene" uid="uid://cojbig6055kf2" path="res://scenes/entities/plopp.tscn" id="8_0ld40"]
 [ext_resource type="Theme" uid="uid://c6vaghn750bgm" path="res://resources/ui/themes/ui_text_outline.tres" id="8_jkv2x"]
 [ext_resource type="Texture2D" uid="uid://cnw3rsu876npn" path="res://assets/textures/sprites/ui/icon-gold.png" id="10_choun"]
 [ext_resource type="Script" uid="uid://deeskfeo4r0vp" path="res://scenes/ui.gd" id="10_eb6dy"]
@@ -1209,14 +1207,8 @@ position = Vector2(40, -143)
 [node name="Apple8" parent="World/Entities" unique_id=12413599 instance=ExtResource("5_trceg")]
 position = Vector2(7, 83)
 
-[node name="Cow" parent="World/Entities" unique_id=1319855037 instance=ExtResource("7_jbj1t")]
-position = Vector2(-141, 55)
-
 [node name="Orb" parent="World/Entities" unique_id=114093747 instance=ExtResource("7_dp3eg")]
 position = Vector2(-86, 9)
-
-[node name="Plopp" parent="World/Entities" unique_id=1543836370 instance=ExtResource("8_0ld40")]
-position = Vector2(-29, 13)
 
 [node name="TileMapLayer" type="TileMapLayer" parent="World" unique_id=247155928]
 z_index = -10
@@ -1358,7 +1350,7 @@ offset_right = 265.0
 offset_bottom = -79.0
 theme = ExtResource("17_dp3eg")
 script = ExtResource("18_gqmmt")
-target_creature = NodePath("../../World/Entities/Cow")
+target_creature = NodePath("")
 
 [node name="Control" type="PanelContainer" parent="UI/Control2" unique_id=1754453392]
 layout_mode = 0

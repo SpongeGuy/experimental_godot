@@ -12,9 +12,10 @@
 [ext_resource type="Script" uid="uid://37f5rafomsw5" path="res://scripts/components/sprite_animator.gd" id="10_0anbk"]
 [ext_resource type="Script" uid="uid://bolv5v2qg2xl0" path="res://scripts/components/facing_component.gd" id="11_0anbk"]
 [ext_resource type="Script" uid="uid://cym0ubd2tvsch" path="res://scripts/resources/SpriteAnimation.gd" id="11_2jlhe"]
+[ext_resource type="Script" uid="uid://5k1r4xftmni4" path="res://scripts/components/sprite_flipper.gd" id="13_03k0s"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_8xb34"]
-radius = 4.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_03k0s"]
+size = Vector2(9, 13)
 
 [sub_resource type="Resource" id="Resource_03k0s"]
 script = ExtResource("11_2jlhe")
@@ -29,43 +30,41 @@ metadata/_custom_type_script = "uid://cym0ubd2tvsch"
 
 [node name="CharacterBody2D" type="CharacterBody2D" unique_id=163986961]
 texture_filter = 1
+collision_layer = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=174038696]
-position = Vector2(0.5, 7)
-shape = SubResource("CircleShape2D_8xb34")
+position = Vector2(0.5, 0.5)
+shape = SubResource("RectangleShape2D_03k0s")
 
 [node name="Node2D" type="Node2D" parent="." unique_id=333898871]
+
+[node name="Main" type="Sprite2D" parent="Node2D" unique_id=1600768525]
+texture = ExtResource("1_pqnd0")
+offset = Vector2(0, -0.5)
+hframes = 5
+vframes = 3
 
 [node name="Shadow" type="Sprite2D" parent="Node2D" unique_id=1071683397]
 position = Vector2(0, 9)
 texture = ExtResource("1_1st3h")
 hframes = 3
 
-[node name="Main" type="Sprite2D" parent="Node2D" unique_id=1600768525]
-texture = ExtResource("1_pqnd0")
-hframes = 5
-vframes = 3
-
 [node name="Health&Damage" type="Node" parent="." unique_id=1393877488]
 
-[node name="HealthComponent" type="Node" parent="Health&Damage" unique_id=1840254880 node_paths=PackedStringArray("hitbox")]
+[node name="HealthComponent" type="Node" parent="Health&Damage" unique_id=1840254880]
 script = ExtResource("2_w85rp")
 max_health = 5.0
 health = 5.0
-hitbox = NodePath("")
 metadata/_custom_type_script = "uid://rhl072pc6k5q"
 
-[node name="DamageAnimationComponent" type="Node" parent="Health&Damage" unique_id=450702520 node_paths=PackedStringArray("health_component", "sprite")]
+[node name="DamageAnimationComponent" type="Node" parent="Health&Damage" unique_id=450702520 node_paths=PackedStringArray("health_component")]
 script = ExtResource("3_ei1ea")
 flash_duration = 0.5
 health_component = NodePath("../HealthComponent")
-sprite = NodePath("")
 metadata/_custom_type_script = "uid://bfeyy2elbrj4b"
 
-[node name="DeathStateSwitcher" type="Node" parent="Health&Damage" unique_id=685029432 node_paths=PackedStringArray("state_machine", "state")]
+[node name="DeathStateSwitcher" type="Node" parent="Health&Damage" unique_id=685029432]
 script = ExtResource("4_0ov07")
-state_machine = NodePath("")
-state = NodePath("")
 metadata/_custom_type_script = "uid://ibgyf864g08i"
 
 [node name="StateMachine" type="Node" parent="." unique_id=628928850 node_paths=PackedStringArray("initial_state")]
@@ -73,22 +72,25 @@ script = ExtResource("5_ei1ea")
 initial_state = NodePath("PlayerMoveState")
 metadata/_custom_type_script = "uid://snopn0q86518"
 
-[node name="PlayerMoveState" type="Node" parent="StateMachine" unique_id=571855672 node_paths=PackedStringArray("movement", "facing", "idle_state")]
+[node name="PlayerMoveState" type="Node" parent="StateMachine" unique_id=571855672 node_paths=PackedStringArray("movement", "facing", "idle_state", "animator")]
 script = ExtResource("6_8xb34")
 movement = NodePath("../../MovementComponent")
 facing = NodePath("../../FacingComponent")
 idle_state = NodePath("../PlayerIdleState")
+animator = NodePath("../../SpriteAnimator")
 metadata/_custom_type_script = "uid://dyq71erbf3ksa"
 
-[node name="PlayerIdleState" type="Node" parent="StateMachine" unique_id=616697117 node_paths=PackedStringArray("move_state")]
+[node name="PlayerIdleState" type="Node" parent="StateMachine" unique_id=616697117 node_paths=PackedStringArray("move_state", "animator")]
 script = ExtResource("7_8xb34")
 move_state = NodePath("../PlayerMoveState")
+animator = NodePath("../../SpriteAnimator")
 metadata/_custom_type_script = "uid://dier6uauiqj4t"
 
 [node name="MovementComponent" type="Node" parent="." unique_id=1644116155]
 script = ExtResource("6_0ov07")
-acceleration = 10000.0
-friction = 10000.0
+max_speed = 75.0
+acceleration = 1000.0
+friction = 1000.0
 metadata/_custom_type_script = "uid://c58w8kgm688wm"
 
 [node name="SpriteAnimator" type="Node" parent="." unique_id=669214712 node_paths=PackedStringArray("sprite")]
@@ -100,5 +102,11 @@ metadata/_custom_type_script = "uid://37f5rafomsw5"
 [node name="FacingComponent" type="Node" parent="." unique_id=687960607]
 script = ExtResource("11_0anbk")
 metadata/_custom_type_script = "uid://bolv5v2qg2xl0"
+
+[node name="SpriteFlipper" type="Node" parent="." unique_id=836201952 node_paths=PackedStringArray("facing", "sprite")]
+script = ExtResource("13_03k0s")
+facing = NodePath("../FacingComponent")
+sprite = NodePath("../Node2D/Main")
+metadata/_custom_type_script = "uid://5k1r4xftmni4"
 
 [connection signal="died" from="Health&Damage/HealthComponent" to="Health&Damage/DeathStateSwitcher" method="switch"]

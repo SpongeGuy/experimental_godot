@@ -82,6 +82,7 @@ func update_move_velocity(delta: float) -> void:
 func update_total_velocity(delta: float) -> void:
 	effect_velocity = lerp(effect_velocity, Vector2.ZERO, effect_velocity_decay_factor * delta)
 	total_velocity = lerp(total_velocity, effect_velocity + move_velocity, 0.25)
+	print(total_velocity)
 
 ## Applies the current velocity with sliding on collisions using move_and_collide().
 func move(delta: float) -> void:
