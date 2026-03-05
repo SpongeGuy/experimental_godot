@@ -16,9 +16,16 @@
 [ext_resource type="Script" uid="uid://5k1r4xftmni4" path="res://scripts/components/sprite_flipper.gd" id="13_03k0s"]
 [ext_resource type="Script" uid="uid://dk6vro3btpxyj" path="res://scripts/classes/Hitbox.gd" id="14_n4iao"]
 [ext_resource type="Script" uid="uid://b06wram7ecjpl" path="res://scripts/components/friend_component.gd" id="15_mg4qc"]
+[ext_resource type="Script" uid="uid://bvhal5tqw8i2c" path="res://scripts/components/player_component.gd" id="17_nfcy5"]
+[ext_resource type="Script" uid="uid://b2i2svq4b2ia2" path="res://scripts/components/rotator.gd" id="18_jurdk"]
+[ext_resource type="Script" uid="uid://duajgedj0nkus" path="res://scripts/components/hand_component.gd" id="19_0ptyg"]
+[ext_resource type="Script" uid="uid://2b6l1sxmcd5r" path="res://scripts/components/knockback_component.gd" id="20_gqbwi"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_03k0s"]
 size = Vector2(9, 5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mg4qc"]
+size = Vector2(7, 6)
 
 [sub_resource type="Resource" id="Resource_03k0s"]
 script = ExtResource("11_2jlhe")
@@ -42,8 +49,8 @@ name = &"walk_ew"
 row = 2
 metadata/_custom_type_script = "uid://cym0ubd2tvsch"
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_mg4qc"]
-size = Vector2(7, 9.5)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jurdk"]
+size = Vector2(20, 13)
 
 [node name="Focks" type="CharacterBody2D" unique_id=163986961 groups=["creature"]]
 texture_filter = 1
@@ -53,15 +60,15 @@ collision_layer = 2
 position = Vector2(-0.5, -2.5)
 shape = SubResource("RectangleShape2D_03k0s")
 
-[node name="Node2D" type="Node2D" parent="." unique_id=333898871]
+[node name="Visual" type="Node2D" parent="." unique_id=333898871]
 
-[node name="Main" type="Sprite2D" parent="Node2D" unique_id=1600768525]
+[node name="Main" type="Sprite2D" parent="Visual" unique_id=1600768525]
 texture = ExtResource("1_pqnd0")
 offset = Vector2(0, -7.5)
 hframes = 2
 vframes = 3
 
-[node name="Shadow" type="Sprite2D" parent="Node2D" unique_id=1071683397]
+[node name="Shadow" type="Sprite2D" parent="Visual" unique_id=1071683397]
 z_index = -1
 position = Vector2(0, 7)
 texture = ExtResource("1_1st3h")
@@ -76,13 +83,14 @@ script = ExtResource("2_w85rp")
 max_health = 5.0
 health = 5.0
 hitbox = NodePath("../../HitDetection/Hitbox")
+invincibility_length = 0.5
 metadata/_custom_type_script = "uid://rhl072pc6k5q"
 
 [node name="DamageAnimationComponent" type="Node" parent="Health&Damage" unique_id=450702520 node_paths=PackedStringArray("health_component", "sprite")]
 script = ExtResource("3_ei1ea")
 flash_duration = 0.5
 health_component = NodePath("../HealthComponent")
-sprite = NodePath("../../Node2D/Main")
+sprite = NodePath("../../Visual/Main")
 metadata/_custom_type_script = "uid://bfeyy2elbrj4b"
 
 [node name="DeathStateSwitcher" type="Node" parent="Health&Damage" unique_id=685029432 node_paths=PackedStringArray("state_machine", "state")]
@@ -99,16 +107,16 @@ metadata/_custom_type_script = "uid://snopn0q86518"
 [node name="PlayerMoveState" type="Node" parent="StateMachine" unique_id=571855672 node_paths=PackedStringArray("movement", "facing", "idle_state", "animator")]
 script = ExtResource("6_8xb34")
 movement = NodePath("../../MovementComponent")
-facing = NodePath("../../FacingComponent")
+facing = NodePath("../../Animation/FacingComponent")
 idle_state = NodePath("../PlayerIdleState")
-animator = NodePath("../../SpriteAnimator")
+animator = NodePath("../../Animation/SpriteAnimator")
 metadata/_custom_type_script = "uid://dyq71erbf3ksa"
 
 [node name="PlayerIdleState" type="Node" parent="StateMachine" unique_id=616697117 node_paths=PackedStringArray("move_state", "movement", "animator")]
 script = ExtResource("7_8xb34")
 move_state = NodePath("../PlayerMoveState")
 movement = NodePath("../../MovementComponent")
-animator = NodePath("../../SpriteAnimator")
+animator = NodePath("../../Animation/SpriteAnimator")
 metadata/_custom_type_script = "uid://dier6uauiqj4t"
 
 [node name="DeathState" type="Node" parent="StateMachine" unique_id=249506613]
@@ -122,22 +130,6 @@ acceleration = 5000.0
 friction = 1000.0
 metadata/_custom_type_script = "uid://c58w8kgm688wm"
 
-[node name="SpriteAnimator" type="Node" parent="." unique_id=669214712 node_paths=PackedStringArray("sprite")]
-script = ExtResource("10_0anbk")
-sprite = NodePath("../Node2D/Main")
-animations = Array[ExtResource("11_2jlhe")]([SubResource("Resource_03k0s"), SubResource("Resource_mg4qc"), SubResource("Resource_sr44t"), SubResource("Resource_n4iao")])
-metadata/_custom_type_script = "uid://37f5rafomsw5"
-
-[node name="FacingComponent" type="Node" parent="." unique_id=687960607]
-script = ExtResource("11_0anbk")
-metadata/_custom_type_script = "uid://bolv5v2qg2xl0"
-
-[node name="SpriteFlipper" type="Node" parent="." unique_id=836201952 node_paths=PackedStringArray("facing", "sprite")]
-script = ExtResource("13_03k0s")
-facing = NodePath("../FacingComponent")
-sprite = NodePath("../Node2D/Main")
-metadata/_custom_type_script = "uid://5k1r4xftmni4"
-
 [node name="HitDetection" type="Node2D" parent="." unique_id=1085286240]
 
 [node name="Hitbox" type="Area2D" parent="HitDetection" unique_id=518959131 node_paths=PackedStringArray("collision_shape", "friends")]
@@ -147,11 +139,56 @@ friends = NodePath("../FriendComponent")
 metadata/_custom_type_script = "uid://dk6vro3btpxyj"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitDetection/Hitbox" unique_id=1487131131]
-position = Vector2(-0.5, -7.75)
+position = Vector2(-0.5, -3)
 shape = SubResource("RectangleShape2D_mg4qc")
 
 [node name="FriendComponent" type="Node" parent="HitDetection" unique_id=2132330165]
 script = ExtResource("15_mg4qc")
 metadata/_custom_type_script = "uid://b06wram7ecjpl"
+
+[node name="PlayerComponent" type="Node" parent="." unique_id=252635663]
+script = ExtResource("17_nfcy5")
+metadata/_custom_type_script = "uid://bvhal5tqw8i2c"
+
+[node name="Animation" type="Node2D" parent="." unique_id=1057125269]
+
+[node name="SpriteFlipper" type="Node" parent="Animation" unique_id=836201952 node_paths=PackedStringArray("facing", "sprite")]
+script = ExtResource("13_03k0s")
+facing = NodePath("../FacingComponent")
+sprite = NodePath("../../Visual/Main")
+metadata/_custom_type_script = "uid://5k1r4xftmni4"
+
+[node name="SpriteAnimator" type="Node" parent="Animation" unique_id=669214712 node_paths=PackedStringArray("sprite")]
+script = ExtResource("10_0anbk")
+sprite = NodePath("../../Visual/Main")
+animations = Array[ExtResource("11_2jlhe")]([SubResource("Resource_03k0s"), SubResource("Resource_mg4qc"), SubResource("Resource_sr44t"), SubResource("Resource_n4iao")])
+metadata/_custom_type_script = "uid://37f5rafomsw5"
+
+[node name="FacingComponent" type="Node" parent="Animation" unique_id=687960607]
+script = ExtResource("11_0anbk")
+metadata/_custom_type_script = "uid://bolv5v2qg2xl0"
+
+[node name="Rotator" type="Node2D" parent="Animation" unique_id=1591863854 node_paths=PackedStringArray("facing")]
+position = Vector2(0, -4)
+script = ExtResource("18_jurdk")
+facing = NodePath("../FacingComponent")
+metadata/_custom_type_script = "uid://b2i2svq4b2ia2"
+
+[node name="Area2D" type="Area2D" parent="Animation/Rotator" unique_id=1698964333]
+position = Vector2(9, 0)
+collision_layer = 0
+collision_mask = 6
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Animation/Rotator/Area2D" unique_id=1118485361]
+shape = SubResource("RectangleShape2D_jurdk")
+
+[node name="HandComponent" type="Node" parent="." unique_id=802843656 node_paths=PackedStringArray("pickup_area")]
+script = ExtResource("19_0ptyg")
+pickup_area = NodePath("../Animation/Rotator/Area2D")
+metadata/_custom_type_script = "uid://duajgedj0nkus"
+
+[node name="KnockbackComponent" type="Node" parent="." unique_id=279683997]
+script = ExtResource("20_gqbwi")
+metadata/_custom_type_script = "uid://2b6l1sxmcd5r"
 
 [connection signal="died" from="Health&Damage/HealthComponent" to="Health&Damage/DeathStateSwitcher" method="switch"]

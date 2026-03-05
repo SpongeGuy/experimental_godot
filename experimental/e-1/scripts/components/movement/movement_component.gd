@@ -5,6 +5,7 @@ class_name MovementComponent
 @export var acceleration: float = 500.0
 @export var friction: float = 800.0 # how fast it stopps
 @export var rotation_speed: float = 10.0 # for smooth turning
+@export var knockback: KnockbackComponent
 
 
 var velocity: Vector2 = Vector2.ZERO
@@ -13,8 +14,6 @@ var desired_direction: Vector2 = Vector2.ZERO
 signal started_moving(direction: Vector2)
 signal stopped_moving()
 signal changed_direction(old_direction: Vector2, new_direction: Vector2)
-
-
 var moving: bool = false
 
 func set_desired_direction(dir: Vector2) -> void:
@@ -25,10 +24,10 @@ func set_desired_direction(dir: Vector2) -> void:
 	
 func physics_update(delta: float, body: CharacterBody2D) -> void:
 	movement_function(delta, body)
-		
-	detect_active_movement()
-	
+	_add_knockback_velocity(body)
+	_detect_active_movement()
 	body.move_and_slide()
+	_handle_bounce_collisions()
 	
 func movement_function(delta: float, body: CharacterBody2D) -> void:
 	if desired_direction.length() > 0:
@@ -38,8 +37,8 @@ func movement_function(delta: float, body: CharacterBody2D) -> void:
 		velocity = velocity.move_toward(Vector2.ZERO, friction * delta)
 	body.velocity = velocity
 		
-func detect_active_movement() -> void:
-	if abs(velocity.x) < 0.05 or abs(velocity.y) < 0.05:
+func _detect_active_movement() -> void:
+	if desired_direction.is_zero_approx():
 		if moving:
 			stopped_moving.emit()
 		moving = false
@@ -51,3 +50,17 @@ func detect_active_movement() -> void:
 	
 func get_actual_velocity() -> Vector2:
 	return velocity
+	
+func _add_knockback_velocity(body: CharacterBody2D) -> void:
+	if knockback:
+		body.velocity += knockback.knockback_velocity
+
+func _handle_bounce_collisions() -> void:
+	if not knockback:
+		return
+	if owner is not CharacterBody2D:
+		return
+	if knockback.knockback_velocity.length() > knockback.min_bounce_speed:
+		for i in owner.get_slide_collision_count():
+			var col: KinematicCollision2D = owner.get_slide_collision(i)
+			knockback.knockback_velocity = knockback.knockback_velocity.bounce(col.get_normal()) * knockback.bounce_factor

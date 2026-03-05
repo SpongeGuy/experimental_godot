@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://bowkaxk8cmcqp"]
+
+[ext_resource type="Texture2D" uid="uid://7t4x6xbsnmci" path="res://assets/textures/characters/plants/plant.png" id="1_mh3iw"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mh3iw"]
+size = Vector2(80, 80)
+
+[node name="Anthurium" type="CharacterBody2D" unique_id=128573000]
+texture_filter = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1648388709]
+shape = SubResource("RectangleShape2D_mh3iw")
+
+[node name="Sprite" type="Node2D" parent="." unique_id=1236991549]
+
+[node name="Main" type="Sprite2D" parent="Sprite" unique_id=603866424]
+texture = ExtResource("1_mh3iw")

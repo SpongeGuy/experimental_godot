@@ -12,8 +12,8 @@ func _ready() -> void:
 		push_error(self, ": parent is not StateMachine!")
 		
 func _process(delta: float) -> void:
-	if cooldown > 0.0:
-		cooldown -= delta
+	if cooldown_time > 0.0:
+		cooldown_time -= delta
 
 func enter() -> void:
 	pass
@@ -26,3 +26,6 @@ func physics_update(delta: float) -> void:
 	
 func exit() -> void:
 	pass
+
+func apply_cooldown() -> void:
+	cooldown_time += cooldown

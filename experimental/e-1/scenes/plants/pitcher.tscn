@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://c7nmw0cuifuog"]
+
+[ext_resource type="Texture2D" uid="uid://dr50g3jt6pejk" path="res://assets/textures/characters/plants/pitcher.png" id="1_c8tw8"]
+[ext_resource type="Script" uid="uid://ch41hyioton1y" path="res://scripts/components/inventory.gd" id="2_0rwgb"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_c8tw8"]
+size = Vector2(13, 15)
+
+[node name="Pitcher" type="CharacterBody2D" unique_id=1198001237]
+texture_filter = 1
+
+[node name="Node2D" type="Node2D" parent="." unique_id=380780976]
+
+[node name="Sprite2D" type="Sprite2D" parent="Node2D" unique_id=1552339048]
+texture = ExtResource("1_c8tw8")
+offset = Vector2(0, -14.285)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1309149176]
+position = Vector2(1, -2)
+shape = SubResource("RectangleShape2D_c8tw8")
+
+[node name="Inventory" type="Node" parent="." unique_id=570045684]
+script = ExtResource("2_0rwgb")
+metadata/_custom_type_script = "uid://ch41hyioton1y"

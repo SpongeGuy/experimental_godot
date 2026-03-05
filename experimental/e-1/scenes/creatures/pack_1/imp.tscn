@@ -46,7 +46,7 @@ metadata/_custom_type_script = "uid://cym0ubd2tvsch"
 size = Vector2(6, 12)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8lxaw"]
-size = Vector2(9.5, 10.5)
+size = Vector2(18, 10.5)
 
 [node name="Imp" type="CharacterBody2D" unique_id=251087214 groups=["creature"]]
 texture_filter = 1
@@ -118,6 +118,8 @@ ability = NodePath("../../../Ability/AbilityMeleeHit")
 target_seeker = NodePath("../../TargetSeeker")
 facing = NodePath("../../../Facing/FacingComponent")
 animator = NodePath("../../SpriteAnimator")
+timer_length = 2.0
+attack_radius = 24.0
 metadata/_custom_type_script = "uid://5gwlwmm34xkr"
 
 [node name="DeathState" type="Node" parent="Behavior/StateMachine" unique_id=2048696345]
@@ -126,7 +128,7 @@ metadata/_custom_type_script = "uid://b8tiyc5hi81ap"
 
 [node name="TargetSeeker" type="Node" parent="Behavior" unique_id=1682987206]
 script = ExtResource("7_tcjw4")
-detection_radius = 12.0
+detection_radius = 20.0
 target_groups = Array[String](["creature"])
 check_for_LOS = false
 metadata/_custom_type_script = "uid://d1ukjsox3nmlp"
@@ -188,7 +190,7 @@ collision_shape = NodePath("CollisionShape2D")
 metadata/_custom_type_script = "uid://d4dkusgurvri8"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Facing/Rotator/Hurtbox" unique_id=819422418]
-position = Vector2(12, -7)
+position = Vector2(10, -7)
 shape = SubResource("RectangleShape2D_8lxaw")
 
 [node name="SpriteFlipper" type="Node" parent="Facing" unique_id=260338926 node_paths=PackedStringArray("facing", "sprite")]

@@ -2,7 +2,7 @@ extends Node2D
 class_name Rotator
 
 var intended_rotation: float = 0.0
-@export var weight: float = 5.0
+@export var weight: float = 15.0
 
 @export var facing: FacingComponent
 
