@@ -1,0 +1,5 @@
+[gd_resource type="TileSet" load_steps=2 format=2]
+
+[ext_resource path="tileset_cockel.png" type="Texture" id=1]
+
+[resource]

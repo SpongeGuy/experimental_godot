@@ -1,6 +1,6 @@
 # KnockbackComponent.gd
 class_name KnockbackComponent
-extends Node
+extends Component
 
 @export var friction: float = 800.0
 @export var bounce_factor: float = 0.3  # 0 = no bounce, 1 = full elastic

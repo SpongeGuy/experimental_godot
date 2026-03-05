@@ -1,4 +1,4 @@
-extends Node
+extends Component
 class_name TargetSeeker
 
 signal target_found(target: Node2D)

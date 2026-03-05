@@ -1,4 +1,4 @@
-extends Node
+extends Component
 class_name SpriteFlipper
 
 @export var facing: FacingComponent

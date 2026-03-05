@@ -1,4 +1,4 @@
-extends Node
+extends Component
 class_name DamageAnimationComponent
 
 @export var flash_color: Color = Color(1, 0.2, 0.2)

@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://bknngsclh2idp"]
 
+[ext_resource type="Script" uid="uid://8lowpdf5nvix" path="res://scripts/classes/Entity.gd" id="1_j3jt3"]
 [ext_resource type="Texture2D" uid="uid://3n3f3bsucluj" path="res://assets/textures/characters/imp.png" id="1_l7lie"]
 [ext_resource type="Texture2D" uid="uid://brm8tbiplb1bk" path="res://assets/textures/misc/shadow.png" id="2_1s1ue"]
 [ext_resource type="Script" uid="uid://d4dkusgurvri8" path="res://scripts/classes/Hurtbox.gd" id="2_5fmm0"]
@@ -21,6 +22,7 @@
 [ext_resource type="Script" uid="uid://b2i2svq4b2ia2" path="res://scripts/components/rotator.gd" id="19_l60g2"]
 [ext_resource type="Script" uid="uid://bolv5v2qg2xl0" path="res://scripts/components/facing_component.gd" id="19_q2yoy"]
 [ext_resource type="Script" uid="uid://5k1r4xftmni4" path="res://scripts/components/sprite_flipper.gd" id="21_8lxaw"]
+[ext_resource type="Script" uid="uid://2b6l1sxmcd5r" path="res://scripts/components/knockback_component.gd" id="22_fwhgc"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_p4e6c"]
 radius = 2.0
@@ -51,6 +53,7 @@ size = Vector2(18, 10.5)
 [node name="Imp" type="CharacterBody2D" unique_id=251087214 groups=["creature"]]
 texture_filter = 1
 collision_layer = 2
+script = ExtResource("1_j3jt3")
 
 [node name="Sprites" type="Node2D" parent="." unique_id=228812393]
 
@@ -68,11 +71,12 @@ hframes = 3
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2021561705]
 shape = SubResource("CircleShape2D_p4e6c")
 
-[node name="MovementComponent" type="Node" parent="." unique_id=253635708]
+[node name="MovementComponent" type="Node" parent="." unique_id=253635708 node_paths=PackedStringArray("knockback")]
 script = ExtResource("3_p4e6c")
 max_speed = 30.0
 acceleration = 100.0
 friction = 200.0
+knockback = NodePath("../KnockbackComponent")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=1421348589]
 path_desired_distance = 8.0
@@ -198,5 +202,9 @@ script = ExtResource("21_8lxaw")
 facing = NodePath("../FacingComponent")
 sprite = NodePath("../../Sprites/Main")
 metadata/_custom_type_script = "uid://5k1r4xftmni4"
+
+[node name="KnockbackComponent" type="Node" parent="." unique_id=1202018533]
+script = ExtResource("22_fwhgc")
+metadata/_custom_type_script = "uid://2b6l1sxmcd5r"
 
 [connection signal="died" from="Health&Damage/HealthComponent" to="Health&Damage/ManualStateSwitcher" method="switch"]

@@ -1,4 +1,4 @@
-extends Node
+extends Component
 class_name NearbyObjectDetector
 
 @export var target_groups: Array[String]

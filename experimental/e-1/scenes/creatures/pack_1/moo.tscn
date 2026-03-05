@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://dj0qusmlduf58"]
 
+[ext_resource type="Script" uid="uid://8lowpdf5nvix" path="res://scripts/classes/Entity.gd" id="1_ciwcl"]
 [ext_resource type="Texture2D" uid="uid://cnupb8molkjhd" path="res://assets/textures/characters/cow.png" id="1_or62e"]
 [ext_resource type="Texture2D" uid="uid://brm8tbiplb1bk" path="res://assets/textures/misc/shadow.png" id="2_yqh5i"]
 [ext_resource type="Script" uid="uid://37f5rafomsw5" path="res://scripts/components/sprite_animator.gd" id="3_4kqr2"]
@@ -35,6 +36,7 @@ size = Vector2(13, 8)
 [node name="Moo" type="CharacterBody2D" unique_id=930105822 groups=["creature"]]
 texture_filter = 1
 collision_layer = 2
+script = ExtResource("1_ciwcl")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1236747465]
 shape = SubResource("CircleShape2D_yqh5i")

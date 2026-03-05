@@ -1,12 +1,13 @@
-extends Node
+extends Component
 class_name HandComponent
 
 @export var pickup_area: Area2D
 @export var picked_location: Node2D
-var item: CollisionObject2D
+@export var facing: FacingComponent
+var item: Entity
 var lerp_weight: float = 20.0
 
-func pick_up_item(body: CollisionObject2D) -> void:
+func pick_up_item(body: Entity) -> void:
 	item = body
 	
 func _process(delta: float) -> void:
@@ -14,6 +15,10 @@ func _process(delta: float) -> void:
 		if not item:
 			try_pick_up_item_in_area()
 		else:
+			var knockback: KnockbackComponent = item.get_component(KnockbackComponent)
+			if knockback and facing:
+				print("yes")
+				knockback.apply_knockback(facing.get_direction(), 250)
 			let_go_of_item()
 	
 func try_pick_up_item_in_area() -> void:
@@ -27,7 +32,6 @@ func try_pick_up_item_in_area() -> void:
 		if distance < min_dist:
 			relevant_object = body
 			min_dist = distance
-	print(relevant_object)
 	item = relevant_object
 	
 func let_go_of_item() -> void:
@@ -39,5 +43,4 @@ func _physics_process(delta: float) -> void:
 	if picked_location:
 		item.global_position = lerp(item.global_position, picked_location.global_position, delta * lerp_weight)
 	else:
-		print("shtieng")
 		item.global_position = lerp(item.global_position, pickup_area.global_position, delta * lerp_weight)

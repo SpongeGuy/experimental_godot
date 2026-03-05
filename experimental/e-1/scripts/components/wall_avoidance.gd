@@ -1,4 +1,4 @@
-extends Node
+extends Component
 class_name WallAvoidance
 
 @export var raycast_distance: float = 32.0

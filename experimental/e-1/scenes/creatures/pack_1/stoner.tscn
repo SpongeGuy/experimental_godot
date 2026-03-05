@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://ck5p5wxw3fvdy"]
 
 [ext_resource type="Texture2D" uid="uid://dl81aflnywo62" path="res://assets/textures/characters/stoner.png" id="1_c8s0l"]
+[ext_resource type="Script" uid="uid://8lowpdf5nvix" path="res://scripts/classes/Entity.gd" id="1_rlf7m"]
 [ext_resource type="Texture2D" uid="uid://brm8tbiplb1bk" path="res://assets/textures/misc/shadow.png" id="2_4nb28"]
 [ext_resource type="Script" uid="uid://snopn0q86518" path="res://scripts/classes/StateMachine.gd" id="3_1iw85"]
 [ext_resource type="Script" uid="uid://bcbqvrhxhj2ty" path="res://scripts/states/pathfind/pathfind_wander_prefer_walls.gd" id="4_yf3x2"]
@@ -18,6 +19,7 @@ size = Vector2(16, 16)
 texture_filter = 1
 collision_layer = 2051
 collision_mask = 2048
+script = ExtResource("1_rlf7m")
 
 [node name="Node2D" type="Node2D" parent="." unique_id=1345631679]
 

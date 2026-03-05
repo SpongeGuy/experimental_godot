@@ -1,4 +1,4 @@
-extends Node
+extends Component
 class_name SoundPlayer
 
 @export var possible_sounds: Array[AudioStream]

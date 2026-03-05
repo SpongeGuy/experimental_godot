@@ -1,4 +1,4 @@
-extends Node
+extends Component
 class_name CameraController
 
 @export var lerp_weight: float = 1.0

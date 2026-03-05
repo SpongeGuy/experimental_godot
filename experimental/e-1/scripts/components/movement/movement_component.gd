@@ -1,4 +1,4 @@
-extends Node
+extends Component
 class_name MovementComponent
 
 @export var max_speed: float = 100.0

@@ -1,4 +1,4 @@
-extends Node
+extends Component
 class_name PlayerComponent
 
 func _ready() -> void:

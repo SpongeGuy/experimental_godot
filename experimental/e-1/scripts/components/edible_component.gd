@@ -1,4 +1,4 @@
-extends Node
+extends Component
 class_name EdibleComponent
 
 @export var stages: int = 1

@@ -1,24 +1,24 @@
 [gd_scene format=3 uid="uid://w3jdtsh8hjup"]
 
 [ext_resource type="Texture2D" uid="uid://c8yyhvh2hb0rq" path="res://assets/textures/characters/orb.png" id="1_ggfgp"]
+[ext_resource type="Script" uid="uid://8lowpdf5nvix" path="res://scripts/classes/Entity.gd" id="1_rnl5i"]
 [ext_resource type="Texture2D" uid="uid://brm8tbiplb1bk" path="res://assets/textures/misc/shadow.png" id="2_rnl5i"]
 [ext_resource type="Script" uid="uid://cb8hx7axh7my1" path="res://scripts/components/edible_component.gd" id="3_4sxgt"]
 [ext_resource type="Script" uid="uid://bbxnvkldmnwjg" path="res://scripts/components/color_randomizer.gd" id="4_4o2kx"]
 [ext_resource type="Image" uid="uid://c6h67232jeb0l" path="res://assets/textures/misc/color_rainbow.png" id="5_u3cgc"]
-
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_xdlj8"]
+[ext_resource type="Script" uid="uid://2b6l1sxmcd5r" path="res://scripts/components/knockback_component.gd" id="7_4o2kx"]
+[ext_resource type="Script" uid="uid://c58w8kgm688wm" path="res://scripts/components/movement/movement_component.gd" id="8_u3cgc"]
+[ext_resource type="Script" uid="uid://snopn0q86518" path="res://scripts/classes/StateMachine.gd" id="9_u3cgc"]
+[ext_resource type="Script" uid="uid://dku8bbt6kwf0j" path="res://scripts/states/idle.gd" id="10_dvgxt"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_xdlj8"]
 radius = 3.0
 
-[node name="Orb" type="RigidBody2D" unique_id=1605312105 groups=["orb"]]
+[node name="Orb" type="CharacterBody2D" unique_id=1565465205 groups=["orb"]]
 texture_filter = 1
 collision_layer = 4
 collision_mask = 7
-physics_material_override = SubResource("PhysicsMaterial_xdlj8")
-gravity_scale = 0.0
-lock_rotation = true
-linear_damp = 1.0
+script = ExtResource("1_rnl5i")
 
 [node name="Sprites" type="Node2D" parent="." unique_id=133617331]
 
@@ -44,3 +44,25 @@ script = ExtResource("4_4o2kx")
 sprite = NodePath("../Sprites/Main")
 gradient = ExtResource("5_u3cgc")
 metadata/_custom_type_script = "uid://bbxnvkldmnwjg"
+
+[node name="KnockbackComponent" type="Node" parent="." unique_id=302859564]
+script = ExtResource("7_4o2kx")
+friction = 400.0
+bounce_factor = 0.9
+metadata/_custom_type_script = "uid://2b6l1sxmcd5r"
+
+[node name="MovementComponent" type="Node" parent="." unique_id=119777854 node_paths=PackedStringArray("knockback")]
+script = ExtResource("8_u3cgc")
+knockback = NodePath("../KnockbackComponent")
+metadata/_custom_type_script = "uid://c58w8kgm688wm"
+
+[node name="StateMachine" type="Node" parent="." unique_id=1783834577 node_paths=PackedStringArray("initial_state")]
+script = ExtResource("9_u3cgc")
+initial_state = NodePath("IdleState")
+metadata/_custom_type_script = "uid://snopn0q86518"
+
+[node name="IdleState" type="Node" parent="StateMachine" unique_id=96412431 node_paths=PackedStringArray("exit_state", "movement")]
+script = ExtResource("10_dvgxt")
+exit_state = NodePath(".")
+movement = NodePath("../../MovementComponent")
+metadata/_custom_type_script = "uid://dku8bbt6kwf0j"

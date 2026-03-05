@@ -1,4 +1,4 @@
-extends Node
+extends Component
 class_name EasyTimer
 
 @export var time_limit: float = 5

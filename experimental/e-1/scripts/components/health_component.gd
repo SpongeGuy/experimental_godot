@@ -1,4 +1,4 @@
-extends Node
+extends Component
 class_name HealthComponent
 
 @export var max_health: float
@@ -8,7 +8,7 @@ class_name HealthComponent
 signal taken_damage(amount: float, source: Node2D)
 signal died()
 
-@export var invincibility_length: float = 1.5
+@export var invincibility_length: float = 0.5
 var invincibility_timer: float = 0.0
 
 func _ready() -> void:

@@ -1,4 +1,4 @@
-extends Node
+extends Component
 class_name FriendComponent
 
 var friend_list: Array[Node2D]

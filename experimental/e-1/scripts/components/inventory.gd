@@ -1,4 +1,4 @@
-extends Node
+extends Component
 class_name Inventory
 
 @export var inventory_capacity: int = 10

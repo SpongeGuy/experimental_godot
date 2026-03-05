@@ -1,4 +1,4 @@
-extends Node
+extends Component
 class_name ManualStateSwitcher
 
 @export var state_machine: StateMachine

@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://mrmj82tmo1da"]
 
+[ext_resource type="Script" uid="uid://8lowpdf5nvix" path="res://scripts/classes/Entity.gd" id="1_0qfgp"]
 [ext_resource type="Texture2D" uid="uid://ubeeqio678nt" path="res://assets/textures/characters/plopp.png" id="1_l2xxe"]
 [ext_resource type="Texture2D" uid="uid://brm8tbiplb1bk" path="res://assets/textures/misc/shadow.png" id="2_no514"]
 [ext_resource type="Script" uid="uid://snopn0q86518" path="res://scripts/classes/StateMachine.gd" id="3_cu7hw"]
@@ -44,6 +45,7 @@ size = Vector2(12, 11)
 [node name="Plopp" type="CharacterBody2D" unique_id=1793542708 groups=["creature"]]
 texture_filter = 1
 collision_layer = 2
+script = ExtResource("1_0qfgp")
 
 [node name="Sprites" type="Node2D" parent="." unique_id=1020623469]
 

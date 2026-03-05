@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://dr8blnxruh0c4" path="res://scenes/plants/roots.tscn" id="8_kek77"]
 [ext_resource type="PackedScene" uid="uid://c7nmw0cuifuog" path="res://scenes/plants/pitcher.tscn" id="9_4c57u"]
 [ext_resource type="PackedScene" uid="uid://0y2ro34sn2r0" path="res://scenes/creatures/pack_1/focks.tscn" id="9_kek77"]
+[ext_resource type="PackedScene" uid="uid://w3jdtsh8hjup" path="res://scenes/creatures/pack_1/orb.tscn" id="10_4c57u"]
 
 [node name="Main" type="Node" unique_id=1100438637]
 
@@ -59,6 +60,9 @@ position = Vector2(-111, 30)
 
 [node name="Pitcher" parent="Container/World/Entities" unique_id=1198001237 instance=ExtResource("9_4c57u")]
 position = Vector2(-110, -18)
+
+[node name="Orb" parent="Container/World/Entities" unique_id=1565465205 instance=ExtResource("10_4c57u")]
+position = Vector2(-163, 11)
 
 [node name="Camera2D" type="Camera2D" parent="Container/World" unique_id=479320714]
 
