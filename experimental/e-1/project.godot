@@ -17,6 +17,7 @@ config/features=PackedStringArray("4.6", "Forward Plus")
 [autoload]
 
 AudioManager="*uid://uiuetvnukvsw"
+WorldGrid="*uid://bwg7qqpbsymol"
 
 [display]
 
@@ -24,6 +25,10 @@ window/size/viewport_width=640
 window/size/viewport_height=360
 window/size/mode=3
 window/stretch/mode="viewport"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/tile_bit_tools/plugin.cfg")
 
 [global_group]
 
@@ -76,3 +81,7 @@ primary_action={
 rendering_device/driver.windows="d3d12"
 2d/snap/snap_2d_transforms_to_pixel=true
 2d/snap/snap_2d_vertices_to_pixel=true
+2d/stretch/mode="viewport"
+2d/size/mode=3
+2d/size/viewport_height=360
+2d/size/viewport_width=640

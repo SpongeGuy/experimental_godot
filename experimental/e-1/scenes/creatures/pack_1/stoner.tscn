@@ -11,6 +11,7 @@
 [ext_resource type="Script" uid="uid://5k1r4xftmni4" path="res://scripts/components/sprite_flipper.gd" id="7_7y5a2"]
 [ext_resource type="AudioStream" uid="uid://6m50qyvgibmg" path="res://assets/sounds/effects/rocky/rock_slide.wav" id="7_jq2gp"]
 [ext_resource type="AudioStream" uid="uid://babwhyu4m0vnt" path="res://assets/sounds/effects/rocky/rock_slide3.wav" id="8_jq2gp"]
+[ext_resource type="Script" uid="uid://bt6jf1wavtm84" path="res://scripts/components/world_interface.gd" id="12_youk4"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_c8s0l"]
 size = Vector2(16, 16)
@@ -80,5 +81,9 @@ script = ExtResource("7_7y5a2")
 facing = NodePath("../FacingComponent")
 sprite = NodePath("../../Node2D/Main")
 metadata/_custom_type_script = "uid://5k1r4xftmni4"
+
+[node name="WorldInterface" type="Node" parent="." unique_id=1862371719]
+script = ExtResource("12_youk4")
+metadata/_custom_type_script = "uid://bt6jf1wavtm84"
 
 [connection signal="stepped" from="Behavior/StepMovementComponent" to="Behavior/StepMovementComponent/SoundPlayer" method="play_sound"]

@@ -23,6 +23,7 @@
 [ext_resource type="Script" uid="uid://bolv5v2qg2xl0" path="res://scripts/components/facing_component.gd" id="19_q2yoy"]
 [ext_resource type="Script" uid="uid://5k1r4xftmni4" path="res://scripts/components/sprite_flipper.gd" id="21_8lxaw"]
 [ext_resource type="Script" uid="uid://2b6l1sxmcd5r" path="res://scripts/components/knockback_component.gd" id="22_fwhgc"]
+[ext_resource type="Script" uid="uid://bt6jf1wavtm84" path="res://scripts/components/world_interface.gd" id="24_ecu0l"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_p4e6c"]
 radius = 2.0
@@ -76,7 +77,12 @@ script = ExtResource("3_p4e6c")
 max_speed = 30.0
 acceleration = 100.0
 friction = 200.0
+rotation_speed = null
 knockback = NodePath("../KnockbackComponent")
+
+[node name="WorldInterface" type="Node" parent="." unique_id=81085333]
+script = ExtResource("24_ecu0l")
+metadata/_custom_type_script = "uid://bt6jf1wavtm84"
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=1421348589]
 path_desired_distance = 8.0

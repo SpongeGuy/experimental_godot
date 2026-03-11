@@ -17,7 +17,6 @@ func _process(delta: float) -> void:
 		else:
 			var knockback: KnockbackComponent = item.get_component(KnockbackComponent)
 			if knockback and facing:
-				print("yes")
 				knockback.apply_knockback(facing.get_direction(), 250)
 			let_go_of_item()
 	

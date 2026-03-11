@@ -10,6 +10,7 @@
 [ext_resource type="Script" uid="uid://c58w8kgm688wm" path="res://scripts/components/movement/movement_component.gd" id="8_u3cgc"]
 [ext_resource type="Script" uid="uid://snopn0q86518" path="res://scripts/classes/StateMachine.gd" id="9_u3cgc"]
 [ext_resource type="Script" uid="uid://dku8bbt6kwf0j" path="res://scripts/states/idle.gd" id="10_dvgxt"]
+[ext_resource type="Script" uid="uid://bt6jf1wavtm84" path="res://scripts/components/world_interface.gd" id="11_ftcib"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_xdlj8"]
 radius = 3.0
@@ -53,6 +54,10 @@ metadata/_custom_type_script = "uid://2b6l1sxmcd5r"
 
 [node name="MovementComponent" type="Node" parent="." unique_id=119777854 node_paths=PackedStringArray("knockback")]
 script = ExtResource("8_u3cgc")
+max_speed = null
+acceleration = null
+friction = null
+rotation_speed = null
 knockback = NodePath("../KnockbackComponent")
 metadata/_custom_type_script = "uid://c58w8kgm688wm"
 
@@ -66,3 +71,7 @@ script = ExtResource("10_dvgxt")
 exit_state = NodePath(".")
 movement = NodePath("../../MovementComponent")
 metadata/_custom_type_script = "uid://dku8bbt6kwf0j"
+
+[node name="WorldInterface" type="Node" parent="." unique_id=502918674]
+script = ExtResource("11_ftcib")
+metadata/_custom_type_script = "uid://bt6jf1wavtm84"

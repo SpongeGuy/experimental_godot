@@ -21,6 +21,7 @@
 [ext_resource type="Script" uid="uid://d1ukjsox3nmlp" path="res://scripts/components/target_seeker.gd" id="16_sqgm1"]
 [ext_resource type="Script" uid="uid://briu06bbs73xu" path="res://scripts/abilities/pellet_shoot.gd" id="17_jsqnu"]
 [ext_resource type="Script" uid="uid://b06wram7ecjpl" path="res://scripts/components/friend_component.gd" id="20_up6ul"]
+[ext_resource type="Script" uid="uid://bt6jf1wavtm84" path="res://scripts/components/world_interface.gd" id="22_upc6s"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_u0utl"]
 radius = 3.1622777
@@ -184,5 +185,9 @@ metadata/_custom_type_script = "uid://d1ukjsox3nmlp"
 [node name="FriendComponent" type="Node" parent="." unique_id=1909766622]
 script = ExtResource("20_up6ul")
 metadata/_custom_type_script = "uid://b06wram7ecjpl"
+
+[node name="WorldInterface" type="Node" parent="." unique_id=230350679]
+script = ExtResource("22_upc6s")
+metadata/_custom_type_script = "uid://bt6jf1wavtm84"
 
 [connection signal="died" from="Health&Damage/HealthComponent" to="Health&Damage/DeathStateSwitcher" method="switch"]

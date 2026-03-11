@@ -10,6 +10,7 @@ signal died()
 
 @export var invincibility_length: float = 0.5
 var invincibility_timer: float = 0.0
+@export var god_mode: bool = false
 
 func _ready() -> void:
 	if hitbox:
@@ -23,6 +24,8 @@ func _process_invincibility(delta: float) -> void:
 		invincibility_timer -= delta
 
 func take_damage(amount: float, source: Node2D) -> void:
+	if god_mode:
+		return
 	if invincibility_timer > 0:
 		return
 	invincibility_timer = invincibility_length

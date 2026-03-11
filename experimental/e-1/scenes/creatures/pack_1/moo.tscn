@@ -19,6 +19,7 @@
 [ext_resource type="Script" uid="uid://bfeyy2elbrj4b" path="res://scripts/components/damage_animation_component.gd" id="16_l184a"]
 [ext_resource type="Script" uid="uid://bolv5v2qg2xl0" path="res://scripts/components/facing_component.gd" id="17_tlt7a"]
 [ext_resource type="Script" uid="uid://5k1r4xftmni4" path="res://scripts/components/sprite_flipper.gd" id="18_mjn4a"]
+[ext_resource type="Script" uid="uid://bt6jf1wavtm84" path="res://scripts/components/world_interface.gd" id="20_a6vpe"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_yqh5i"]
 radius = 4.1231055
@@ -56,6 +57,9 @@ hframes = 3
 [node name="MovementComponent" type="Node" parent="." unique_id=1379066]
 script = ExtResource("5_kcbif")
 max_speed = 10.0
+acceleration = null
+friction = null
+rotation_speed = null
 metadata/_custom_type_script = "uid://c58w8kgm688wm"
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=1820776135]
@@ -165,5 +169,9 @@ script = ExtResource("18_mjn4a")
 facing = NodePath("../FacingComponent")
 sprite = NodePath("../../Sprites/Main")
 metadata/_custom_type_script = "uid://5k1r4xftmni4"
+
+[node name="WorldInterface" type="Node" parent="." unique_id=142445336]
+script = ExtResource("20_a6vpe")
+metadata/_custom_type_script = "uid://bt6jf1wavtm84"
 
 [connection signal="died" from="Health&Damage/HealthComponent" to="Health&Damage/DeathStateSwitcher" method="switch"]
