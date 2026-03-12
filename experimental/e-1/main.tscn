@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://b5tywkohv6dpv"]
 
 [ext_resource type="Script" uid="uid://coxlcaeimpv4f" path="res://scripts/classes/GameManager.gd" id="1_1bvp3"]
-[ext_resource type="Script" uid="uid://bos4blw4siwtl" path="res://world.gd" id="2_lquwl"]
+[ext_resource type="Script" uid="uid://bqerics7tcibn" path="res://world.gd" id="2_lquwl"]
 [ext_resource type="Script" uid="uid://poanoxh62038" path="res://scripts/world/world_generator.gd" id="4_2cqfq"]
 [ext_resource type="Script" uid="uid://6psa004m1wae" path="res://scripts/world/WorldRenderer.gd" id="5_vivmo"]
 [ext_resource type="PackedScene" uid="uid://bowkaxk8cmcqp" path="res://scenes/plants/anthurium.tscn" id="6_7mycd"]
@@ -11,7 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://c7nmw0cuifuog" path="res://scenes/plants/pitcher.tscn" id="9_4c57u"]
 [ext_resource type="PackedScene" uid="uid://0y2ro34sn2r0" path="res://scenes/creatures/pack_1/focks.tscn" id="9_kek77"]
 [ext_resource type="PackedScene" uid="uid://dj0qusmlduf58" path="res://scenes/creatures/pack_1/moo.tscn" id="11_efxa6"]
-[ext_resource type="Script" uid="uid://dcm8faxx0vr5m" path="res://test.gd" id="12_dg77c"]
+[ext_resource type="Script" uid="uid://wncb5geli7ns" path="res://scripts/classes/FogSystem.gd" id="12_dg77c"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_2cqfq"]
 vertices = PackedVector2Array(8, 8, -8, 8, -8, -8, 8, -8)
@@ -39,74 +39,98 @@ sources/0 = SubResource("TileSetAtlasSource_074og")
 
 [node name="Main" type="Node" unique_id=1100438637]
 
-[node name="GameManager" type="Node" parent="." unique_id=194349531]
+[node name="GameManager" type="Node" parent="." unique_id=194349531 node_paths=PackedStringArray("camera_controller", "ysort", "world")]
 script = ExtResource("1_1bvp3")
+camera_controller = NodePath("../CameraController")
+ysort = NodePath("../SubViewportContainer/SubViewport/Container/World/YSort")
+world = NodePath("../SubViewportContainer/SubViewport/Container/World")
 metadata/_custom_type_script = "uid://coxlcaeimpv4f"
 
-[node name="CameraController" type="Node" parent="." unique_id=263415001 node_paths=PackedStringArray("camera", "game_manager")]
+[node name="CameraController" type="Node" parent="." unique_id=263415001 node_paths=PackedStringArray("camera")]
 script = ExtResource("8_5vw27")
 lerp_weight = 5.0
-camera = NodePath("../Container/World/Camera2D")
-game_manager = NodePath("../GameManager")
+camera = NodePath("../SubViewportContainer/SubViewport/Container/Camera")
 metadata/_custom_type_script = "uid://rrfxfwvhpqup"
 
-[node name="Container" type="Node2D" parent="." unique_id=705830189]
+[node name="UI" type="Control" parent="." unique_id=413246240]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
 
-[node name="World" type="Node2D" parent="Container" unique_id=1059852326 node_paths=PackedStringArray("world_generator")]
+[node name="SubViewportContainer" type="SubViewportContainer" parent="." unique_id=1847138665]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer" unique_id=1656653505]
+handle_input_locally = false
+snap_2d_transforms_to_pixel = true
+snap_2d_vertices_to_pixel = true
+size = Vector2i(640, 360)
+render_target_update_mode = 4
+
+[node name="Container" type="Node2D" parent="SubViewportContainer/SubViewport" unique_id=705830189]
+
+[node name="Camera" type="Camera2D" parent="SubViewportContainer/SubViewport/Container" unique_id=1635834848]
+zoom = Vector2(0.885, 0.885)
+
+[node name="World" type="Node2D" parent="SubViewportContainer/SubViewport/Container" unique_id=1686410028 node_paths=PackedStringArray("world_generator")]
 texture_filter = 1
 script = ExtResource("2_lquwl")
 world_generator = NodePath("WorldGenerator")
 
-[node name="WorldGenerator" type="Node" parent="Container/World" unique_id=1358058579]
+[node name="WorldGenerator" type="Node" parent="SubViewportContainer/SubViewport/Container/World" unique_id=2095261996]
 script = ExtResource("4_2cqfq")
 metadata/_custom_type_script = "uid://poanoxh62038"
 
-[node name="WorldRenderer" type="TileMapLayer" parent="Container/World" unique_id=960141205]
+[node name="WorldRenderer" type="TileMapLayer" parent="SubViewportContainer/SubViewport/Container/World" unique_id=1053051182]
 z_index = -10
 tile_set = SubResource("TileSet_cegan")
 script = ExtResource("5_vivmo")
 
-[node name="Entities" type="Node2D" parent="Container/World" unique_id=1147209951]
+[node name="YSort" type="Node2D" parent="SubViewportContainer/SubViewport/Container/World" unique_id=1973374712]
 y_sort_enabled = true
 
-[node name="CharacterBody2D" parent="Container/World/Entities" unique_id=163986961 instance=ExtResource("9_kek77")]
-position = Vector2(363, 301)
+[node name="CharacterBody2D" parent="SubViewportContainer/SubViewport/Container/World/YSort" unique_id=163986961 instance=ExtResource("9_kek77")]
+position = Vector2(554, 321)
 
-[node name="Anthurium" parent="Container/World/Entities" unique_id=128573000 instance=ExtResource("6_7mycd")]
-position = Vector2(562, 359)
+[node name="Anthurium" parent="SubViewportContainer/SubViewport/Container/World/YSort" unique_id=128573000 instance=ExtResource("6_7mycd")]
+position = Vector2(555, 373)
 
-[node name="Roots" parent="Container/World/Entities" unique_id=1327164479 instance=ExtResource("8_kek77")]
+[node name="Roots" parent="SubViewportContainer/SubViewport/Container/World/YSort" unique_id=1327164479 instance=ExtResource("8_kek77")]
 position = Vector2(512, 367)
 
-[node name="Roots2" parent="Container/World/Entities" unique_id=724704716 instance=ExtResource("8_kek77")]
+[node name="Roots2" parent="SubViewportContainer/SubViewport/Container/World/YSort" unique_id=8759402 instance=ExtResource("8_kek77")]
 position = Vector2(488, 396)
 
-[node name="Roots3" parent="Container/World/Entities" unique_id=1578349196 instance=ExtResource("8_kek77")]
+[node name="Roots3" parent="SubViewportContainer/SubViewport/Container/World/YSort" unique_id=1760908863 instance=ExtResource("8_kek77")]
 position = Vector2(490, 353)
 
-[node name="Roots4" parent="Container/World/Entities" unique_id=1173858618 instance=ExtResource("8_kek77")]
+[node name="Roots4" parent="SubViewportContainer/SubViewport/Container/World/YSort" unique_id=788783306 instance=ExtResource("8_kek77")]
 position = Vector2(451, 389)
 
-[node name="Pitcher" parent="Container/World/Entities" unique_id=1198001237 instance=ExtResource("9_4c57u")]
+[node name="Pitcher" parent="SubViewportContainer/SubViewport/Container/World/YSort" unique_id=1198001237 instance=ExtResource("9_4c57u")]
 position = Vector2(452, 341)
 
-[node name="Camera2D" type="Camera2D" parent="Container/World" unique_id=479320714]
-
-[node name="Moo" parent="Container/World" unique_id=930105822 instance=ExtResource("11_efxa6")]
+[node name="Moo" parent="SubViewportContainer/SubViewport/Container/World/YSort" unique_id=930105822 instance=ExtResource("11_efxa6")]
 position = Vector2(298, 297)
 
-[node name="Fog" type="Node2D" parent="Container/World" unique_id=74682308]
+[node name="FogSystem" type="Node2D" parent="SubViewportContainer/SubViewport/Container/World" unique_id=495571176 node_paths=PackedStringArray("fog_shape")]
 position = Vector2(366.99997, 299)
 scale = Vector2(3.74, 3.74)
-
-[node name="Polygon2D" type="Polygon2D" parent="Container/World/Fog" unique_id=1892797942]
-scale = Vector2(1.8881578, 2.219917)
-color = Color(0, 0, 0, 1)
-polygon = PackedVector2Array(1062.4113, 117.121506, 1047.0524, 548.6692, -896.6412, 553.1739, -886.5785, -636.0599, 1040.6969, -630.2038, 1052.8782, -56.75888, -6.355401, -13.063552, -13.770036, -6.3065424, -15.358887, 2.7028039, -7.9442515, 9.910281, 2.648084, 12.613085, 12.181186, 9.910281, 16.41812, 4.9551406, 18.00697, -1.3514019, 16.41812, -9.009346, 6.355401, -13.51402, -3.1777005, -25.22617, 1052.8782, -40.09159)
 script = ExtResource("12_dg77c")
+fog_shape = NodePath("Fog")
 
-[node name="Polygon2D" type="Polygon2D" parent="Container" unique_id=1861097948]
+[node name="Fog" type="Polygon2D" parent="SubViewportContainer/SubViewport/Container/World/FogSystem" unique_id=176632010]
+position = Vector2(-98.128334, -79.94651)
+scale = Vector2(0.26737967, 0.26737967)
+color = Color(0, 0, 0, 1)
+
+[node name="CanvasModulate" type="CanvasModulate" parent="SubViewportContainer/SubViewport/Container/World/FogSystem" unique_id=1170917605]
+color = Color(0.91065234, 0.7770198, 0.98135644, 1)
+
+[node name="BG" type="Polygon2D" parent="SubViewportContainer/SubViewport/Container/World" unique_id=1642243134]
 z_index = -50
-position = Vector2(0, -1)
+position = Vector2(-1, 8)
 color = Color(0.10811547, 0.13709787, 2.4065375e-08, 1)
 polygon = PackedVector2Array(1216, -656, -2032, -704, -2144, 1552, 1696, 1552)

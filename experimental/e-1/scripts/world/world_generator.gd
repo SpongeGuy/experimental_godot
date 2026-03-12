@@ -23,6 +23,7 @@ var _rooms: Array[Rect2i] = []
 # -------------------------------------------------------
 
 func generate(seed: int = -1) -> void:
+	print("generating")
 	if seed >= 0:
 		_rng.seed = seed
 	else:
@@ -36,6 +37,7 @@ func generate(seed: int = -1) -> void:
 	_scatter_gaps()
 	_scatter_ground_effects()
 	_enforce_border()
+	print("generatinger")
 
 
 # -------------------------------------------------------

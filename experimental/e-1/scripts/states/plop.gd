@@ -17,7 +17,7 @@ func update(delta: float) -> void:
 	if plop_timer >= time_to_plop:
 		var orbo = orb_scene.instantiate()
 		orbo.global_position = owner.global_position
-		GameManager.entity_container.add_child(orbo)
+		GameManager.add_entity(orbo)
 		plop_timer = 0.0
 		state_machine.switch(exit_state)
 	
