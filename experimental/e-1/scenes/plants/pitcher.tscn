@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://c7nmw0cuifuog"]
 
 [ext_resource type="Texture2D" uid="uid://dr50g3jt6pejk" path="res://assets/textures/characters/plants/pitcher.png" id="1_c8tw8"]
+[ext_resource type="Script" uid="uid://8lowpdf5nvix" path="res://scripts/classes/Entity.gd" id="1_nvcfo"]
 [ext_resource type="Script" uid="uid://ch41hyioton1y" path="res://scripts/components/inventory.gd" id="2_0rwgb"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_c8tw8"]
@@ -8,6 +9,7 @@ size = Vector2(13, 15)
 
 [node name="Pitcher" type="CharacterBody2D" unique_id=1198001237]
 texture_filter = 1
+script = ExtResource("1_nvcfo")
 
 [node name="Node2D" type="Node2D" parent="." unique_id=380780976]
 

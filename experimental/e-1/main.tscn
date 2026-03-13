@@ -1,17 +1,26 @@
 [gd_scene format=3 uid="uid://b5tywkohv6dpv"]
 
-[ext_resource type="Script" uid="uid://coxlcaeimpv4f" path="res://scripts/classes/GameManager.gd" id="1_1bvp3"]
-[ext_resource type="Script" uid="uid://bqerics7tcibn" path="res://world.gd" id="2_lquwl"]
+[ext_resource type="Script" uid="uid://d4myfbotj4m52" path="res://scripts/system/GameMaster.gd" id="1_dg77c"]
+[ext_resource type="Script" uid="uid://d0mjiladgx0ad" path="res://scripts/system/EntityManager.gd" id="2_ycdy4"]
 [ext_resource type="Script" uid="uid://poanoxh62038" path="res://scripts/world/world_generator.gd" id="4_2cqfq"]
 [ext_resource type="Script" uid="uid://6psa004m1wae" path="res://scripts/world/WorldRenderer.gd" id="5_vivmo"]
-[ext_resource type="PackedScene" uid="uid://bowkaxk8cmcqp" path="res://scenes/plants/anthurium.tscn" id="6_7mycd"]
+[ext_resource type="Script" uid="uid://3iwkt7r7c01a" path="res://scripts/system/TimeManager.gd" id="5_w48qg"]
+[ext_resource type="Script" uid="uid://cbpb5b38r6tt5" path="res://scripts/system/PlayerManager.gd" id="6_dg77c"]
+[ext_resource type="Script" uid="uid://1y8kbi3tt1my" path="res://scripts/system/AnthuriumManager.gd" id="7_ycdy4"]
 [ext_resource type="Script" uid="uid://rrfxfwvhpqup" path="res://scripts/components/camera_controller.gd" id="8_5vw27"]
-[ext_resource type="PackedScene" uid="uid://dr8blnxruh0c4" path="res://scenes/plants/roots.tscn" id="8_kek77"]
+[ext_resource type="Script" uid="uid://wncb5geli7ns" path="res://scripts/components/weather_component.gd" id="8_efxa6"]
 [ext_resource type="Texture2D" uid="uid://vnlak8k7iq" path="res://assets/tilesets/etc.png" id="8_vivmo"]
-[ext_resource type="PackedScene" uid="uid://c7nmw0cuifuog" path="res://scenes/plants/pitcher.tscn" id="9_4c57u"]
-[ext_resource type="PackedScene" uid="uid://0y2ro34sn2r0" path="res://scenes/creatures/pack_1/focks.tscn" id="9_kek77"]
-[ext_resource type="PackedScene" uid="uid://dj0qusmlduf58" path="res://scenes/creatures/pack_1/moo.tscn" id="11_efxa6"]
-[ext_resource type="Script" uid="uid://wncb5geli7ns" path="res://scripts/classes/FogSystem.gd" id="12_dg77c"]
+[ext_resource type="Script" uid="uid://pmgi17orx2e7" path="res://scripts/system/UIController.gd" id="8_ycdy4"]
+[ext_resource type="Script" uid="uid://dx24eimwg1ofe" path="res://scripts/ui/screen.gd" id="9_2cqfq"]
+[ext_resource type="Theme" uid="uid://bvh1budw06kq6" path="res://assets/themes/numeric.tres" id="10_4c57u"]
+[ext_resource type="Script" uid="uid://chtx3mqkcv3lo" path="res://scripts/ui/hud.gd" id="10_w48qg"]
+[ext_resource type="Theme" uid="uid://c7dgvxhg4nhv7" path="res://assets/themes/fancy_text.tres" id="11_dg77c"]
+[ext_resource type="Script" uid="uid://l78eoao4t7lh" path="res://scripts/ui/gameview.gd" id="12_vivmo"]
+[ext_resource type="Texture2D" uid="uid://dvt6eg4pxqerm" path="res://assets/textures/ui/frame.png" id="13_074og"]
+[ext_resource type="Texture2D" uid="uid://dhhrdcwc6bmrp" path="res://assets/textures/ui/gold_6.png" id="13_yaehf"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2cqfq"]
+bg_color = Color(0.15466991, 0.2867, 1, 1)
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_2cqfq"]
 vertices = PackedVector2Array(8, 8, -8, 8, -8, -8, 8, -8)
@@ -37,99 +46,386 @@ physics_layer_0/collision_layer = 1
 navigation_layer_0/layers = 1
 sources/0 = SubResource("TileSetAtlasSource_074og")
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_2cqfq"]
+radius = 137.65
+
 [node name="Main" type="Node" unique_id=1100438637]
 
-[node name="GameManager" type="Node" parent="." unique_id=194349531 node_paths=PackedStringArray("camera_controller", "ysort", "world")]
-script = ExtResource("1_1bvp3")
-camera_controller = NodePath("../CameraController")
-ysort = NodePath("../SubViewportContainer/SubViewport/Container/World/YSort")
-world = NodePath("../SubViewportContainer/SubViewport/Container/World")
-metadata/_custom_type_script = "uid://coxlcaeimpv4f"
+[node name="GameMaster" type="Node" parent="." unique_id=1238098609 node_paths=PackedStringArray("time", "camera", "weather", "anthurium", "dungeon_generator", "player")]
+script = ExtResource("1_dg77c")
+time = NodePath("TimeManager")
+camera = NodePath("CameraController")
+weather = NodePath("../Game/SubViewportContainer/SubViewport/Container/World/Weather")
+anthurium = NodePath("AnthuriumManager")
+dungeon_generator = NodePath("DungeonGenerator")
+player = NodePath("PlayerManager")
 
-[node name="CameraController" type="Node" parent="." unique_id=263415001 node_paths=PackedStringArray("camera")]
+[node name="EntityManager" type="Node" parent="GameMaster" unique_id=442705041 node_paths=PackedStringArray("ysort")]
+script = ExtResource("2_ycdy4")
+ysort = NodePath("../../Game/SubViewportContainer/SubViewport/Container/World/YSort")
+
+[node name="PlayerManager" type="Node" parent="GameMaster" unique_id=925995434]
+script = ExtResource("6_dg77c")
+metadata/_custom_type_script = "uid://cbpb5b38r6tt5"
+
+[node name="AnthuriumManager" type="Node" parent="GameMaster" unique_id=239729518]
+script = ExtResource("7_ycdy4")
+metadata/_custom_type_script = "uid://1y8kbi3tt1my"
+
+[node name="DungeonGenerator" type="Node" parent="GameMaster" unique_id=2095261996]
+script = ExtResource("4_2cqfq")
+metadata/_custom_type_script = "uid://poanoxh62038"
+
+[node name="CameraController" type="Node" parent="GameMaster" unique_id=263415001 node_paths=PackedStringArray("camera")]
 script = ExtResource("8_5vw27")
-lerp_weight = 5.0
-camera = NodePath("../SubViewportContainer/SubViewport/Container/Camera")
+lerp_weight = 15.0
+camera = NodePath("../../Game/SubViewportContainer/SubViewport/Container/Camera")
 metadata/_custom_type_script = "uid://rrfxfwvhpqup"
 
-[node name="UI" type="Control" parent="." unique_id=413246240]
+[node name="TimeManager" type="Node" parent="GameMaster" unique_id=2015397225]
+script = ExtResource("5_w48qg")
+metadata/_custom_type_script = "uid://3iwkt7r7c01a"
+
+[node name="UIController" type="Node" parent="GameMaster" unique_id=2010873109 node_paths=PackedStringArray("hud", "gameview", "screen")]
+script = ExtResource("8_ycdy4")
+hud = NodePath("../../UI/HUD")
+gameview = NodePath("../../UI/GameView")
+screen = NodePath("../../UI/Screen")
+metadata/_custom_type_script = "uid://pmgi17orx2e7"
+
+[node name="UI" type="CanvasLayer" parent="." unique_id=2071487813]
+
+[node name="Screen" type="Control" parent="UI" unique_id=1842639896 node_paths=PackedStringArray("bg_color", "central_message")]
 layout_mode = 3
 anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_right = 640.0
+offset_bottom = 360.0
+theme = ExtResource("11_dg77c")
+script = ExtResource("9_2cqfq")
+bg_color = NodePath("ColorRect")
+central_message = NodePath("CentralMessage/CenterContainer/CentralMessageLabel")
 
-[node name="SubViewportContainer" type="SubViewportContainer" parent="." unique_id=1847138665]
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="ColorRect" type="ColorRect" parent="UI/Screen" unique_id=1710528944]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
 
-[node name="SubViewport" type="SubViewport" parent="SubViewportContainer" unique_id=1656653505]
+[node name="CentralMessage" type="Control" parent="UI/Screen" unique_id=1383360233]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -258.5
+offset_top = -50.0
+offset_right = 258.5
+offset_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="UI/Screen/CentralMessage" unique_id=135386213]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CentralMessageLabel" type="Label" parent="UI/Screen/CentralMessage/CenterContainer" unique_id=158172749]
+layout_mode = 2
+text = "Loading..."
+
+[node name="HUD" type="Control" parent="UI" unique_id=413246240 node_paths=PackedStringArray("bg_color")]
+texture_filter = 1
+layout_mode = 3
+anchors_preset = 0
+offset_top = 332.0
+offset_right = 640.0
+offset_bottom = 360.0
+theme = ExtResource("10_4c57u")
+script = ExtResource("10_w48qg")
+bg_color = NodePath("ColorRect")
+
+[node name="ColorRect" type="ColorRect" parent="UI/HUD" unique_id=719430226]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Padding" type="Control" parent="UI/HUD" unique_id=208831717]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = -2.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Columns" type="HBoxContainer" parent="UI/HUD/Padding" unique_id=817793490]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("10_4c57u")
+alignment = 1
+
+[node name="C1" type="VBoxContainer" parent="UI/HUD/Padding/Columns" unique_id=1121479110]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/HUD/Padding/Columns/C1" unique_id=259947853]
+layout_mode = 2
+
+[node name="Items" type="HBoxContainer" parent="UI/HUD/Padding/Columns/C1/HBoxContainer" unique_id=877443581]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="UI/HUD/Padding/Columns/C1/HBoxContainer/Items" unique_id=1529589370]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 3
+
+[node name="Sprite2D" type="Sprite2D" parent="UI/HUD/Padding/Columns/C1/HBoxContainer/Items/Control" unique_id=1889419448]
+texture = ExtResource("13_074og")
+offset = Vector2(12, 12)
+
+[node name="Control2" type="Control" parent="UI/HUD/Padding/Columns/C1/HBoxContainer/Items" unique_id=548725752]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 3
+
+[node name="Sprite2D" type="Sprite2D" parent="UI/HUD/Padding/Columns/C1/HBoxContainer/Items/Control2" unique_id=1723687497]
+texture = ExtResource("13_074og")
+offset = Vector2(12, 12)
+
+[node name="Control3" type="Control" parent="UI/HUD/Padding/Columns/C1/HBoxContainer/Items" unique_id=1825685272]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 3
+
+[node name="Sprite2D" type="Sprite2D" parent="UI/HUD/Padding/Columns/C1/HBoxContainer/Items/Control3" unique_id=471316656]
+texture = ExtResource("13_074og")
+offset = Vector2(12, 12)
+
+[node name="Map" type="Control" parent="UI/HUD/Padding/Columns/C1/HBoxContainer" unique_id=783202735]
+layout_mode = 2
+
+[node name="C2" type="VBoxContainer" parent="UI/HUD/Padding/Columns" unique_id=860383604]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Control" type="Control" parent="UI/HUD/Padding/Columns/C2" unique_id=87178586]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.3
+
+[node name="Health" type="ProgressBar" parent="UI/HUD/Padding/Columns/C2/Control" unique_id=1155347985]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -59.0
+offset_right = 59.0
+offset_bottom = 8.0
+grow_horizontal = 2
+value = 100.0
+
+[node name="Control3" type="Control" parent="UI/HUD/Padding/Columns/C2" unique_id=1458352024]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.3
+
+[node name="Health" type="ProgressBar" parent="UI/HUD/Padding/Columns/C2/Control3" unique_id=1888681336]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -59.0
+offset_right = 59.0
+offset_bottom = 8.0
+grow_horizontal = 2
+theme_override_styles/fill = SubResource("StyleBoxFlat_2cqfq")
+value = 100.0
+
+[node name="C3" type="VBoxContainer" parent="UI/HUD/Padding/Columns" unique_id=66794022]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/HUD/Padding/Columns/C3" unique_id=1342209196]
+layout_mode = 2
+theme_override_constants/separation = 0
+alignment = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="UI/HUD/Padding/Columns/C3/HBoxContainer" unique_id=30862987]
+layout_mode = 2
+size_flags_horizontal = 6
+
+[node name="Time" type="Label" parent="UI/HUD/Padding/Columns/C3/HBoxContainer/HBoxContainer2" unique_id=1557392806]
+layout_mode = 2
+text = "3:56"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/HUD/Padding/Columns/C3/HBoxContainer" unique_id=441245760]
+layout_mode = 2
+size_flags_horizontal = 10
+theme_override_constants/separation = 0
+
+[node name="Control" type="Control" parent="UI/HUD/Padding/Columns/C3/HBoxContainer/HBoxContainer" unique_id=358709763]
+custom_minimum_size = Vector2(8, 6)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Sprite2D" type="Sprite2D" parent="UI/HUD/Padding/Columns/C3/HBoxContainer/HBoxContainer/Control" unique_id=2035921378]
+texture = ExtResource("13_yaehf")
+offset = Vector2(4, 4)
+
+[node name="InactivePoints" type="Label" parent="UI/HUD/Padding/Columns/C3/HBoxContainer/HBoxContainer" unique_id=1484341030]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5211406, 0.5211406, 0.5211405, 1)
+text = "0000"
+horizontal_alignment = 2
+
+[node name="ActivePoints" type="Label" parent="UI/HUD/Padding/Columns/C3/HBoxContainer/HBoxContainer" unique_id=1851661018]
+layout_mode = 2
+text = "1423"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="UI/HUD/Padding/Columns/C3" unique_id=1538443104]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/HUD/Padding/Columns/C3/HBoxContainer2" unique_id=1463187155]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Message" type="Label" parent="UI/HUD/Padding/Columns/C3/HBoxContainer2/HBoxContainer" unique_id=3590542]
+layout_mode = 2
+text = "Hurry up!"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="UI/HUD/Padding/Columns/C3/HBoxContainer2" unique_id=633401789]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label2" type="Label" parent="UI/HUD/Padding/Columns/C3" unique_id=167292905]
+layout_mode = 2
+text = "this is a long status shit"
+horizontal_alignment = 2
+text_overrun_behavior = 5
+
+[node name="GameView" type="Control" parent="UI" unique_id=522767552 node_paths=PackedStringArray("bg_color")]
+texture_filter = 1
+layout_mode = 3
+anchors_preset = 0
+offset_right = 640.0
+offset_bottom = 332.0
+theme = ExtResource("11_dg77c")
+script = ExtResource("12_vivmo")
+bg_color = NodePath("ColorRect")
+
+[node name="ColorRect" type="ColorRect" parent="UI/GameView" unique_id=261805601]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0)
+
+[node name="MessageBox" type="Control" parent="UI/GameView" unique_id=1418631420]
+clip_contents = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -88.5
+offset_top = -28.5
+offset_right = 88.5
+offset_bottom = 28.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BoxContainer" type="CenterContainer" parent="UI/GameView/MessageBox" unique_id=1415208067]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -5.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="UI/GameView/MessageBox/BoxContainer" unique_id=1778206509]
+layout_mode = 2
+horizontal_alignment = 1
+
+[node name="Game" type="CanvasLayer" parent="." unique_id=16701813]
+layer = 0
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="Game" unique_id=1847138665]
+offset_right = 640.0
+offset_bottom = 360.0
+
+[node name="SubViewport" type="SubViewport" parent="Game/SubViewportContainer" unique_id=1656653505]
 handle_input_locally = false
 snap_2d_transforms_to_pixel = true
 snap_2d_vertices_to_pixel = true
 size = Vector2i(640, 360)
 render_target_update_mode = 4
 
-[node name="Container" type="Node2D" parent="SubViewportContainer/SubViewport" unique_id=705830189]
+[node name="Container" type="Node2D" parent="Game/SubViewportContainer/SubViewport" unique_id=705830189]
 
-[node name="Camera" type="Camera2D" parent="SubViewportContainer/SubViewport/Container" unique_id=1635834848]
-zoom = Vector2(0.885, 0.885)
+[node name="Camera" type="Camera2D" parent="Game/SubViewportContainer/SubViewport/Container" unique_id=1635834848]
 
-[node name="World" type="Node2D" parent="SubViewportContainer/SubViewport/Container" unique_id=1686410028 node_paths=PackedStringArray("world_generator")]
+[node name="World" type="Node2D" parent="Game/SubViewportContainer/SubViewport/Container" unique_id=1686410028]
 texture_filter = 1
-script = ExtResource("2_lquwl")
-world_generator = NodePath("WorldGenerator")
 
-[node name="WorldGenerator" type="Node" parent="SubViewportContainer/SubViewport/Container/World" unique_id=2095261996]
-script = ExtResource("4_2cqfq")
-metadata/_custom_type_script = "uid://poanoxh62038"
-
-[node name="WorldRenderer" type="TileMapLayer" parent="SubViewportContainer/SubViewport/Container/World" unique_id=1053051182]
+[node name="WorldRenderer" type="TileMapLayer" parent="Game/SubViewportContainer/SubViewport/Container/World" unique_id=1053051182]
 z_index = -10
 tile_set = SubResource("TileSet_cegan")
 script = ExtResource("5_vivmo")
 
-[node name="YSort" type="Node2D" parent="SubViewportContainer/SubViewport/Container/World" unique_id=1973374712]
-y_sort_enabled = true
-
-[node name="CharacterBody2D" parent="SubViewportContainer/SubViewport/Container/World/YSort" unique_id=163986961 instance=ExtResource("9_kek77")]
-position = Vector2(554, 321)
-
-[node name="Anthurium" parent="SubViewportContainer/SubViewport/Container/World/YSort" unique_id=128573000 instance=ExtResource("6_7mycd")]
-position = Vector2(555, 373)
-
-[node name="Roots" parent="SubViewportContainer/SubViewport/Container/World/YSort" unique_id=1327164479 instance=ExtResource("8_kek77")]
-position = Vector2(512, 367)
-
-[node name="Roots2" parent="SubViewportContainer/SubViewport/Container/World/YSort" unique_id=8759402 instance=ExtResource("8_kek77")]
-position = Vector2(488, 396)
-
-[node name="Roots3" parent="SubViewportContainer/SubViewport/Container/World/YSort" unique_id=1760908863 instance=ExtResource("8_kek77")]
-position = Vector2(490, 353)
-
-[node name="Roots4" parent="SubViewportContainer/SubViewport/Container/World/YSort" unique_id=788783306 instance=ExtResource("8_kek77")]
-position = Vector2(451, 389)
-
-[node name="Pitcher" parent="SubViewportContainer/SubViewport/Container/World/YSort" unique_id=1198001237 instance=ExtResource("9_4c57u")]
-position = Vector2(452, 341)
-
-[node name="Moo" parent="SubViewportContainer/SubViewport/Container/World/YSort" unique_id=930105822 instance=ExtResource("11_efxa6")]
-position = Vector2(298, 297)
-
-[node name="FogSystem" type="Node2D" parent="SubViewportContainer/SubViewport/Container/World" unique_id=495571176 node_paths=PackedStringArray("fog_shape")]
-position = Vector2(366.99997, 299)
+[node name="Weather" type="Node2D" parent="Game/SubViewportContainer/SubViewport/Container/World" unique_id=2046040877 node_paths=PackedStringArray("fog_shape", "fog_area", "fog_collision_shape", "weather_tint")]
+z_index = 5
 scale = Vector2(3.74, 3.74)
-script = ExtResource("12_dg77c")
-fog_shape = NodePath("Fog")
+script = ExtResource("8_efxa6")
+fog_shape = NodePath("Shape")
+fog_area = NodePath("Area2D")
+fog_collision_shape = NodePath("Area2D/CollisionShape2D")
+weather_tint = NodePath("CanvasModulate")
 
-[node name="Fog" type="Polygon2D" parent="SubViewportContainer/SubViewport/Container/World/FogSystem" unique_id=176632010]
+[node name="Shape" type="Polygon2D" parent="Game/SubViewportContainer/SubViewport/Container/World/Weather" unique_id=592484166]
 position = Vector2(-98.128334, -79.94651)
 scale = Vector2(0.26737967, 0.26737967)
 color = Color(0, 0, 0, 1)
 
-[node name="CanvasModulate" type="CanvasModulate" parent="SubViewportContainer/SubViewport/Container/World/FogSystem" unique_id=1170917605]
-color = Color(0.91065234, 0.7770198, 0.98135644, 1)
+[node name="CanvasModulate" type="CanvasModulate" parent="Game/SubViewportContainer/SubViewport/Container/World/Weather" unique_id=2093662627]
 
-[node name="BG" type="Polygon2D" parent="SubViewportContainer/SubViewport/Container/World" unique_id=1642243134]
+[node name="Area2D" type="Area2D" parent="Game/SubViewportContainer/SubViewport/Container/World/Weather" unique_id=730706232]
+collision_layer = 16
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game/SubViewportContainer/SubViewport/Container/World/Weather/Area2D" unique_id=2039538879]
+shape = SubResource("CircleShape2D_2cqfq")
+
+[node name="YSort" type="Node2D" parent="Game/SubViewportContainer/SubViewport/Container/World" unique_id=1973374712]
+y_sort_enabled = true
+
+[node name="BG" type="Polygon2D" parent="Game/SubViewportContainer/SubViewport/Container/World" unique_id=1642243134]
 z_index = -50
 position = Vector2(-1, 8)
 color = Color(0.10811547, 0.13709787, 2.4065375e-08, 1)

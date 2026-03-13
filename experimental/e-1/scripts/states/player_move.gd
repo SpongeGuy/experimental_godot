@@ -1,11 +1,11 @@
-extends State
+extends BehaviorState
 class_name PlayerMoveState
 ## states should only include logic which alters data.
 ## all other functions should be outsourced to other components, such as visual effects or sounds.
 
 @export var movement: MovementComponent
 @export var facing: FacingComponent
-@export var idle_state: State
+@export var idle_state: BehaviorState
 @export var animator: SpriteAnimator
 
 var desired_direction: Vector2 = Vector2.ZERO

@@ -3,8 +3,11 @@ class_name Entity
 
 var _components: Dictionary[Script, Component] = {}
 
+signal entity_initialized
+
 func _ready() -> void:
 	_register_components(self)
+	entity_initialized.emit()
 	
 func _register_components(node: Node) -> void:
 	for child in node.get_children():
@@ -22,3 +25,4 @@ func get_component(type: Script) -> Variant:
 	
 func has_component(type: Script) -> bool:
 	return _components.has(type)
+

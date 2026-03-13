@@ -4,6 +4,9 @@ class_name CellData
 enum TerrainType { GROUND, WALL, GAP }
 @export var  terrain: TerrainType = TerrainType.GROUND
 
+
+# ---------------- to be implemented later -----------------------------
+
 @export var movement_multiplier: float = 1.0
 @export var friction: float = 1.0
 @export var conveyor_velocity: Vector2 = Vector2.ZERO

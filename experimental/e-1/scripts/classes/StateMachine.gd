@@ -1,13 +1,13 @@
 extends Node
 class_name StateMachine
 
-signal state_switched(old_state: State, new_state: State)
+signal state_switched(old_state: BehaviorState, new_state: BehaviorState)
 
-var current_state: State
+var current_state: BehaviorState
 
 var data: Dictionary = {}
 
-@export var initial_state: State
+@export var initial_state: BehaviorState
 
 func _ready() -> void:
 	switch(initial_state)
@@ -20,7 +20,7 @@ func _physics_process(delta: float) -> void:
 	if current_state:
 		current_state.physics_update(delta)
 
-func switch(new_state: State) -> void:
+func switch(new_state: BehaviorState) -> void:
 	# if new state is on cooldown, then don't switch to it
 	
 	if new_state.cooldown_time > 0:

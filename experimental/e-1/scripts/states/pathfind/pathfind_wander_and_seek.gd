@@ -1,4 +1,4 @@
-extends State
+extends BehaviorState
 class_name PathfindWanderAndSeekState
 
 @export var movement: MovementComponent
@@ -11,8 +11,8 @@ class_name PathfindWanderAndSeekState
 @export var facing: FacingComponent
 
 @export_group("States")
-@export var aggro_state: State
-@export var idle_state: State
+@export var aggro_state: BehaviorState
+@export var idle_state: BehaviorState
 @export_group("Variables")
 
 @export var timer_length: float = 5.0

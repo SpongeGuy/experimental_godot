@@ -1,11 +1,11 @@
-extends State
+extends BehaviorState
 class_name EatingObjectState
 
 @export var target_seeker: TargetSeeker
 @export var timer_length: float = 2.0
 var eat_time: float = 0.0
 @export var eat_radius: float = 25.0
-@export var exit_state: State
+@export var exit_state: BehaviorState
 @export var eating_power: int = 1
 
 var eat_target: Node2D

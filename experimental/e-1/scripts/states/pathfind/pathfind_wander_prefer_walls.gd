@@ -1,4 +1,4 @@
-extends State
+extends BehaviorState
 class_name PathfindWanderPreferWallsState
 
 @export var movement: MovementComponent
@@ -8,7 +8,7 @@ class_name PathfindWanderPreferWallsState
 @export var facing: FacingComponent
 
 @export_group("States")
-@export var idle_state: State
+@export var idle_state: BehaviorState
 @export_group("Variables")
 
 @export var timer_length: float = 5.0

@@ -1,4 +1,4 @@
-extends State
+extends BehaviorState
 class_name DeathState
 
 ## called once when the state machine does its initial switch to this state

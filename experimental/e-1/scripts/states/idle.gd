@@ -1,7 +1,7 @@
-extends State
+extends BehaviorState
 class_name IdleState
 
-@export var exit_state: State
+@export var exit_state: BehaviorState
 @export var movement: MovementComponent
 @export_group("Optional")
 @export var animator: SpriteAnimator

@@ -1,4 +1,4 @@
-extends State
+extends BehaviorState
 class_name SimpleMovementUpdateState
 ## states should only include logic which alters data.
 ## all other functions should be outsourced to other components, such as visual effects or sounds.

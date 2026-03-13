@@ -18,6 +18,8 @@ config/features=PackedStringArray("4.6", "Forward Plus")
 
 AudioManager="*uid://uiuetvnukvsw"
 WorldGrid="*uid://bwg7qqpbsymol"
+EventBus="*uid://b8owa3ug0hg2r"
+GameState="*uid://0vmrob7f8ql5"
 
 [display]
 
@@ -69,6 +71,7 @@ primary_action={
 2d_physics/layer_2="creatures"
 2d_physics/layer_3="items"
 2d_physics/layer_4="projectiles"
+2d_physics/layer_5="fog"
 2d_physics/layer_7="hitbox"
 2d_physics/layer_8="hurtbox"
 

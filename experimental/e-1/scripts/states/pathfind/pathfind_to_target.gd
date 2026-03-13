@@ -1,4 +1,4 @@
-extends State
+extends BehaviorState
 class_name PathfindToTargetState
 
 @export var movement: MovementComponent
@@ -11,8 +11,8 @@ class_name PathfindToTargetState
 @export var facing: FacingComponent
 
 @export_group("States")
-@export var target_reached_state: State
-@export var exit_state: State
+@export var target_reached_state: BehaviorState
+@export var exit_state: BehaviorState
 
 @export_group("Variables")
 

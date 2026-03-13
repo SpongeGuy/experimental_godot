@@ -1,7 +1,7 @@
-extends State
+extends BehaviorState
 class_name StandStillAndUseAbilityState
 
-@export var exit_state: State
+@export var exit_state: BehaviorState
 @export var ability: Ability
 @export var target_seeker: TargetSeeker
 @export_group("Optional")

@@ -1,5 +1,5 @@
 extends Node
-class_name State
+class_name BehaviorState
 
 var state_machine: StateMachine
 

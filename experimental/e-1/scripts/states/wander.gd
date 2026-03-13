@@ -1,10 +1,10 @@
-extends State
+extends BehaviorState
 class_name WanderState
 
 @export var movement: MovementComponent
 @export var wall_avoidance: WallAvoidance
 @export var target_seeker: TargetSeeker
-@export var chase_state: State
+@export var chase_state: BehaviorState
 
 var wander_timer: float = 0.0
 var wander_direction: Vector2 = Vector2.ZERO

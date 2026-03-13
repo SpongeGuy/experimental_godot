@@ -1,9 +1,9 @@
-extends State
+extends BehaviorState
 class_name PlopState
 
 @export var orb_scene: PackedScene
 @export var animator: SpriteAnimator
-@export var exit_state: State
+@export var exit_state: BehaviorState
 
 @export var time_to_plop: float = 3.0
 var plop_timer: float = 0.0
@@ -17,7 +17,7 @@ func update(delta: float) -> void:
 	if plop_timer >= time_to_plop:
 		var orbo = orb_scene.instantiate()
 		orbo.global_position = owner.global_position
-		GameManager.add_entity(orbo)
+		EntityManager.add_entity(orbo)
 		plop_timer = 0.0
 		state_machine.switch(exit_state)
 	
