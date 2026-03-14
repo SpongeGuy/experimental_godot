@@ -92,6 +92,53 @@ func tile_to_world(coords: Vector2i) -> Vector2:
 # Converts a pixel world position to the tile coordinate it falls in.
 func world_to_tile(world_pos: Vector2) -> Vector2i:
 	return Vector2i(world_pos / tile_size)
+	
+func get_coords_in_radius(center: Vector2i, radius: int) -> Array[Vector2i]:
+	if radius == 0:
+		return [center]
+	var result: Array[Vector2i] = []
+	var x := radius
+	var y := 0
+	var d := 1 - radius
+	while x >= y:
+		result.append_array([
+			Vector2i(center.x + x, center.y + y),
+			Vector2i(center.x - x, center.y + y),
+			Vector2i(center.x + x, center.y - y),
+			Vector2i(center.x - x, center.y - y),
+			Vector2i(center.x + y, center.y + x),
+			Vector2i(center.x - y, center.y + x),
+			Vector2i(center.x + y, center.y - x),
+			Vector2i(center.x - y, center.y - x),
+		])
+		y += 1
+		if d <= 0:
+			d += 2 * y + 1
+		else:
+			x -= 1
+			d += 2 * (y - x) + 1
+	return result
+	
+# returns nearest tile coords matching the given terrain type
+# searches outward in rings from 'origin'
+# returns Vector2i(-1, -1) if none found within max_radius
+func get_safe_coords(origin: Vector2i, terrain: CellData.TerrainType, max_radius: int = 64) -> Vector2i:
+	for radius in range(0, max_radius):
+		for coords in get_coords_in_radius(origin, radius):
+			var cell: CellData = get_cell(coords)
+			if cell and cell.terrain == terrain:
+				return coords
+	return Vector2i(-1, -1)
+	
+func get_safe_world_pos(origin: Vector2, terrain: CellData.TerrainType, max_radius: int = 64) -> Vector2:
+	var coords: Vector2i = get_safe_coords(world_to_tile(origin), terrain, max_radius)
+	if coords == Vector2i(-1, -1):
+		return Vector2.INF
+	return tile_to_world(coords)
+
+
+
+
 
 func set_rectangle(position: Vector2i, size: Vector2i, cell: CellData) -> void:
 	var rectangle: Rect2i = Rect2i(position, size)
@@ -105,7 +152,6 @@ func set_circle(center: Vector2i, radius: int, cell: CellData, filled: bool = tr
 		for x in range(center.x - radius, center.x + radius + 1):
 			var coords = Vector2i(x, y)
 			if not _in_bounds(coords):
-				print(coords)
 				continue
 			var dist = Vector2(coords - center).length()
 			if filled and dist <= radius:

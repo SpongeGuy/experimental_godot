@@ -17,15 +17,19 @@ extends Node
 var _rng := RandomNumberGenerator.new()
 var _rooms: Array[Rect2i] = []
 
+func _ready() -> void:
+	EventBus.ready_to_generate_terrain.connect(_on_ready_to_generate_terrain)
+	
+func _on_ready_to_generate_terrain() -> void:
+	generate()
 
 # -------------------------------------------------------
 # Entry point
 # -------------------------------------------------------
 
-func generate(seed: int = -1) -> void:
-	print("generating dungeon...")
-	if seed >= 0:
-		_rng.seed = seed
+func generate(sed: int = -1) -> void:
+	if sed >= 0:
+		_rng.seed = sed
 	else:
 		_rng.randomize()
 
@@ -37,6 +41,8 @@ func generate(seed: int = -1) -> void:
 	_scatter_gaps()
 	_scatter_ground_effects()
 	_enforce_border()
+	EventBus.terrain_generated_successfully.emit()
+	print("dungeon fucked from behind")
 
 
 # -------------------------------------------------------

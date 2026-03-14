@@ -8,7 +8,7 @@ signal object_nearby(object: Node2D)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	var target: Node2D = detect_targets(owner.position)
+	var target: Node2D = detect_targets(entity.position)
 	if target:
 		object_nearby.emit(target)
 
@@ -18,7 +18,7 @@ func detect_targets(from_position: Vector2) -> Node2D:
 	var best_distance: float = INF
 	
 	for group_name in target_groups:
-		var potential_targets = owner.get_tree().get_nodes_in_group(group_name)
+		var potential_targets = entity.get_tree().get_nodes_in_group(group_name)
 		for target in potential_targets:
 			if target == owner:
 				continue

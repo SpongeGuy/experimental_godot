@@ -10,4 +10,4 @@ func eat(power: int = 1) -> void:
 	stages -= power
 	if stages <= 0:
 		eaten.emit()
-		owner.queue_free()
+		entity.queue_free()

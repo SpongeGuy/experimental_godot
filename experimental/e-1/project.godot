@@ -13,6 +13,7 @@ config_version=5
 config/name="e1"
 run/main_scene="uid://b5tywkohv6dpv"
 config/features=PackedStringArray("4.6", "Forward Plus")
+run/max_fps=144
 
 [autoload]
 
@@ -20,6 +21,7 @@ AudioManager="*uid://uiuetvnukvsw"
 WorldGrid="*uid://bwg7qqpbsymol"
 EventBus="*uid://b8owa3ug0hg2r"
 GameState="*uid://0vmrob7f8ql5"
+EntityRegistry="*uid://da7h718q207u5"
 
 [display]
 

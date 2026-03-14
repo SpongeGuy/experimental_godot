@@ -27,7 +27,7 @@ func try_pick_up_item_in_area() -> void:
 	for body in bodies:
 		if body == owner:
 			continue
-		var distance: float = body.global_position.distance_to(owner.global_position)
+		var distance: float = body.global_position.distance_to(entity.global_position)
 		if distance < min_dist:
 			relevant_object = body
 			min_dist = distance

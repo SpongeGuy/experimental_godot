@@ -3,66 +3,36 @@
 [ext_resource type="Script" uid="uid://d4myfbotj4m52" path="res://scripts/system/GameMaster.gd" id="1_dg77c"]
 [ext_resource type="Script" uid="uid://d0mjiladgx0ad" path="res://scripts/system/EntityManager.gd" id="2_ycdy4"]
 [ext_resource type="Script" uid="uid://poanoxh62038" path="res://scripts/world/world_generator.gd" id="4_2cqfq"]
-[ext_resource type="Script" uid="uid://6psa004m1wae" path="res://scripts/world/WorldRenderer.gd" id="5_vivmo"]
 [ext_resource type="Script" uid="uid://3iwkt7r7c01a" path="res://scripts/system/TimeManager.gd" id="5_w48qg"]
 [ext_resource type="Script" uid="uid://cbpb5b38r6tt5" path="res://scripts/system/PlayerManager.gd" id="6_dg77c"]
 [ext_resource type="Script" uid="uid://1y8kbi3tt1my" path="res://scripts/system/AnthuriumManager.gd" id="7_ycdy4"]
 [ext_resource type="Script" uid="uid://rrfxfwvhpqup" path="res://scripts/components/camera_controller.gd" id="8_5vw27"]
-[ext_resource type="Script" uid="uid://wncb5geli7ns" path="res://scripts/components/weather_component.gd" id="8_efxa6"]
-[ext_resource type="Texture2D" uid="uid://vnlak8k7iq" path="res://assets/tilesets/etc.png" id="8_vivmo"]
 [ext_resource type="Script" uid="uid://pmgi17orx2e7" path="res://scripts/system/UIController.gd" id="8_ycdy4"]
 [ext_resource type="Script" uid="uid://dx24eimwg1ofe" path="res://scripts/ui/screen.gd" id="9_2cqfq"]
+[ext_resource type="Script" uid="uid://c7x0vu2cn1kby" path="res://scripts/system/WeatherController.gd" id="9_82xsv"]
 [ext_resource type="Theme" uid="uid://bvh1budw06kq6" path="res://assets/themes/numeric.tres" id="10_4c57u"]
+[ext_resource type="Script" uid="uid://cirg8u1irerl5" path="res://scripts/system/SpawnManager.gd" id="10_074og"]
 [ext_resource type="Script" uid="uid://chtx3mqkcv3lo" path="res://scripts/ui/hud.gd" id="10_w48qg"]
 [ext_resource type="Theme" uid="uid://c7dgvxhg4nhv7" path="res://assets/themes/fancy_text.tres" id="11_dg77c"]
 [ext_resource type="Script" uid="uid://l78eoao4t7lh" path="res://scripts/ui/gameview.gd" id="12_vivmo"]
 [ext_resource type="Texture2D" uid="uid://dvt6eg4pxqerm" path="res://assets/textures/ui/frame.png" id="13_074og"]
 [ext_resource type="Texture2D" uid="uid://dhhrdcwc6bmrp" path="res://assets/textures/ui/gold_6.png" id="13_yaehf"]
+[ext_resource type="Texture2D" uid="uid://ct7pys7lqmnv3" path="res://assets/textures/ui/time_6.png" id="14_cegan"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2cqfq"]
 bg_color = Color(0.15466991, 0.2867, 1, 1)
 
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_2cqfq"]
-vertices = PackedVector2Array(8, 8, -8, 8, -8, -8, 8, -8)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)])
-agent_radius = 0.0
-
-[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_4c57u"]
-polygon = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
-
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_074og"]
-texture = ExtResource("8_vivmo")
-0:0/0 = 0
-0:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_2cqfq")
-1:0/0 = 0
-1:0/0/occlusion_layer_0/polygon_0/polygon = SubResource("OccluderPolygon2D_4c57u")
-1:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
-2:0/0 = 0
-
-[sub_resource type="TileSet" id="TileSet_cegan"]
-occlusion_layer_0/light_mask = 1
-physics_layer_0/collision_layer = 1
-navigation_layer_0/layers = 1
-sources/0 = SubResource("TileSetAtlasSource_074og")
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_2cqfq"]
-radius = 137.65
-
 [node name="Main" type="Node" unique_id=1100438637]
 
-[node name="GameMaster" type="Node" parent="." unique_id=1238098609 node_paths=PackedStringArray("time", "camera", "weather", "anthurium", "dungeon_generator", "player")]
+[node name="GameMaster" type="Node" parent="." unique_id=1238098609 node_paths=PackedStringArray("game_viewport", "dungeon_generator", "player_manager", "anthurium_manager")]
 script = ExtResource("1_dg77c")
-time = NodePath("TimeManager")
-camera = NodePath("CameraController")
-weather = NodePath("../Game/SubViewportContainer/SubViewport/Container/World/Weather")
-anthurium = NodePath("AnthuriumManager")
+game_viewport = NodePath("../Game/SubViewportContainer/SubViewport")
 dungeon_generator = NodePath("DungeonGenerator")
-player = NodePath("PlayerManager")
+player_manager = NodePath("PlayerManager")
+anthurium_manager = NodePath("AnthuriumManager")
 
-[node name="EntityManager" type="Node" parent="GameMaster" unique_id=442705041 node_paths=PackedStringArray("ysort")]
+[node name="EntityManager" type="Node" parent="GameMaster" unique_id=442705041]
 script = ExtResource("2_ycdy4")
-ysort = NodePath("../../Game/SubViewportContainer/SubViewport/Container/World/YSort")
 
 [node name="PlayerManager" type="Node" parent="GameMaster" unique_id=925995434]
 script = ExtResource("6_dg77c")
@@ -76,15 +46,10 @@ metadata/_custom_type_script = "uid://1y8kbi3tt1my"
 script = ExtResource("4_2cqfq")
 metadata/_custom_type_script = "uid://poanoxh62038"
 
-[node name="CameraController" type="Node" parent="GameMaster" unique_id=263415001 node_paths=PackedStringArray("camera")]
+[node name="CameraController" type="Node" parent="GameMaster" unique_id=263415001]
 script = ExtResource("8_5vw27")
 lerp_weight = 15.0
-camera = NodePath("../../Game/SubViewportContainer/SubViewport/Container/Camera")
 metadata/_custom_type_script = "uid://rrfxfwvhpqup"
-
-[node name="TimeManager" type="Node" parent="GameMaster" unique_id=2015397225]
-script = ExtResource("5_w48qg")
-metadata/_custom_type_script = "uid://3iwkt7r7c01a"
 
 [node name="UIController" type="Node" parent="GameMaster" unique_id=2010873109 node_paths=PackedStringArray("hud", "gameview", "screen")]
 script = ExtResource("8_ycdy4")
@@ -92,6 +57,18 @@ hud = NodePath("../../UI/HUD")
 gameview = NodePath("../../UI/GameView")
 screen = NodePath("../../UI/Screen")
 metadata/_custom_type_script = "uid://pmgi17orx2e7"
+
+[node name="TimeManager" type="Node" parent="GameMaster" unique_id=2015397225]
+script = ExtResource("5_w48qg")
+metadata/_custom_type_script = "uid://3iwkt7r7c01a"
+
+[node name="WeatherController" type="Node" parent="GameMaster" unique_id=414874107]
+script = ExtResource("9_82xsv")
+metadata/_custom_type_script = "uid://c7x0vu2cn1kby"
+
+[node name="SpawnManager" type="Node" parent="GameMaster" unique_id=1951573289]
+script = ExtResource("10_074og")
+metadata/_custom_type_script = "uid://cirg8u1irerl5"
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=2071487813]
 
@@ -140,7 +117,7 @@ grow_vertical = 2
 layout_mode = 2
 text = "Loading..."
 
-[node name="HUD" type="Control" parent="UI" unique_id=413246240 node_paths=PackedStringArray("bg_color")]
+[node name="HUD" type="Control" parent="UI" unique_id=413246240 node_paths=PackedStringArray("bg_color", "time_label", "time_message_label")]
 texture_filter = 1
 layout_mode = 3
 anchors_preset = 0
@@ -150,6 +127,8 @@ offset_bottom = 360.0
 theme = ExtResource("10_4c57u")
 script = ExtResource("10_w48qg")
 bg_color = NodePath("ColorRect")
+time_label = NodePath("Padding/Columns/C3/HBoxContainer/HBoxContainer2/Time")
+time_message_label = NodePath("Padding/Columns/C3/HBoxContainer2/HBoxContainer/Message")
 
 [node name="ColorRect" type="ColorRect" parent="UI/HUD" unique_id=719430226]
 layout_mode = 1
@@ -274,6 +253,15 @@ alignment = 2
 [node name="HBoxContainer2" type="HBoxContainer" parent="UI/HUD/Padding/Columns/C3/HBoxContainer" unique_id=30862987]
 layout_mode = 2
 size_flags_horizontal = 6
+theme_override_constants/separation = 0
+
+[node name="Control" type="Control" parent="UI/HUD/Padding/Columns/C3/HBoxContainer/HBoxContainer2" unique_id=1048491812]
+custom_minimum_size = Vector2(8, 6)
+layout_mode = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="UI/HUD/Padding/Columns/C3/HBoxContainer/HBoxContainer2/Control" unique_id=1830052699]
+texture = ExtResource("14_cegan")
+offset = Vector2(4, 4)
 
 [node name="Time" type="Label" parent="UI/HUD/Padding/Columns/C3/HBoxContainer/HBoxContainer2" unique_id=1557392806]
 layout_mode = 2
@@ -314,7 +302,6 @@ alignment = 1
 
 [node name="Message" type="Label" parent="UI/HUD/Padding/Columns/C3/HBoxContainer2/HBoxContainer" unique_id=3590542]
 layout_mode = 2
-text = "Hurry up!"
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="UI/HUD/Padding/Columns/C3/HBoxContainer2" unique_id=633401789]
 layout_mode = 2
@@ -322,7 +309,6 @@ size_flags_horizontal = 3
 
 [node name="Label2" type="Label" parent="UI/HUD/Padding/Columns/C3" unique_id=167292905]
 layout_mode = 2
-text = "this is a long status shit"
 horizontal_alignment = 2
 text_overrun_behavior = 5
 
@@ -386,47 +372,3 @@ snap_2d_transforms_to_pixel = true
 snap_2d_vertices_to_pixel = true
 size = Vector2i(640, 360)
 render_target_update_mode = 4
-
-[node name="Container" type="Node2D" parent="Game/SubViewportContainer/SubViewport" unique_id=705830189]
-
-[node name="Camera" type="Camera2D" parent="Game/SubViewportContainer/SubViewport/Container" unique_id=1635834848]
-
-[node name="World" type="Node2D" parent="Game/SubViewportContainer/SubViewport/Container" unique_id=1686410028]
-texture_filter = 1
-
-[node name="WorldRenderer" type="TileMapLayer" parent="Game/SubViewportContainer/SubViewport/Container/World" unique_id=1053051182]
-z_index = -10
-tile_set = SubResource("TileSet_cegan")
-script = ExtResource("5_vivmo")
-
-[node name="Weather" type="Node2D" parent="Game/SubViewportContainer/SubViewport/Container/World" unique_id=2046040877 node_paths=PackedStringArray("fog_shape", "fog_area", "fog_collision_shape", "weather_tint")]
-z_index = 5
-scale = Vector2(3.74, 3.74)
-script = ExtResource("8_efxa6")
-fog_shape = NodePath("Shape")
-fog_area = NodePath("Area2D")
-fog_collision_shape = NodePath("Area2D/CollisionShape2D")
-weather_tint = NodePath("CanvasModulate")
-
-[node name="Shape" type="Polygon2D" parent="Game/SubViewportContainer/SubViewport/Container/World/Weather" unique_id=592484166]
-position = Vector2(-98.128334, -79.94651)
-scale = Vector2(0.26737967, 0.26737967)
-color = Color(0, 0, 0, 1)
-
-[node name="CanvasModulate" type="CanvasModulate" parent="Game/SubViewportContainer/SubViewport/Container/World/Weather" unique_id=2093662627]
-
-[node name="Area2D" type="Area2D" parent="Game/SubViewportContainer/SubViewport/Container/World/Weather" unique_id=730706232]
-collision_layer = 16
-collision_mask = 0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Game/SubViewportContainer/SubViewport/Container/World/Weather/Area2D" unique_id=2039538879]
-shape = SubResource("CircleShape2D_2cqfq")
-
-[node name="YSort" type="Node2D" parent="Game/SubViewportContainer/SubViewport/Container/World" unique_id=1973374712]
-y_sort_enabled = true
-
-[node name="BG" type="Polygon2D" parent="Game/SubViewportContainer/SubViewport/Container/World" unique_id=1642243134]
-z_index = -50
-position = Vector2(-1, 8)
-color = Color(0.10811547, 0.13709787, 2.4065375e-08, 1)
-polygon = PackedVector2Array(1216, -656, -2032, -704, -2144, 1552, 1696, 1552)

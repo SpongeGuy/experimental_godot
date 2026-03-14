@@ -2,6 +2,7 @@ extends Ability
 class_name AbilityPelletShoot
 
 @export var pellet_scene: PackedScene
+@export var entity_id: StringName
 @export var facing: FacingComponent
 @export var speed: float = 150.0
 @export var friends: FriendComponent
@@ -10,8 +11,7 @@ class_name AbilityPelletShoot
 
 func execute() -> void:
 	await get_tree().create_timer(charge_time).timeout
-	var pellet = pellet_scene.instantiate()
-	pellet.position = owner.global_position
+	var pellet = EntityManager.spawn(entity_id, owner.global_position)
 	pellet.velocity = facing.get_direction() * speed
 	var movement: MovementComponent
 	var pellet_friends: FriendComponent
@@ -24,4 +24,5 @@ func execute() -> void:
 	pellet_friends.add_friend(owner)
 	if friends:
 		friends.add_friend(pellet)
-	EntityManager.add_entity(pellet)
+	EntityManager._add(pellet)
+	

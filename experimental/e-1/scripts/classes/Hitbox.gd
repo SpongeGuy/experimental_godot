@@ -20,7 +20,6 @@ func _on_hurtbox_contact(area: Area2D) -> void:
 	if friends and friends.is_friend(area.owner):
 		return
 	hit_received.emit(area.damage, area.owner)
-	print(area)
 
 
 

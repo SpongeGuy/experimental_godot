@@ -10,7 +10,7 @@ var fpos: Vector2
 
 func get_avoidance_vector(from_position: Vector2) -> Vector2:
 	fpos = from_position
-	var space_state = owner.get_world_2d().direct_space_state
+	var space_state = entity.get_world_2d().direct_space_state
 	var avoidance = Vector2.ZERO
 	
 	# cast rays in a circle around the creature
@@ -55,7 +55,7 @@ func _draw() -> void:
 func _draw_debug(from_position: Vector2) -> void:
 	print(Engine.is_editor_hint())
 	if not Engine.is_editor_hint() and OS.is_debug_build():
-		var space_state = owner.get_world_2d().direct_space_state
+		var space_state = entity.get_world_2d().direct_space_state
 		
 		for i in range(num_rays):
 			var angle = (TAU / num_rays) * i
@@ -68,13 +68,13 @@ func _draw_debug(from_position: Vector2) -> void:
 			
 			if result:
 				# Red line to hit point
-				owner.get_parent().draw_line(
+				entity.get_parent().draw_line(
 					from_position, result.position, 
 					Color.RED, 1.0
 				)
 			else:
 				# Green line for clear path
-				owner.get_parent().draw_line(
+				entity.get_parent().draw_line(
 					from_position, end,
 					Color.GREEN, 1.0
 				)

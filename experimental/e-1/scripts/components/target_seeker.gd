@@ -24,7 +24,7 @@ func find_nearest_target(from_position: Vector2, facing_direction: Vector2) -> N
 	var best_distance: float = INF
 	
 	for group_name in target_groups:
-		var potential_targets = owner.get_tree().get_nodes_in_group(group_name)
+		var potential_targets = entity.get_tree().get_nodes_in_group(group_name)
 		
 		for target in potential_targets:
 			# entity does not exist?
@@ -74,7 +74,7 @@ func find_nearest_target(from_position: Vector2, facing_direction: Vector2) -> N
 	return best_target
 	
 func has_line_of_sight(from: Vector2, to: Vector2) -> bool:
-	var space_state = owner.get_world_2d().direct_space_state
+	var space_state = entity.get_world_2d().direct_space_state
 	
 	var query = PhysicsRayQueryParameters2D.create(from, to)
 	query.collision_mask = wall_collision_layer

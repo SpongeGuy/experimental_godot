@@ -2,11 +2,14 @@ extends Node
 class_name PlayerManager
 
 static var player: Entity
-var player_scene: PackedScene = preload("res://scenes/creatures/pack_1/focks.tscn")
+
+func _ready() -> void:
+	EventBus.ready_to_spawn_player.connect(_spawn_player)
+
+func _spawn_player(pos: Vector2) -> void:
+	initialize_player_at(pos)
+	EventBus.change_camera_target.emit(player)
 
 func initialize_player_at(pos: Vector2) -> void:
-	var p = player_scene.instantiate()
-	p.global_position = pos
-	EntityManager.add_entity(p)
-	player = p
-	EventBus.player_spawned.emit(p)
+	player = EntityManager.spawn_safely(&"focks", pos)
+	EventBus.player_spawned.emit(player)

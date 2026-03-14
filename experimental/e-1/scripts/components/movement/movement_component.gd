@@ -107,9 +107,9 @@ func _add_knockback_velocity(body: CharacterBody2D) -> void:
 func _handle_bounce_collisions() -> void:
 	if not knockback:
 		return
-	if owner is not CharacterBody2D:
+	if entity is not CharacterBody2D:
 		return
 	if knockback.knockback_velocity.length() > knockback.min_bounce_speed:
-		for i in owner.get_slide_collision_count():
-			var col: KinematicCollision2D = owner.get_slide_collision(i)
+		for i in entity.get_slide_collision_count():
+			var col: KinematicCollision2D = entity.get_slide_collision(i)
 			knockback.knockback_velocity = knockback.knockback_velocity.bounce(col.get_normal()) * knockback.bounce_factor

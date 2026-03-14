@@ -1,17 +1,20 @@
 extends Node
 class_name AnthuriumManager
 
-var anthurium: Entity
-var anthurium_scene: PackedScene = preload("res://scenes/plants/anthurium.tscn")
+static var anthurium: Entity
 
+func _ready() -> void:
+	EventBus.ready_to_spawn_anthurium.connect(_spawn_anthurium)
+
+func _spawn_anthurium(pos: Vector2) -> void:
+	initialize_anthurium_at(pos)
+	EventBus.change_fog_target.emit(anthurium)
 
 func initialize_anthurium_at(pos: Vector2) -> void:
-	var a = anthurium_scene.instantiate()
-	a.global_position = pos
-	EntityManager.add_entity(a)
+	anthurium = EntityManager.spawn_safely(&"anthurium", pos)
 	call_deferred("_set_circle_at_position", pos)
-	anthurium = a
-	EventBus.anthurium_spawned.emit(a)
+	
+	EventBus.anthurium_spawned.emit(anthurium)
 
 func _set_circle_at_position(pos: Vector2) -> void:
 	var cell: CellData = CellData.new()

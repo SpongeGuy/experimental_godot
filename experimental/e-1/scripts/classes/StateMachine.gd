@@ -1,4 +1,4 @@
-extends Node
+extends Component
 class_name StateMachine
 
 signal state_switched(old_state: BehaviorState, new_state: BehaviorState)

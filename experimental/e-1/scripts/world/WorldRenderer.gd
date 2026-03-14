@@ -14,7 +14,6 @@ func _ready() -> void:
 	
 func _on_cell_changed(coords: Vector2i) -> void:
 	_draw_cell(coords)
-	print(".")
 	
 func _draw_cell(coords: Vector2i) -> void:
 	var cell = WorldGrid.get_cell(coords)
