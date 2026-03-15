@@ -74,8 +74,10 @@ primary_action={
 2d_physics/layer_3="items"
 2d_physics/layer_4="projectiles"
 2d_physics/layer_5="fog"
+2d_physics/layer_6="proximity"
 2d_physics/layer_7="hitbox"
 2d_physics/layer_8="hurtbox"
+2d_physics/layer_9="plants"
 
 [physics]
 

@@ -12,6 +12,7 @@ size = Vector2(17, 12)
 
 [node name="Roots" type="CharacterBody2D" unique_id=1327164479]
 texture_filter = 1
+collision_layer = 256
 script = ExtResource("1_x8ir2")
 
 [node name="Node2D" type="Node2D" parent="." unique_id=1450514080]

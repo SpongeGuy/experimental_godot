@@ -24,9 +24,9 @@ func _ready() -> void:
 	_scan_all()
 	
 
-# -----------------------------------------------
+# -----------------------------------------------------------------------------------
 # public api
-# ------------------------------------------------
+# -----------------------------------------------------------------------------------
 
 func get_scene(entity_type: StringName) -> PackedScene:
 	if not registry.has(entity_type):
@@ -50,16 +50,15 @@ func get_all_types() -> Array[StringName]:
 	return types
 
 
-# ----------------------------------------------
+# -----------------------------------------------------------------------------------
 # scanning
-# ----------------------------------------------
+# -----------------------------------------------------------------------------------
 
 func _scan_all() -> void:
 	for path in SCAN_PATHS:
 		if _path_exists(path):
 			_scan_dir(path)
 	print("EntityRegistry: %d entities registered." % registry.size())
-	print(registry)
 	
 func _scan_dir(path: String) -> void:
 	var dir: DirAccess = DirAccess.open(path)

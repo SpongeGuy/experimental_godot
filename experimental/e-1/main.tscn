@@ -8,19 +8,11 @@
 [ext_resource type="Script" uid="uid://1y8kbi3tt1my" path="res://scripts/system/AnthuriumManager.gd" id="7_ycdy4"]
 [ext_resource type="Script" uid="uid://rrfxfwvhpqup" path="res://scripts/components/camera_controller.gd" id="8_5vw27"]
 [ext_resource type="Script" uid="uid://pmgi17orx2e7" path="res://scripts/system/UIController.gd" id="8_ycdy4"]
-[ext_resource type="Script" uid="uid://dx24eimwg1ofe" path="res://scripts/ui/screen.gd" id="9_2cqfq"]
 [ext_resource type="Script" uid="uid://c7x0vu2cn1kby" path="res://scripts/system/WeatherController.gd" id="9_82xsv"]
-[ext_resource type="Theme" uid="uid://bvh1budw06kq6" path="res://assets/themes/numeric.tres" id="10_4c57u"]
 [ext_resource type="Script" uid="uid://cirg8u1irerl5" path="res://scripts/system/SpawnManager.gd" id="10_074og"]
-[ext_resource type="Script" uid="uid://chtx3mqkcv3lo" path="res://scripts/ui/hud.gd" id="10_w48qg"]
-[ext_resource type="Theme" uid="uid://c7dgvxhg4nhv7" path="res://assets/themes/fancy_text.tres" id="11_dg77c"]
-[ext_resource type="Script" uid="uid://l78eoao4t7lh" path="res://scripts/ui/gameview.gd" id="12_vivmo"]
-[ext_resource type="Texture2D" uid="uid://dvt6eg4pxqerm" path="res://assets/textures/ui/frame.png" id="13_074og"]
-[ext_resource type="Texture2D" uid="uid://dhhrdcwc6bmrp" path="res://assets/textures/ui/gold_6.png" id="13_yaehf"]
-[ext_resource type="Texture2D" uid="uid://ct7pys7lqmnv3" path="res://assets/textures/ui/time_6.png" id="14_cegan"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2cqfq"]
-bg_color = Color(0.15466991, 0.2867, 1, 1)
+[ext_resource type="PackedScene" uid="uid://c0lhjlvaxvoce" path="res://scenes/systems/ui/screen.tscn" id="11_ycdy4"]
+[ext_resource type="PackedScene" uid="uid://x8blmpfejth8" path="res://scenes/systems/ui/hud.tscn" id="12_w48qg"]
+[ext_resource type="PackedScene" uid="uid://bnuglwwl8cbdc" path="res://scenes/systems/ui/game_view.tscn" id="13_vivmo"]
 
 [node name="Main" type="Node" unique_id=1100438637]
 
@@ -58,306 +50,26 @@ gameview = NodePath("../../UI/GameView")
 screen = NodePath("../../UI/Screen")
 metadata/_custom_type_script = "uid://pmgi17orx2e7"
 
-[node name="TimeManager" type="Node" parent="GameMaster" unique_id=2015397225]
-script = ExtResource("5_w48qg")
-metadata/_custom_type_script = "uid://3iwkt7r7c01a"
-
 [node name="WeatherController" type="Node" parent="GameMaster" unique_id=414874107]
 script = ExtResource("9_82xsv")
+disabled = true
 metadata/_custom_type_script = "uid://c7x0vu2cn1kby"
 
 [node name="SpawnManager" type="Node" parent="GameMaster" unique_id=1951573289]
 script = ExtResource("10_074og")
 metadata/_custom_type_script = "uid://cirg8u1irerl5"
 
+[node name="TimeManager" type="Node" parent="GameMaster" unique_id=2015397225]
+script = ExtResource("5_w48qg")
+metadata/_custom_type_script = "uid://3iwkt7r7c01a"
+
 [node name="UI" type="CanvasLayer" parent="." unique_id=2071487813]
 
-[node name="Screen" type="Control" parent="UI" unique_id=1842639896 node_paths=PackedStringArray("bg_color", "central_message")]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 640.0
-offset_bottom = 360.0
-theme = ExtResource("11_dg77c")
-script = ExtResource("9_2cqfq")
-bg_color = NodePath("ColorRect")
-central_message = NodePath("CentralMessage/CenterContainer/CentralMessageLabel")
+[node name="Screen" parent="UI" unique_id=1606049138 instance=ExtResource("11_ycdy4")]
 
-[node name="ColorRect" type="ColorRect" parent="UI/Screen" unique_id=1710528944]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0, 0, 0, 1)
+[node name="HUD" parent="UI" unique_id=2080876964 instance=ExtResource("12_w48qg")]
 
-[node name="CentralMessage" type="Control" parent="UI/Screen" unique_id=1383360233]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -258.5
-offset_top = -50.0
-offset_right = 258.5
-offset_bottom = 50.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="CenterContainer" type="CenterContainer" parent="UI/Screen/CentralMessage" unique_id=135386213]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="CentralMessageLabel" type="Label" parent="UI/Screen/CentralMessage/CenterContainer" unique_id=158172749]
-layout_mode = 2
-text = "Loading..."
-
-[node name="HUD" type="Control" parent="UI" unique_id=413246240 node_paths=PackedStringArray("bg_color", "time_label", "time_message_label")]
-texture_filter = 1
-layout_mode = 3
-anchors_preset = 0
-offset_top = 332.0
-offset_right = 640.0
-offset_bottom = 360.0
-theme = ExtResource("10_4c57u")
-script = ExtResource("10_w48qg")
-bg_color = NodePath("ColorRect")
-time_label = NodePath("Padding/Columns/C3/HBoxContainer/HBoxContainer2/Time")
-time_message_label = NodePath("Padding/Columns/C3/HBoxContainer2/HBoxContainer/Message")
-
-[node name="ColorRect" type="ColorRect" parent="UI/HUD" unique_id=719430226]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0, 0, 0, 1)
-
-[node name="Padding" type="Control" parent="UI/HUD" unique_id=208831717]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 2.0
-offset_top = 2.0
-offset_right = -2.0
-offset_bottom = -2.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Columns" type="HBoxContainer" parent="UI/HUD/Padding" unique_id=817793490]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme = ExtResource("10_4c57u")
-alignment = 1
-
-[node name="C1" type="VBoxContainer" parent="UI/HUD/Padding/Columns" unique_id=1121479110]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="HBoxContainer" type="HBoxContainer" parent="UI/HUD/Padding/Columns/C1" unique_id=259947853]
-layout_mode = 2
-
-[node name="Items" type="HBoxContainer" parent="UI/HUD/Padding/Columns/C1/HBoxContainer" unique_id=877443581]
-layout_mode = 2
-
-[node name="Control" type="Control" parent="UI/HUD/Padding/Columns/C1/HBoxContainer/Items" unique_id=1529589370]
-custom_minimum_size = Vector2(24, 24)
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 3
-
-[node name="Sprite2D" type="Sprite2D" parent="UI/HUD/Padding/Columns/C1/HBoxContainer/Items/Control" unique_id=1889419448]
-texture = ExtResource("13_074og")
-offset = Vector2(12, 12)
-
-[node name="Control2" type="Control" parent="UI/HUD/Padding/Columns/C1/HBoxContainer/Items" unique_id=548725752]
-custom_minimum_size = Vector2(24, 24)
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 3
-
-[node name="Sprite2D" type="Sprite2D" parent="UI/HUD/Padding/Columns/C1/HBoxContainer/Items/Control2" unique_id=1723687497]
-texture = ExtResource("13_074og")
-offset = Vector2(12, 12)
-
-[node name="Control3" type="Control" parent="UI/HUD/Padding/Columns/C1/HBoxContainer/Items" unique_id=1825685272]
-custom_minimum_size = Vector2(24, 24)
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 3
-
-[node name="Sprite2D" type="Sprite2D" parent="UI/HUD/Padding/Columns/C1/HBoxContainer/Items/Control3" unique_id=471316656]
-texture = ExtResource("13_074og")
-offset = Vector2(12, 12)
-
-[node name="Map" type="Control" parent="UI/HUD/Padding/Columns/C1/HBoxContainer" unique_id=783202735]
-layout_mode = 2
-
-[node name="C2" type="VBoxContainer" parent="UI/HUD/Padding/Columns" unique_id=860383604]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Control" type="Control" parent="UI/HUD/Padding/Columns/C2" unique_id=87178586]
-layout_mode = 2
-size_flags_vertical = 3
-size_flags_stretch_ratio = 0.3
-
-[node name="Health" type="ProgressBar" parent="UI/HUD/Padding/Columns/C2/Control" unique_id=1155347985]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -59.0
-offset_right = 59.0
-offset_bottom = 8.0
-grow_horizontal = 2
-value = 100.0
-
-[node name="Control3" type="Control" parent="UI/HUD/Padding/Columns/C2" unique_id=1458352024]
-layout_mode = 2
-size_flags_vertical = 3
-size_flags_stretch_ratio = 0.3
-
-[node name="Health" type="ProgressBar" parent="UI/HUD/Padding/Columns/C2/Control3" unique_id=1888681336]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -59.0
-offset_right = 59.0
-offset_bottom = 8.0
-grow_horizontal = 2
-theme_override_styles/fill = SubResource("StyleBoxFlat_2cqfq")
-value = 100.0
-
-[node name="C3" type="VBoxContainer" parent="UI/HUD/Padding/Columns" unique_id=66794022]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="HBoxContainer" type="HBoxContainer" parent="UI/HUD/Padding/Columns/C3" unique_id=1342209196]
-layout_mode = 2
-theme_override_constants/separation = 0
-alignment = 2
-
-[node name="HBoxContainer2" type="HBoxContainer" parent="UI/HUD/Padding/Columns/C3/HBoxContainer" unique_id=30862987]
-layout_mode = 2
-size_flags_horizontal = 6
-theme_override_constants/separation = 0
-
-[node name="Control" type="Control" parent="UI/HUD/Padding/Columns/C3/HBoxContainer/HBoxContainer2" unique_id=1048491812]
-custom_minimum_size = Vector2(8, 6)
-layout_mode = 2
-
-[node name="Sprite2D" type="Sprite2D" parent="UI/HUD/Padding/Columns/C3/HBoxContainer/HBoxContainer2/Control" unique_id=1830052699]
-texture = ExtResource("14_cegan")
-offset = Vector2(4, 4)
-
-[node name="Time" type="Label" parent="UI/HUD/Padding/Columns/C3/HBoxContainer/HBoxContainer2" unique_id=1557392806]
-layout_mode = 2
-text = "3:56"
-
-[node name="HBoxContainer" type="HBoxContainer" parent="UI/HUD/Padding/Columns/C3/HBoxContainer" unique_id=441245760]
-layout_mode = 2
-size_flags_horizontal = 10
-theme_override_constants/separation = 0
-
-[node name="Control" type="Control" parent="UI/HUD/Padding/Columns/C3/HBoxContainer/HBoxContainer" unique_id=358709763]
-custom_minimum_size = Vector2(8, 6)
-layout_mode = 2
-size_flags_horizontal = 4
-
-[node name="Sprite2D" type="Sprite2D" parent="UI/HUD/Padding/Columns/C3/HBoxContainer/HBoxContainer/Control" unique_id=2035921378]
-texture = ExtResource("13_yaehf")
-offset = Vector2(4, 4)
-
-[node name="InactivePoints" type="Label" parent="UI/HUD/Padding/Columns/C3/HBoxContainer/HBoxContainer" unique_id=1484341030]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.5211406, 0.5211406, 0.5211405, 1)
-text = "0000"
-horizontal_alignment = 2
-
-[node name="ActivePoints" type="Label" parent="UI/HUD/Padding/Columns/C3/HBoxContainer/HBoxContainer" unique_id=1851661018]
-layout_mode = 2
-text = "1423"
-
-[node name="HBoxContainer2" type="HBoxContainer" parent="UI/HUD/Padding/Columns/C3" unique_id=1538443104]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="HBoxContainer" type="HBoxContainer" parent="UI/HUD/Padding/Columns/C3/HBoxContainer2" unique_id=1463187155]
-layout_mode = 2
-size_flags_horizontal = 3
-alignment = 1
-
-[node name="Message" type="Label" parent="UI/HUD/Padding/Columns/C3/HBoxContainer2/HBoxContainer" unique_id=3590542]
-layout_mode = 2
-
-[node name="HBoxContainer2" type="HBoxContainer" parent="UI/HUD/Padding/Columns/C3/HBoxContainer2" unique_id=633401789]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Label2" type="Label" parent="UI/HUD/Padding/Columns/C3" unique_id=167292905]
-layout_mode = 2
-horizontal_alignment = 2
-text_overrun_behavior = 5
-
-[node name="GameView" type="Control" parent="UI" unique_id=522767552 node_paths=PackedStringArray("bg_color")]
-texture_filter = 1
-layout_mode = 3
-anchors_preset = 0
-offset_right = 640.0
-offset_bottom = 332.0
-theme = ExtResource("11_dg77c")
-script = ExtResource("12_vivmo")
-bg_color = NodePath("ColorRect")
-
-[node name="ColorRect" type="ColorRect" parent="UI/GameView" unique_id=261805601]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0, 0, 0, 0)
-
-[node name="MessageBox" type="Control" parent="UI/GameView" unique_id=1418631420]
-clip_contents = true
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -88.5
-offset_top = -28.5
-offset_right = 88.5
-offset_bottom = 28.5
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="BoxContainer" type="CenterContainer" parent="UI/GameView/MessageBox" unique_id=1415208067]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_bottom = -5.5
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Label" type="Label" parent="UI/GameView/MessageBox/BoxContainer" unique_id=1778206509]
-layout_mode = 2
-horizontal_alignment = 1
+[node name="GameView" parent="UI" unique_id=107135793 instance=ExtResource("13_vivmo")]
 
 [node name="Game" type="CanvasLayer" parent="." unique_id=16701813]
 layer = 0

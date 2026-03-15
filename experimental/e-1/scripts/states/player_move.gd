@@ -26,7 +26,7 @@ func update(delta: float) -> void:
 			animator.load_animation("walk_n")
 		else:
 			animator.load_animation("walk_s")
-		animator.update_animation(delta)
+		animator.animation_speed = velocity.normalized().length()
 	
 ## called every physics frame while this state is active
 func physics_update(delta: float) -> void:

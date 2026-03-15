@@ -1,5 +1,9 @@
 extends Node
 
+# -----------------------------------------------------------
+# orchestrates the game
+# utilizes all system nodes
+# -----------------------------------------------------------
 
 @export var game_viewport: SubViewport
 var weather_scene: PackedScene = load("res://scenes/systems/weather.tscn")
@@ -21,17 +25,24 @@ func initialize_game() -> void:
 	WorldGrid.init_grid(64, 64)
 	print("grid initialized")
 	
-	EventBus.ready_to_generate_terrain.emit()
-	#await EventBus.terrain_generated_successfully
+	var cell: CellData = CellData.new()
+	cell.terrain = CellData.TerrainType.GROUND
+	WorldGrid.set_rectangle(Vector2i(0,0), Vector2i(80, 46), cell)
+	dungeon_generator.generate()
+	
 	
 	var player_spawn: Vector2 = Vector2(512, 512)
 	var anthurium_spawn: Vector2 = Vector2(512, 512)
-	player_manager._spawn_player(player_spawn)
-	anthurium_manager._spawn_anthurium(anthurium_spawn)
+	
+	anthurium_manager.spawn_anthurium(anthurium_spawn)
+	
 	EntityManager.spawn_safely(&"roots", Vector2(450, 450))
+	EntityManager.spawn_safely(&"plopp_orb", Vector2(450, 450))
+	EntityManager.spawn_safely(&"pitcher", Vector2(500, 450))
 	
 	
 	await get_tree().create_timer(1).timeout
+	player_manager.spawn_player(player_spawn)
 	GameState.change_game_state(GameState.Status.PLAYING)
 	
 	

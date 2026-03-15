@@ -10,6 +10,6 @@ func _process(delta: float) -> void:
 	
 func flip_sprite(new_direction: Vector2) -> void:
 	if new_direction.x > 0:
-		sprite.scale.x = 1.0
+		sprite.flip_h = false
 	else:
-		sprite.scale.x = -1.0
+		sprite.flip_h = true

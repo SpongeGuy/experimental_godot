@@ -1,12 +1,25 @@
 extends Node
 class_name TimeManager
 
+# -----------------------------------------------------------
+# time keeps on slippin
+# keeps the time and controls the day
+# -----------------------------------------------------------
+
+
 enum DayState { DAWN, DAY, DUSK, NIGHT }
-const DAYTIMES: Array[int] = [0, 5, 10, 15]
+const DAYTIMES: Array[int] = [0, 30, 60, 90]
 var day_names: Array[String] = ["Dawn", "Day", "Dusk", "Fog"]
 
 static var elapsed: float
-var day_state: DayState = DayState.DAWN
+var day_state: DayState
+
+func _ready() -> void:
+	GameState.game_state_changed.connect(_on_game_state_changed)
+
+func _on_game_state_changed(state: GameState.Status) -> void:
+	if state == GameState.Status.LOADING:
+		change_day_state(DayState.DAWN)
 
 
 func _process(delta: float) -> void:

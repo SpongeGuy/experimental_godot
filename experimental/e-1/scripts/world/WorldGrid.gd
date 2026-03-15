@@ -24,11 +24,11 @@ func get_cell(coords: Vector2i) -> CellData:
 		return null
 	return _grid[_idx(coords)]
 
-func set_cell(coords: Vector2i, data: CellData) -> void:
+func set_cell(coords: Vector2i, cell: CellData) -> void:
 	if not _in_bounds(coords):
 		return
 	
-	_grid[_idx(coords)] = data
+	_grid[_idx(coords)] = cell
 	cell_changed.emit(coords)
 	
 

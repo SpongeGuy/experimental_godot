@@ -7,24 +7,15 @@ static var _entity_container: Node2D
 
 func _ready() -> void:
 	EventBus.ysort_ready.connect(_on_ysort_ready)
-	EventBus.spawn_requested.connect(_on_spawn_requested)
 	GameState.game_state_changed.connect(_on_game_state_changed)
 
-func _on_spawn_requested(entity_type: StringName, pos: Vector2) -> void:
-	spawn_safely(entity_type, pos)
-	
-func _on_game_state_changed(status: GameState.Status) -> void:
-	if status == GameState.Status.LOADING:
-		EntityRegistry.clear_cache()
 
-func _on_ysort_ready(ysort: Node2D) -> void:
-	_entity_container = ysort
-
-
-
-
+# -----------------------------------------------------------------------------------
+# public api
+# -----------------------------------------------------------------------------------
 
 static func spawn(entity_type: StringName, pos: Vector2) -> Entity:
+	EventBus.spawn_requested.emit(entity_type, pos)
 	var entity: Entity = _instantiate(entity_type)
 	if not entity:
 		return null
@@ -33,6 +24,7 @@ static func spawn(entity_type: StringName, pos: Vector2) -> Entity:
 	return entity
 
 static func spawn_safely(entity_type: StringName, pos: Vector2) -> Entity:
+	EventBus.spawn_requested.emit(entity_type, pos)
 	var entity: Entity = _instantiate(entity_type)
 	if not entity:
 		return null
@@ -41,7 +33,16 @@ static func spawn_safely(entity_type: StringName, pos: Vector2) -> Entity:
 	_add(entity)
 	return entity
 	
+# -----------------------------------------------------------------------------------
+# internal
+# -----------------------------------------------------------------------------------
 	
+func _on_game_state_changed(status: GameState.Status) -> void:
+	if status == GameState.Status.LOADING:
+		EntityRegistry.clear_cache()
+
+func _on_ysort_ready(ysort: Node2D) -> void:
+	_entity_container = ysort
 
 static func _instantiate(entity_type: StringName) -> Entity:
 	var instance = EntityRegistry.instantiate(entity_type)

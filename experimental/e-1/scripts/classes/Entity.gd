@@ -24,5 +24,6 @@ func get_component(type: Script) -> Variant:
 	return _components.get(type, null)
 	
 func has_component(type: Script) -> bool:
+	
 	return _components.has(type)
 

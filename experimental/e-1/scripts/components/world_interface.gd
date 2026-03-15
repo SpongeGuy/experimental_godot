@@ -9,7 +9,7 @@ func _physics_process(delta: float) -> void:
 	current_cell_position = floor(entity.global_position / WorldGrid.tile_size) * WorldGrid.tile_size
 
 func _sample_cell(body: CharacterBody2D) -> CellData:
-	if not WorldGrid:
+	if not WorldGrid._grid:
 		return null
 		
 	var coords = Vector2i(body.global_position / WorldGrid.tile_size)

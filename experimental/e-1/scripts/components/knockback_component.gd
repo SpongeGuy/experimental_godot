@@ -2,7 +2,7 @@
 class_name KnockbackComponent
 extends Component
 
-@export var friction: float = 800.0
+@export var friction: float = 400.0
 @export var bounce_factor: float = 0.3  # 0 = no bounce, 1 = full elastic
 @export var min_bounce_speed: float = 50.0  # below this, stop bouncing
 

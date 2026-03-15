@@ -28,26 +28,27 @@ size = Vector2(9, 5)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mg4qc"]
 size = Vector2(7, 6)
 
-[sub_resource type="Resource" id="Resource_03k0s"]
+[sub_resource type="Resource" id="Resource_sr44t"]
 script = ExtResource("16_v7tyf")
-name = &"idle"
+name = &"walk_n"
+frames = 2
+speed = 5.0
 metadata/_custom_type_script = "uid://cym0ubd2tvsch"
 
 [sub_resource type="Resource" id="Resource_mg4qc"]
 script = ExtResource("16_v7tyf")
-name = &"walk_n"
-metadata/_custom_type_script = "uid://cym0ubd2tvsch"
-
-[sub_resource type="Resource" id="Resource_sr44t"]
-script = ExtResource("16_v7tyf")
 name = &"walk_s"
-row = 1
+row = 2
+frames = 2
+speed = 5.0
 metadata/_custom_type_script = "uid://cym0ubd2tvsch"
 
 [sub_resource type="Resource" id="Resource_n4iao"]
 script = ExtResource("16_v7tyf")
 name = &"walk_ew"
-row = 2
+row = 1
+frames = 2
+speed = 5.0
 metadata/_custom_type_script = "uid://cym0ubd2tvsch"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jurdk"]
@@ -111,7 +112,6 @@ movement = NodePath("../../MovementComponent")
 facing = NodePath("../../Animation/FacingComponent")
 idle_state = NodePath("../PlayerIdleState")
 animator = NodePath("../../Animation/SpriteAnimator")
-cooldown = null
 metadata/_custom_type_script = "uid://dyq71erbf3ksa"
 
 [node name="PlayerIdleState" type="Node" parent="StateMachine" unique_id=616697117 node_paths=PackedStringArray("move_state", "movement", "animator")]
@@ -119,7 +119,6 @@ script = ExtResource("9_j83bn")
 move_state = NodePath("../PlayerMoveState")
 movement = NodePath("../../MovementComponent")
 animator = NodePath("../../Animation/SpriteAnimator")
-cooldown = null
 metadata/_custom_type_script = "uid://dier6uauiqj4t"
 
 [node name="DeathState" type="Node" parent="StateMachine" unique_id=249506613]
@@ -163,7 +162,7 @@ metadata/_custom_type_script = "uid://5k1r4xftmni4"
 [node name="SpriteAnimator" type="Node" parent="Animation" unique_id=669214712 node_paths=PackedStringArray("sprite")]
 script = ExtResource("15_e47js")
 sprite = NodePath("../../Visual/Main")
-animations = Array[ExtResource("16_v7tyf")]([SubResource("Resource_03k0s"), SubResource("Resource_mg4qc"), SubResource("Resource_sr44t"), SubResource("Resource_n4iao")])
+animations = Array[ExtResource("16_v7tyf")]([SubResource("Resource_sr44t"), SubResource("Resource_mg4qc"), SubResource("Resource_n4iao")])
 metadata/_custom_type_script = "uid://37f5rafomsw5"
 
 [node name="FacingComponent" type="Node" parent="Animation" unique_id=687960607]
@@ -176,17 +175,17 @@ script = ExtResource("18_oduj7")
 facing = NodePath("../FacingComponent")
 metadata/_custom_type_script = "uid://b2i2svq4b2ia2"
 
-[node name="Area2D" type="Area2D" parent="Animation/Rotator" unique_id=1698964333]
+[node name="HandArea" type="Area2D" parent="Animation/Rotator" unique_id=1698964333]
 position = Vector2(9, 0)
 collision_layer = 0
 collision_mask = 6
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Animation/Rotator/Area2D" unique_id=1118485361]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Animation/Rotator/HandArea" unique_id=1118485361]
 shape = SubResource("RectangleShape2D_jurdk")
 
 [node name="HandComponent" type="Node" parent="." unique_id=802843656 node_paths=PackedStringArray("pickup_area", "facing")]
 script = ExtResource("19_vifq1")
-pickup_area = NodePath("../Animation/Rotator/Area2D")
+pickup_area = NodePath("../Animation/Rotator/HandArea")
 facing = NodePath("../Animation/FacingComponent")
 metadata/_custom_type_script = "uid://duajgedj0nkus"
 

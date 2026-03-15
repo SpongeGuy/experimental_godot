@@ -13,7 +13,7 @@ func enter() -> void:
 ## called every frame while this state is active
 func update(delta: float) -> void:
 	if animator:
-		animator.update_animation(delta)
+		animator.animation_speed = 0
 	movement.set_desired_direction(Vector2.ZERO)
 	
 ## called every physics frame while this state is active

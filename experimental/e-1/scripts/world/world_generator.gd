@@ -17,11 +17,6 @@ extends Node
 var _rng := RandomNumberGenerator.new()
 var _rooms: Array[Rect2i] = []
 
-func _ready() -> void:
-	EventBus.ready_to_generate_terrain.connect(_on_ready_to_generate_terrain)
-	
-func _on_ready_to_generate_terrain() -> void:
-	generate()
 
 # -------------------------------------------------------
 # Entry point
@@ -38,11 +33,11 @@ func generate(sed: int = -1) -> void:
 	_fill_walls()
 	_place_rooms()
 	_connect_rooms()
-	_scatter_gaps()
-	_scatter_ground_effects()
+	#_scatter_gaps()
+	#_scatter_ground_effects()
 	_enforce_border()
 	EventBus.terrain_generated_successfully.emit()
-	print("dungeon fucked from behind")
+	print("dungeon done and dusted")
 
 
 # -------------------------------------------------------

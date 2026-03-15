@@ -9,9 +9,10 @@ static var behavior: Behavior = Behavior.TRACKING
 
 enum Behavior{ TRACKING, FROZEN }
 
+
+
 func _ready() -> void:
 	EventBus.camera_ready.connect(_on_camera_ready)
-	EventBus.change_camera_target.connect(_change_targets)
 
 func _process(delta: float) -> void:
 	if not target:
@@ -20,14 +21,14 @@ func _process(delta: float) -> void:
 		Behavior.TRACKING:
 			go_to(target.global_position, delta)
 			
-func _change_targets(t: Node2D) -> void:
-	target = t
-	print("camera changed target to ", target)
 
 func _on_camera_ready(c: Camera2D) -> void:
 	camera = c
 
 
+static func change_camera_target(new_target: Node2D) -> void:
+	target = new_target
+	EventBus.camera_target_changed.emit(target)
 
 func go_to(pos: Vector2, delta: float) -> void:
 	camera.position = lerp(camera.position, pos, delta * lerp_weight)

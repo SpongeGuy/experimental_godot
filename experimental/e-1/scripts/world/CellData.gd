@@ -15,8 +15,10 @@ enum TerrainType { GROUND, WALL, GAP }
 @export var unidirectional: bool = false
 @export var unidirectional_dir: Vector2 = Vector2.ZERO
 
+## designate special entiies that area allowed to walk on this cell
 @export var walkable_tags: Array[String] = []
 
+@export_group("Gap")
 @export var transport_target: Vector2i = Vector2i.MAX
 @export var kill_on_fall: bool = false
 @export var fall_damage: float = 0.0

@@ -1,5 +1,10 @@
 extends Node
 
+# -------------------------------------------
+# autoload 
+#
+# -------------------------------------------
+
 
 enum Status { LOADING, PLAYING, PAUSED, GAME_OVER }
 

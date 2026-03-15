@@ -11,9 +11,14 @@
 [ext_resource type="Script" uid="uid://snopn0q86518" path="res://scripts/classes/StateMachine.gd" id="9_u3cgc"]
 [ext_resource type="Script" uid="uid://dku8bbt6kwf0j" path="res://scripts/states/idle.gd" id="10_dvgxt"]
 [ext_resource type="Script" uid="uid://bt6jf1wavtm84" path="res://scripts/components/world_interface.gd" id="11_ftcib"]
+[ext_resource type="Script" uid="uid://jrg503l8awgj" path="res://scripts/components/proximity_detector.gd" id="12_4nudq"]
+[ext_resource type="Script" uid="uid://7o5jm15ato3e" path="res://scripts/components/pickupable_component.gd" id="13_l0aay"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_xdlj8"]
 radius = 3.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_l0aay"]
+radius = 9.0
 
 [node name="Orb" type="CharacterBody2D" unique_id=1565465205 groups=["orb"]]
 texture_filter = 1
@@ -38,6 +43,7 @@ shape = SubResource("CircleShape2D_xdlj8")
 
 [node name="EdibleComponent" type="Node" parent="." unique_id=972885280]
 script = ExtResource("3_4sxgt")
+type = 2
 metadata/_custom_type_script = "uid://cb8hx7axh7my1"
 
 [node name="ColorRandomizer" type="Node" parent="." unique_id=1325268013 node_paths=PackedStringArray("sprite")]
@@ -48,7 +54,6 @@ metadata/_custom_type_script = "uid://bbxnvkldmnwjg"
 
 [node name="KnockbackComponent" type="Node" parent="." unique_id=302859564]
 script = ExtResource("7_4o2kx")
-friction = 400.0
 bounce_factor = 0.9
 metadata/_custom_type_script = "uid://2b6l1sxmcd5r"
 
@@ -75,3 +80,19 @@ metadata/_custom_type_script = "uid://dku8bbt6kwf0j"
 [node name="WorldInterface" type="Node" parent="." unique_id=502918674]
 script = ExtResource("11_ftcib")
 metadata/_custom_type_script = "uid://bt6jf1wavtm84"
+
+[node name="Proximity" type="Area2D" parent="." unique_id=1481177868]
+position = Vector2(0, -6)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Proximity" unique_id=45194577]
+shape = SubResource("CircleShape2D_l0aay")
+
+[node name="ProximityDetector" type="Node" parent="." unique_id=984295082 node_paths=PackedStringArray("area")]
+script = ExtResource("12_4nudq")
+area = NodePath("../Proximity")
+metadata/_custom_type_script = "uid://jrg503l8awgj"
+
+[node name="PickupableComponent" type="Node" parent="." unique_id=2141240450 node_paths=PackedStringArray("components_to_disable")]
+script = ExtResource("13_l0aay")
+components_to_disable = [NodePath("../Proximity"), NodePath("../CollisionShape2D")]
+metadata/_custom_type_script = "uid://7o5jm15ato3e"

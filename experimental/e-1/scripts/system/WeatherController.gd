@@ -1,11 +1,14 @@
 extends Node
 class_name WeatherController
 
+# -----------------------------------------------------------
+# fog interface
+# -----------------------------------------------------------
 
-
+@export var disabled: bool = false
 
 var weather: WeatherComponent
-var target: Node2D
+static var target: Node2D
 
 var default_pulse_params: Dictionary = {
 	TimeManager.DayState.DAWN: [100, 125, 1],
@@ -16,12 +19,14 @@ var default_pulse_params: Dictionary = {
 
 func _ready() -> void:
 	EventBus.weather_ready.connect(_on_weather_ready)
-	EventBus.change_fog_target.connect(_change_target)
 	EventBus.change_fog_pulse_params.connect(set_fog_pulse_params)
 	EventBus.day_state_changed.connect(_on_day_state_changed)
 	
 func _physics_process(delta: float) -> void:
 	if not target:
+		return
+	if disabled:
+		change_fog_radius_to(10000, delta)
 		return
 	move_fog_to(target.global_position, delta)
 	fog_pulse(delta)
@@ -37,8 +42,9 @@ func _on_day_state_changed(state: TimeManager.DayState, name: String) -> void:
 func _on_weather_ready(w: WeatherComponent) -> void:
 	weather = w
 
-func _change_target(t: Node2D) -> void:
-	target = t
+static func change_fog_target(new_target: Node2D) -> void:
+	target = new_target
+	EventBus.fog_target_changed.emit(target)
 
 
 
