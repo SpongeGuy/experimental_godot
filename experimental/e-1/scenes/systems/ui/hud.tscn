@@ -5,11 +5,12 @@
 [ext_resource type="Texture2D" uid="uid://dvt6eg4pxqerm" path="res://assets/textures/ui/frame.png" id="3_dp7nh"]
 [ext_resource type="Texture2D" uid="uid://ct7pys7lqmnv3" path="res://assets/textures/ui/time_6.png" id="4_5p38b"]
 [ext_resource type="Texture2D" uid="uid://dhhrdcwc6bmrp" path="res://assets/textures/ui/gold_6.png" id="5_u330w"]
+[ext_resource type="Texture2D" uid="uid://cooy1ijtbnunq" path="res://assets/textures/ui/icon-leaf.png" id="6_n78go"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2cqfq"]
 bg_color = Color(0.15466991, 0.2867, 1, 1)
 
-[node name="HUD" type="Control" unique_id=2080876964 node_paths=PackedStringArray("bg_color", "time_label", "time_message_label", "player_health_bar", "other_health_bar")]
+[node name="HUD" type="Control" unique_id=2080876964 node_paths=PackedStringArray("bg_color", "time_label", "time_message_label", "player_health_bar", "other_health_bar", "inactive_score_points", "active_score_points", "inactive_nutri_points", "active_nutri_points")]
 texture_filter = 1
 layout_mode = 3
 anchors_preset = 0
@@ -23,6 +24,10 @@ time_label = NodePath("Padding/Columns/C3/HBoxContainer/HBoxContainer2/Time")
 time_message_label = NodePath("Padding/Columns/C3/HBoxContainer2/HBoxContainer/Message")
 player_health_bar = NodePath("Padding/Columns/C2/Control/PlayerHealth")
 other_health_bar = NodePath("Padding/Columns/C2/Control3/OtherHealth")
+inactive_score_points = NodePath("Padding/Columns/C3/HBoxContainer/Score/InactivePoints")
+active_score_points = NodePath("Padding/Columns/C3/HBoxContainer/Score/ActivePoints")
+inactive_nutri_points = NodePath("Padding/Columns/C3/HBoxContainer2/Nutri/InactivePoints")
+active_nutri_points = NodePath("Padding/Columns/C3/HBoxContainer2/Nutri/ActivePoints")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=619029859]
 layout_mode = 1
@@ -161,27 +166,27 @@ offset = Vector2(4, 4)
 layout_mode = 2
 text = "3:56"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Padding/Columns/C3/HBoxContainer" unique_id=737761266]
+[node name="Score" type="HBoxContainer" parent="Padding/Columns/C3/HBoxContainer" unique_id=737761266]
 layout_mode = 2
 size_flags_horizontal = 10
 theme_override_constants/separation = 0
 
-[node name="Control" type="Control" parent="Padding/Columns/C3/HBoxContainer/HBoxContainer" unique_id=1565772369]
+[node name="Control" type="Control" parent="Padding/Columns/C3/HBoxContainer/Score" unique_id=1565772369]
 custom_minimum_size = Vector2(8, 6)
 layout_mode = 2
 size_flags_horizontal = 4
 
-[node name="Sprite2D" type="Sprite2D" parent="Padding/Columns/C3/HBoxContainer/HBoxContainer/Control" unique_id=927517420]
+[node name="Sprite2D" type="Sprite2D" parent="Padding/Columns/C3/HBoxContainer/Score/Control" unique_id=927517420]
 texture = ExtResource("5_u330w")
 offset = Vector2(4, 4)
 
-[node name="InactivePoints" type="Label" parent="Padding/Columns/C3/HBoxContainer/HBoxContainer" unique_id=280850528]
+[node name="InactivePoints" type="Label" parent="Padding/Columns/C3/HBoxContainer/Score" unique_id=280850528]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.5211406, 0.5211406, 0.5211405, 1)
 text = "0000"
 horizontal_alignment = 2
 
-[node name="ActivePoints" type="Label" parent="Padding/Columns/C3/HBoxContainer/HBoxContainer" unique_id=861439025]
+[node name="ActivePoints" type="Label" parent="Padding/Columns/C3/HBoxContainer/Score" unique_id=861439025]
 layout_mode = 2
 text = "1423"
 
@@ -197,9 +202,30 @@ alignment = 1
 [node name="Message" type="Label" parent="Padding/Columns/C3/HBoxContainer2/HBoxContainer" unique_id=1567911440]
 layout_mode = 2
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="Padding/Columns/C3/HBoxContainer2" unique_id=1303671589]
+[node name="Nutri" type="HBoxContainer" parent="Padding/Columns/C3/HBoxContainer2" unique_id=1303671589]
 layout_mode = 2
-size_flags_horizontal = 3
+size_flags_horizontal = 8
+theme_override_constants/separation = 0
+
+[node name="Control" type="Control" parent="Padding/Columns/C3/HBoxContainer2/Nutri" unique_id=2040665459]
+custom_minimum_size = Vector2(8, 6)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Sprite2D" type="Sprite2D" parent="Padding/Columns/C3/HBoxContainer2/Nutri/Control" unique_id=1064848680]
+texture = ExtResource("6_n78go")
+offset = Vector2(4, 4)
+
+[node name="InactivePoints" type="Label" parent="Padding/Columns/C3/HBoxContainer2/Nutri" unique_id=754319481]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5211406, 0.5211406, 0.5211405, 1)
+text = "000000"
+horizontal_alignment = 2
+
+[node name="ActivePoints" type="Label" parent="Padding/Columns/C3/HBoxContainer2/Nutri" unique_id=2048473504]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.35725388, 0.8743722, 0.16496441, 1)
+text = "00"
 
 [node name="Label2" type="Label" parent="Padding/Columns/C3" unique_id=2080296209]
 layout_mode = 2

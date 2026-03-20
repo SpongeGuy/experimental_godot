@@ -28,7 +28,7 @@ func initialize_game() -> void:
 	var cell: CellData = CellData.new()
 	cell.terrain = CellData.TerrainType.GROUND
 	WorldGrid.set_rectangle(Vector2i(0,0), Vector2i(80, 46), cell)
-	dungeon_generator.generate()
+	#dungeon_generator.generate()
 	
 	
 	var player_spawn: Vector2 = Vector2(512, 512)
@@ -37,7 +37,7 @@ func initialize_game() -> void:
 	anthurium_manager.spawn_anthurium(anthurium_spawn)
 	
 	EntityManager.spawn_safely(&"roots", Vector2(450, 450))
-	EntityManager.spawn_safely(&"plopp_orb", Vector2(450, 450))
+	EntityManager.spawn_safely(&"plopp_orb", Vector2(550, 500))
 	EntityManager.spawn_safely(&"pitcher", Vector2(500, 450))
 	
 	

@@ -32,6 +32,9 @@ func pick_up_item(body: Entity) -> void:
 	body_pickupable.toggle_held(entity)
 	item = body
 	item_picked_up.emit(item, entity)
+	var ri: RecentlyInteracted = item.get_component(RecentlyInteracted)
+	if ri:
+		ri.interact(entity)
 	
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("primary_action"):
@@ -69,7 +72,14 @@ func let_go_of_item() -> void:
 	var pickupable: PickupableComponent = item.get_component(PickupableComponent)
 	if pickupable:
 		pickupable.toggle_held(entity)
+	
+	var ri: RecentlyInteracted = item.get_component(RecentlyInteracted)
+	if ri:
+		ri.interact(entity)
+	
 	item = null
+	
+	
 	
 func _physics_process(delta: float) -> void:
 	if not item:

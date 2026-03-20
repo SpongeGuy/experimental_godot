@@ -44,6 +44,8 @@ shape = SubResource("CircleShape2D_ucvfs")
 script = ExtResource("4_gcswn")
 area = NodePath("../Proximity")
 valid_components = Array[Script]([ExtResource("5_a1sqx")])
+collision_layer = 256
+collision_mask = 4
 metadata/_custom_type_script = "uid://jrg503l8awgj"
 
 [node name="ProximityInventoryInterface" type="Node" parent="." unique_id=340010701 node_paths=PackedStringArray("proximity", "inventory")]

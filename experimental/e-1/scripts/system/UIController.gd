@@ -11,6 +11,7 @@ func _ready() -> void:
 	GameState.game_state_changed.connect(_on_game_state_changed)
 	EventBus.day_state_changed.connect(_on_day_state_changed)
 	EventBus.player_spawned.connect(_on_player_spawned)
+	GameState.nutri_points_changed.connect(_update_nutri_points)
 	
 func _process(delta: float) -> void:
 	if GameState.state != GameState.Status.PLAYING:
@@ -49,7 +50,9 @@ func _update_module_time() -> void:
 
 func _on_day_state_changed(state: TimeManager.DayState, name: String) -> void:
 	hud.time_message_label.text = str(name)
-
+	
+func _update_nutri_points() -> void:
+	hud.active_nutri_points.text = str(GameState.nutri_points)
 
 # --------------------------------------------------------
 # helpers / one-time methods

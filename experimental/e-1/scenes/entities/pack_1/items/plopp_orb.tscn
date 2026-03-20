@@ -13,6 +13,9 @@
 [ext_resource type="Script" uid="uid://bt6jf1wavtm84" path="res://scripts/components/world_interface.gd" id="11_ftcib"]
 [ext_resource type="Script" uid="uid://jrg503l8awgj" path="res://scripts/components/proximity_detector.gd" id="12_4nudq"]
 [ext_resource type="Script" uid="uid://7o5jm15ato3e" path="res://scripts/components/pickupable_component.gd" id="13_l0aay"]
+[ext_resource type="Script" uid="uid://dqikotd5sv8r6" path="res://scripts/components/recently_interacted.gd" id="14_iyqu2"]
+[ext_resource type="Script" uid="uid://pd52kndxu50s" path="res://scripts/components/owned_by.gd" id="15_qbckd"]
+[ext_resource type="Script" uid="uid://dw3vp6uat088r" path="res://scripts/components/nutrition_component.gd" id="16_1rbv1"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_xdlj8"]
 radius = 3.0
@@ -90,9 +93,23 @@ shape = SubResource("CircleShape2D_l0aay")
 [node name="ProximityDetector" type="Node" parent="." unique_id=984295082 node_paths=PackedStringArray("area")]
 script = ExtResource("12_4nudq")
 area = NodePath("../Proximity")
+collision_layer = 4
 metadata/_custom_type_script = "uid://jrg503l8awgj"
 
 [node name="PickupableComponent" type="Node" parent="." unique_id=2141240450 node_paths=PackedStringArray("components_to_disable")]
 script = ExtResource("13_l0aay")
 components_to_disable = [NodePath("../Proximity"), NodePath("../CollisionShape2D")]
 metadata/_custom_type_script = "uid://7o5jm15ato3e"
+
+[node name="RecentlyInteracted" type="Node" parent="." unique_id=1668839242 node_paths=PackedStringArray("proximity_area")]
+script = ExtResource("14_iyqu2")
+proximity_area = NodePath("../ProximityDetector")
+metadata/_custom_type_script = "uid://dqikotd5sv8r6"
+
+[node name="OwnedBy" type="Node" parent="." unique_id=1504320027]
+script = ExtResource("15_qbckd")
+metadata/_custom_type_script = "uid://pd52kndxu50s"
+
+[node name="NutritionComponent" type="Node" parent="." unique_id=1362043639]
+script = ExtResource("16_1rbv1")
+metadata/_custom_type_script = "uid://dw3vp6uat088r"

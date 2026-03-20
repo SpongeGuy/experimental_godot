@@ -9,8 +9,6 @@ enum FoodType{ NEUTRAL, HERB, SYNTHETIC, MEAT }
 
 signal eaten()
 
-func _ready() -> void:
-	print(self)
 
 func eat(power: int = 1) -> void:
 	stages -= power

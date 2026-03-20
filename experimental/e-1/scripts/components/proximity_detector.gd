@@ -2,29 +2,59 @@ extends Component
 class_name ProximityDetector
 
 # --------------------------------------
-# emits a signal when it detects a nearby entity
-# with a valid script, defined in the inspector
+# emits a signal when it detects a nearby entity with a valid script defined in the inspector
 # --------------------------------------
+
+
 
 @export var area: Area2D
 
-signal proximity_triggered(source: Entity, target: Entity)
-
+@export_group("Filter")
 @export var valid_components: Array[Script]
+## if blacklist is enabled, if entity has a component that matches the one in valid_components, it will be discarded.
+@export var blacklist: bool = false
+@export_enum("has all", "has any") var inclusion: int = 0
+
+@export_group("Collision", "collision")
+@export_flags_2d_physics var collision_layer: int
+@export_flags_2d_physics var collision_mask: int
+
+signal detected(source: Entity, target: Entity)
+signal lost(source: Entity, target: Entity)
 
 func _ready() -> void:
-	area.collision_layer = 5
-	area.collision_mask = 5
-	area.area_entered.connect(_proximity_detected)
+	area.collision_layer = collision_layer
+	area.collision_mask = collision_mask
+	area.area_entered.connect(_on_area_entered)
+	area.area_exited.connect(_on_area_exited)
 	
+func _on_area_entered(other: Area2D) -> void:
+	var target: Entity = _resolve_entity(other)
+	if target and _passes_filter(target):
+		detected.emit(entity, target)
+		
+func _on_area_exited(other: Area2D) -> void:
+	var target: Entity = _resolve_entity(other)
+	if target and _passes_filter(target):
+		lost.emit(entity, target)
+		
+func _resolve_entity(other: Area2D) -> Entity:
+	if other.owner is Entity:
+		return other.owner as Entity
+	return null
 	
+func _passes_filter(subject: Entity) -> bool:
+	if valid_components.is_empty():
+		return true
 	
-func _proximity_detected(other: Area2D) -> void:
-	if other.owner is not Entity:
-		return
-	var subject: Entity = other.owner
-	for component in valid_components:
-		if subject.has_component(component):
-			proximity_triggered.emit(entity, subject)
-			return
+	var has_required: bool
+	if inclusion == 0:
+		has_required = valid_components.all(func(c): return subject.has_component(c))
+	else:
+		has_required = valid_components.any(func(c): return subject.has_component(c))
+	
+	return has_required if not blacklist else not has_required
+	
+
+			
 

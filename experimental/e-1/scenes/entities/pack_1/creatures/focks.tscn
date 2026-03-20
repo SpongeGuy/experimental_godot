@@ -21,6 +21,8 @@
 [ext_resource type="Script" uid="uid://duajgedj0nkus" path="res://scripts/components/hand_component.gd" id="19_vifq1"]
 [ext_resource type="Script" uid="uid://2b6l1sxmcd5r" path="res://scripts/components/knockback_component.gd" id="20_m1inn"]
 [ext_resource type="Script" uid="uid://bt6jf1wavtm84" path="res://scripts/components/world_interface.gd" id="21_kyqc0"]
+[ext_resource type="Script" uid="uid://jrg503l8awgj" path="res://scripts/components/proximity_detector.gd" id="22_e1qh5"]
+[ext_resource type="Script" uid="uid://cxdo2n01etkw6" path="res://scripts/components/points_interface.gd" id="23_qyswd"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_03k0s"]
 size = Vector2(9, 5)
@@ -53,6 +55,9 @@ metadata/_custom_type_script = "uid://cym0ubd2tvsch"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jurdk"]
 size = Vector2(20, 13)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_qyswd"]
+radius = 11.0
 
 [node name="Focks" type="CharacterBody2D" unique_id=163986961 groups=["creature"]]
 texture_filter = 1
@@ -196,5 +201,24 @@ metadata/_custom_type_script = "uid://2b6l1sxmcd5r"
 [node name="WorldInterface" type="Node" parent="." unique_id=484845366]
 script = ExtResource("21_kyqc0")
 metadata/_custom_type_script = "uid://bt6jf1wavtm84"
+
+[node name="Proximity" type="Node" parent="." unique_id=647578908]
+
+[node name="ProximityDetector" type="Node" parent="Proximity" unique_id=68784327 node_paths=PackedStringArray("area")]
+script = ExtResource("22_e1qh5")
+area = NodePath("../ProximityArea")
+collision_layer = 2
+collision_mask = 2
+metadata/_custom_type_script = "uid://jrg503l8awgj"
+
+[node name="ProximityArea" type="Area2D" parent="Proximity" unique_id=980590054]
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Proximity/ProximityArea" unique_id=1060462205]
+position = Vector2(0.5, -7)
+shape = SubResource("CircleShape2D_qyswd")
+
+[node name="PointsInterface" type="Node" parent="." unique_id=1120567189]
+script = ExtResource("23_qyswd")
+metadata/_custom_type_script = "uid://cxdo2n01etkw6"
 
 [connection signal="died" from="Health&Damage/HealthComponent" to="Health&Damage/DeathStateSwitcher" method="switch"]
