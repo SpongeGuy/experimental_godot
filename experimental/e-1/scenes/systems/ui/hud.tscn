@@ -10,7 +10,7 @@
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2cqfq"]
 bg_color = Color(0.15466991, 0.2867, 1, 1)
 
-[node name="HUD" type="Control" unique_id=2080876964 node_paths=PackedStringArray("bg_color", "time_label", "time_message_label", "player_health_bar", "other_health_bar", "inactive_score_points", "active_score_points", "inactive_nutri_points", "active_nutri_points")]
+[node name="HUD" type="Control" unique_id=2080876964 node_paths=PackedStringArray("bg_color", "time_label", "time_message_label", "player_health_bar", "other_health_bar", "inactive_game_score", "active_game_score", "inactive_nutri_score", "active_nutri_score")]
 texture_filter = 1
 layout_mode = 3
 anchors_preset = 0
@@ -24,10 +24,10 @@ time_label = NodePath("Padding/Columns/C3/HBoxContainer/HBoxContainer2/Time")
 time_message_label = NodePath("Padding/Columns/C3/HBoxContainer2/HBoxContainer/Message")
 player_health_bar = NodePath("Padding/Columns/C2/Control/PlayerHealth")
 other_health_bar = NodePath("Padding/Columns/C2/Control3/OtherHealth")
-inactive_score_points = NodePath("Padding/Columns/C3/HBoxContainer/Score/InactivePoints")
-active_score_points = NodePath("Padding/Columns/C3/HBoxContainer/Score/ActivePoints")
-inactive_nutri_points = NodePath("Padding/Columns/C3/HBoxContainer2/Nutri/InactivePoints")
-active_nutri_points = NodePath("Padding/Columns/C3/HBoxContainer2/Nutri/ActivePoints")
+inactive_game_score = NodePath("Padding/Columns/C3/HBoxContainer/Score/InactivePoints")
+active_game_score = NodePath("Padding/Columns/C3/HBoxContainer/Score/ActivePoints")
+inactive_nutri_score = NodePath("Padding/Columns/C3/HBoxContainer2/Nutri/InactivePoints")
+active_nutri_score = NodePath("Padding/Columns/C3/HBoxContainer2/Nutri/ActivePoints")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=619029859]
 layout_mode = 1
@@ -146,6 +146,7 @@ size_flags_horizontal = 3
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Padding/Columns/C3" unique_id=340199614]
 layout_mode = 2
+size_flags_vertical = 3
 theme_override_constants/separation = 0
 alignment = 2
 
@@ -204,7 +205,7 @@ layout_mode = 2
 
 [node name="Nutri" type="HBoxContainer" parent="Padding/Columns/C3/HBoxContainer2" unique_id=1303671589]
 layout_mode = 2
-size_flags_horizontal = 8
+size_flags_horizontal = 10
 theme_override_constants/separation = 0
 
 [node name="Control" type="Control" parent="Padding/Columns/C3/HBoxContainer2/Nutri" unique_id=2040665459]
@@ -227,7 +228,6 @@ layout_mode = 2
 theme_override_colors/font_color = Color(0.35725388, 0.8743722, 0.16496441, 1)
 text = "00"
 
-[node name="Label2" type="Label" parent="Padding/Columns/C3" unique_id=2080296209]
+[node name="HBoxContainer3" type="HBoxContainer" parent="Padding/Columns/C3" unique_id=1513827826]
 layout_mode = 2
-horizontal_alignment = 2
-text_overrun_behavior = 5
+size_flags_vertical = 3

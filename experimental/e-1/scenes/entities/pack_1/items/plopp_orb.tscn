@@ -112,4 +112,5 @@ metadata/_custom_type_script = "uid://pd52kndxu50s"
 
 [node name="NutritionComponent" type="Node" parent="." unique_id=1362043639]
 script = ExtResource("16_1rbv1")
+nutrition = 250.0
 metadata/_custom_type_script = "uid://dw3vp6uat088r"

@@ -9,14 +9,11 @@ extends Node
 enum Status { LOADING, PLAYING, PAUSED, GAME_OVER }
 
 var state: Status = Status.LOADING
-var score_points: int = 0
-var nutri_points: int = 0
+var game_score: int = 0
+var nutri_score: int = 0
 
 var player: Entity
 var anthurium: Entity
-
-signal score_points_changed
-signal nutri_points_changed
 
 signal game_state_changed(status: Status)
 
@@ -24,10 +21,15 @@ func change_game_state(status: Status) -> void:
 	state = status
 	game_state_changed.emit(state)
 
-func add_score_points(amount: int) -> void:
-	score_points += amount
-	score_points_changed.emit()
-
-func add_nutri_points(amount: int) -> void:
-	nutri_points += amount
-	nutri_points_changed.emit()
+func _ready() -> void:
+	EventBus.added_game_score_to.connect(_check_if_game_score_player)
+	EventBus.added_nutri_score_to.connect(_check_if_nutri_score_player)
+	
+func _check_if_game_score_player(subject: Entity, amount: int, source: Entity) -> void:
+	if subject == player:
+		game_score += amount
+	
+func _check_if_nutri_score_player(subject: Entity, amount: int, source: Entity) -> void:
+	if subject == player:
+		nutri_score += amount
+	HUDParticleController.collect(source.global_position, UIHUD.score_collect_pos, floor(amount / 10), Color.LAWN_GREEN)

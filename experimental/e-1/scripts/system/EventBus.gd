@@ -31,3 +31,7 @@ signal change_fog_pulse_params(min: float, max: float, rate: float)
 
 # inventories
 signal item_put_into_inventory(item: Entity)
+
+# score
+signal added_game_score_to(subject: Entity, amount: int, source: Entity)
+signal added_nutri_score_to(subject: Entity, amount: int, source: Entity)

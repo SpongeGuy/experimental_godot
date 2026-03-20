@@ -5,7 +5,7 @@ extends Node
 # utilizes all system nodes
 # -----------------------------------------------------------
 
-@export var game_viewport: SubViewport
+@export var game_canvas: CanvasLayer
 var weather_scene: PackedScene = load("res://scenes/systems/weather.tscn")
 var tile_set: TileSet = load("res://assets/tilesets/prototype.tres")
 
@@ -37,6 +37,9 @@ func initialize_game() -> void:
 	anthurium_manager.spawn_anthurium(anthurium_spawn)
 	
 	EntityManager.spawn_safely(&"roots", Vector2(450, 450))
+	for i in range(15):
+		var pos: Vector2 = Vector2(randf_range(300, 550), randf_range(300, 550))
+		EntityManager.spawn_safely(&"plopp_orb", pos)
 	EntityManager.spawn_safely(&"plopp_orb", Vector2(550, 500))
 	EntityManager.spawn_safely(&"pitcher", Vector2(500, 450))
 	
@@ -52,6 +55,24 @@ func initialize_game() -> void:
 
 
 func initialize_tree() -> void:
+	var sub_viewport_container: SubViewportContainer = SubViewportContainer.new()
+	sub_viewport_container.size = Vector2(640, 360)
+	
+	
+	var sub_viewport: SubViewport = SubViewport.new()
+	sub_viewport.size = Vector2(640, 360)
+	sub_viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
+	sub_viewport.handle_input_locally = false
+	sub_viewport.snap_2d_transforms_to_pixel = true
+	sub_viewport.snap_2d_vertices_to_pixel = true
+	
+	HUDParticleController._instance.viewport_container = sub_viewport_container
+	HUDParticleController._instance.game_viewport = sub_viewport
+	
+	sub_viewport_container.add_child(sub_viewport)
+	game_canvas.add_child(sub_viewport_container)
+	
+	
 	var container: Node2D = Node2D.new()
 	container.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	var camera: Camera2D = Camera2D.new()
@@ -88,7 +109,7 @@ func initialize_tree() -> void:
 	container.add_child(camera)
 	container.add_child(world)
 	
-	game_viewport.add_child(container)
+	sub_viewport.add_child(container)
 	print("the trees")
 	
 	EventBus.camera_ready.emit(camera)

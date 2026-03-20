@@ -14,7 +14,7 @@ enum Behavior{ TRACKING, FROZEN }
 func _ready() -> void:
 	EventBus.camera_ready.connect(_on_camera_ready)
 
-func _process(delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	if not target:
 		return
 	match behavior:

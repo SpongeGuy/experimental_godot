@@ -11,13 +11,12 @@ func _ready() -> void:
 	GameState.game_state_changed.connect(_on_game_state_changed)
 	EventBus.day_state_changed.connect(_on_day_state_changed)
 	EventBus.player_spawned.connect(_on_player_spawned)
-	GameState.nutri_points_changed.connect(_update_nutri_points)
 	
 func _process(delta: float) -> void:
 	if GameState.state != GameState.Status.PLAYING:
 		return
 		
-	_update_hud()
+	_update_hud(delta)
 	
 func _on_game_state_changed(status: GameState.Status) -> void:
 	match status:
@@ -28,9 +27,11 @@ func _on_game_state_changed(status: GameState.Status) -> void:
 			_show_game()
 			_show_hud()
 
-func _update_hud() -> void:
+func _update_hud(delta: float) -> void:
 	_update_module_time()
 	_update_module_healthbar()
+	hud.change_game_score(GameState.game_score, delta)
+	hud.change_nutri_score(GameState.nutri_score, delta)
 	
 
 func _update_module_healthbar() -> void:
@@ -50,9 +51,7 @@ func _update_module_time() -> void:
 
 func _on_day_state_changed(state: TimeManager.DayState, name: String) -> void:
 	hud.time_message_label.text = str(name)
-	
-func _update_nutri_points() -> void:
-	hud.active_nutri_points.text = str(GameState.nutri_points)
+
 
 # --------------------------------------------------------
 # helpers / one-time methods

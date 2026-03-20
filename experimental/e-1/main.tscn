@@ -10,15 +10,16 @@
 [ext_resource type="Script" uid="uid://pmgi17orx2e7" path="res://scripts/system/UIController.gd" id="8_ycdy4"]
 [ext_resource type="Script" uid="uid://c7x0vu2cn1kby" path="res://scripts/system/WeatherController.gd" id="9_82xsv"]
 [ext_resource type="Script" uid="uid://cirg8u1irerl5" path="res://scripts/system/SpawnManager.gd" id="10_074og"]
+[ext_resource type="Script" uid="uid://bnx1xoe860b0e" path="res://hud_particle_controller.gd" id="11_vivmo"]
 [ext_resource type="PackedScene" uid="uid://c0lhjlvaxvoce" path="res://scenes/systems/ui/screen.tscn" id="11_ycdy4"]
 [ext_resource type="PackedScene" uid="uid://x8blmpfejth8" path="res://scenes/systems/ui/hud.tscn" id="12_w48qg"]
 [ext_resource type="PackedScene" uid="uid://bnuglwwl8cbdc" path="res://scenes/systems/ui/game_view.tscn" id="13_vivmo"]
 
 [node name="Main" type="Node" unique_id=1100438637]
 
-[node name="GameMaster" type="Node" parent="." unique_id=1238098609 node_paths=PackedStringArray("game_viewport", "dungeon_generator", "player_manager", "anthurium_manager")]
+[node name="GameMaster" type="Node" parent="." unique_id=1238098609 node_paths=PackedStringArray("game_canvas", "dungeon_generator", "player_manager", "anthurium_manager")]
 script = ExtResource("1_dg77c")
-game_viewport = NodePath("../Game/SubViewportContainer/SubViewport")
+game_canvas = NodePath("../Game")
 dungeon_generator = NodePath("DungeonGenerator")
 player_manager = NodePath("PlayerManager")
 anthurium_manager = NodePath("AnthuriumManager")
@@ -63,7 +64,13 @@ metadata/_custom_type_script = "uid://cirg8u1irerl5"
 script = ExtResource("5_w48qg")
 metadata/_custom_type_script = "uid://3iwkt7r7c01a"
 
+[node name="HUDParticleController" type="CanvasLayer" parent="." unique_id=1773480992]
+layer = 10
+script = ExtResource("11_vivmo")
+metadata/_custom_type_script = "uid://bnx1xoe860b0e"
+
 [node name="UI" type="CanvasLayer" parent="." unique_id=2071487813]
+layer = 5
 
 [node name="Screen" parent="UI" unique_id=1606049138 instance=ExtResource("11_ycdy4")]
 
@@ -72,15 +79,3 @@ metadata/_custom_type_script = "uid://3iwkt7r7c01a"
 [node name="GameView" parent="UI" unique_id=107135793 instance=ExtResource("13_vivmo")]
 
 [node name="Game" type="CanvasLayer" parent="." unique_id=16701813]
-layer = 0
-
-[node name="SubViewportContainer" type="SubViewportContainer" parent="Game" unique_id=1847138665]
-offset_right = 640.0
-offset_bottom = 360.0
-
-[node name="SubViewport" type="SubViewport" parent="Game/SubViewportContainer" unique_id=1656653505]
-handle_input_locally = false
-snap_2d_transforms_to_pixel = true
-snap_2d_vertices_to_pixel = true
-size = Vector2i(640, 360)
-render_target_update_mode = 4
