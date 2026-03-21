@@ -28,7 +28,7 @@ func initialize_game() -> void:
 	var cell: CellData = CellData.new()
 	cell.terrain = CellData.TerrainType.GROUND
 	WorldGrid.set_rectangle(Vector2i(0,0), Vector2i(80, 46), cell)
-	#dungeon_generator.generate()
+	dungeon_generator.generate()
 	
 	
 	var player_spawn: Vector2 = Vector2(512, 512)

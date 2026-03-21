@@ -31,6 +31,8 @@ func load_and_reset_animation(animation_name: StringName) -> void:
 		if animation.name != animation_name:
 			continue
 		_current_animation = animation
+	if not _current_animation:
+		return
 	_animation_timer = _current_animation.column
 	_current_frame = floor(_animation_timer)
 	_play()

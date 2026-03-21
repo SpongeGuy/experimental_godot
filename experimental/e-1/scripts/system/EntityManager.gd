@@ -21,6 +21,7 @@ static func spawn(entity_type: StringName, pos: Vector2) -> Entity:
 		return null
 	entity.global_position = pos
 	_add(entity)
+	print(entity)
 	return entity
 
 static func spawn_safely(entity_type: StringName, pos: Vector2) -> Entity:

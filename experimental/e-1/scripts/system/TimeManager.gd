@@ -18,7 +18,7 @@ func _ready() -> void:
 	GameState.game_state_changed.connect(_on_game_state_changed)
 
 func _on_game_state_changed(state: GameState.Status) -> void:
-	if state == GameState.Status.LOADING:
+	if state == GameState.Status.PLAYING:
 		change_day_state(DayState.DAWN)
 
 
@@ -34,6 +34,15 @@ func _process(delta: float) -> void:
 func change_day_state(state: DayState) -> void:
 	day_state = state
 	EventBus.day_state_changed.emit(state, day_names[state])
+	match state:
+		DayState.DAWN:
+			EventBus.dawn_arrived.emit()
+		DayState.DAY:
+			EventBus.day_arrived.emit()
+		DayState.DUSK:
+			EventBus.dusk_arrived.emit()
+		DayState.NIGHT:
+			EventBus.night_arrived.emit()
 
 func _elapse(delta: float) -> void:
 	elapsed += delta

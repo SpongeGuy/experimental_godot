@@ -21,6 +21,10 @@ signal anthurium_died()
 
 # time
 signal day_state_changed(state: TimeManager.DayState, name: String)
+signal dawn_arrived
+signal day_arrived
+signal dusk_arrived
+signal night_arrived
 
 # camera
 signal camera_target_changed(target: Node2D)

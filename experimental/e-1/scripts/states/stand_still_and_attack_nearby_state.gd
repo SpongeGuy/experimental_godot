@@ -54,19 +54,16 @@ func update(delta: float) -> void:
 		if randf() < chance_to_give_up:
 			interrupted.emit()
 		
-		hit_time = timer_length
+		hit_time = timer_length + randf_range(-0.5, 0.5)
 	
 	
 func physics_update(delta: float) -> void:
 	if facing and hit_target:
 		facing.change_direction((hit_target.global_position - owner.global_position).normalized())
 		
-	if animator:
-		animator.update_animation(delta)
 	
 func exit() -> void:
 	interrupted.disconnect(_on_interrupted)
-	
 	if ability:
 		ability.finished.disconnect(_on_ability_finished)
 	

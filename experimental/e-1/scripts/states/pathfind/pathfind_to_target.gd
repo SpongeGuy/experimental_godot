@@ -81,8 +81,6 @@ func physics_update(delta: float) -> void:
 	if facing:
 		facing.change_direction(steering)	
 
-	if animator:
-		animator.update_animation(delta, movement.velocity.length() * 0.2)
 		
 func _on_target_lost() -> void:
 	state_machine.switch(exit_state)

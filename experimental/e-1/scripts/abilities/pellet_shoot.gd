@@ -1,7 +1,6 @@
 extends Ability
 class_name AbilityPelletShoot
 
-@export var pellet_scene: PackedScene
 @export var entity_id: StringName
 @export var facing: FacingComponent
 @export var speed: float = 150.0

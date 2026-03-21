@@ -50,8 +50,6 @@ func physics_update(delta: float) -> void:
 	
 	movement.physics_update(delta, owner)
 	
-	if animator:
-		animator.update_animation(delta, movement.velocity.length() * 0.2)
 		
 	if facing:
 		facing.change_direction(steering)

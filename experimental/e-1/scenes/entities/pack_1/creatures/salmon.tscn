@@ -12,7 +12,6 @@
 [ext_resource type="Script" uid="uid://bolv5v2qg2xl0" path="res://scripts/components/facing_component.gd" id="10_aj0de"]
 [ext_resource type="Script" uid="uid://5k1r4xftmni4" path="res://scripts/components/sprite_flipper.gd" id="11_nqqj1"]
 [ext_resource type="Script" uid="uid://briu06bbs73xu" path="res://scripts/abilities/pellet_shoot.gd" id="12_dt7oj"]
-[ext_resource type="PackedScene" uid="uid://cw2dn42ho6tpg" path="res://scenes/entities/pack_1/items/pellet.tscn" id="13_8a0m4"]
 [ext_resource type="Script" uid="uid://snopn0q86518" path="res://scripts/classes/StateMachine.gd" id="14_27ukb"]
 [ext_resource type="Script" uid="uid://87ix88q4hl51" path="res://scripts/states/pathfind/pathfind_wander_and_seek.gd" id="15_cvdu2"]
 [ext_resource type="Script" uid="uid://dku8bbt6kwf0j" path="res://scripts/states/idle.gd" id="16_kgciu"]
@@ -121,7 +120,7 @@ metadata/_custom_type_script = "uid://5k1r4xftmni4"
 
 [node name="AbilityPelletShoot" type="Node" parent="Ability" unique_id=929775344 node_paths=PackedStringArray("facing", "friends")]
 script = ExtResource("12_dt7oj")
-pellet_scene = ExtResource("13_8a0m4")
+entity_id = &"pellet"
 facing = NodePath("../../Facing/FacingComponent")
 friends = NodePath("../../FriendComponent")
 metadata/_custom_type_script = "uid://briu06bbs73xu"

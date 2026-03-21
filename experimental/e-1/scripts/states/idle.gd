@@ -29,8 +29,7 @@ func update(delta: float) -> void:
 	
 func physics_update(delta: float) -> void:
 	movement.physics_update(delta, owner)
-	if animator:
-		animator.update_animation(delta)
+
 	
 	
 func exit() -> void:

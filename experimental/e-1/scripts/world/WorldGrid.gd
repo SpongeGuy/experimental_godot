@@ -4,6 +4,7 @@ extends Node
 var width: int = 64
 var height: int = 64
 var _grid: Array[CellData] = []
+var grid_size: Vector2
 var tile_size: int = 16
 
 signal cell_changed(coords: Vector2i)
@@ -12,6 +13,8 @@ signal grid_loaded
 func init_grid(w: int, h: int) -> void:
 	width = w
 	height = h
+	grid_size.x = w
+	grid_size.y = h
 	_grid.clear()
 	_grid.resize(w * h)
 	for i in _grid.size():

@@ -19,9 +19,7 @@ func update(delta: float) -> void:
 		plop_timer = 0.0
 		state_machine.switch(exit_state)
 	
-func physics_update(delta: float) -> void:
-	if animator:
-		animator.update_animation(delta)
+
 	
 func exit() -> void:
 	pass
