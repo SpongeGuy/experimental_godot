@@ -84,26 +84,14 @@ metadata/_custom_type_script = "uid://dku8bbt6kwf0j"
 script = ExtResource("11_ftcib")
 metadata/_custom_type_script = "uid://bt6jf1wavtm84"
 
-[node name="Proximity" type="Area2D" parent="." unique_id=1481177868]
-position = Vector2(0, -6)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Proximity" unique_id=45194577]
-shape = SubResource("CircleShape2D_l0aay")
-
-[node name="ProximityDetector" type="Node" parent="." unique_id=984295082 node_paths=PackedStringArray("area")]
-script = ExtResource("12_4nudq")
-area = NodePath("../Proximity")
-collision_layer = 4
-metadata/_custom_type_script = "uid://jrg503l8awgj"
-
 [node name="PickupableComponent" type="Node" parent="." unique_id=2141240450 node_paths=PackedStringArray("components_to_disable")]
 script = ExtResource("13_l0aay")
-components_to_disable = [NodePath("../Proximity"), NodePath("../CollisionShape2D")]
+components_to_disable = [NodePath("../Proximity/Proximity"), NodePath("../CollisionShape2D")]
 metadata/_custom_type_script = "uid://7o5jm15ato3e"
 
 [node name="RecentlyInteracted" type="Node" parent="." unique_id=1668839242 node_paths=PackedStringArray("proximity_area")]
 script = ExtResource("14_iyqu2")
-proximity_area = NodePath("../ProximityDetector")
+proximity_area = NodePath("../Proximity/ProximityDetector")
 metadata/_custom_type_script = "uid://dqikotd5sv8r6"
 
 [node name="OwnedBy" type="Node" parent="." unique_id=1504320027]
@@ -114,3 +102,18 @@ metadata/_custom_type_script = "uid://pd52kndxu50s"
 script = ExtResource("16_1rbv1")
 nutrition = 250.0
 metadata/_custom_type_script = "uid://dw3vp6uat088r"
+
+[node name="Proximity" type="Node2D" parent="." unique_id=20133643]
+
+[node name="ProximityDetector" type="Node" parent="Proximity" unique_id=984295082 node_paths=PackedStringArray("area")]
+script = ExtResource("12_4nudq")
+area = NodePath("../Proximity")
+collision_layer = 4
+collision_mask = 6
+metadata/_custom_type_script = "uid://jrg503l8awgj"
+
+[node name="Proximity" type="Area2D" parent="Proximity" unique_id=1481177868]
+position = Vector2(0, -6)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Proximity/Proximity" unique_id=45194577]
+shape = SubResource("CircleShape2D_l0aay")

@@ -9,12 +9,11 @@ func _ready() -> void:
 	
 func _on_detected(source: Entity, target: Entity) -> void:
 	var give_points_to: Entity = RecentlyInteracted.resolve_attribution(target)
-	if not give_points_to:
-		return
-	var nutrition: NutritionComponent = target.get_component(NutritionComponent) as NutritionComponent
-	if nutrition:
-		var pi: PointsInterface = give_points_to.get_component(PointsInterface) as PointsInterface
-		if pi:
-			pi.add_nutri_score(nutrition.nutrition, source)
+	if give_points_to:
+		var nutrition: NutritionComponent = target.get_component(NutritionComponent) as NutritionComponent
+		if nutrition:
+			var pi: PointsInterface = give_points_to.get_component(PointsInterface) as PointsInterface
+			if pi:
+				pi.add_nutri_score(nutrition.nutrition, source)
 	inventory.put_into_inventory(target)
 

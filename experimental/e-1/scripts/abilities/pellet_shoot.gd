@@ -23,5 +23,4 @@ func execute() -> void:
 	pellet_friends.add_friend(owner)
 	if friends:
 		friends.add_friend(pellet)
-	EntityManager._add(pellet)
 	
