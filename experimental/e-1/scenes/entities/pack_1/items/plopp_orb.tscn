@@ -18,22 +18,23 @@
 [ext_resource type="Script" uid="uid://dw3vp6uat088r" path="res://scripts/components/nutrition_component.gd" id="16_1rbv1"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_xdlj8"]
-radius = 3.0
+radius = 4.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_l0aay"]
-radius = 9.0
+radius = 4.0
 
 [node name="Orb" type="CharacterBody2D" unique_id=1565465205 groups=["orb"]]
 texture_filter = 1
 collision_layer = 4
 collision_mask = 7
+motion_mode = 1
 script = ExtResource("1_rnl5i")
 
 [node name="Sprites" type="Node2D" parent="." unique_id=133617331]
 
 [node name="Main" type="Sprite2D" parent="Sprites" unique_id=40464079]
-position = Vector2(0, -6)
 texture = ExtResource("1_ggfgp")
+offset = Vector2(0, -4)
 
 [node name="Shadow" type="Sprite2D" parent="Sprites" unique_id=436483461]
 z_index = -1
@@ -62,10 +63,7 @@ metadata/_custom_type_script = "uid://2b6l1sxmcd5r"
 
 [node name="MovementComponent" type="Node" parent="." unique_id=119777854 node_paths=PackedStringArray("knockback")]
 script = ExtResource("8_u3cgc")
-max_speed = null
-acceleration = null
-friction = null
-rotation_speed = null
+friction = 50.0
 knockback = NodePath("../KnockbackComponent")
 metadata/_custom_type_script = "uid://c58w8kgm688wm"
 
@@ -113,7 +111,6 @@ collision_mask = 6
 metadata/_custom_type_script = "uid://jrg503l8awgj"
 
 [node name="Proximity" type="Area2D" parent="Proximity" unique_id=1481177868]
-position = Vector2(0, -6)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Proximity/Proximity" unique_id=45194577]
 shape = SubResource("CircleShape2D_l0aay")

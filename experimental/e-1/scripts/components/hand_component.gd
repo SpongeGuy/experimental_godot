@@ -20,6 +20,18 @@ var lerp_weight: float = 20.0
 
 func _ready() -> void:
 	EventBus.item_put_into_inventory.connect(_on_item_put_into_inventory)
+	
+	
+#func _process(delta: float) -> void:
+	#if Input.is_action_just_pressed("primary_action"):
+		#if not item:
+			#try_pick_up_item_in_area()
+		#else:
+			#var knockback: KnockbackComponent = item.get_component(KnockbackComponent)
+			#if knockback and facing:
+				#item.position += (facing.get_direction() * throw_tp_distance)
+				#knockback.apply_knockback(facing.get_direction(), 250)
+			#let_go_of_item()
 
 func pick_up_item(body: Entity) -> void:
 	if body is not Entity:
@@ -36,16 +48,7 @@ func pick_up_item(body: Entity) -> void:
 	if ri:
 		ri.interact(entity)
 	
-func _process(delta: float) -> void:
-	if Input.is_action_just_pressed("primary_action"):
-		if not item:
-			try_pick_up_item_in_area()
-		else:
-			var knockback: KnockbackComponent = item.get_component(KnockbackComponent)
-			if knockback and facing:
-				item.position += (facing.get_direction() * throw_tp_distance)
-				knockback.apply_knockback(facing.get_direction(), 250)
-			let_go_of_item()
+
 	
 func try_pick_up_item_in_area() -> void:
 	var bodies: Array = pickup_area.get_overlapping_bodies()

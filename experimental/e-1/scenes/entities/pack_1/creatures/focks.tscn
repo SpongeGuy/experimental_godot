@@ -23,9 +23,12 @@
 [ext_resource type="Script" uid="uid://bt6jf1wavtm84" path="res://scripts/components/world_interface.gd" id="21_kyqc0"]
 [ext_resource type="Script" uid="uid://jrg503l8awgj" path="res://scripts/components/proximity_detector.gd" id="22_e1qh5"]
 [ext_resource type="Script" uid="uid://cxdo2n01etkw6" path="res://scripts/components/points_interface.gd" id="23_qyswd"]
+[ext_resource type="Theme" uid="uid://bvh1budw06kq6" path="res://assets/themes/numeric.tres" id="24_jwlga"]
+[ext_resource type="Script" uid="uid://dmr1e3ur3lqop" path="res://scripts/components/input_component.gd" id="25_xoj7o"]
+[ext_resource type="Script" uid="uid://dy1nhmegj3sv7" path="res://scripts/abilities/try_pick_up.gd" id="26_sumsn"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_03k0s"]
-size = Vector2(9, 5)
+[sub_resource type="CircleShape2D" id="CircleShape2D_jwlga"]
+radius = 5.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mg4qc"]
 size = Vector2(7, 6)
@@ -57,16 +60,17 @@ metadata/_custom_type_script = "uid://cym0ubd2tvsch"
 size = Vector2(20, 13)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qyswd"]
-radius = 11.0
+radius = 12.0
 
 [node name="Focks" type="CharacterBody2D" unique_id=163986961 groups=["creature"]]
 texture_filter = 1
 collision_layer = 2
+motion_mode = 1
 script = ExtResource("1_7d0cd")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=174038696]
-position = Vector2(-0.5, -2.5)
-shape = SubResource("RectangleShape2D_03k0s")
+position = Vector2(0.5, -2)
+shape = SubResource("CircleShape2D_jwlga")
 
 [node name="Visual" type="Node2D" parent="." unique_id=333898871]
 
@@ -86,12 +90,11 @@ frame = 2
 
 [node name="Health&Damage" type="Node" parent="." unique_id=1393877488]
 
-[node name="HealthComponent" type="Node" parent="Health&Damage" unique_id=1840254880 node_paths=PackedStringArray("hitbox", "knockback")]
+[node name="HealthComponent" type="Node" parent="Health&Damage" unique_id=1840254880 node_paths=PackedStringArray("hitbox")]
 script = ExtResource("4_jwlga")
 max_health = 5.0
 health = 5.0
 hitbox = NodePath("../../HitDetection/Hitbox")
-knockback = NodePath("../../KnockbackComponent")
 metadata/_custom_type_script = "uid://rhl072pc6k5q"
 
 [node name="DamageAnimationComponent" type="Node" parent="Health&Damage" unique_id=450702520 node_paths=PackedStringArray("health_component", "sprite")]
@@ -135,7 +138,6 @@ metadata/_custom_type_script = "uid://b8tiyc5hi81ap"
 [node name="MovementComponent" type="Node" parent="." unique_id=1644116155 node_paths=PackedStringArray("knockback", "world_interface")]
 script = ExtResource("11_1hl42")
 max_speed = 55.0
-acceleration = 5000.0
 friction = 1000.0
 knockback = NodePath("../KnockbackComponent")
 world_interface = NodePath("../WorldInterface")
@@ -176,6 +178,7 @@ script = ExtResource("17_o1xgh")
 metadata/_custom_type_script = "uid://bolv5v2qg2xl0"
 
 [node name="Rotator" type="Node2D" parent="Animation" unique_id=1591863854 node_paths=PackedStringArray("facing")]
+visible = false
 position = Vector2(0, -4)
 script = ExtResource("18_oduj7")
 facing = NodePath("../FacingComponent")
@@ -195,8 +198,9 @@ pickup_area = NodePath("../Animation/Rotator/HandArea")
 facing = NodePath("../Animation/FacingComponent")
 metadata/_custom_type_script = "uid://duajgedj0nkus"
 
-[node name="KnockbackComponent" type="Node" parent="." unique_id=279683997]
+[node name="KnockbackComponent" type="Node" parent="." unique_id=279683997 node_paths=PackedStringArray("health")]
 script = ExtResource("20_m1inn")
+health = NodePath("../Health&Damage/HealthComponent")
 metadata/_custom_type_script = "uid://2b6l1sxmcd5r"
 
 [node name="WorldInterface" type="Node" parent="." unique_id=484845366]
@@ -215,11 +219,56 @@ metadata/_custom_type_script = "uid://jrg503l8awgj"
 [node name="ProximityArea" type="Area2D" parent="Proximity" unique_id=980590054]
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="Proximity/ProximityArea" unique_id=1060462205]
-position = Vector2(0.5, -7)
+position = Vector2(1, -4)
 shape = SubResource("CircleShape2D_qyswd")
 
 [node name="PointsInterface" type="Node" parent="." unique_id=1120567189]
 script = ExtResource("23_qyswd")
 metadata/_custom_type_script = "uid://cxdo2n01etkw6"
+
+[node name="Debug" type="Control" parent="." unique_id=249517330]
+layout_mode = 3
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -40.0
+offset_right = 40.0
+grow_vertical = 0
+theme = ExtResource("24_jwlga")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Debug" unique_id=1625749566]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Label" type="Label" parent="Debug/VBoxContainer" unique_id=556597575]
+layout_mode = 2
+text = "hey"
+
+[node name="Label2" type="Label" parent="Debug/VBoxContainer" unique_id=518962612]
+layout_mode = 2
+text = "hey"
+
+[node name="Label3" type="Label" parent="Debug/VBoxContainer" unique_id=1464431247]
+layout_mode = 2
+text = "hey"
+
+[node name="Label4" type="Label" parent="Debug/VBoxContainer" unique_id=1580628760]
+layout_mode = 2
+text = "hey"
+
+[node name="InputComponent" type="Node" parent="." unique_id=648358057 node_paths=PackedStringArray("primary_ability", "label1", "label2", "label3", "label4")]
+script = ExtResource("25_xoj7o")
+primary_ability = NodePath("../AbilityTryPickUp")
+label1 = NodePath("../Debug/VBoxContainer/Label")
+label2 = NodePath("../Debug/VBoxContainer/Label2")
+label3 = NodePath("../Debug/VBoxContainer/Label3")
+label4 = NodePath("../Debug/VBoxContainer/Label4")
+metadata/_custom_type_script = "uid://dmr1e3ur3lqop"
+
+[node name="AbilityTryPickUp" type="Node" parent="." unique_id=122156778 node_paths=PackedStringArray("hand_component")]
+script = ExtResource("26_sumsn")
+hand_component = NodePath("../HandComponent")
+metadata/_custom_type_script = "uid://dy1nhmegj3sv7"
 
 [connection signal="died" from="Health&Damage/HealthComponent" to="Health&Damage/DeathStateSwitcher" method="switch"]

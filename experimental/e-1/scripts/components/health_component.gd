@@ -4,9 +4,8 @@ class_name HealthComponent
 @export var max_health: float
 @export var health: float
 @export var hitbox: Hitbox ## not mandatory
-@export var knockback: KnockbackComponent ## not mandatory
 
-signal taken_damage(amount: float, source: Node2D)
+signal taken_damage(amount: float, source: Entity)
 signal died()
 
 @export var invincibility_length: float = 0.5
@@ -24,7 +23,7 @@ func _process_invincibility(delta: float) -> void:
 	if invincibility_timer >= 0.0:
 		invincibility_timer -= delta
 
-func take_damage(amount: float, source: Node2D) -> void:
+func take_damage(amount: float, source: Entity) -> void:
 	if god_mode:
 		return
 	if invincibility_timer > 0:
@@ -32,9 +31,7 @@ func take_damage(amount: float, source: Node2D) -> void:
 	invincibility_timer = invincibility_length
 	health -= amount
 	taken_damage.emit(amount, source)
-	if knockback:
-		var direction: Vector2 = (entity.global_position - source.global_position).normalized()
-		knockback.apply_knockback(direction, 150)
+
 	
 	if health <= 0:
 		died.emit()

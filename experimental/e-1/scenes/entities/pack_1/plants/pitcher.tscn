@@ -13,7 +13,7 @@
 size = Vector2(13, 15)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ucvfs"]
-radius = 11.0
+radius = 7.071068
 
 [node name="Pitcher" type="CharacterBody2D" unique_id=1198001237]
 texture_filter = 1
@@ -37,7 +37,7 @@ metadata/_custom_type_script = "uid://ch41hyioton1y"
 [node name="Proximity" type="Area2D" parent="." unique_id=975865111]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Proximity" unique_id=1902691103]
-position = Vector2(1, -2)
+position = Vector2(-2, -13)
 shape = SubResource("CircleShape2D_ucvfs")
 
 [node name="ProximityDetector" type="Node" parent="." unique_id=432585541 node_paths=PackedStringArray("area")]

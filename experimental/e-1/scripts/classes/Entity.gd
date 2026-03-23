@@ -8,6 +8,7 @@ signal entity_initialized
 func _ready() -> void:
 	_register_components(self)
 	entity_initialized.emit()
+	motion_mode = CharacterBody2D.MOTION_MODE_FLOATING
 	
 func _register_components(node: Node) -> void:
 	for child in node.get_children():

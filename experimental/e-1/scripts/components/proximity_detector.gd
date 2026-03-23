@@ -29,10 +29,8 @@ func _ready() -> void:
 	area.area_exited.connect(_on_area_exited)
 	
 func _on_area_entered(other: Area2D) -> void:
-	print(other.owner)
 	var target: Entity = _resolve_entity(other)
 	if target and _passes_filter(target):
-		print("shiting", target)
 		detected.emit(entity, target)
 		
 func _on_area_exited(other: Area2D) -> void:

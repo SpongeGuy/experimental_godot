@@ -8,22 +8,16 @@ class_name MovementComponent
 @export var knockback: KnockbackComponent
 @export var world_interface: WorldInterface
 
+@export var apply_acceleration: bool = true
+@export var apply_friction: bool = true
+
 var velocity: Vector2 = Vector2.ZERO
 var desired_direction: Vector2 = Vector2.ZERO
 
 signal started_moving(direction: Vector2)
 signal stopped_moving()
-signal changed_direction(old_direction: Vector2, new_direction: Vector2)
-signal fell_into_gap(cell: CellData)
-signal standing_on_damage(amount: float)
 
-@export var gap_pull_strength: float = 120.0
-@export var gap_proximity_radius: float = 12.0
-@export var gap_slow_max: float = 0.5
-@export var gap_friction_max: float = 0.7
 
-var _gap_speed_scale: float = 1.0
-var _gap_friction_scale: float = 1.0
 
 var moving: bool = false
 
@@ -34,35 +28,42 @@ func set_desired_direction(dir: Vector2) -> void:
 		desired_direction = Vector2.ZERO
 	
 func physics_update(delta: float, body: CharacterBody2D) -> void:
-	movement_function(delta, body)
-	
+	movement_function(delta)
 	_handle_cell_terrain(body, delta) # cell stuff, ground effects
-	#_apply_conveyor(body)
+	_apply_knockback(body)
 	
-	_add_knockback_velocity(body)
-	
-	_detect_active_movement()
-	
+	body.velocity = velocity
 	body.move_and_slide()
+	velocity = body.velocity
 	
+	_apply_friction(delta)
+	
+	_handle_passive_collisions(body)
 	_handle_bounce_collisions() # knockback purposes
+
+	_detect_active_movement()
 	
 	
 ## applies custom logic to velocity and applies velocity to the body according to conditions
-func movement_function(delta: float, body: CharacterBody2D) -> void:
+func movement_function(delta: float) -> void:
 	var final_max_speed: float = max_speed
-	var final_friction: float = friction
 	
 	if world_interface:
 		final_max_speed *= world_interface.cell_movement_modifier()
-		final_friction *= world_interface.cell_friction_multiplier()
 	
 	if desired_direction.length() > 0:
 		var target_velocity = desired_direction * final_max_speed
 		velocity = velocity.move_toward(target_velocity, acceleration * delta)
-	else:
-		velocity = velocity.move_toward(Vector2.ZERO, final_friction * delta)
-	body.velocity = velocity
+
+
+
+
+func _apply_friction(delta: float) -> void:
+	if not apply_friction:
+		velocity = Vector2.ZERO
+		return
+	if desired_direction.is_zero_approx():
+		velocity = velocity.move_toward(Vector2.ZERO, delta * friction)
 	
 	
 
@@ -71,9 +72,22 @@ func _handle_cell_terrain(body: CharacterBody2D, delta: float) -> void:
 	if not world_interface: 
 		return
 
+func _handle_passive_collisions(body: CharacterBody2D) -> void:
+	var restitution: float = 1.2
+	if entity is not CharacterBody2D:
+		return
+	
+	
+	for i in body.get_slide_collision_count():
+		var col: KinematicCollision2D = body.get_slide_collision(i)
+		var collider_velocity = col.get_collider_velocity()
+		var normal: Vector2 = col.get_normal()
+		
+		var relative_velocity: Vector2 = collider_velocity - velocity
+		var push_amount: float = relative_velocity.dot(normal)
 
-
-
+		if push_amount > 0:
+			velocity += normal * push_amount * restitution
 
 
 
@@ -100,9 +114,9 @@ func get_actual_velocity() -> Vector2:
 # knockback
 # -------------------------	
 
-func _add_knockback_velocity(body: CharacterBody2D) -> void:
+func _apply_knockback(body: CharacterBody2D) -> void:
 	if knockback:
-		body.velocity += knockback.knockback_velocity
+		velocity += knockback.knockback_velocity
 
 func _handle_bounce_collisions() -> void:
 	if not knockback:
