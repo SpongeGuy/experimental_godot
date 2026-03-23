@@ -23,8 +23,9 @@
 [ext_resource type="Script" uid="uid://bt6jf1wavtm84" path="res://scripts/components/world_interface.gd" id="21_kyqc0"]
 [ext_resource type="Script" uid="uid://jrg503l8awgj" path="res://scripts/components/proximity_detector.gd" id="22_e1qh5"]
 [ext_resource type="Script" uid="uid://cxdo2n01etkw6" path="res://scripts/components/points_interface.gd" id="23_qyswd"]
-[ext_resource type="Theme" uid="uid://bvh1budw06kq6" path="res://assets/themes/numeric.tres" id="24_jwlga"]
+[ext_resource type="Theme" uid="uid://bef2u5uhlydku" path="res://assets/themes/debug.tres" id="24_s02rk"]
 [ext_resource type="Script" uid="uid://dmr1e3ur3lqop" path="res://scripts/components/input_component.gd" id="25_xoj7o"]
+[ext_resource type="Script" uid="uid://byeskwmhfllnd" path="res://scripts/components/ability_manager.gd" id="26_s02rk"]
 [ext_resource type="Script" uid="uid://dy1nhmegj3sv7" path="res://scripts/abilities/try_pick_up.gd" id="26_sumsn"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_jwlga"]
@@ -234,7 +235,7 @@ anchor_bottom = 1.0
 offset_top = -40.0
 offset_right = 40.0
 grow_vertical = 0
-theme = ExtResource("24_jwlga")
+theme = ExtResource("24_s02rk")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Debug" unique_id=1625749566]
 layout_mode = 0
@@ -257,18 +258,21 @@ text = "hey"
 layout_mode = 2
 text = "hey"
 
-[node name="InputComponent" type="Node" parent="." unique_id=648358057 node_paths=PackedStringArray("primary_ability", "label1", "label2", "label3", "label4")]
+[node name="InputComponent" type="Node" parent="." unique_id=648358057 node_paths=PackedStringArray("label1", "label2", "label3", "label4")]
 script = ExtResource("25_xoj7o")
-primary_ability = NodePath("../AbilityTryPickUp")
 label1 = NodePath("../Debug/VBoxContainer/Label")
 label2 = NodePath("../Debug/VBoxContainer/Label2")
 label3 = NodePath("../Debug/VBoxContainer/Label3")
 label4 = NodePath("../Debug/VBoxContainer/Label4")
 metadata/_custom_type_script = "uid://dmr1e3ur3lqop"
 
-[node name="AbilityTryPickUp" type="Node" parent="." unique_id=122156778 node_paths=PackedStringArray("hand_component")]
+[node name="AbilityManager" type="Node" parent="." unique_id=168066014]
+script = ExtResource("26_s02rk")
+metadata/_custom_type_script = "uid://byeskwmhfllnd"
+
+[node name="AbilityTryPickUp" type="Node" parent="AbilityManager" unique_id=122156778 node_paths=PackedStringArray("hand_component")]
 script = ExtResource("26_sumsn")
-hand_component = NodePath("../HandComponent")
+hand_component = NodePath("../../HandComponent")
 metadata/_custom_type_script = "uid://dy1nhmegj3sv7"
 
 [connection signal="died" from="Health&Damage/HealthComponent" to="Health&Damage/DeathStateSwitcher" method="switch"]

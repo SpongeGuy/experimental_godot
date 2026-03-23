@@ -4,48 +4,54 @@ class_name InputComponent
 # -------------------------------------------------------------
 # checks every frame for certain user inputs.
 # ------------------------------------------------------------
-@export var primary_ability: Ability
-@export var secondary_ability: Ability
 
 @export var label1: Label
 @export var label2: Label
 @export var label3: Label
 @export var label4: Label
 
-var primary_just_pressed: bool = false
-var secondary_just_pressed: bool = false
-
-var primary_hold_time: float = 0
-var primary_is_held: bool = false
-
-var secondary_hold_time: float = 0
-var secondary_is_held: bool = true
-
 var move_input_direction: Vector2
 
+var just_pressed: Array[bool] = [false, false, false, false]
+var hold_time: Array[float] = [0.0, 0.0, 0.0, 0.0]
+var is_held: Array[bool] = [false, false, false, false]
+var just_released: Array[bool] = [false, false, false, false]
+
+signal input_just_pressed(id: int)
+signal input_just_released(id: int, held_time: float)
+
 func _process(delta: float) -> void:
-	primary_just_pressed = Input.is_action_just_pressed("primary_action")
-	if primary_just_pressed:
-		primary_ability.execute()
-	secondary_just_pressed = Input.is_action_just_pressed("secondary_action")
-	
-	label1.text = str(primary_just_pressed)
-	label2.text = str(secondary_just_pressed)
-	
-	primary_is_held = Input.is_action_pressed("primary_action")
-	if primary_is_held:
-		primary_hold_time += delta
-	else:
-		primary_hold_time = 0
-		
-	secondary_is_held = Input.is_action_pressed("secondary_action")
-	if secondary_is_held:
-		secondary_hold_time += delta
-	else:
-		secondary_hold_time = 0
-	
-	label3.text = str(snapped(primary_hold_time, 0.01))
-	
+	_handle_action(delta, 0, "primary_action")
+	_handle_action(delta, 1, "secondary_action")
+	#_handle_action(delta, 2, "ternary_action")
+	#_handle_action(delta, 3, "quaternary_action")
 	move_input_direction = Input.get_vector("west", "east", "north", "south")
+	label1.text = str(just_pressed)
+	var str_hold_time: Array[float] = [
+		snapped(hold_time[0], 0.01),
+		snapped(hold_time[1], 0.01),
+		snapped(hold_time[2], 0.01),
+		snapped(hold_time[3], 0.01)
+	]
+	label2.text = str(str_hold_time)
+	label3.text = str(is_held)
+	label4.text = str(just_released)
 	
-	label4.text = str(move_input_direction)
+func _handle_action(delta: float, id: int, action: String) -> void:
+	just_pressed[id] = Input.is_action_just_pressed(action)
+	if just_pressed[id]:
+		input_just_pressed.emit(id)
+		
+	just_released[id] = Input.is_action_just_released(action)
+	if just_released[id]:
+		input_just_released.emit(id, hold_time[id])
+		
+	is_held[id] = Input.is_action_pressed(action)
+	if is_held[id]:
+		hold_time[id] += delta
+	else:
+		hold_time[id] = 0
+	
+	
+	
+	

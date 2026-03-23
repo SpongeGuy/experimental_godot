@@ -1,7 +1,39 @@
 extends Node
 class_name Ability
 
-signal finished()
+# ----------------------------------------------
+# the Ability base class.
+# use this to give custom logic to special abilities that creatures may possess.
+# abilities can override on_pressed, on_held, on_released, and _execute.
+# abiltiies should make use of cast_time when making an ability that executes when held for long enough.
+# -----------------------------------------------
 
+@export var cooldown: float = 0
+@export var cast_time: float = 0
+
+var _cd: float = 0
+var _ct: float = 0
+
+func on_pressed() -> void:
+	pass
+	
+func on_held(delta: float) -> void:
+	pass
+	
+func on_released(hold_duration: float) -> void:
+	pass
+
+func _process(delta: float) -> void:
+	if _cd > 0.0:
+		_cd = max(_cd - delta, 0.0)
+
+## try to execute, will not call _execute() if on cooldown
 func execute() -> void:
+	if _cd > 0.0:
+		return
+	_execute()
+	_cd = cooldown
+
+## actually execute the ability
+func _execute() -> void:
 	pass
