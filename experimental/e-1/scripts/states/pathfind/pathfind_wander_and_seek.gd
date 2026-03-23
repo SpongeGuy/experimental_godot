@@ -2,6 +2,7 @@ extends BehaviorState
 class_name PathfindWanderAndSeekState
 
 @export var movement: MovementComponent
+@export var input: InputComponent
 @export var navigation_agent: NavigationAgent2D
 @export var target_seeker: TargetSeeker
 
@@ -53,7 +54,7 @@ func update(delta: float) -> void:
 		_pick_new_pathfinding_location(owner.position)
 	
 	if target_seeker:
-		var target = target_seeker.find_nearest_target(owner.global_position, movement.velocity.normalized())
+		var target = target_seeker.find_nearest_target(owner.global_position, facing.get_direction())
 		if target:
 			found_target.emit(target)
 	
@@ -61,7 +62,7 @@ func physics_update(delta: float) -> void:
 	var next_path_position: Vector2 = navigation_agent.get_next_path_position()
 	wander_direction = (next_path_position - owner.global_position).normalized()
 	var steering = wander_direction
-	movement.set_desired_direction(steering)
+	input.set_move_input_direction(steering)
 	movement.physics_update(delta, owner)
 	
 		

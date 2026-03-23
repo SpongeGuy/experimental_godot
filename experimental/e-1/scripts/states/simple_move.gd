@@ -13,7 +13,6 @@ func enter() -> void:
 		animator.load_and_reset_animation("move")
 	
 
-	
 ## called every physics frame while this state is active
 func physics_update(delta: float) -> void:
 	movement.physics_update(delta, owner)

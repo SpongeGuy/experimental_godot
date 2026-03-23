@@ -20,6 +20,8 @@
 [ext_resource type="Script" uid="uid://bolv5v2qg2xl0" path="res://scripts/components/facing_component.gd" id="17_tlt7a"]
 [ext_resource type="Script" uid="uid://5k1r4xftmni4" path="res://scripts/components/sprite_flipper.gd" id="18_mjn4a"]
 [ext_resource type="Script" uid="uid://bt6jf1wavtm84" path="res://scripts/components/world_interface.gd" id="20_a6vpe"]
+[ext_resource type="Script" uid="uid://dmr1e3ur3lqop" path="res://scripts/components/input_component.gd" id="21_wpyvo"]
+[ext_resource type="Script" uid="uid://2b6l1sxmcd5r" path="res://scripts/components/knockback_component.gd" id="22_brvkq"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_yqh5i"]
 radius = 4.1231055
@@ -54,14 +56,6 @@ z_index = -1
 texture = ExtResource("2_yqh5i")
 hframes = 3
 
-[node name="MovementComponent" type="Node" parent="." unique_id=1379066]
-script = ExtResource("5_kcbif")
-max_speed = 10.0
-acceleration = null
-friction = null
-rotation_speed = null
-metadata/_custom_type_script = "uid://c58w8kgm688wm"
-
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=1820776135]
 path_desired_distance = 8.0
 target_desired_distance = 16.0
@@ -82,14 +76,15 @@ metadata/_custom_type_script = "uid://snopn0q86518"
 [node name="IdleState" type="Node" parent="Behavior/StateMachine" unique_id=2027542964 node_paths=PackedStringArray("exit_state", "movement", "animator")]
 script = ExtResource("7_16cu2")
 exit_state = NodePath("../PathfindWanderAndSeekState")
-movement = NodePath("../../../MovementComponent")
+movement = NodePath("../../MovementComponent")
 animator = NodePath("../../SpriteAnimator")
 idle_duration_max = 5.0
 metadata/_custom_type_script = "uid://dku8bbt6kwf0j"
 
-[node name="PathfindWanderAndSeekState" type="Node" parent="Behavior/StateMachine" unique_id=621273392 node_paths=PackedStringArray("movement", "navigation_agent", "target_seeker", "animator", "facing", "aggro_state", "idle_state")]
+[node name="PathfindWanderAndSeekState" type="Node" parent="Behavior/StateMachine" unique_id=621273392 node_paths=PackedStringArray("movement", "input", "navigation_agent", "target_seeker", "animator", "facing", "aggro_state", "idle_state")]
 script = ExtResource("8_43p5x")
-movement = NodePath("../../../MovementComponent")
+movement = NodePath("../../MovementComponent")
+input = NodePath("../../InputComponent")
 navigation_agent = NodePath("../../../NavigationAgent2D")
 target_seeker = NodePath("../../TargetSeeker")
 animator = NodePath("../../SpriteAnimator")
@@ -99,11 +94,12 @@ idle_state = NodePath("../IdleState")
 wander_radius = 100.0
 metadata/_custom_type_script = "uid://87ix88q4hl51"
 
-[node name="PathfindToTarget" type="Node" parent="Behavior/StateMachine" unique_id=1842744918 node_paths=PackedStringArray("movement", "target_seeker", "navigation_agent", "animator", "facing", "target_reached_state", "exit_state")]
+[node name="PathfindToTarget" type="Node" parent="Behavior/StateMachine" unique_id=1842744918 node_paths=PackedStringArray("movement", "target_seeker", "navigation_agent", "input", "animator", "facing", "target_reached_state", "exit_state")]
 script = ExtResource("9_16cu2")
-movement = NodePath("../../../MovementComponent")
+movement = NodePath("../../MovementComponent")
 target_seeker = NodePath("../../TargetSeeker")
 navigation_agent = NodePath("../../../NavigationAgent2D")
+input = NodePath("../../InputComponent")
 animator = NodePath("../../SpriteAnimator")
 facing = NodePath("../../../Facing/FacingComponent")
 target_reached_state = NodePath("../EatingObjectState")
@@ -126,6 +122,23 @@ script = ExtResource("3_4kqr2")
 sprite = NodePath("../../Sprites/Main")
 animations = Array[ExtResource("4_5jko3")]([SubResource("Resource_cvgtd")])
 metadata/_custom_type_script = "uid://37f5rafomsw5"
+
+[node name="MovementComponent" type="Node" parent="Behavior" unique_id=1379066 node_paths=PackedStringArray("knockback", "input")]
+script = ExtResource("5_kcbif")
+max_speed = 10.0
+knockback = NodePath("../KnockbackComponent")
+input = NodePath("../InputComponent")
+metadata/_custom_type_script = "uid://c58w8kgm688wm"
+
+[node name="InputComponent" type="Node" parent="Behavior" unique_id=1774691716]
+script = ExtResource("21_wpyvo")
+metadata/_custom_type_script = "uid://dmr1e3ur3lqop"
+
+[node name="KnockbackComponent" type="Node" parent="Behavior" unique_id=1365017231 node_paths=PackedStringArray("health", "movement")]
+script = ExtResource("22_brvkq")
+health = NodePath("../../Health&Damage/HealthComponent")
+movement = NodePath("../MovementComponent")
+metadata/_custom_type_script = "uid://2b6l1sxmcd5r"
 
 [node name="Hitbox" type="Area2D" parent="." unique_id=1489588161 node_paths=PackedStringArray("collision_shape")]
 script = ExtResource("15_j1t24")

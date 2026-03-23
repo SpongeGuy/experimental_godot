@@ -22,7 +22,6 @@ func _ready() -> void:
 	EventBus.dawn_arrived.connect(_dawn_arrived)
 
 func _dawn_arrived() -> void:
-	return
 	print("Spawning dawn lads")
 	var world_boundary: Vector2 = WorldGrid.grid_size * WorldGrid.tile_size
 	while spawn_points > 0:

@@ -1,5 +1,5 @@
 extends Ability
-class_name AbilityTryPickUp
+class_name AbilityTryPickUpEntity
 
 @export var hand: HandComponent
 

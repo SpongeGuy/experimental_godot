@@ -9,6 +9,7 @@ class_name AbilityManager
 
 @export var input: InputComponent
 
+
 func _ready() -> void:
 	input.input_just_pressed.connect(_on_input_just_pressed)
 	input.input_just_released.connect(_on_input_just_released)
@@ -27,4 +28,14 @@ func _process(delta: float) -> void:
 			if abilities[i] == null:
 				continue
 			abilities[i].on_held(input.hold_time[i], delta)
+			
+func get_ability_from_id(id: int) -> Ability:
+	if not abilities[id]:
+		return
+	return abilities[id]
 
+func get_ability_from_string(action: String) -> Ability:
+	var id: int = input.actions.bsearch(action)
+	if not abilities[id]:
+		return
+	return abilities[id]

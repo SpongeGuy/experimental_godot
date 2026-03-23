@@ -3,6 +3,7 @@ class_name IdleState
 
 @export var exit_state: BehaviorState
 @export var movement: MovementComponent
+@export var input: InputComponent
 @export_group("Optional")
 @export var animator: SpriteAnimator
 @export_group("Variables")
@@ -25,7 +26,8 @@ func update(delta: float) -> void:
 	if timer >= idle_duration:
 		state_machine.switch(exit_state)
 		
-	movement.set_desired_direction(Vector2.ZERO)
+	if input:
+		input.set_move_input_direction(Vector2.ZERO)
 	
 func physics_update(delta: float) -> void:
 	movement.physics_update(delta, owner)

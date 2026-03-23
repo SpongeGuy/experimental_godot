@@ -8,8 +8,10 @@
 [ext_resource type="Script" uid="uid://c58w8kgm688wm" path="res://scripts/components/movement/movement_component.gd" id="3_p4e6c"]
 [ext_resource type="Script" uid="uid://87ix88q4hl51" path="res://scripts/states/pathfind/pathfind_wander_and_seek.gd" id="5_8uyt1"]
 [ext_resource type="Script" uid="uid://dku8bbt6kwf0j" path="res://scripts/states/idle.gd" id="6_8uyt1"]
+[ext_resource type="Script" uid="uid://dmr1e3ur3lqop" path="res://scripts/components/input_component.gd" id="6_fwo6w"]
 [ext_resource type="Script" uid="uid://5gwlwmm34xkr" path="res://scripts/states/stand_still_and_attack_nearby_state.gd" id="7_2pkbq"]
 [ext_resource type="Script" uid="uid://d1ukjsox3nmlp" path="res://scripts/components/target_seeker.gd" id="7_tcjw4"]
+[ext_resource type="Script" uid="uid://byeskwmhfllnd" path="res://scripts/components/ability_manager.gd" id="7_wegic"]
 [ext_resource type="Script" uid="uid://37f5rafomsw5" path="res://scripts/components/sprite_animator.gd" id="9_3lqw4"]
 [ext_resource type="Script" uid="uid://cym0ubd2tvsch" path="res://scripts/resources/SpriteAnimation.gd" id="9_jkrmy"]
 [ext_resource type="Script" uid="uid://b8tiyc5hi81ap" path="res://scripts/states/death.gd" id="9_yowsf"]
@@ -72,14 +74,6 @@ hframes = 3
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2021561705]
 shape = SubResource("CircleShape2D_p4e6c")
 
-[node name="MovementComponent" type="Node" parent="." unique_id=253635708 node_paths=PackedStringArray("knockback")]
-script = ExtResource("3_p4e6c")
-max_speed = 30.0
-acceleration = 100.0
-friction = 200.0
-rotation_speed = null
-knockback = NodePath("../KnockbackComponent")
-
 [node name="WorldInterface" type="Node" parent="." unique_id=81085333]
 script = ExtResource("24_ecu0l")
 metadata/_custom_type_script = "uid://bt6jf1wavtm84"
@@ -88,14 +82,6 @@ metadata/_custom_type_script = "uid://bt6jf1wavtm84"
 path_desired_distance = 8.0
 target_desired_distance = 16.0
 
-[node name="Ability" type="Node" parent="." unique_id=1519039175]
-
-[node name="AbilityMeleeHit" type="Node" parent="Ability" unique_id=1624640189 node_paths=PackedStringArray("hurtbox")]
-script = ExtResource("14_nkryd")
-hurtbox = NodePath("../../Facing/Rotator/Hurtbox")
-active_end = 0.2
-metadata/_custom_type_script = "uid://dmj5t57v7kvmh"
-
 [node name="Behavior" type="Node" parent="." unique_id=1509428135]
 
 [node name="StateMachine" type="Node" parent="Behavior" unique_id=1101086753 node_paths=PackedStringArray("initial_state")]
@@ -103,9 +89,10 @@ script = ExtResource("3_1s1ue")
 initial_state = NodePath("PathfindWanderAndSeekState")
 metadata/_custom_type_script = "uid://snopn0q86518"
 
-[node name="PathfindWanderAndSeekState" type="Node" parent="Behavior/StateMachine" unique_id=1732767096 node_paths=PackedStringArray("movement", "navigation_agent", "target_seeker", "animator", "facing", "aggro_state", "idle_state")]
+[node name="PathfindWanderAndSeekState" type="Node" parent="Behavior/StateMachine" unique_id=1732767096 node_paths=PackedStringArray("movement", "input", "navigation_agent", "target_seeker", "animator", "facing", "aggro_state", "idle_state")]
 script = ExtResource("5_8uyt1")
-movement = NodePath("../../../MovementComponent")
+movement = NodePath("../../MovementComponent")
+input = NodePath("../../InputComponent")
 navigation_agent = NodePath("../../../NavigationAgent2D")
 target_seeker = NodePath("../../TargetSeeker")
 animator = NodePath("../../SpriteAnimator")
@@ -117,14 +104,15 @@ metadata/_custom_type_script = "uid://87ix88q4hl51"
 [node name="IdleState" type="Node" parent="Behavior/StateMachine" unique_id=1438784667 node_paths=PackedStringArray("exit_state", "movement", "animator")]
 script = ExtResource("6_8uyt1")
 exit_state = NodePath("../PathfindWanderAndSeekState")
-movement = NodePath("../../../MovementComponent")
+movement = NodePath("../../MovementComponent")
 animator = NodePath("../../SpriteAnimator")
 metadata/_custom_type_script = "uid://dku8bbt6kwf0j"
 
-[node name="StandStillAndUseAbilityState" type="Node" parent="Behavior/StateMachine" unique_id=778228443 node_paths=PackedStringArray("exit_state", "ability", "target_seeker", "facing", "animator")]
+[node name="StandStillAndUseAbilityState" type="Node" parent="Behavior/StateMachine" unique_id=778228443 node_paths=PackedStringArray("exit_state", "ability_manager", "input", "target_seeker", "facing", "animator")]
 script = ExtResource("7_2pkbq")
 exit_state = NodePath("../IdleState")
-ability = NodePath("../../../Ability/AbilityMeleeHit")
+ability_manager = NodePath("../../AbilityManager")
+input = NodePath("../../InputComponent")
 target_seeker = NodePath("../../TargetSeeker")
 facing = NodePath("../../../Facing/FacingComponent")
 animator = NodePath("../../SpriteAnimator")
@@ -147,6 +135,36 @@ metadata/_custom_type_script = "uid://d1ukjsox3nmlp"
 script = ExtResource("9_3lqw4")
 sprite = NodePath("../../Sprites/Main")
 animations = Array[ExtResource("9_jkrmy")]([ExtResource("10_2lysy"), SubResource("Resource_l60g2"), SubResource("Resource_3nn10")])
+
+[node name="MovementComponent" type="Node" parent="Behavior" unique_id=253635708 node_paths=PackedStringArray("knockback", "input")]
+script = ExtResource("3_p4e6c")
+max_speed = 30.0
+acceleration = 100.0
+friction = 200.0
+knockback = NodePath("../KnockbackComponent")
+input = NodePath("../InputComponent")
+
+[node name="KnockbackComponent" type="Node" parent="Behavior" unique_id=1202018533 node_paths=PackedStringArray("health", "movement")]
+script = ExtResource("22_fwhgc")
+health = NodePath("../../Health&Damage/HealthComponent")
+movement = NodePath("../MovementComponent")
+metadata/_custom_type_script = "uid://2b6l1sxmcd5r"
+
+[node name="InputComponent" type="Node" parent="Behavior" unique_id=2034104056]
+script = ExtResource("6_fwo6w")
+metadata/_custom_type_script = "uid://dmr1e3ur3lqop"
+
+[node name="AbilityManager" type="Node" parent="Behavior" unique_id=585020296 node_paths=PackedStringArray("abilities", "input")]
+script = ExtResource("7_wegic")
+abilities = [NodePath("AbilityMeleeHit")]
+input = NodePath("../InputComponent")
+metadata/_custom_type_script = "uid://byeskwmhfllnd"
+
+[node name="AbilityMeleeHit" type="Node" parent="Behavior/AbilityManager" unique_id=1624640189 node_paths=PackedStringArray("hurtbox")]
+script = ExtResource("14_nkryd")
+hurtbox = NodePath("../../../Facing/Rotator/Hurtbox")
+active_end = 0.2
+metadata/_custom_type_script = "uid://dmj5t57v7kvmh"
 
 [node name="Hitbox" type="Area2D" parent="." unique_id=777869948 node_paths=PackedStringArray("collision_shape")]
 script = ExtResource("16_ox78c")
@@ -208,9 +226,5 @@ script = ExtResource("21_8lxaw")
 facing = NodePath("../FacingComponent")
 sprite = NodePath("../../Sprites/Main")
 metadata/_custom_type_script = "uid://5k1r4xftmni4"
-
-[node name="KnockbackComponent" type="Node" parent="." unique_id=1202018533]
-script = ExtResource("22_fwhgc")
-metadata/_custom_type_script = "uid://2b6l1sxmcd5r"
 
 [connection signal="died" from="Health&Damage/HealthComponent" to="Health&Damage/ManualStateSwitcher" method="switch"]

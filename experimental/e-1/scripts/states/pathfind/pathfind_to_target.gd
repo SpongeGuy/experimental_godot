@@ -4,6 +4,7 @@ class_name PathfindToTargetState
 @export var movement: MovementComponent
 @export var target_seeker: TargetSeeker
 @export var navigation_agent: NavigationAgent2D
+@export var input: InputComponent
 
 
 @export_group("Optional")
@@ -75,7 +76,7 @@ func physics_update(delta: float) -> void:
 	var next_path_position: Vector2 = navigation_agent.get_next_path_position()
 	wander_direction = (next_path_position - owner.global_position).normalized()
 	var steering = wander_direction
-	movement.set_desired_direction(steering)
+	input.set_move_input_direction(steering)
 	movement.physics_update(delta, owner)
 	
 	if facing:

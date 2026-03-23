@@ -26,7 +26,9 @@
 [ext_resource type="Theme" uid="uid://bef2u5uhlydku" path="res://assets/themes/debug.tres" id="24_s02rk"]
 [ext_resource type="Script" uid="uid://dmr1e3ur3lqop" path="res://scripts/components/input_component.gd" id="25_xoj7o"]
 [ext_resource type="Script" uid="uid://byeskwmhfllnd" path="res://scripts/components/ability_manager.gd" id="26_s02rk"]
-[ext_resource type="Script" uid="uid://dy1nhmegj3sv7" path="res://scripts/abilities/try_pick_up.gd" id="26_sumsn"]
+[ext_resource type="Script" uid="uid://dy1nhmegj3sv7" path="res://scripts/abilities/try_pick_up_entity.gd" id="26_sumsn"]
+[ext_resource type="Script" uid="uid://dlrq36ejwcoou" path="res://scripts/abilities/try_drop_entity.gd" id="28_0qk0a"]
+[ext_resource type="Script" uid="uid://cgl3uo2e4owmk" path="res://scripts/components/player_input_driver.gd" id="29_j83bn"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_jwlga"]
 radius = 5.0
@@ -116,17 +118,19 @@ script = ExtResource("7_s02rk")
 initial_state = NodePath("PlayerMoveState")
 metadata/_custom_type_script = "uid://snopn0q86518"
 
-[node name="PlayerMoveState" type="Node" parent="StateMachine" unique_id=571855672 node_paths=PackedStringArray("movement", "facing", "idle_state", "animator")]
+[node name="PlayerMoveState" type="Node" parent="StateMachine" unique_id=571855672 node_paths=PackedStringArray("movement", "input", "facing", "idle_state", "animator")]
 script = ExtResource("8_0qk0a")
 movement = NodePath("../../MovementComponent")
+input = NodePath("../../InputComponent")
 facing = NodePath("../../Animation/FacingComponent")
 idle_state = NodePath("../PlayerIdleState")
 animator = NodePath("../../Animation/SpriteAnimator")
 metadata/_custom_type_script = "uid://dyq71erbf3ksa"
 
-[node name="PlayerIdleState" type="Node" parent="StateMachine" unique_id=616697117 node_paths=PackedStringArray("move_state", "movement", "animator")]
+[node name="PlayerIdleState" type="Node" parent="StateMachine" unique_id=616697117 node_paths=PackedStringArray("move_state", "input", "movement", "animator")]
 script = ExtResource("9_j83bn")
 move_state = NodePath("../PlayerMoveState")
+input = NodePath("../../InputComponent")
 movement = NodePath("../../MovementComponent")
 animator = NodePath("../../Animation/SpriteAnimator")
 metadata/_custom_type_script = "uid://dier6uauiqj4t"
@@ -136,12 +140,13 @@ script = ExtResource("10_jr5rt")
 cooldown = null
 metadata/_custom_type_script = "uid://b8tiyc5hi81ap"
 
-[node name="MovementComponent" type="Node" parent="." unique_id=1644116155 node_paths=PackedStringArray("knockback", "world_interface")]
+[node name="MovementComponent" type="Node" parent="." unique_id=1644116155 node_paths=PackedStringArray("knockback", "world_interface", "input")]
 script = ExtResource("11_1hl42")
 max_speed = 55.0
 friction = 1000.0
 knockback = NodePath("../KnockbackComponent")
 world_interface = NodePath("../WorldInterface")
+input = NodePath("../InputComponent")
 metadata/_custom_type_script = "uid://c58w8kgm688wm"
 
 [node name="HitDetection" type="Node2D" parent="." unique_id=1085286240]
@@ -193,15 +198,15 @@ collision_mask = 6
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Animation/Rotator/HandArea" unique_id=1118485361]
 shape = SubResource("RectangleShape2D_jurdk")
 
-[node name="HandComponent" type="Node" parent="." unique_id=802843656 node_paths=PackedStringArray("pickup_area", "facing")]
+[node name="HandComponent" type="Node" parent="." unique_id=802843656 node_paths=PackedStringArray("pickup_area")]
 script = ExtResource("19_vifq1")
 pickup_area = NodePath("../Animation/Rotator/HandArea")
-facing = NodePath("../Animation/FacingComponent")
 metadata/_custom_type_script = "uid://duajgedj0nkus"
 
-[node name="KnockbackComponent" type="Node" parent="." unique_id=279683997 node_paths=PackedStringArray("health")]
+[node name="KnockbackComponent" type="Node" parent="." unique_id=279683997 node_paths=PackedStringArray("health", "movement")]
 script = ExtResource("20_m1inn")
 health = NodePath("../Health&Damage/HealthComponent")
+movement = NodePath("../MovementComponent")
 metadata/_custom_type_script = "uid://2b6l1sxmcd5r"
 
 [node name="WorldInterface" type="Node" parent="." unique_id=484845366]
@@ -258,24 +263,31 @@ text = "hey"
 layout_mode = 2
 text = "hey"
 
-[node name="InputComponent" type="Node" parent="." unique_id=648358057 node_paths=PackedStringArray("label1", "label2", "label3", "label4")]
+[node name="PlayerInputDriver" type="Node" parent="." unique_id=847755513 node_paths=PackedStringArray("input")]
+script = ExtResource("29_j83bn")
+input = NodePath("../InputComponent")
+metadata/_custom_type_script = "uid://cgl3uo2e4owmk"
+
+[node name="InputComponent" type="Node" parent="." unique_id=648358057]
 script = ExtResource("25_xoj7o")
-label1 = NodePath("../Debug/VBoxContainer/Label")
-label2 = NodePath("../Debug/VBoxContainer/Label2")
-label3 = NodePath("../Debug/VBoxContainer/Label3")
-label4 = NodePath("../Debug/VBoxContainer/Label4")
 metadata/_custom_type_script = "uid://dmr1e3ur3lqop"
 
 [node name="AbilityManager" type="Node" parent="." unique_id=168066014 node_paths=PackedStringArray("abilities", "input")]
 script = ExtResource("26_s02rk")
-abilities = [NodePath("AbilityTryPickUp"), null]
+abilities = [NodePath("AbilityTryPickUpEntity"), NodePath("AbilityTryDropEntity")]
 input = NodePath("../InputComponent")
 metadata/_custom_type_script = "uid://byeskwmhfllnd"
 
-[node name="AbilityTryPickUp" type="Node" parent="AbilityManager" unique_id=122156778 node_paths=PackedStringArray("hand")]
+[node name="AbilityTryPickUpEntity" type="Node" parent="AbilityManager" unique_id=122156778 node_paths=PackedStringArray("hand")]
 script = ExtResource("26_sumsn")
 hand = NodePath("../../HandComponent")
 cast_time = 2.0
 metadata/_custom_type_script = "uid://dy1nhmegj3sv7"
+
+[node name="AbilityTryDropEntity" type="Node" parent="AbilityManager" unique_id=646898097 node_paths=PackedStringArray("hand", "facing")]
+script = ExtResource("28_0qk0a")
+hand = NodePath("../../HandComponent")
+facing = NodePath("../../Animation/FacingComponent")
+metadata/_custom_type_script = "uid://dlrq36ejwcoou"
 
 [connection signal="died" from="Health&Damage/HealthComponent" to="Health&Damage/DeathStateSwitcher" method="switch"]

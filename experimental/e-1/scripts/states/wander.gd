@@ -2,6 +2,7 @@ extends BehaviorState
 class_name WanderState
 
 @export var movement: MovementComponent
+@export var input: InputComponent
 @export var wall_avoidance: WallAvoidance
 @export var target_seeker: TargetSeeker
 @export var chase_state: BehaviorState
@@ -31,7 +32,7 @@ func update(delta: float) -> void:
 			movement.velocity.normalized()
 		)
 		
-	movement.set_desired_direction(steering)
+	input.set_move_input_direction(steering)
 	
 func physics_update(delta: float) -> void:
 	movement.physics_update(delta, owner)

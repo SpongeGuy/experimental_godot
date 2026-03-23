@@ -15,7 +15,7 @@ func change_direction(new_direction: Vector2) -> void:
 	_get_direction_change(_old_direction, _direction)
 	
 func get_direction() -> Vector2:
-	return _direction
+	return _direction.normalized()
 	
 func get_direction_angle() -> float:
 	return _direction.angle()

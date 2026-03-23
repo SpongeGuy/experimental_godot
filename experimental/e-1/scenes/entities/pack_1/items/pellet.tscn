@@ -8,12 +8,12 @@
 [ext_resource type="Script" uid="uid://snopn0q86518" path="res://scripts/classes/StateMachine.gd" id="5_ui7s4"]
 [ext_resource type="Script" uid="uid://dkgkamg0uwb7n" path="res://scripts/states/simple_move.gd" id="6_o5t32"]
 [ext_resource type="Script" uid="uid://b8tiyc5hi81ap" path="res://scripts/states/death.gd" id="7_ns5je"]
-[ext_resource type="Script" uid="uid://d1wdp60kymrsj" path="res://scripts/components/movement/simple_movement_component.gd" id="8_w1s8j"]
 [ext_resource type="Script" uid="uid://37f5rafomsw5" path="res://scripts/components/sprite_animator.gd" id="9_denw5"]
 [ext_resource type="Script" uid="uid://cym0ubd2tvsch" path="res://scripts/resources/SpriteAnimation.gd" id="10_brp73"]
 [ext_resource type="Script" uid="uid://bg2yh11ck5r0a" path="res://scripts/components/projectile_component.gd" id="11_brp73"]
 [ext_resource type="Script" uid="uid://ibgyf864g08i" path="res://scripts/components/manual_state_switcher.gd" id="12_ui7s4"]
 [ext_resource type="Script" uid="uid://b06wram7ecjpl" path="res://scripts/components/friend_component.gd" id="13_o5t32"]
+[ext_resource type="Script" uid="uid://c58w8kgm688wm" path="res://scripts/components/movement/movement_component.gd" id="14_42ale"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qfwlb"]
 radius = 4.0
@@ -58,6 +58,7 @@ shape = SubResource("CircleShape2D_5kn30")
 position = Vector2(0.5, 0.5)
 script = ExtResource("2_0vxx3")
 damage = 1.0
+constant_hurtbox = true
 collision_shape = NodePath("CollisionShape2D")
 metadata/_custom_type_script = "uid://d4dkusgurvri8"
 
@@ -85,18 +86,13 @@ metadata/_custom_type_script = "uid://snopn0q86518"
 
 [node name="SimpleMovementUpdateState" type="Node" parent="StateMachine" unique_id=589219108 node_paths=PackedStringArray("movement", "animator")]
 script = ExtResource("6_o5t32")
-movement = NodePath("../../SimpleMovementComponent")
+movement = NodePath("../../MovementComponent")
 animator = NodePath("../../SpriteAnimator")
 metadata/_custom_type_script = "uid://dkgkamg0uwb7n"
 
 [node name="DeathState" type="Node" parent="StateMachine" unique_id=1424616477]
 script = ExtResource("7_ns5je")
 metadata/_custom_type_script = "uid://b8tiyc5hi81ap"
-
-[node name="SimpleMovementComponent" type="Node" parent="." unique_id=1317702640]
-script = ExtResource("8_w1s8j")
-max_speed = 150.0
-metadata/_custom_type_script = "uid://d1wdp60kymrsj"
 
 [node name="SpriteAnimator" type="Node" parent="." unique_id=2145983334 node_paths=PackedStringArray("sprite")]
 script = ExtResource("9_denw5")
@@ -129,5 +125,12 @@ metadata/_custom_type_script = "uid://ibgyf864g08i"
 [node name="FriendComponent" type="Node" parent="." unique_id=958005829]
 script = ExtResource("13_o5t32")
 metadata/_custom_type_script = "uid://b06wram7ecjpl"
+
+[node name="MovementComponent" type="Node" parent="." unique_id=2681849]
+script = ExtResource("14_42ale")
+do_movement_function = false
+apply_acceleration = false
+apply_friction = false
+metadata/_custom_type_script = "uid://c58w8kgm688wm"
 
 [connection signal="died" from="Health&Damage/HealthComponent" to="Health&Damage/ManualStateSwitcher" method="switch"]

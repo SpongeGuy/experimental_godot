@@ -3,6 +3,7 @@ class_name PathfindWanderPreferWallsState
 
 @export var movement: MovementComponent
 @export var navigation_agent: NavigationAgent2D
+@export var input: InputComponent
 
 @export var animator: SpriteAnimator
 @export var facing: FacingComponent
@@ -46,7 +47,7 @@ func physics_update(delta: float) -> void:
 	wander_direction = (next_path_position - owner.global_position).normalized()
 	var steering = wander_direction
 		
-	movement.set_desired_direction(steering)
+	input.set_move_input_direction(steering)
 	
 	movement.physics_update(delta, owner)
 	

@@ -7,25 +7,13 @@ class_name MovementComponent
 @export var rotation_speed: float = 10.0 # for smooth turning
 @export var knockback: KnockbackComponent
 @export var world_interface: WorldInterface
+@export var input: InputComponent
 
+@export var do_movement_function: bool = true
 @export var apply_acceleration: bool = true
 @export var apply_friction: bool = true
 
 var velocity: Vector2 = Vector2.ZERO
-var desired_direction: Vector2 = Vector2.ZERO
-
-signal started_moving(direction: Vector2)
-signal stopped_moving()
-
-
-
-var moving: bool = false
-
-func set_desired_direction(dir: Vector2) -> void:
-	if dir.length() > 0:
-		desired_direction = dir.normalized()
-	else:
-		desired_direction = Vector2.ZERO
 	
 func physics_update(delta: float, body: CharacterBody2D) -> void:
 	movement_function(delta)
@@ -40,30 +28,31 @@ func physics_update(delta: float, body: CharacterBody2D) -> void:
 	
 	_handle_passive_collisions(body)
 	_handle_bounce_collisions() # knockback purposes
-
-	_detect_active_movement()
 	
 	
 ## applies custom logic to velocity and applies velocity to the body according to conditions
-func movement_function(delta: float) -> void:
+func movement_function(delta: float) -> void:	
+	if not input:
+		return
 	var final_max_speed: float = max_speed
 	
 	if world_interface:
 		final_max_speed *= world_interface.cell_movement_modifier()
 	
-	if desired_direction.length() > 0:
-		var target_velocity = desired_direction * final_max_speed
-		velocity = velocity.move_toward(target_velocity, acceleration * delta)
-
-
+	if input.move_input_direction.length() > 0:
+		var target_velocity = input.move_input_direction * final_max_speed
+		if apply_acceleration:
+			velocity = velocity.move_toward(target_velocity, acceleration * delta)
+		else:
+			velocity = target_velocity
 
 
 func _apply_friction(delta: float) -> void:
 	if not apply_friction:
-		velocity = Vector2.ZERO
 		return
-	if desired_direction.is_zero_approx():
+	if not input or input.move_input_direction.is_zero_approx():
 		velocity = velocity.move_toward(Vector2.ZERO, delta * friction)
+		
 	
 	
 
@@ -89,25 +78,6 @@ func _handle_passive_collisions(body: CharacterBody2D) -> void:
 		if push_amount > 0:
 			velocity += normal * push_amount * restitution
 
-
-
-# ----------------------
-# misc
-# -------------------------
-
-func _detect_active_movement() -> void:
-	if desired_direction.is_zero_approx():
-		if moving:
-			stopped_moving.emit()
-		moving = false
-	else:
-		if not moving:
-			started_moving.emit(velocity.normalized())
-		moving = true 
-		
-	
-func get_actual_velocity() -> Vector2:
-	return velocity
 	
 	
 # -------------------------

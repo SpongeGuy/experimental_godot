@@ -56,9 +56,10 @@ sprite = NodePath("../Sprites/Main")
 gradient = ExtResource("5_u3cgc")
 metadata/_custom_type_script = "uid://bbxnvkldmnwjg"
 
-[node name="KnockbackComponent" type="Node" parent="." unique_id=302859564]
+[node name="KnockbackComponent" type="Node" parent="." unique_id=302859564 node_paths=PackedStringArray("movement")]
 script = ExtResource("7_4o2kx")
 bounce_factor = 0.9
+movement = NodePath("../MovementComponent")
 metadata/_custom_type_script = "uid://2b6l1sxmcd5r"
 
 [node name="MovementComponent" type="Node" parent="." unique_id=119777854 node_paths=PackedStringArray("knockback")]

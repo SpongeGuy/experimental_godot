@@ -4,6 +4,7 @@ class_name PlayerMoveState
 ## all other functions should be outsourced to other components, such as visual effects or sounds.
 
 @export var movement: MovementComponent
+@export var input: InputComponent
 @export var facing: FacingComponent
 @export var idle_state: BehaviorState
 @export var animator: SpriteAnimator
@@ -17,7 +18,7 @@ func enter() -> void:
 	
 ## called every frame while this state is active
 func update(delta: float) -> void:
-	var velocity: Vector2 = movement.get_actual_velocity()
+	var velocity: Vector2 = movement.velocity
 	
 	if animator:
 		if abs(velocity.x) > abs(velocity.y):
@@ -34,7 +35,7 @@ func physics_update(delta: float) -> void:
 		facing.change_direction(desired_direction)
 	
 	desired_direction = Input.get_vector("west", "east", "north", "south")
-	movement.set_desired_direction(desired_direction)
+	input.set_move_input_direction(desired_direction)
 	movement.physics_update(delta, owner)
 	if abs(desired_direction.length()) < 0.1:
 		state_machine.switch(idle_state)

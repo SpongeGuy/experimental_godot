@@ -20,7 +20,10 @@
 [ext_resource type="Script" uid="uid://bxsrgbr0uwisl" path="res://scripts/components/movement/step_movement_component.gd" id="19_d6adm"]
 [ext_resource type="Script" uid="uid://d1ukjsox3nmlp" path="res://scripts/components/target_seeker.gd" id="20_32l4h"]
 [ext_resource type="Script" uid="uid://b06wram7ecjpl" path="res://scripts/components/friend_component.gd" id="21_ah2fx"]
+[ext_resource type="Script" uid="uid://byeskwmhfllnd" path="res://scripts/components/ability_manager.gd" id="21_i6i5v"]
 [ext_resource type="Script" uid="uid://bt6jf1wavtm84" path="res://scripts/components/world_interface.gd" id="22_ashn5"]
+[ext_resource type="Script" uid="uid://dmr1e3ur3lqop" path="res://scripts/components/input_component.gd" id="23_bpftl"]
+[ext_resource type="Script" uid="uid://2b6l1sxmcd5r" path="res://scripts/components/knockback_component.gd" id="24_bpftl"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_u0utl"]
 radius = 3.1622777
@@ -116,15 +119,6 @@ facing = NodePath("../FacingComponent")
 sprite = NodePath("../../Node2D/Main")
 metadata/_custom_type_script = "uid://5k1r4xftmni4"
 
-[node name="Ability" type="Node" parent="." unique_id=1521879544]
-
-[node name="AbilityPelletShoot" type="Node" parent="Ability" unique_id=929775344 node_paths=PackedStringArray("facing", "friends")]
-script = ExtResource("12_dt7oj")
-entity_id = &"pellet"
-facing = NodePath("../../Facing/FacingComponent")
-friends = NodePath("../../FriendComponent")
-metadata/_custom_type_script = "uid://briu06bbs73xu"
-
 [node name="Behavior" type="Node" parent="." unique_id=1884057369]
 
 [node name="StateMachine" type="Node" parent="Behavior" unique_id=1806842283 node_paths=PackedStringArray("initial_state")]
@@ -132,9 +126,10 @@ script = ExtResource("14_27ukb")
 initial_state = NodePath("PathfindWanderAndSeekState")
 metadata/_custom_type_script = "uid://snopn0q86518"
 
-[node name="PathfindWanderAndSeekState" type="Node" parent="Behavior/StateMachine" unique_id=2108582944 node_paths=PackedStringArray("movement", "navigation_agent", "target_seeker", "animator", "facing", "aggro_state", "idle_state")]
+[node name="PathfindWanderAndSeekState" type="Node" parent="Behavior/StateMachine" unique_id=2108582944 node_paths=PackedStringArray("movement", "input", "navigation_agent", "target_seeker", "animator", "facing", "aggro_state", "idle_state")]
 script = ExtResource("15_cvdu2")
 movement = NodePath("../../StepMovementComponent")
+input = NodePath("../../InputComponent")
 navigation_agent = NodePath("../../../NavigationAgent2D")
 target_seeker = NodePath("../../TargetSeeker")
 animator = NodePath("../../../SpriteAnimator")
@@ -156,10 +151,10 @@ metadata/_custom_type_script = "uid://dku8bbt6kwf0j"
 script = ExtResource("17_f5ovo")
 metadata/_custom_type_script = "uid://b8tiyc5hi81ap"
 
-[node name="StandStillAndUseAbilityState" type="Node" parent="Behavior/StateMachine" unique_id=792956419 node_paths=PackedStringArray("exit_state", "ability", "target_seeker", "facing", "animator")]
+[node name="StandStillAndUseAbilityState" type="Node" parent="Behavior/StateMachine" unique_id=792956419 node_paths=PackedStringArray("exit_state", "input", "target_seeker", "facing", "animator")]
 script = ExtResource("18_llxgm")
 exit_state = NodePath("../IdleState")
-ability = NodePath("../../../Ability/AbilityPelletShoot")
+input = NodePath("../../InputComponent")
 target_seeker = NodePath("../../TargetSeeker")
 facing = NodePath("../../../Facing/FacingComponent")
 animator = NodePath("../../../SpriteAnimator")
@@ -168,18 +163,29 @@ chance_to_give_up = 50.0
 cooldown = 7.0
 metadata/_custom_type_script = "uid://5gwlwmm34xkr"
 
-[node name="StepMovementComponent" type="Node" parent="Behavior" unique_id=1906915842]
+[node name="StepMovementComponent" type="Node" parent="Behavior" unique_id=1906915842 node_paths=PackedStringArray("knockback", "input")]
 script = ExtResource("19_d6adm")
 step_delay = 0.35
 step_power = 125.0
 max_speed = 75.0
 friction = 1000.0
+knockback = NodePath("../KnockbackComponent")
+input = NodePath("../InputComponent")
 metadata/_custom_type_script = "uid://bxsrgbr0uwisl"
 
 [node name="TargetSeeker" type="Node" parent="Behavior" unique_id=894536328]
 script = ExtResource("20_32l4h")
 target_groups = Array[String](["creature"])
 metadata/_custom_type_script = "uid://d1ukjsox3nmlp"
+
+[node name="KnockbackComponent" type="Node" parent="Behavior" unique_id=1679731255 node_paths=PackedStringArray("movement")]
+script = ExtResource("24_bpftl")
+movement = NodePath("../StepMovementComponent")
+metadata/_custom_type_script = "uid://2b6l1sxmcd5r"
+
+[node name="InputComponent" type="Node" parent="Behavior" unique_id=1117101058]
+script = ExtResource("23_bpftl")
+metadata/_custom_type_script = "uid://dmr1e3ur3lqop"
 
 [node name="FriendComponent" type="Node" parent="." unique_id=1909766622]
 script = ExtResource("21_ah2fx")
@@ -188,5 +194,18 @@ metadata/_custom_type_script = "uid://b06wram7ecjpl"
 [node name="WorldInterface" type="Node" parent="." unique_id=230350679]
 script = ExtResource("22_ashn5")
 metadata/_custom_type_script = "uid://bt6jf1wavtm84"
+
+[node name="AbilityManager" type="Node" parent="." unique_id=1342860759 node_paths=PackedStringArray("abilities", "input")]
+script = ExtResource("21_i6i5v")
+abilities = [NodePath("AbilityPelletShoot")]
+input = NodePath("../Behavior/InputComponent")
+metadata/_custom_type_script = "uid://byeskwmhfllnd"
+
+[node name="AbilityPelletShoot" type="Node" parent="AbilityManager" unique_id=929775344 node_paths=PackedStringArray("facing", "friends")]
+script = ExtResource("12_dt7oj")
+entity_id = &"pellet"
+facing = NodePath("../../Facing/FacingComponent")
+friends = NodePath("../../FriendComponent")
+metadata/_custom_type_script = "uid://briu06bbs73xu"
 
 [connection signal="died" from="Health&Damage/HealthComponent" to="Health&Damage/DeathStateSwitcher" method="switch"]

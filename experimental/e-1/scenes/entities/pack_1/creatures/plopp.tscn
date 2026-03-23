@@ -20,6 +20,8 @@
 [ext_resource type="Script" uid="uid://bolv5v2qg2xl0" path="res://scripts/components/facing_component.gd" id="18_5xw17"]
 [ext_resource type="Script" uid="uid://5k1r4xftmni4" path="res://scripts/components/sprite_flipper.gd" id="19_bkuyy"]
 [ext_resource type="Script" uid="uid://bt6jf1wavtm84" path="res://scripts/components/world_interface.gd" id="20_brj11"]
+[ext_resource type="Script" uid="uid://dmr1e3ur3lqop" path="res://scripts/components/input_component.gd" id="21_fgcpw"]
+[ext_resource type="Script" uid="uid://2b6l1sxmcd5r" path="res://scripts/components/knockback_component.gd" id="22_nvcde"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_l2xxe"]
 radius = 3.0
@@ -64,14 +66,6 @@ hframes = 3
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=525981844]
 shape = SubResource("CircleShape2D_l2xxe")
 
-[node name="MovementComponent" type="Node" parent="." unique_id=194211518]
-script = ExtResource("4_nvcde")
-max_speed = 25.0
-acceleration = null
-friction = null
-rotation_speed = null
-metadata/_custom_type_script = "uid://c58w8kgm688wm"
-
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=1151901174]
 path_desired_distance = 8.0
 target_desired_distance = 16.0
@@ -112,16 +106,18 @@ animator = NodePath("../../SpriteAnimator")
 exit_state = NodePath("../IdleState")
 metadata/_custom_type_script = "uid://d4ghe7tmemb7n"
 
-[node name="IdleState" type="Node" parent="Behavior/StateMachine" unique_id=400033524 node_paths=PackedStringArray("exit_state", "movement", "animator")]
+[node name="IdleState" type="Node" parent="Behavior/StateMachine" unique_id=400033524 node_paths=PackedStringArray("exit_state", "movement", "input", "animator")]
 script = ExtResource("12_ph88t")
 exit_state = NodePath("../PathfindWanderState")
-movement = NodePath("../../../MovementComponent")
+movement = NodePath("../../MovementComponent")
+input = NodePath("../../InputComponent")
 animator = NodePath("../../SpriteAnimator")
 metadata/_custom_type_script = "uid://dku8bbt6kwf0j"
 
-[node name="PathfindWanderState" type="Node" parent="Behavior/StateMachine" unique_id=129570134 node_paths=PackedStringArray("movement", "navigation_agent", "animator", "facing", "idle_state")]
+[node name="PathfindWanderState" type="Node" parent="Behavior/StateMachine" unique_id=129570134 node_paths=PackedStringArray("movement", "input", "navigation_agent", "animator", "facing", "idle_state")]
 script = ExtResource("13_udt45")
-movement = NodePath("../../../MovementComponent")
+movement = NodePath("../../MovementComponent")
+input = NodePath("../../InputComponent")
 navigation_agent = NodePath("../../../NavigationAgent2D")
 animator = NodePath("../../SpriteAnimator")
 facing = NodePath("../../../Facing/FacingComponent")
@@ -131,6 +127,23 @@ metadata/_custom_type_script = "uid://87ix88q4hl51"
 [node name="DeathState" type="Node" parent="Behavior/StateMachine" unique_id=2050146013]
 script = ExtResource("14_yyxib")
 metadata/_custom_type_script = "uid://b8tiyc5hi81ap"
+
+[node name="MovementComponent" type="Node" parent="Behavior" unique_id=194211518 node_paths=PackedStringArray("knockback", "input")]
+script = ExtResource("4_nvcde")
+max_speed = 25.0
+knockback = NodePath("../KnockbackComponent")
+input = NodePath("../InputComponent")
+metadata/_custom_type_script = "uid://c58w8kgm688wm"
+
+[node name="InputComponent" type="Node" parent="Behavior" unique_id=1195537669]
+script = ExtResource("21_fgcpw")
+metadata/_custom_type_script = "uid://dmr1e3ur3lqop"
+
+[node name="KnockbackComponent" type="Node" parent="Behavior" unique_id=2009989506 node_paths=PackedStringArray("health", "movement")]
+script = ExtResource("22_nvcde")
+health = NodePath("../../Health&Damage/HealthComponent")
+movement = NodePath("../MovementComponent")
+metadata/_custom_type_script = "uid://2b6l1sxmcd5r"
 
 [node name="Hitbox" type="Area2D" parent="." unique_id=1802576707]
 script = ExtResource("15_3vv12")

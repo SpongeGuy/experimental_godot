@@ -2,7 +2,9 @@ extends BehaviorState
 class_name StandStillAndUseAbilityState
 
 @export var exit_state: BehaviorState
-@export var ability: Ability
+@export var ability_manager: AbilityManager
+@export var ability_id: int = 0
+@export var input: InputComponent
 @export var target_seeker: TargetSeeker
 @export_group("Optional")
 
@@ -32,8 +34,8 @@ func enter() -> void:
 	if animator:
 		animator.load_and_reset_animation("prepping")
 		
-	if ability:
-		ability.finished.connect(_on_ability_finished)
+	if ability_manager:
+		ability_manager.get_ability_from_id(ability_id).finished.connect(_on_ability_finished)
 	
 func update(delta: float) -> void:
 	if not is_instance_valid(hit_target):
@@ -50,7 +52,8 @@ func update(delta: float) -> void:
 			facing.change_direction(hit_target.global_position - owner.global_position)
 		if animator:
 			animator.load_and_reset_animation("attack")
-		ability.execute()
+		input.press_action(ability_id)
+		input.release_action(ability_id)
 		if randf() < chance_to_give_up:
 			interrupted.emit()
 		
@@ -61,11 +64,13 @@ func physics_update(delta: float) -> void:
 	if facing and hit_target:
 		facing.change_direction((hit_target.global_position - owner.global_position).normalized())
 		
+	input.set_move_input_direction(Vector2.ZERO)
 	
 func exit() -> void:
 	interrupted.disconnect(_on_interrupted)
-	if ability:
-		ability.finished.disconnect(_on_ability_finished)
+	
+	if ability_manager:
+		ability_manager.get_ability_from_id(ability_id).finished.disconnect(_on_ability_finished)
 	
 
 func _on_ability_finished() -> void:

@@ -3,6 +3,7 @@ class_name PlayerIdleState
 ## states should only include logic which alters data.
 ## all other functions should be outsourced to other components, such as visual effects or sounds.
 @export var move_state: BehaviorState
+@export var input: InputComponent
 @export var movement: MovementComponent
 @export var animator: SpriteAnimator
 
@@ -14,7 +15,7 @@ func enter() -> void:
 func update(delta: float) -> void:
 	if animator:
 		animator.animation_speed = 0
-	movement.set_desired_direction(Vector2.ZERO)
+	input.set_move_input_direction(Vector2.ZERO)
 	
 ## called every physics frame while this state is active
 func physics_update(delta: float) -> void:

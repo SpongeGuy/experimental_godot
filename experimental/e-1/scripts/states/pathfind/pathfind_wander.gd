@@ -3,6 +3,7 @@ class_name PathfindWanderState
 
 @export var movement: MovementComponent
 @export var navigation_agent: NavigationAgent2D
+@export var input: InputComponent
 
 @export_group("Optional")
 
@@ -52,7 +53,7 @@ func physics_update(delta: float) -> void:
 	var steering = wander_direction
 	
 		
-	movement.set_desired_direction(steering)
+	input.set_move_input_direction(steering)
 	
 	movement.physics_update(delta, owner)
 	

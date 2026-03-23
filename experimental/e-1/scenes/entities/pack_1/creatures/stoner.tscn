@@ -12,6 +12,7 @@
 [ext_resource type="AudioStream" uid="uid://6m50qyvgibmg" path="res://assets/sounds/effects/rocky/rock_slide.wav" id="7_jq2gp"]
 [ext_resource type="AudioStream" uid="uid://babwhyu4m0vnt" path="res://assets/sounds/effects/rocky/rock_slide3.wav" id="8_jq2gp"]
 [ext_resource type="Script" uid="uid://bt6jf1wavtm84" path="res://scripts/components/world_interface.gd" id="12_youk4"]
+[ext_resource type="Script" uid="uid://dmr1e3ur3lqop" path="res://scripts/components/input_component.gd" id="13_baenc"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_c8s0l"]
 size = Vector2(16, 16)
@@ -49,20 +50,22 @@ script = ExtResource("3_1iw85")
 initial_state = NodePath("PathfindWanderPreferWallsState")
 metadata/_custom_type_script = "uid://snopn0q86518"
 
-[node name="PathfindWanderPreferWallsState" type="Node" parent="Behavior/StateMachine" unique_id=366231209 node_paths=PackedStringArray("movement", "navigation_agent", "idle_state")]
+[node name="PathfindWanderPreferWallsState" type="Node" parent="Behavior/StateMachine" unique_id=366231209 node_paths=PackedStringArray("movement", "navigation_agent", "input", "idle_state")]
 script = ExtResource("4_yf3x2")
 movement = NodePath("../../StepMovementComponent")
 navigation_agent = NodePath("../../../NavigationAgent2D")
+input = NodePath("../../../InputComponent")
 idle_state = NodePath(".")
 timer_length = 15.0
 wander_radius = 75.0
 metadata/_custom_type_script = "uid://bcbqvrhxhj2ty"
 
-[node name="StepMovementComponent" type="Node" parent="Behavior" unique_id=876431200]
+[node name="StepMovementComponent" type="Node" parent="Behavior" unique_id=876431200 node_paths=PackedStringArray("input")]
 script = ExtResource("5_yf3x2")
 step_delay = 2.5
 step_power = 100.0
 friction = 700.0
+input = NodePath("../../InputComponent")
 metadata/_custom_type_script = "uid://bxsrgbr0uwisl"
 
 [node name="SoundPlayer" type="Node" parent="Behavior/StepMovementComponent" unique_id=163269614]
@@ -85,5 +88,9 @@ metadata/_custom_type_script = "uid://5k1r4xftmni4"
 [node name="WorldInterface" type="Node" parent="." unique_id=1862371719]
 script = ExtResource("12_youk4")
 metadata/_custom_type_script = "uid://bt6jf1wavtm84"
+
+[node name="InputComponent" type="Node" parent="." unique_id=1761639671]
+script = ExtResource("13_baenc")
+metadata/_custom_type_script = "uid://dmr1e3ur3lqop"
 
 [connection signal="stepped" from="Behavior/StepMovementComponent" to="Behavior/StepMovementComponent/SoundPlayer" method="play_sound"]
