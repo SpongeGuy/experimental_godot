@@ -26,5 +26,5 @@ func _process(delta: float) -> void:
 				continue
 			if abilities[i] == null:
 				continue
-			abilities[i].on_held(delta)
+			abilities[i].on_held(input.hold_time[i], delta)
 

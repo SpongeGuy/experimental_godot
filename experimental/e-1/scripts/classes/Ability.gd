@@ -11,13 +11,14 @@ class_name Ability
 @export var cooldown: float = 0
 @export var cast_time: float = 0
 
+signal finished
+
 var _cd: float = 0
-var _ct: float = 0
 
 func on_pressed() -> void:
 	pass
 	
-func on_held(delta: float) -> void:
+func on_held(hold_duration: float, delta: float) -> void:
 	pass
 	
 func on_released(hold_duration: float) -> void:
@@ -35,5 +36,6 @@ func execute() -> void:
 	_cd = cooldown
 
 ## actually execute the ability
+## this is where custom logic for the ability will go
 func _execute() -> void:
 	pass

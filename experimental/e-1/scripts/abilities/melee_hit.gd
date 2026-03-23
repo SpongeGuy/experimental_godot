@@ -7,7 +7,10 @@ class_name AbilityMeleeHit
 
 var tween: Tween
 
-func execute() -> void:
+func on_pressed() -> void:
+	execute()
+
+func _execute() -> void:
 	if tween: 
 		tween.kill()
 	hurtbox.collision_shape.disabled = true

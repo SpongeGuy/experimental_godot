@@ -1,7 +1,12 @@
 extends Ability
 class_name AbilityTryPickUp
 
-@export var hand_component: HandComponent
+@export var hand: HandComponent
 
-func execute() -> void:
-	hand_component.try_pick_up_item_in_area()
+
+func on_pressed() -> void:
+	execute()
+
+func _execute() -> void:
+	hand.try_pick_up_item_in_area()
+	finished.emit()

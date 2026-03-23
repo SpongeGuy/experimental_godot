@@ -266,13 +266,16 @@ label3 = NodePath("../Debug/VBoxContainer/Label3")
 label4 = NodePath("../Debug/VBoxContainer/Label4")
 metadata/_custom_type_script = "uid://dmr1e3ur3lqop"
 
-[node name="AbilityManager" type="Node" parent="." unique_id=168066014]
+[node name="AbilityManager" type="Node" parent="." unique_id=168066014 node_paths=PackedStringArray("abilities", "input")]
 script = ExtResource("26_s02rk")
+abilities = [NodePath("AbilityTryPickUp"), null]
+input = NodePath("../InputComponent")
 metadata/_custom_type_script = "uid://byeskwmhfllnd"
 
-[node name="AbilityTryPickUp" type="Node" parent="AbilityManager" unique_id=122156778 node_paths=PackedStringArray("hand_component")]
+[node name="AbilityTryPickUp" type="Node" parent="AbilityManager" unique_id=122156778 node_paths=PackedStringArray("hand")]
 script = ExtResource("26_sumsn")
-hand_component = NodePath("../../HandComponent")
+hand = NodePath("../../HandComponent")
+cast_time = 2.0
 metadata/_custom_type_script = "uid://dy1nhmegj3sv7"
 
 [connection signal="died" from="Health&Damage/HealthComponent" to="Health&Damage/DeathStateSwitcher" method="switch"]

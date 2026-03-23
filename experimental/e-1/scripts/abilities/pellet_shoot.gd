@@ -8,7 +8,11 @@ class_name AbilityPelletShoot
 
 @export var charge_time: float = 1.0
 
-func execute() -> void:
+func on_pressed() -> void:
+	execute()
+	finished.emit()
+
+func _execute() -> void:
 	await get_tree().create_timer(charge_time).timeout
 	var pellet = EntityManager.spawn(entity_id, owner.global_position)
 	pellet.velocity = facing.get_direction() * speed
