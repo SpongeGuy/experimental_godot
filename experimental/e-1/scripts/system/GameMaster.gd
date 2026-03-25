@@ -10,8 +10,6 @@ var weather_scene: PackedScene = load("res://scenes/systems/weather.tscn")
 var tile_set: TileSet = load("res://assets/tilesets/prototype.tres")
 
 @export var dungeon_generator: DungeonGenerator
-@export var player_manager: PlayerManager
-@export var anthurium_manager: AnthuriumManager
 
 func _ready() -> void:
 	call_deferred("initialize_game")
@@ -40,7 +38,7 @@ func initialize_game() -> void:
 	#WorldGrid.set_rectangle(Vector2i(0,0), Vector2i(80, 46), cell)
 	#WorldGrid.set_cell(Vector2i(11, 11), ground)
 	
-	anthurium_manager.spawn_anthurium(anthurium_spawn)
+	EntityManager.spawn_anthurium(anthurium_spawn)
 	
 	#EntityManager.spawn_safely(&"roots", Vector2(450, 450))
 	#for i in range(25):
@@ -52,7 +50,7 @@ func initialize_game() -> void:
 	
 	
 	await get_tree().create_timer(1).timeout
-	player_manager.spawn_player(player_spawn)
+	EntityManager.spawn_as_player(&"focks", player_spawn)
 	GameState.change_game_state(GameState.Status.PLAYING)
 	
 	

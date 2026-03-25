@@ -4,8 +4,6 @@
 [ext_resource type="Script" uid="uid://d0mjiladgx0ad" path="res://scripts/system/EntityManager.gd" id="2_ycdy4"]
 [ext_resource type="Script" uid="uid://poanoxh62038" path="res://scripts/world/world_generator.gd" id="4_2cqfq"]
 [ext_resource type="Script" uid="uid://3iwkt7r7c01a" path="res://scripts/system/TimeManager.gd" id="5_w48qg"]
-[ext_resource type="Script" uid="uid://cbpb5b38r6tt5" path="res://scripts/system/PlayerManager.gd" id="6_dg77c"]
-[ext_resource type="Script" uid="uid://1y8kbi3tt1my" path="res://scripts/system/AnthuriumManager.gd" id="7_ycdy4"]
 [ext_resource type="Script" uid="uid://rrfxfwvhpqup" path="res://scripts/components/camera_controller.gd" id="8_5vw27"]
 [ext_resource type="Script" uid="uid://pmgi17orx2e7" path="res://scripts/system/UIController.gd" id="8_ycdy4"]
 [ext_resource type="Script" uid="uid://c7x0vu2cn1kby" path="res://scripts/system/WeatherController.gd" id="9_82xsv"]
@@ -17,23 +15,13 @@
 
 [node name="Main" type="Node" unique_id=1100438637]
 
-[node name="GameMaster" type="Node" parent="." unique_id=1238098609 node_paths=PackedStringArray("game_canvas", "dungeon_generator", "player_manager", "anthurium_manager")]
+[node name="GameMaster" type="Node" parent="." unique_id=1238098609 node_paths=PackedStringArray("game_canvas", "dungeon_generator")]
 script = ExtResource("1_dg77c")
 game_canvas = NodePath("../Game")
 dungeon_generator = NodePath("DungeonGenerator")
-player_manager = NodePath("PlayerManager")
-anthurium_manager = NodePath("AnthuriumManager")
 
 [node name="EntityManager" type="Node" parent="GameMaster" unique_id=442705041]
 script = ExtResource("2_ycdy4")
-
-[node name="PlayerManager" type="Node" parent="GameMaster" unique_id=925995434]
-script = ExtResource("6_dg77c")
-metadata/_custom_type_script = "uid://cbpb5b38r6tt5"
-
-[node name="AnthuriumManager" type="Node" parent="GameMaster" unique_id=239729518]
-script = ExtResource("7_ycdy4")
-metadata/_custom_type_script = "uid://1y8kbi3tt1my"
 
 [node name="DungeonGenerator" type="Node" parent="GameMaster" unique_id=2095261996]
 script = ExtResource("4_2cqfq")
