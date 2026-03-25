@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://ci3yvg4a86oab"]
 
-[ext_resource type="Script" uid="uid://wncb5geli7ns" path="res://scripts/components/weather_component.gd" id="1_tans0"]
+[ext_resource type="Script" uid="uid://wncb5geli7ns" path="res://scripts/world/weather_component.gd" id="1_tans0"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_2cqfq"]
 radius = 137.65

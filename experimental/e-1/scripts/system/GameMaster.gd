@@ -22,27 +22,33 @@ func initialize_game() -> void:
 	GameState.change_game_state(GameState.Status.LOADING)
 	
 	initialize_tree()
-	WorldGrid.init_grid(64, 64)
+	WorldGrid.init_grid(24, 24)
 	print("grid initialized")
 	
 	var cell: CellData = CellData.new()
-	cell.terrain = CellData.TerrainType.GROUND
-	WorldGrid.set_rectangle(Vector2i(0,0), Vector2i(80, 46), cell)
+	cell.terrain = CellData.TerrainType.WALL
+	var ground: CellData = CellData.new()
+	ground.terrain = CellData.TerrainType.GROUND
+	
 	dungeon_generator.generate()
 	
 	
-	var player_spawn: Vector2 = Vector2(512, 512)
+	
+	var player_spawn: Vector2 = Vector2(300, 50)
 	var anthurium_spawn: Vector2 = Vector2(512, 512)
+	#WorldGrid.set_rectangle(Vector2i(0,0), Vector2i(80, 46), cell)
+	#WorldGrid.set_rectangle(Vector2i(0,0), Vector2i(80, 46), cell)
+	#WorldGrid.set_cell(Vector2i(11, 11), ground)
 	
 	anthurium_manager.spawn_anthurium(anthurium_spawn)
 	
-	EntityManager.spawn_safely(&"roots", Vector2(450, 450))
+	#EntityManager.spawn_safely(&"roots", Vector2(450, 450))
 	#for i in range(25):
 		#var pos: Vector2 = Vector2(randf_range(300, 550), randf_range(300, 550))
 		#EntityManager.spawn_safely(&"plopp_orb", pos)
-	EntityManager.spawn_safely(&"imp", Vector2(450, 400))
-	EntityManager.spawn_safely(&"plopp_orb", Vector2(550, 500))
-	EntityManager.spawn_safely(&"pitcher", Vector2(500, 450))
+	#EntityManager.spawn_safely(&"imp", Vector2(450, 400))
+	#EntityManager.spawn_safely(&"plopp_orb", Vector2(550, 500))
+	#EntityManager.spawn_safely(&"pitcher", Vector2(500, 450))
 	
 	
 	await get_tree().create_timer(1).timeout
@@ -77,7 +83,6 @@ func initialize_tree() -> void:
 	var container: Node2D = Node2D.new()
 	container.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	var camera: Camera2D = Camera2D.new()
-	
 	
 	var world: Node2D = Node2D.new()
 	var weather: WeatherComponent = weather_scene.instantiate() as WeatherComponent

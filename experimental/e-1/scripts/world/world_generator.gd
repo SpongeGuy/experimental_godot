@@ -31,14 +31,25 @@ func generate(sed: int = -1) -> void:
 	_rooms.clear()
 
 	_fill_walls()
+	print("finished filling you in")
 	_place_rooms()
+	print("finished placing you in")
 	_connect_rooms()
+	print("finished connecting you in")
 	#_scatter_gaps()
 	#_scatter_ground_effects()
 	_enforce_border()
+	print("finished bordering you in")
 	EventBus.terrain_generated_successfully.emit()
 	print("dungeon done and dusted")
+	
+	WorldGrid.resolve_visibility_all()
 
+
+func _set_cell_delayed(coords: Vector2i, cell: CellData) -> void:
+	WorldGrid.set_cell(coords, cell, false)
+	
+	get_tree().create_timer(0.01).timeout
 
 # -------------------------------------------------------
 # Passes
@@ -49,7 +60,7 @@ func _fill_walls() -> void:
 		for x in WorldGrid.width:
 			var cell = CellData.new()
 			cell.terrain = CellData.TerrainType.WALL
-			WorldGrid.set_cell(Vector2i(x, y), cell)
+			WorldGrid.set_cell(Vector2i(x, y), cell, false)
 
 
 func _place_rooms() -> void:
@@ -66,7 +77,7 @@ func _place_rooms() -> void:
 			continue
 
 		_rooms.append(candidate)
-		_carve_room(candidate)
+		await _carve_room(candidate)
 
 
 func _carve_room(room: Rect2i) -> void:
@@ -74,7 +85,7 @@ func _carve_room(room: Rect2i) -> void:
 		for x in range(room.position.x, room.position.x + room.size.x):
 			var cell = CellData.new()
 			cell.terrain = CellData.TerrainType.GROUND
-			WorldGrid.set_cell(Vector2i(x, y), cell)
+			await _set_cell_delayed(Vector2i(x, y), cell)
 
 
 func _connect_rooms() -> void:
@@ -85,7 +96,7 @@ func _connect_rooms() -> void:
 	for i in range(_rooms.size() - 1):
 		var a_center = _rooms[i].get_center()
 		var b_center = _rooms[i + 1].get_center()
-		_carve_corridor(Vector2i(a_center), Vector2i(b_center))
+		await _carve_corridor(Vector2i(a_center), Vector2i(b_center))
 
 
 func _carve_corridor(from: Vector2i, to: Vector2i) -> void:
@@ -108,7 +119,7 @@ func _carve_h_corridor(row: int, x_from: int, x_to: int) -> void:
 			if WorldGrid._in_bounds(Vector2i(x, y)):
 				var cell = CellData.new()
 				cell.terrain = CellData.TerrainType.GROUND
-				WorldGrid.set_cell(Vector2i(x, y), cell)
+				_set_cell_delayed(Vector2i(x, y), cell)
 
 
 func _carve_v_corridor(col: int, y_from: int, y_to: int) -> void:
@@ -120,7 +131,7 @@ func _carve_v_corridor(col: int, y_from: int, y_to: int) -> void:
 			if WorldGrid._in_bounds(Vector2i(x, y)):
 				var cell = CellData.new()
 				cell.terrain = CellData.TerrainType.GROUND
-				WorldGrid.set_cell(Vector2i(x, y), cell)
+				_set_cell_delayed(Vector2i(x, y), cell)
 
 
 func _scatter_gaps() -> void:

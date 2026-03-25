@@ -19,6 +19,7 @@ texture = ExtResource("1_c3ktw")
 1:0/0/occlusion_layer_0/polygon_0/polygon = SubResource("OccluderPolygon2D_4c57u")
 1:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 2:0/0 = 0
+3:0/0 = 0
 
 [resource]
 occlusion_layer_0/light_mask = 1

@@ -7,6 +7,8 @@ class_name SpawnAlterTerrain
 enum Type{CIRCLE, SQUARE, SINGULAR}
 
 func _ready() -> void:
+	cell.terrain = CellData.TerrainType.GROUND
+	cell.invisible = false
 	match type:
 		Type.CIRCLE:
 			call_deferred("_set_circle")
