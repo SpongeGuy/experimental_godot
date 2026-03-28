@@ -17,6 +17,7 @@ func _on_cells_changed(batch: Dictionary[Vector2i, CellData]) -> void:
 		_draw_cell(coordinate, batch[coordinate])
 	
 func _draw_cell(coords: Vector2i, cell: CellData) -> void:
+	
 	cell.resolve_atlas_coordinate()
 	set_cell(coords, ATLAS_SOURCE_ID, cell.atlas_coordinate)
 	

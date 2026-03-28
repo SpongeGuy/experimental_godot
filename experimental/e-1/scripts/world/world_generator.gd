@@ -47,7 +47,7 @@ func generate(sed: int = -1) -> void:
 
 
 func _set_cell_delayed(coords: Vector2i, cell: CellData) -> void:
-	WorldGrid.set_cell(coords, cell, false)
+	WorldGrid.set_cell(coords, cell)
 	
 	get_tree().create_timer(0.01).timeout
 
@@ -60,7 +60,7 @@ func _fill_walls() -> void:
 		for x in WorldGrid.width:
 			var cell = CellData.new()
 			cell.terrain = CellData.TerrainType.WALL
-			WorldGrid.set_cell(Vector2i(x, y), cell, false)
+			WorldGrid.set_cell(Vector2i(x, y), cell)
 
 
 func _place_rooms() -> void:

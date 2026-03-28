@@ -50,7 +50,9 @@ func initialize_game() -> void:
 	
 	
 	await get_tree().create_timer(1).timeout
+	WorldGrid.hide_map()
 	EntityManager.spawn_as_player(&"focks", player_spawn)
+	WorldGrid.reveal_from_player()
 	GameState.change_game_state(GameState.Status.PLAYING)
 	
 	

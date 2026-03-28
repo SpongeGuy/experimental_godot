@@ -10,13 +10,10 @@ var grid_size: Vector2
 var tile_size: int = 16
 var padding: int = 5
 
-var _visible: PackedByteArray
-var _visible_list: Array[int]
-
 var _batching: bool = false
 var _dirty_cells: Dictionary[Vector2i, CellData] = {}
 var _smelly_cells: Dictionary[Vector2i, bool] = {}
-
+var _visible_cells: Dictionary[Vector2i, bool] = {}
 
 signal cell_changed(coords: Vector2i, cell: CellData) ## connects to worldrenderer to set a cell visually on the tilemaplayer
 signal cells_changed(batch: Dictionary[Vector2i, CellData])
@@ -55,17 +52,16 @@ func init_grid(w: int, h: int) -> void:
 func get_cell(coords: Vector2i) -> CellData:
 	return _grid[_idx(coords)]
 
-func set_cell(coords: Vector2i, cell: CellData, reveal_area: bool = false) -> void:
-	if not _visible_list[_idx(coords)]:
+func set_cell(coords: Vector2i, cell: CellData, reveal_area: bool = true) -> void:
+	if not _visible_cells.has(coords):
 		cell.invisible = true
-	
 	var old_cell: CellData = get_cell(coords)
 	if old_cell.terrain == CellData.TerrainType.OUT_OF_BOUNDS:
 		return
 	
 	_grid[_idx(coords)] = cell # replace with new celldata
 	
-	if old_cell.terrain != cell.terrain and GameState.player and _visible_list[_idx(coords)]:
+	if old_cell.terrain != cell.terrain and GameState.player and _visible_cells.has(coords):
 		reveal_from_player()
 	
 	if _batching:
@@ -78,7 +74,7 @@ func set_cell(coords: Vector2i, cell: CellData, reveal_area: bool = false) -> vo
 func hide_cell(coords: Vector2i) -> void:
 	var cell = get_cell(coords)
 	cell.set("invisible", true)
-	_visible_list[_idx(coords)] = null
+	_visible_cells.erase(coords)
 	if _batching:
 		_smelly_cells[coords] = true
 	else:
@@ -309,6 +305,3 @@ func reveal_from(coords: Vector2i) -> void:
 	for tile in flooded: reveal_cell(tile)
 	for tile in border: reveal_cell(tile)
 	end_batch()
-
-func _reveal_flat() -> void:
-	pass
