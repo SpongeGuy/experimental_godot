@@ -20,7 +20,7 @@ func initialize_game() -> void:
 	GameState.change_game_state(GameState.Status.LOADING)
 	
 	initialize_tree()
-	WorldGrid.init_grid(24, 24)
+	WorldGrid.init_grid(64, 64)
 	print("grid initialized")
 	
 	var cell: CellData = CellData.new()
@@ -28,7 +28,7 @@ func initialize_game() -> void:
 	var ground: CellData = CellData.new()
 	ground.terrain = CellData.TerrainType.GROUND
 	
-	dungeon_generator.generate()
+	dungeon_generator.generate(123)
 	
 	
 	
@@ -90,6 +90,10 @@ func initialize_tree() -> void:
 	world_renderer.tile_set = tile_set
 	world_renderer.z_index = -10
 	
+	var visibility_renderer: VisibilityRenderer = VisibilityRenderer.new()
+	visibility_renderer.tile_set = tile_set
+	visibility_renderer.z_index = -9
+	
 	var ysort: Node2D = Node2D.new()
 	ysort.y_sort_enabled = true
 	
@@ -106,6 +110,7 @@ func initialize_tree() -> void:
 	background.z_index = -50
 	
 	world.add_child(world_renderer)
+	world.add_child(visibility_renderer)
 	world.add_child(weather)
 	world.add_child(ysort)
 	world.add_child(background)

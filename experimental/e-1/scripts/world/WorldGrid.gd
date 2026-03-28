@@ -1,14 +1,26 @@
 extends Node
 # AUTOLOAD AS WorldGrid
 
-var width: int = 64
-var height: int = 64
+var width: int
+var height: int
 var _grid: Array[CellData] = []
+var _stride: int
 var grid_size: Vector2
 var tile_size: int = 16
+var padding: int = 5
 
-signal cell_changed(coords: Vector2i) ## connects to worldrenderer to set a cell visually on the tilemaplayer
+var _batching: bool = false
+var _dirty_cells: Dictionary[Vector2i, CellData] = {}
+var _smelly_cells: Dictionary[Vector2i, bool] = {}
+var _visible_cells: Dictionary[Vector2i, bool] = {}
+
+signal cell_changed(coords: Vector2i, cell: CellData) ## connects to worldrenderer to set a cell visually on the tilemaplayer
+signal cells_changed(batch: Dictionary[Vector2i, CellData])
+signal cells_visibled(batch: Dictionary[Vector2i, bool])
 signal grid_loaded
+
+signal cell_hidden(coords: Vector2i)
+signal cell_revealed(coords: Vector2i)
 
 func init_grid(w: int, h: int) -> void:
 	width = w
@@ -16,40 +28,71 @@ func init_grid(w: int, h: int) -> void:
 	grid_size.x = w
 	grid_size.y = h
 	_grid.clear()
-	_grid.resize(w * h)
+	_grid.resize((w+(padding * 2))* (h+ (padding * 2))) # padding for out of bounds checking
+	_stride = width + (padding * 2)
+	
+	# initialize entire grid including padding as out of bounds
 	for i in _grid.size():
 		_grid[i] = CellData.new()
+		_grid[i].terrain = CellData.TerrainType.OUT_OF_BOUNDS
+	
+	# set the inner area as in bounds
+	for y in height:
+		for x in width:
+			_grid[_idx(Vector2i(x, y))].terrain = CellData.TerrainType.GROUND
+	
 	grid_loaded.emit()
+
 		
 func get_cell(coords: Vector2i) -> CellData:
-	if not _in_bounds(coords):
-		
-		return null
 	return _grid[_idx(coords)]
 
-func set_cell(coords: Vector2i, cell: CellData, reveal_area: bool = true) -> void:
-	if not _in_bounds(coords):
+func set_cell(coords: Vector2i, cell: CellData, reveal_area: bool = false) -> void:
+	if not _visible_cells.has(coords):
+		cell.invisible = true
+	
+	var old_cell: CellData = get_cell(coords)
+	if old_cell.terrain == CellData.TerrainType.OUT_OF_BOUNDS:
 		return
-		
-	var old_cell: CellData = _grid[_idx(coords)]
-	var old_terrain: CellData.TerrainType = old_cell.terrain
 	
 	_grid[_idx(coords)] = cell # replace with new celldata
 	
-	_handle_terrain_change(coords, old_terrain, cell.terrain)
+	if old_cell.terrain != cell.terrain and GameState.player and _visible_cells.has(coords):
+		reveal_from_player()
 	
-	cell_changed.emit(coords)
+	if _batching:
+		_dirty_cells[coords] = cell
+	else:
+		cell_changed.emit(coords, cell)
+		
 	
-	_set_invisible(coords, get_cell(coords))
-	
-	
-	
+
+func hide_cell(coords: Vector2i) -> void:
+	var cell = get_cell(coords)
+	cell.set("invisible", true)
+	_visible_cells.erase(coords)
+	if _batching:
+		_smelly_cells[coords] = true
+	else:
+		cell_hidden.emit(coords)
+
+func reveal_cell(coords: Vector2i) -> void:
+	var cell = get_cell(coords)
+	cell.set("invisible", false)
+	_visible_cells[coords] = true
+	if _batching:
+		_smelly_cells[coords] = false
+	else:
+		cell_revealed.emit(coords)
 
 func mutate(coords: Vector2i, property: String, value: Variant) -> void:
 	var cell = get_cell(coords)
 	if cell and property in cell:
 		cell.set(property, value)
-		cell_changed.emit(coords)
+		if _batching:
+			_dirty_cells[coords] = cell
+		else:
+			cell_changed.emit(coords, cell)
 		
 const CARDINAL_DIRS = {
 	"N":  Vector2i( 0, -1),
@@ -89,7 +132,7 @@ func get_neighbors_of_type(coords: Vector2i, terrain: CellData.TerrainType, diag
 	
 
 func _idx(coords: Vector2i) -> int:
-	return coords.y * width + coords.x
+	return (coords.y + padding)* _stride + (coords.x + padding)
 	
 func _in_bounds(coords: Vector2i) -> bool:
 	return coords.x >= 0 and coords.x < width and coords.y >= 0 and coords.y < height
@@ -172,156 +215,66 @@ func set_circle(center: Vector2i, radius: int, cell: CellData, filled: bool = tr
 # util visibility
 # -------------------------------------
 
-const COMPONENT_COUNT_LIMIT: int = 500
+func reveal_from_player() -> void:
+	if not GameState.player:
+		return
+	reveal_from(world_to_tile(GameState.player.global_position))
 
-func _set_invisible(coords: Vector2i, cell: CellData) -> void:
-	# Get all 8 neighbors (including diagonals)
-	var neighbors: Dictionary = get_neighbors(coords, true)
+func begin_batch() -> void:
+	_dirty_cells.clear()
+	_smelly_cells.clear()
+	_batching = true
 	
-	# If any neighbor is out-of-bounds, the cell cannot be fully surrounded → visible
-	# If any neighbor is a visible non‑wall, the cell cannot be hidden
-	for neighbor in neighbors.values():
-		if neighbor == null:                # out of bounds
-			if cell.invisible:
-				cell.invisible = false
-				cell_changed.emit(coords)
-			return
-		if neighbor.terrain != CellData.TerrainType.WALL and not neighbor.invisible:
-			if cell.invisible:
-				cell.invisible = false
-				cell_changed.emit(coords)
-			return
+func end_batch() -> void:
+	_batching = false
+	if _dirty_cells.size() > 0:
+		cells_changed.emit(_dirty_cells)
+		_dirty_cells.clear()
+	if _smelly_cells.size() > 0:
+		cells_visibled.emit(_smelly_cells)
 	
-	# All existing neighbors are either walls or invisible → make this cell invisible
-	if not cell.invisible:
-		cell.invisible = true
-		cell_changed.emit(coords)
-		
-func _has_revealed_ground_neighbor(coords: Vector2i) -> bool:
-	# Returns true if at least one 8-connected neighbor is revealed GROUND
-	for n_coords in get_neighbors_of_type(coords, CellData.TerrainType.GROUND, true):
-		var n_cell = get_cell(n_coords)
-		if not n_cell.invisible:
-			return true
-	return false		
-	
-func _count_ground_component(start: Vector2i, visited: Dictionary, out_component: Array[Vector2i]) -> int:
-	# Counts (and optionally collects) a connected GROUND component.
-	# Stops early once COMPONENT_COUNT_LIMIT is exceeded so we never count the whole map.
-	var queue: Array[Vector2i] = [start]
-	visited[start] = true
-	var count: int = 0
+
+## BFS to collect all GROUND cells reachable from one tile
+func flood_collect(coords: Vector2i) -> Dictionary:
+	var component: Dictionary = {}
+	var queue: Array[Vector2i] = [coords]
+	var target_cell_type: CellData.TerrainType = CellData.TerrainType.GROUND
 	
 	while not queue.is_empty():
-		var coords: Vector2i = queue.pop_front()
-		var cell: CellData = get_cell(coords)
-		if cell == null or cell.terrain != CellData.TerrainType.GROUND:
+		var current = queue.pop_back()
+		if not _in_bounds(current):
 			continue
-		
-		count += 1
-		if count <= COMPONENT_COUNT_LIMIT:
-			out_component.append(coords)
-		
-		if count > COMPONENT_COUNT_LIMIT:
-			out_component.clear()  # we won't hide this component anyway
-			return COMPONENT_COUNT_LIMIT + 1  # flag as "large"
-		
-		# Enqueue all 8-connected ground neighbors
-		for n_coords in get_neighbors_of_type(coords, CellData.TerrainType.GROUND, true):
-			if not visited.has(n_coords):
-				visited[n_coords] = true
-				queue.append(n_coords)
-	
-	return count
-	
-func _check_and_hide_smaller_component(changed_coords: Vector2i) -> void:
-	# Called whenever a GROUND cell becomes non-GROUND.
-	# Finds every connected ground component that touched this cell and hides the small ones.
-	var adjacent_grounds: Array[Vector2i] = get_neighbors_of_type(changed_coords, CellData.TerrainType.GROUND, true)
-	if adjacent_grounds.is_empty():
-		return
-	
-	var visited: Dictionary[Vector2i, bool] = {}
-	var small_grounds: Array[Vector2i] = []
-	
-	for start in adjacent_grounds:
-		if visited.has(start):
+		if get_cell(current).terrain != target_cell_type:
 			continue
-		var component: Array[Vector2i] = []
-		var size: int = _count_ground_component(start, visited, component)
-		if size <= COMPONENT_COUNT_LIMIT:
-			small_grounds.append_array(component)
-	
-	# Hide every small component (grounds only — walls are handled by resolve_visibility_all)
-	for coords in small_grounds:
-		var cell: CellData = get_cell(coords)
-		if cell and not cell.invisible:
-			cell.invisible = true
-			cell_changed.emit(coords)
-	
-	# Re-run full visibility pass so any walls that are now fully enclosed become invisible
-	# (border walls touching the large revealed side stay visible)
-	resolve_visibility_all()
-	
-func _handle_terrain_change(coords: Vector2i, old_terrain: CellData.TerrainType, new_terrain: CellData.TerrainType) -> void:
-	# Central place for the two special cases you described
-	if new_terrain == CellData.TerrainType.GROUND and old_terrain != CellData.TerrainType.GROUND:
-		if _has_revealed_ground_neighbor(coords):
-			_reveal_connected_area(coords)
-		else:
-			# Internal pocket — force hidden even if the caller passed invisible = false
-			var cell: CellData = get_cell(coords)
-			if not cell.invisible:
-				cell.invisible = true
-	
-	elif old_terrain == CellData.TerrainType.GROUND and new_terrain != CellData.TerrainType.GROUND:
-		_check_and_hide_smaller_component(coords)
+		if current in component:
+			continue
+			
+		component[current] = true
+		var neighbors: Array[Vector2i] = get_neighbors_of_type(current, target_cell_type)
+		for n in neighbors:
+			queue.push_back(n)
+	return component
 
-# Flood-reveals a whole connected ground area + its bordering walls
-func _reveal_connected_area(start: Vector2i) -> void:
-	if not _in_bounds(start):
-		return
-	
-	var queue: Array[Vector2i] = [start]
-	var visited: Dictionary = {}  # Vector2i → bool
-	
-	while not queue.is_empty():
-		var coords: Vector2i = queue.pop_front()
-		if visited.has(coords):
-			continue
-		visited[coords] = true
-		
-		var cell: CellData = get_cell(coords)
-		if cell == null or cell.terrain != CellData.TerrainType.GROUND:
-			continue
-		
-		# Reveal this ground tile
-		if cell.invisible:
-			cell.invisible = false
-			cell_changed.emit(coords)
-		
-		# Reveal all 8 bordering wall tiles
-		var neighbors := get_neighbors(coords, true)
-		for dir in neighbors:
-			var wall_coords: Vector2i = coords + ALL_DIRS[dir]
-			var n_cell: CellData = neighbors[dir]
-			if n_cell and n_cell.terrain == CellData.TerrainType.WALL and n_cell.invisible:
-				n_cell.invisible = false
-				cell_changed.emit(wall_coords)
-		
-		# Enqueue neighboring ground tiles (8-connected)
-		for dir in neighbors:
-			var n_coords: Vector2i = coords + ALL_DIRS[dir]
-			var n_cell: CellData = neighbors[dir]
-			if n_cell and n_cell.terrain == CellData.TerrainType.GROUND and not visited.has(n_coords):
-				queue.append(n_coords)
-
-func resolve_visibility_all() -> void:
+func hide_map() -> void:
 	for y in height:
 		for x in width:
-			var coords: Vector2i = Vector2i(x, y)
-			var cell: CellData = get_cell(coords)
-			if cell:
-				_set_invisible(coords, cell)
+			hide_cell(Vector2i(x, y))
+	
+func hide_visible_cells() -> void:
+	for cell in _visible_cells.keys():
+		hide_cell(cell)
+	_visible_cells.clear()
 
-
+func reveal_from(coords: Vector2i) -> void:
+	# get player position (or whatever position)
+	# flood fill that area for ground tiles
+	# make every tile plus its neighbor visible
+	var ground: Dictionary = flood_collect(coords)
+	begin_batch()
+	hide_visible_cells()
+	for tile in ground.keys():
+		reveal_cell(tile)
+		var neighbors: Array[Vector2i] = get_neighbors_of_type(tile, CellData.TerrainType.WALL, true)
+		for t in neighbors:
+			reveal_cell(t)
+	end_batch()

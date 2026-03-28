@@ -1,13 +1,15 @@
 extends Resource
 class_name CellData
 
-enum TerrainType { GROUND, WALL, GAP }
+enum TerrainType { GROUND, WALL, GAP, OUT_OF_BOUNDS }
 @export var  terrain: TerrainType = TerrainType.GROUND
 
 var atlas_coordinate: Vector2i = Vector2i.ZERO
 
 @export var invisible: bool = false
 
+
+var out_of_bounds: bool = false
 
 # ---------------- to be implemented later -----------------------------
 
@@ -60,7 +62,4 @@ const TERRAIN_ATLAS: Dictionary = {
 }
 
 func resolve_atlas_coordinate() -> void:
-	if invisible:
-		atlas_coordinate = Vector2i(3, 0)
-		return
 	atlas_coordinate = TERRAIN_ATLAS[terrain]

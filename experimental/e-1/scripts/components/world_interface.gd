@@ -12,7 +12,7 @@ func sample_cell(body: CharacterBody2D) -> CellData:
 	if not WorldGrid._grid:
 		return null
 		
-	var coords = Vector2i(body.global_position / WorldGrid.tile_size)
+	var coords = WorldGrid.world_to_tile(body.global_position)
 	return WorldGrid.get_cell(coords)
 
 

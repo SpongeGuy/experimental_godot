@@ -11,3 +11,4 @@ func _process(_delta: float) -> void:
 			input.release_action(id)
 			
 	input.move_input_direction = Input.get_vector("west", "east", "north", "south")
+

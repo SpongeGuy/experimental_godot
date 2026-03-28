@@ -14,6 +14,11 @@ var coords: Vector2
 func _ready() -> void:
 	EventBus.camera_ready.connect(_on_camera_ready)
 
+
+
+	
+	
+
 func _physics_process(delta: float) -> void:
 	if not target:
 		return
@@ -23,15 +28,29 @@ func _physics_process(delta: float) -> void:
 			
 	coords = get_viewport().get_mouse_position()
 	coords += camera.position - Vector2(320, 180)
-			
-			
-func _input(event: InputEvent) -> void:
+	
+	
+		
+	if Input.is_key_pressed(KEY_E):
+		get_tree().reload_current_scene()
+	
+	handlers()
+	
+		
+
+
+func handlers() -> void:
 	var cell: CellData = CellData.new()
-	cell.terrain = CellData.TerrainType.GROUND
-	if event is InputEventMouseButton:
-		var c = WorldGrid.get_cell(WorldGrid.world_to_tile(coords)).terrain
-		print(str(c))
-		WorldGrid.set_circle(WorldGrid.world_to_tile(coords), 3, cell)
+	var tile_coords: Vector2i = WorldGrid.world_to_tile(coords)
+	if Input.is_action_just_pressed("debug_1"):
+		cell.terrain = CellData.TerrainType.WALL
+		WorldGrid.set_cell(tile_coords, cell, true)
+		await get_tree().create_timer(1).timeout
+		
+	if Input.is_action_just_pressed("debug_2"):
+		cell.terrain = CellData.TerrainType.GROUND
+		WorldGrid.set_cell(tile_coords, cell, true)
+		await get_tree().create_timer(1).timeout
 
 func _on_camera_ready(c: Camera2D) -> void:
 	camera = c

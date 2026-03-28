@@ -43,7 +43,7 @@ func generate(sed: int = -1) -> void:
 	EventBus.terrain_generated_successfully.emit()
 	print("dungeon done and dusted")
 	
-	WorldGrid.resolve_visibility_all()
+	#WorldGrid.resolve_visibility_all()
 
 
 func _set_cell_delayed(coords: Vector2i, cell: CellData) -> void:
@@ -170,7 +170,7 @@ func _place_gap(coords: Vector2i) -> void:
 	cell.terrain = CellData.TerrainType.GAP
 	cell.fall_damage = _rng.randf_range(0.0, 20.0)
 	cell.kill_on_fall = _rng.randf() < 0.15   # 15% chance of lethal gap
-	WorldGrid.cell_changed.emit(coords)
+	WorldGrid.cell_changed.emit(coords, cell)
 
 
 func _scatter_ground_effects() -> void:
@@ -190,12 +190,12 @@ func _scatter_ground_effects() -> void:
 					var sc_cell = WorldGrid.get_cell(sc)
 					if sc_cell and sc_cell.terrain == CellData.TerrainType.GROUND:
 						sc_cell.conveyor_velocity = Vector2(dir) * _rng.randf_range(60.0, 180.0)
-						WorldGrid.cell_changed.emit(sc)
+						WorldGrid.cell_changed.emit(sc, sc_cell)
 
 			# Damage floors — hot coals, acid, etc.
 			elif _rng.randf() < damage_floor_chance:
 				cell.contact_damage = _rng.randf_range(2.0, 8.0)
-				WorldGrid.cell_changed.emit(coords)
+				WorldGrid.cell_changed.emit(coords, cell)
 
 
 func _enforce_border() -> void:
@@ -212,7 +212,7 @@ func _make_wall(coords: Vector2i) -> void:
 	var cell = WorldGrid.get_cell(coords)
 	if cell:
 		cell.terrain = CellData.TerrainType.WALL
-		WorldGrid.cell_changed.emit(coords)
+		WorldGrid.cell_changed.emit(coords, cell)
 
 
 # -------------------------------------------------------
