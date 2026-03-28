@@ -4,15 +4,19 @@ extends Node
 var width: int
 var height: int
 var _grid: Array[CellData] = []
+var _visited: PackedByteArray = []
 var _stride: int
 var grid_size: Vector2
 var tile_size: int = 16
 var padding: int = 5
 
+var _visible: PackedByteArray
+var _visible_list: Array[int]
+
 var _batching: bool = false
 var _dirty_cells: Dictionary[Vector2i, CellData] = {}
 var _smelly_cells: Dictionary[Vector2i, bool] = {}
-var _visible_cells: Dictionary[Vector2i, bool] = {}
+
 
 signal cell_changed(coords: Vector2i, cell: CellData) ## connects to worldrenderer to set a cell visually on the tilemaplayer
 signal cells_changed(batch: Dictionary[Vector2i, CellData])
@@ -41,6 +45,10 @@ func init_grid(w: int, h: int) -> void:
 		for x in width:
 			_grid[_idx(Vector2i(x, y))].terrain = CellData.TerrainType.GROUND
 	
+	# initialize visited array
+	_visited.resize(_grid.size())
+	_visited.fill(0)
+	
 	grid_loaded.emit()
 
 		
@@ -48,7 +56,7 @@ func get_cell(coords: Vector2i) -> CellData:
 	return _grid[_idx(coords)]
 
 func set_cell(coords: Vector2i, cell: CellData, reveal_area: bool = false) -> void:
-	if not _visible_cells.has(coords):
+	if not _visible_list[_idx(coords)]:
 		cell.invisible = true
 	
 	var old_cell: CellData = get_cell(coords)
@@ -57,7 +65,7 @@ func set_cell(coords: Vector2i, cell: CellData, reveal_area: bool = false) -> vo
 	
 	_grid[_idx(coords)] = cell # replace with new celldata
 	
-	if old_cell.terrain != cell.terrain and GameState.player and _visible_cells.has(coords):
+	if old_cell.terrain != cell.terrain and GameState.player and _visible_list[_idx(coords)]:
 		reveal_from_player()
 	
 	if _batching:
@@ -70,7 +78,7 @@ func set_cell(coords: Vector2i, cell: CellData, reveal_area: bool = false) -> vo
 func hide_cell(coords: Vector2i) -> void:
 	var cell = get_cell(coords)
 	cell.set("invisible", true)
-	_visible_cells.erase(coords)
+	_visible_list[_idx(coords)] = null
 	if _batching:
 		_smelly_cells[coords] = true
 	else:
@@ -219,6 +227,16 @@ func reveal_from_player() -> void:
 	if not GameState.player:
 		return
 	reveal_from(world_to_tile(GameState.player.global_position))
+	
+func hide_map() -> void:
+	for y in height:
+		for x in width:
+			hide_cell(Vector2i(x, y))
+	
+func hide_visible_cells() -> void:
+	for cell in _visible_cells.keys():
+		hide_cell(cell)
+	_visible_cells.clear()
 
 func begin_batch() -> void:
 	_dirty_cells.clear()
@@ -234,47 +252,63 @@ func end_batch() -> void:
 		cells_visibled.emit(_smelly_cells)
 	
 
-## BFS to collect all GROUND cells reachable from one tile
-func flood_collect(coords: Vector2i) -> Dictionary:
-	var component: Dictionary = {}
-	var queue: Array[Vector2i] = [coords]
-	var target_cell_type: CellData.TerrainType = CellData.TerrainType.GROUND
+func _idx_to_coords(idx: int) -> Vector2i:
+	return Vector2i(idx % _stride - padding, idx / _stride - padding)
+
+func flood_collect(coords: Vector2i) -> Array:
+	_visited.fill(0)
+	
+	const UNVISITED: int = 0
+	const FLOODED: int = 1
+	const BORDER: int = 2
+	
+	var start: int = _idx(coords)
+	if _grid[start].terrain != CellData.TerrainType.GROUND:
+		return [[] as Array[Vector2i], [] as Array[Vector2i]]
+		
+	var cardinal: Array[int] = [-_stride, 1, _stride, -1]
+	var diagonal: Array[int] = [-_stride - 1, -_stride + 1, _stride - 1, _stride + 1]
+	
+	var flooded: Array[Vector2i] = []
+	var border: Array[Vector2i] = []
+	var queue: Array[int] = [start]
+	_visited[start] = FLOODED
 	
 	while not queue.is_empty():
-		var current = queue.pop_back()
-		if not _in_bounds(current):
-			continue
-		if get_cell(current).terrain != target_cell_type:
-			continue
-		if current in component:
-			continue
-			
-		component[current] = true
-		var neighbors: Array[Vector2i] = get_neighbors_of_type(current, target_cell_type)
-		for n in neighbors:
-			queue.push_back(n)
-	return component
-
-func hide_map() -> void:
-	for y in height:
-		for x in width:
-			hide_cell(Vector2i(x, y))
-	
-func hide_visible_cells() -> void:
-	for cell in _visible_cells.keys():
-		hide_cell(cell)
-	_visible_cells.clear()
+		var current: int = queue.pop_back()
+		flooded.append(_idx_to_coords(current))
+		
+		for offset in cardinal:
+			var n: int = current + offset
+			if _visited[n] != UNVISITED:
+				continue
+			if _grid[n].terrain == CellData.TerrainType.GROUND:
+				_visited[n] = FLOODED
+				queue.push_back(n)
+			elif _grid[n].terrain != CellData.TerrainType.OUT_OF_BOUNDS:
+				_visited[n] = BORDER
+				border.append(_idx_to_coords(n))
+		
+		for offset in diagonal:
+			var n: int = current + offset
+			if _visited[n] != UNVISITED:
+				continue
+			if _grid[n].terrain != CellData.TerrainType.GROUND and _grid[n].terrain != CellData.TerrainType.OUT_OF_BOUNDS:
+					_visited[n] = BORDER
+					border.append(_idx_to_coords(n))
+		
+	return [flooded, border]
 
 func reveal_from(coords: Vector2i) -> void:
-	# get player position (or whatever position)
-	# flood fill that area for ground tiles
-	# make every tile plus its neighbor visible
-	var ground: Dictionary = flood_collect(coords)
+	var result:= flood_collect(coords)
+	var flooded: Array[Vector2i] = result[0]
+	var border: Array[Vector2i] = result[1]
+	
 	begin_batch()
 	hide_visible_cells()
-	for tile in ground.keys():
-		reveal_cell(tile)
-		var neighbors: Array[Vector2i] = get_neighbors_of_type(tile, CellData.TerrainType.WALL, true)
-		for t in neighbors:
-			reveal_cell(t)
+	for tile in flooded: reveal_cell(tile)
+	for tile in border: reveal_cell(tile)
 	end_batch()
+
+func _reveal_flat() -> void:
+	pass
