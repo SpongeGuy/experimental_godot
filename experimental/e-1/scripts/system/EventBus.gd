@@ -39,3 +39,9 @@ signal item_put_into_inventory(item: Entity)
 # score
 signal added_game_score_to(subject: Entity, amount: int, source: Entity)
 signal added_nutri_score_to(subject: Entity, amount: int, source: Entity)
+
+
+# worldgrid
+signal cell_hidden(coords: Vector2i)
+signal cell_revealed(coords: Vector2i)
+signal cells_visibled(batch: Dictionary[Vector2i, bool])

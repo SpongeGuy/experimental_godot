@@ -36,7 +36,6 @@ func physics_update(delta: float) -> void:
 	
 	desired_direction = Input.get_vector("west", "east", "north", "south")
 	input.set_move_input_direction(desired_direction)
-	movement.physics_update(delta, owner)
 	if abs(desired_direction.length()) < 0.1:
 		state_machine.switch(idle_state)
 		

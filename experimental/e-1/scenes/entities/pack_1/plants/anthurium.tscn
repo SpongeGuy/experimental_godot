@@ -5,6 +5,8 @@
 [ext_resource type="Script" uid="uid://dyqp5rr3xkiq8" path="res://scripts/components/spawn_alter_terrain.gd" id="3_vff35"]
 [ext_resource type="Script" uid="uid://dwex81s0yowa4" path="res://scripts/world/CellData.gd" id="4_u75l8"]
 [ext_resource type="Script" uid="uid://c8gjdh64wwjeu" path="res://scripts/components/anthurium_part_interface.gd" id="5_1c2kf"]
+[ext_resource type="Script" uid="uid://cvaptyot73a1d" path="res://scripts/components/visibility_component.gd" id="6_yblnt"]
+[ext_resource type="Script" uid="uid://b7fumud38ekr4" path="res://scripts/components/hide_in_invisible_cells.gd" id="7_pqcki"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mh3iw"]
 size = Vector2(61, 42)
@@ -37,3 +39,13 @@ metadata/_custom_type_script = "uid://dyqp5rr3xkiq8"
 [node name="AnthuriumPartInterface" type="Node" parent="." unique_id=507271586]
 script = ExtResource("5_1c2kf")
 metadata/_custom_type_script = "uid://c8gjdh64wwjeu"
+
+[node name="VisibilityComponent" type="Node" parent="." unique_id=1359952695 node_paths=PackedStringArray("sprites")]
+script = ExtResource("6_yblnt")
+sprites = [NodePath("../Sprite/Main")]
+metadata/_custom_type_script = "uid://cvaptyot73a1d"
+
+[node name="HideInInvisibleCells" type="Node" parent="." unique_id=1099442948 node_paths=PackedStringArray("visibility")]
+script = ExtResource("7_pqcki")
+visibility = NodePath("../VisibilityComponent")
+metadata/_custom_type_script = "uid://b7fumud38ekr4"

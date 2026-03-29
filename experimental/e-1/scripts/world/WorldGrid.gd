@@ -18,10 +18,11 @@ var _visible_cells: Dictionary[Vector2i, bool] = {}
 signal cell_changed(coords: Vector2i, cell: CellData) ## connects to worldrenderer to set a cell visually on the tilemaplayer
 signal cells_changed(batch: Dictionary[Vector2i, CellData])
 signal cells_visibled(batch: Dictionary[Vector2i, bool])
-signal grid_loaded
+
 
 signal cell_hidden(coords: Vector2i)
 signal cell_revealed(coords: Vector2i)
+signal grid_loaded
 
 func init_grid(w: int, h: int) -> void:
 	width = w
@@ -53,6 +54,8 @@ func get_cell(coords: Vector2i) -> CellData:
 	return _grid[_idx(coords)]
 
 func set_cell(coords: Vector2i, cell: CellData, reveal_area: bool = true) -> void:
+	if _visible_cells.is_empty():
+		reveal_from_player()
 	if not _visible_cells.has(coords):
 		cell.invisible = true
 	var old_cell: CellData = get_cell(coords)
@@ -79,6 +82,7 @@ func hide_cell(coords: Vector2i) -> void:
 		_smelly_cells[coords] = true
 	else:
 		cell_hidden.emit(coords)
+		EventBus.cell_hidden.emit(coords)
 
 func reveal_cell(coords: Vector2i) -> void:
 	var cell = get_cell(coords)
@@ -88,6 +92,7 @@ func reveal_cell(coords: Vector2i) -> void:
 		_smelly_cells[coords] = false
 	else:
 		cell_revealed.emit(coords)
+		EventBus.cell_revealed.emit(coords)
 
 func mutate(coords: Vector2i, property: String, value: Variant) -> void:
 	var cell = get_cell(coords)
@@ -246,6 +251,7 @@ func end_batch() -> void:
 		_dirty_cells.clear()
 	if _smelly_cells.size() > 0:
 		cells_visibled.emit(_smelly_cells)
+		EventBus.cells_visibled.emit(_smelly_cells)
 	
 
 func _idx_to_coords(idx: int) -> Vector2i:

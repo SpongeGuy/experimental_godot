@@ -3,6 +3,8 @@ class_name PlayerInputDriver
 
 @export var input: InputComponent
 
+
+
 func _process(_delta: float) -> void:
 	for id in range(input.actions.size()):
 		if Input.is_action_just_pressed(input.actions[id]):

@@ -23,7 +23,6 @@ func physics_update(delta: float) -> void:
 	if abs(direction.length()) > 0.1:
 		state_machine.switch(move_state)
 		
-	movement.physics_update(delta, owner)
 	
 ## called once when this state is switched from
 func exit() -> void:

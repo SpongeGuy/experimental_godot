@@ -1,6 +1,8 @@
 extends Component
 class_name MovementComponent
 
+@export var disabled: bool = false
+
 @export var max_speed: float = 100.0
 @export var acceleration: float = 500.0
 @export var friction: float = 800.0 # how fast it stopps
@@ -14,19 +16,24 @@ class_name MovementComponent
 @export var apply_friction: bool = true
 
 var velocity: Vector2 = Vector2.ZERO
+
+func _physics_process(delta: float) -> void:
+	if disabled:
+		return
+	physics_update(delta)
 	
-func physics_update(delta: float, body: CharacterBody2D) -> void:
+func physics_update(delta: float) -> void:
 	movement_function(delta)
-	_handle_cell_terrain(body, delta) # cell stuff, ground effects
-	_apply_knockback(body)
+	_handle_cell_terrain(delta) # cell stuff, ground effects
+	_apply_knockback()
 	
-	body.velocity = velocity
-	body.move_and_slide()
-	velocity = body.velocity
+	entity.velocity = velocity
+	entity.move_and_slide()
+	velocity = entity.velocity
 	
 	_apply_friction(delta)
 	
-	_handle_passive_collisions(body)
+	_handle_passive_collisions()
 	_handle_bounce_collisions() # knockback purposes
 	
 	
@@ -38,6 +45,7 @@ func movement_function(delta: float) -> void:
 	
 	if world_interface:
 		final_max_speed *= world_interface.cell_movement_modifier()
+	
 	
 	if input.move_input_direction.length() > 0:
 		var target_velocity = input.move_input_direction * final_max_speed
@@ -57,18 +65,18 @@ func _apply_friction(delta: float) -> void:
 	
 
 
-func _handle_cell_terrain(body: CharacterBody2D, delta: float) -> void:
+func _handle_cell_terrain(delta: float) -> void:
 	if not world_interface: 
 		return
 
-func _handle_passive_collisions(body: CharacterBody2D) -> void:
+func _handle_passive_collisions() -> void:
 	var restitution: float = 1.2
 	if entity is not CharacterBody2D:
 		return
 	
 	
-	for i in body.get_slide_collision_count():
-		var col: KinematicCollision2D = body.get_slide_collision(i)
+	for i in entity.get_slide_collision_count():
+		var col: KinematicCollision2D = entity.get_slide_collision(i)
 		var collider_velocity = col.get_collider_velocity()
 		var normal: Vector2 = col.get_normal()
 		
@@ -84,7 +92,7 @@ func _handle_passive_collisions(body: CharacterBody2D) -> void:
 # knockback
 # -------------------------	
 
-func _apply_knockback(body: CharacterBody2D) -> void:
+func _apply_knockback() -> void:
 	if knockback:
 		velocity += knockback.knockback_velocity
 

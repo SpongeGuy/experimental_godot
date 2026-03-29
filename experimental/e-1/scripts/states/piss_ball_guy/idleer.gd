@@ -1,0 +1,2 @@
+extends BehaviorState
+class_name IdlersState

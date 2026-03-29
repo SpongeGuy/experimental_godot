@@ -6,7 +6,6 @@ extends Component
 @export var bounce_factor: float = 0.3  # 0 = no bounce, 1 = full elastic
 @export var min_bounce_speed: float = 50.0  # below this, stop bouncing
 @export var health: HealthComponent ## not mandatory, if not set, the entity will not be knocked back on damage
-@export var movement: MovementComponent
 
 var knockback_velocity: Vector2 = Vector2.ZERO
 
@@ -34,7 +33,6 @@ func _on_taken_damage(amount: float, source: Entity) -> void:
 
 func apply_knockback(direction: Vector2, force: float) -> void:
 	knockback_velocity += direction.normalized() * force
-	print("KOCKBACEK", knockback_velocity)
 
 func apply_explosion_knockback(explosion_origin: Vector2, force: float, falloff: float = 1.0) -> void:
 	var dir: Vector2 = (entity.global_position - explosion_origin).normalized()
