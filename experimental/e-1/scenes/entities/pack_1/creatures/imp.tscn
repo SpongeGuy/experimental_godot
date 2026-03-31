@@ -144,10 +144,9 @@ friction = 200.0
 knockback = NodePath("../KnockbackComponent")
 input = NodePath("../InputComponent")
 
-[node name="KnockbackComponent" type="Node" parent="Behavior" unique_id=1202018533 node_paths=PackedStringArray("health", "movement")]
+[node name="KnockbackComponent" type="Node" parent="Behavior" unique_id=1202018533 node_paths=PackedStringArray("health")]
 script = ExtResource("22_fwhgc")
 health = NodePath("../../Health&Damage/HealthComponent")
-movement = NodePath("../MovementComponent")
 metadata/_custom_type_script = "uid://2b6l1sxmcd5r"
 
 [node name="InputComponent" type="Node" parent="Behavior" unique_id=2034104056]

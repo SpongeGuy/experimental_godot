@@ -4,7 +4,10 @@ class_name CellData
 enum TerrainType { GROUND, WALL, GAP, OUT_OF_BOUNDS }
 @export var  terrain: TerrainType = TerrainType.GROUND
 
+
+var skin: int = 0
 var atlas_coordinate: Vector2i = Vector2i.ZERO
+var using_random_texture: bool = false
 
 @export var invisible: bool = false
 
@@ -55,11 +58,4 @@ func clone() -> CellData:
 	c.transport_target = transport_target
 	return c
 
-const TERRAIN_ATLAS: Dictionary = {
-	CellData.TerrainType.GROUND: Vector2i(0, 0),
-	CellData.TerrainType.WALL: Vector2i(1, 0),
-	CellData.TerrainType.GAP: Vector2i(2, 0),
-}
 
-func resolve_atlas_coordinate() -> void:
-	atlas_coordinate = TERRAIN_ATLAS[terrain]

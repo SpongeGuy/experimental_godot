@@ -67,6 +67,12 @@ func set_cell(coords: Vector2i, cell: CellData, reveal_area: bool = true) -> voi
 	if old_cell.terrain != cell.terrain and GameState.player and _visible_cells.has(coords):
 		reveal_from_player()
 	
+	if cell.terrain == CellData.TerrainType.GROUND:
+		cell.skin = 1
+	else:
+		cell.skin = 0
+		cell.using_random_texture = true
+	
 	if _batching:
 		_dirty_cells[coords] = cell
 	else:

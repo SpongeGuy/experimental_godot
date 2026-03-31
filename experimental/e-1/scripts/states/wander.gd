@@ -34,8 +34,6 @@ func update(delta: float) -> void:
 		
 	input.set_move_input_direction(steering)
 	
-func physics_update(delta: float) -> void:
-	movement.physics_update(delta, owner)
 	
 func exit() -> void:
 	if target_seeker:

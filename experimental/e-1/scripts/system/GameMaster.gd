@@ -8,6 +8,7 @@ extends Node
 @export var game_canvas: CanvasLayer
 var weather_scene: PackedScene = load("res://scenes/systems/weather.tscn")
 var tile_set: TileSet = load("res://assets/tilesets/prototype.tres")
+var visual_tile_set: TileSet = load("res://assets/tilesets/visual.tres")
 
 @export var dungeon_generator: DungeonGenerator
 
@@ -41,9 +42,9 @@ func initialize_game() -> void:
 	EntityManager.spawn_anthurium(anthurium_spawn)
 	
 	#EntityManager.spawn_safely(&"roots", Vector2(450, 450))
-	#for i in range(25):
-		#var pos: Vector2 = Vector2(randf_range(300, 550), randf_range(300, 550))
-		#EntityManager.spawn_safely(&"plopp_orb", pos)
+	for i in range(25):
+		var pos: Vector2 = Vector2(randf_range(100, 550), randf_range(100, 550))
+		EntityManager.spawn_safely(&"piss_guy", pos)
 	#EntityManager.spawn_safely(&"imp", Vector2(450, 400))
 	#EntityManager.spawn_safely(&"plopp_orb", Vector2(550, 500))
 	#EntityManager.spawn_safely(&"pitcher", Vector2(500, 450))
@@ -94,7 +95,7 @@ func initialize_tree() -> void:
 	world_renderer.z_index = -10
 	
 	var visibility_renderer: VisibilityRenderer = VisibilityRenderer.new()
-	visibility_renderer.tile_set = tile_set
+	visibility_renderer.tile_set = visual_tile_set
 	visibility_renderer.z_index = -9
 	
 	var ysort: Node2D = Node2D.new()

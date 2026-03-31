@@ -1,6 +1,11 @@
 extends Component
 class_name HideInInvisibleCells
 
+# -----------------------------------------------------------
+# works automatically to interface with the WorldGrid to set
+# the entity to be visible or not based on if the tile it is standing on is visibles
+# ---------------------------------------------------------v
+
 @export var visibility: VisibilityComponent
 
 func _ready() -> void:

@@ -2,6 +2,7 @@ extends Component
 class_name ProximityDetector
 
 # --------------------------------------
+# interfaces with an area to detect nearby entities (or terrain)
 # emits a signal when it detects a nearby entity with a valid script defined in the inspector
 # --------------------------------------
 
@@ -22,12 +23,22 @@ class_name ProximityDetector
 signal detected(source: Entity, target: Entity)
 signal lost(source: Entity, target: Entity)
 
+signal detected_wall(tile_pos: Vector2i)
+signal lost_wall(tile_pos: Vector2i)
+
 func _ready() -> void:
 	area.collision_layer = collision_layer
 	area.collision_mask = collision_mask
 	area.area_entered.connect(_on_area_entered)
 	area.area_exited.connect(_on_area_exited)
+	area.body_entered.connect(_on_body_entered)
+	area.body_exited.connect(_on_body_exited)
 	
+	
+# ---------------------------------------------
+# detecting entities
+# ---------------------------------------------
+
 func _on_area_entered(other: Area2D) -> void:
 	var target: Entity = _resolve_entity(other)
 	if target and _passes_filter(target):
@@ -54,7 +65,22 @@ func _passes_filter(subject: Entity) -> bool:
 		has_required = valid_components.any(func(c): return subject.has_component(c))
 	
 	return has_required if not blacklist else not has_required
-	
 
-			
 
+
+# --------------------------------------
+# probably detecting a wall!
+# --------------------------------------
+
+func _resolve_body(other: Node2D) -> TileMapLayer:
+	if other is TileMapLayer:
+		return other as TileMapLayer
+	return null
+
+func _on_body_entered(other: Node2D) -> void:
+	if _resolve_body(other):
+		detected_wall.emit(WorldGrid.world_to_tile(area.global_position))
+		
+func _on_body_exited(other: Node2D) -> void:
+	if _resolve_body(other):
+		lost_wall.emit(WorldGrid.world_to_tile(area.global_position))

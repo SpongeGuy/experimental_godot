@@ -1,6 +1,12 @@
 extends Component
 class_name VisibilityComponent
 
+
+# ---------------------------------------------
+# changes visibility of all sprites in the array
+# ---------------------------------------------
+
+
 @export var sprites: Array[Sprite2D]
 
 var _visible: bool = true

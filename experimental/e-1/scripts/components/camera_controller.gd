@@ -44,14 +44,14 @@ func handlers() -> void:
 	var tile_coords: Vector2i = WorldGrid.world_to_tile(coords)
 	if Input.is_action_just_pressed("debug_1"):
 		cell.terrain = CellData.TerrainType.WALL
-		#WorldGrid.set_cell(tile_coords, cell)
-		WorldGrid.set_circle(tile_coords, 2, cell)
+		WorldGrid.set_cell(tile_coords, cell)
+		#WorldGrid.set_circle(tile_coords, 2, cell)
 		await get_tree().create_timer(1).timeout
 		
 	if Input.is_action_just_pressed("debug_2"):
 		cell.terrain = CellData.TerrainType.GROUND
-		#WorldGrid.set_cell(tile_coords, cell)
-		WorldGrid.set_circle(tile_coords, 2, cell)
+		WorldGrid.set_cell(tile_coords, cell)
+		#WorldGrid.set_circle(tile_coords, 2, cell)
 		await get_tree().create_timer(1).timeout
 
 func _on_camera_ready(c: Camera2D) -> void:
