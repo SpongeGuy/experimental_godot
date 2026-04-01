@@ -49,7 +49,11 @@ func init_grid(w: int, h: int) -> void:
 	
 	grid_loaded.emit()
 
-		
+func safe_get_cell(coords: Vector2i) -> CellData:
+	if not _in_bounds(coords):
+		return null
+	return _grid[_idx(coords)]
+
 func get_cell(coords: Vector2i) -> CellData:
 	return _grid[_idx(coords)]
 

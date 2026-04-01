@@ -51,7 +51,6 @@ func get_next_path_direction() -> Vector2:
 func _on_target_reached() -> void:
 	navigation_finished.emit()
 	has_target = false
-	print("hi")
 
 func is_navigating() -> bool:
 	return has_target and not navigation.is_target_reached()

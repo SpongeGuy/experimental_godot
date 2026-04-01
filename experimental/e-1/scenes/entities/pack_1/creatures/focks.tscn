@@ -67,6 +67,7 @@ radius = 12.0
 [node name="Focks" type="CharacterBody2D" unique_id=163986961 groups=["creature"]]
 texture_filter = 1
 collision_layer = 2
+collision_mask = 3
 motion_mode = 1
 script = ExtResource("1_7d0cd")
 
@@ -202,10 +203,9 @@ script = ExtResource("19_vifq1")
 pickup_area = NodePath("../Animation/Rotator/HandArea")
 metadata/_custom_type_script = "uid://duajgedj0nkus"
 
-[node name="KnockbackComponent" type="Node" parent="." unique_id=279683997 node_paths=PackedStringArray("health", "movement")]
+[node name="KnockbackComponent" type="Node" parent="." unique_id=279683997 node_paths=PackedStringArray("health")]
 script = ExtResource("20_m1inn")
 health = NodePath("../Health&Damage/HealthComponent")
-movement = NodePath("../MovementComponent")
 metadata/_custom_type_script = "uid://2b6l1sxmcd5r"
 
 [node name="WorldInterface" type="Node" parent="." unique_id=484845366]

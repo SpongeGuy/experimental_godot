@@ -42,9 +42,9 @@ func initialize_game() -> void:
 	EntityManager.spawn_anthurium(anthurium_spawn)
 	
 	#EntityManager.spawn_safely(&"roots", Vector2(450, 450))
-	for i in range(25):
-		var pos: Vector2 = Vector2(randf_range(100, 550), randf_range(100, 550))
-		EntityManager.spawn_safely(&"piss_guy", pos)
+	#for i in range(25):
+		#var pos: Vector2 = Vector2(randf_range(100, 550), randf_range(100, 550))
+		#EntityManager.spawn_safely(&"piss_guy", pos)
 	#EntityManager.spawn_safely(&"imp", Vector2(450, 400))
 	#EntityManager.spawn_safely(&"plopp_orb", Vector2(550, 500))
 	#EntityManager.spawn_safely(&"pitcher", Vector2(500, 450))

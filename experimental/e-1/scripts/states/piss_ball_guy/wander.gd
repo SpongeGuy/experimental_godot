@@ -70,10 +70,12 @@ func randomly_change_direction() -> void:
 	var is_wall_in_front: bool = true
 	var dir: Vector2
 	
-	while is_wall_in_front:
-		dir = dirs.pick_random()
-		var tile_pos_and_facing: CellData = WorldGrid.get_cell(WorldGrid.world_to_tile(state_machine.entity.global_position) + Vector2i(dir.round()))
-		is_wall_in_front = tile_pos_and_facing.terrain == CellData.TerrainType.WALL
+	for i in range(25):
+		if is_wall_in_front:
+			dir = dirs.pick_random()
+			var tile_pos_and_facing: CellData = WorldGrid.safe_get_cell(WorldGrid.world_to_tile(state_machine.entity.global_position) + Vector2i(dir.round()))
+			if tile_pos_and_facing:
+				is_wall_in_front = tile_pos_and_facing.terrain == CellData.TerrainType.WALL
 		
 	facing.change_direction(dir)
 	ok_to_turn = false

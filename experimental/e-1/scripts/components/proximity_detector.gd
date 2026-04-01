@@ -40,6 +40,7 @@ func _ready() -> void:
 # ---------------------------------------------
 
 func _on_area_entered(other: Area2D) -> void:
+	print(other)
 	var target: Entity = _resolve_entity(other)
 	if target and _passes_filter(target):
 		detected.emit(entity, target)
