@@ -7,7 +7,7 @@ class_name VisibilityComponent
 # ---------------------------------------------
 
 
-@export var sprites: Array[Sprite2D]
+@export var nodes: Array[Node2D]
 
 var _visible: bool = true
 
@@ -17,8 +17,8 @@ func set_visibility(to: bool) -> void:
 	_visible = to
 	visibility_changed.emit(to)
 	if to == true:
-		for sprite in sprites:
-			sprite.visible = true
+		for node in nodes:
+			node.visible = true
 	else:
-		for sprite in sprites:
-			sprite.visible = false
+		for node in nodes:
+			node.visible = false

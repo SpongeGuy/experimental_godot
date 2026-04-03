@@ -3,6 +3,9 @@ class_name DeathState
 
 ## called once when the state machine does its initial switch to this state
 func enter() -> void:
+	for child in state_machine.entity.get_children():
+		if child is Area2D:
+			child.monitorable = false
 	owner.queue_free()
 	
 ## called every frame while this state is active

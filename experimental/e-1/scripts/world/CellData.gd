@@ -5,9 +5,9 @@ enum TerrainType { GROUND, WALL, GAP, OUT_OF_BOUNDS }
 @export var  terrain: TerrainType = TerrainType.GROUND
 
 
-var skin: int = 0
+@export var skin: int = 0
 var atlas_coordinate: Vector2i = Vector2i.ZERO
-var using_random_texture: bool = false
+@export var using_random_texture: bool = false
 
 @export var invisible: bool = false
 

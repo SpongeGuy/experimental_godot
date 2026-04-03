@@ -7,10 +7,9 @@ class_name Hitbox
 signal hit_received(damage_amount: float, source: Node2D)
 
 func _ready() -> void:
-	collision_layer = 1 << 8 # this is a hitbox
-	collision_mask = 1 << 9 # look for hurtboxes
+	collision_layer = 1 << 6 # this is a hitbox
+	collision_mask = 1 << 7 # look for hurtboxes
 	area_entered.connect(_on_hurtbox_contact)
-
 
 func _on_hurtbox_contact(area: Area2D) -> void:
 	if area is not Hurtbox:

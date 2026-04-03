@@ -4,19 +4,15 @@ class_name PathfindWandererState
 @export var navigation: NavigationHelper
 @export var facing: FacingComponent
 @export var input: InputComponent
-@export var movement: StepMovementComponent
-@export var exit_state: BehaviorState
+@export var movement: MovementComponent
 @export var sound: SoundPlayer
+@export var animator: SpriteAnimator
 
-func _on_stepping() -> void:
-	sound.play_sound()
-
-func _on_stepped() -> void:
-	decide_to_switch()
+@export var radius: float = 100
 
 func enter() -> void:
-	movement.stepped.connect(_on_stepped)
-	movement.stepping.connect(_on_stepping)
+	if animator:
+		animator.load_and_reset_animation("wander")
 	
 func update(delta: float) -> void:
 	pass
@@ -25,7 +21,7 @@ func physics_update(delta: float) -> void:
 	# get next nav point
 		# if no next nav point, then create a new navigation goal
 	if not navigation.is_navigating():
-		navigation.set_new_pathfinding_location_relative(state_machine.entity.global_position, 100)
+		navigation.set_new_pathfinding_location_relative(state_machine.entity.global_position, radius)
 	
 	var next_point: Vector2 = navigation.get_next_path_direction()
 	facing.change_direction(next_point)
@@ -34,11 +30,5 @@ func physics_update(delta: float) -> void:
 	# move continuously towards facing direction
 	
 func exit() -> void:
-	movement.stepped.disconnect(_on_stepped)
-	movement.stepping.disconnect(_on_stepping)
-
-
-func decide_to_switch() -> void:
-	if randf() < 0.05:
-		state_machine.switch(exit_state)
+	pass
 		

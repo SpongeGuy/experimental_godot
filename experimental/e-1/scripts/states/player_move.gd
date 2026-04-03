@@ -18,12 +18,13 @@ func enter() -> void:
 	
 ## called every frame while this state is active
 func update(delta: float) -> void:
+	var direction: Vector2 = facing.get_direction()
 	var velocity: Vector2 = movement.velocity
 	
 	if animator:
-		if abs(velocity.x) > abs(velocity.y):
+		if abs(direction.x) > abs(direction.y):
 			animator.load_animation("walk_ew")
-		elif velocity.y >= 0:
+		elif direction.y >= 0:
 			animator.load_animation("walk_n")
 		else:
 			animator.load_animation("walk_s")

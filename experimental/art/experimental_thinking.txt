@@ -1,0 +1,253 @@
+ecosystem simulator meets snappy arcade game
+how should this game feel to play?
+    game should be minimalist and snappy, easy to control and pick up
+    the game will have lots of simple parts which are easy to know when beginning but these parts will come together to make much deeper gameplay when the player becomes more adept at the game
+each loop will last from 2:30 to 8:00 minutes where when the timer elapses some disaster occurs
+    the player must make it back to their nest successfully to hibernate through the disaster
+
+**every creature functions based on these main parameters**
+    hunger
+        a rate, value, and max value.
+        it is recommended to determine behavior based on a ratio: value/max.
+        controls the creature's urge to seek and consume food.
+        this rate is directly proportional to the velocity of the creature
+    nutrition
+        a base amount of hunger satiated when the creature is consumed by another.
+    fat
+        acts as long term storage of nutrition to determine certain characteristics.
+        fat is gained when the creature eats while not hungry.
+        fat is lost when the creature has a high hunger percentage.
+    age
+        controls the life stage of the creature.
+        higher age means faster hunger rate.
+**personality**
+> these are constants which may determine the actions and behavior of a creature. they are generated when the creature spawns.
+aggression
+bravery
+dominance
+energy
+nervous
+sympathy
+
+**emotions**
+> these are variables which can change based on the creature's state or environs. they are typically initialized at 0 when the creature spawns.
+rage
+melancholy
+joy
+curiosity
+
+
+how should i implement a system for creatures to track each other and determine their relationships? the relationship status between creatures should determine their state and therefore behavior. also determine if this design is too involved or if the scope is too wide.
+    so creature A will track every creature in its sightline PLUS the creatures in its memory (albiet less precisely). say creature A spots creature B. creature A will create a reference in its mind of creature B and determine its relationship. depending on certain factors like distance, its favorite foods, its current emotional state, its mass, etc, creature A will choose a relationship type to associate with creature B (know that this relationship type can switch and change over time). relationship strength should be measured by a ratio with 0 being no relationship and 1 being a highly strong relationship.
+
+**PLANTS**
+grass
+    grows rapidly and spontaneously
+ferns
+    more nutritive than grass
+shrubs
+    more nutritive than ferns
+    
+**Interactables**
+treasure
+    gold, coins, jewels
+food
+    plants, fruit, meat, carcasses
+plants
+    grass, ferms, shrubs
+creatures
+
+**Creatures**
+common creature life cycle:
+    (egg) -> 
+    young -> 
+    mature -> 
+    carcass -> 
+    meat
+
+> each unindented line is a potential creature
+
+        tier 1 - docile and passive
+        tier 2 - only aggressive if provoked
+        tier 3 - predatory
+        tier 4 - violent
+        tier 5 - unconcerned with other creatures
+
+        type A - lessens hunger passively over time given a condition
+        type B - lessens hunger when nearby a specific object
+        type C - lessens hunger by consuming objects
+        type D - unconventional means of lessening hunger
+        type E - does not worry about hunger
+
+(1C) digs up junk, fruit, and treasure
+    its litters are numerous
+(2C) eats grass and lays droppings, moves very slowly
+    laying droppings reduces its fat storage
+(1D) rolls up droppings into a large ball, loses hunger when it does so
+(1C) eats grass, converts droppings and junk into walls
+(2A) absorbs nutrition from the ground, moves slowly and leaves behind weak destructible walls as it moves
+(3C) lives in walls and throws spears from inside walls, eats meat
+
+(1C) wanders around singing a song
+    the song encourages plants to grow faster
+    the song lowers the aggression of nearby creatures
+    sometimes causes plants to come alive and walk around
+(2B) lives in shrubs and attacks threats that gets close
+    loses hunger when near shrubs
+(2C) cuts down shrubs to find fruits and eats them
+    prefers its favorite fruit
+    prefers to run away when cornered
+(1C) has a favorite plant and poops seeds to grow it
+
+(3B) latches onto creatures and makes them go faster
+    when latched, its hunger goes down
+    
+(2D) is on fire; lighting things on fire causes its hunger to go down
+(1B) pops and sparkles; creates flaming food pellets when lit on fire
+(2C) consumes fire as its food source, sets a timer to explode when harmed
+    releases eggs when it explodes
+
+(2C) clones itself when harmed
+
+(5A) grows from the ground, at maturity it runs around then explodes, creating terrain
+    can hop over 1-thick tiles
+    plants its young in the ground when it explodes
+    
+(2D) plants itself in the ground near grass and transforms it into shrubs
+    lessens its hunger when it 
+    shoots seeds at threatening creatures while running away
+
+(4D) kills indiscriminately, absorbing creatures' souls
+    moves slowly
+    
+(2C) crawls around slowly eating grass, summons a dangerous raptor beast when harmed
+
+(2C) hoards treasure and becomes aggressive if its treasure is threatened
+    eats fruit very quickly
+
+(3C) pack animal, hunts animals as a group
+    prioritizes hunting and killing nutritive and docile creatures
+
+(1B) eats grass and lays sharp junk as droppings
+    its body is spiny and causes contact damage
+
+(1E) appears, skitters around dropping treasure (transmutes its nutrition value)
+    very high hunger rate, when it dies it pops causing a small explosion of treasure
+
+(2C) sleeps, lowering its metabolism until it detects carcasses on the map
+    uses junk as weapons
+    territorial
+    
+(2C) sleeps until other creatures get nearby, if too many creatures are nearby, it will go into a rage
+
+(2A) roots itself to the ground to gain hunger, defends trees
+    attacks creatures if they are too close to trees
+    moves slowly
+    
+
+
+
+**cell system**
+nutrition: {float}
+navigability: {0-1}
+health: {float}
+
+**creature**
+goals: {dictionary} 
+intent_to_move_direction
+
+        floating lands above the clouds
+        glowing balls of flame sleep below
+        a place shrouded in twilight
+        and yet there are those who live in the void
+        and prosper
+        pioneers who harness the wind
+        heroes who fight for life
+        and those who live day by day
+        
+        strange birds warble and glide
+        their cries echoing through the void
+        hunting for the floaters who rest
+        seeking warmth near the flames
+        rarely do the clouds ever part
+        to show the void below
+        but tower they do
+        in puffs
+        where the great raptors hide
+        and the spirits sleep
+        and the secrets seep
+        where dusk is the darkest
+
+
+
+
+goal: survive the winter
+4 seasons
+    spring
+    summer
+    fall
+    winter
+
+4 days per season
+5 minutes per day
+you must bring food to your nest to live through the night
+
+you are a unique creature who has evolved to
+    pick up items
+    throw items
+    store a bunch of items within your cheeks
+    spit them out
+the player can only hold one item in their hands at a time
+
+various items may show up during play:
+    trowel (can dig up plants)
+    knife (can stab creatures)
+    rope (can tie yourself to creature)
+    sleep needle (puts a creature to sleep)
+    death needle (kills a creature instantly)
+    resurrect needle (revives a recently killed creature)
+    bomb (explodes in a radius, can destroy terrain)
+    magic bomb (explodes in a radius and teleports everything randomly)
+    heavy stone (can swallow to increase your mass)
+    
+    
+you are an omnivore who can eat fruits and meat
+other creatures can use other methods to eat like the sun or grass
+
+the puzzle is to figure out how to utilize the ecosystem to consistently generate food for you to take
+the player must keep the ecosystem alive and healthy so that they can survive through all four seasons
+
+spring
+    more peaceful animals
+    rapid plant growth
+    high plant variety
+    (so the player can manipulate which plants survive into the summer)
+summer
+    
+fall
+
+winter
+
+
+tasks:
+v1
+    creature (generic)
+    item (generic)
+    player
+    fruit
+    treasure
+    nest
+    timer mechanic
+
+
+
+
+
+
+
+
+
+
+
+
+

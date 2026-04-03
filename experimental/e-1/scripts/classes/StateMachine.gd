@@ -10,6 +10,8 @@ var data: Dictionary = {}
 @export var initial_state: BehaviorState
 
 func _ready() -> void:
+	if not initial_state:
+		push_error("Initial state not set")
 	switch(initial_state)
 
 func _process(delta: float) -> void:

@@ -25,8 +25,6 @@ func _process(delta: float) -> void:
 # loads the animation and sets the frame counter to the beginning of the animation
 # chances are you want to use this one over load_animation, this one will look less buggy in most use cases.
 func load_and_reset_animation(animation_name: StringName) -> void:
-	if _current_animation and animation_name == _current_animation.name:
-		return
 	for animation in animations:
 		if animation.name != animation_name:
 			continue
@@ -73,17 +71,22 @@ func _update_animation(delta: float, modifier: float = 1.0) -> void:
 	var old_frame: int = _current_frame
 	_animation_timer += delta * modifier * _current_animation.speed
 	if _animation_timer >= _current_animation.frames + _current_animation.column:
-		_animation_timer = _current_animation.column
-		
 		# if this isn't a looping animation, then stop the animation
 		if not _current_animation.loop:
 			animation_finished.emit(SpriteAnimation)
 			_stop()
+			return
+		
+		_animation_timer = _current_animation.column
+		
+		
+		
 			
 	if not _current_animation:
 		return
 	
 	_current_frame = floor(_animation_timer)
+	
 	
 	if old_frame != _current_frame:
 		frame_elapsed.emit(_current_frame)

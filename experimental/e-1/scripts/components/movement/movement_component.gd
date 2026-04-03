@@ -15,6 +15,8 @@ class_name MovementComponent
 @export var apply_acceleration: bool = true
 @export var apply_friction: bool = true
 
+@export var input_disabled: bool = false
+
 var velocity: Vector2 = Vector2.ZERO
 
 func _physics_process(delta: float) -> void:
@@ -23,7 +25,10 @@ func _physics_process(delta: float) -> void:
 	physics_update(delta)
 	
 func physics_update(delta: float) -> void:
-	movement_function(delta)
+	if input_disabled:
+		input.move_input_direction = Vector2.ZERO
+	if input and not input_disabled:
+		movement_function(delta)
 	_handle_cell_terrain(delta) # cell stuff, ground effects
 	_apply_knockback()
 	
@@ -39,8 +44,6 @@ func physics_update(delta: float) -> void:
 	
 ## applies custom logic to velocity and applies velocity to the body according to conditions
 func movement_function(delta: float) -> void:	
-	if not input:
-		return
 	var final_max_speed: float = max_speed
 	
 	if world_interface:

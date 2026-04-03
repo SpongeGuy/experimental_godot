@@ -1,0 +1,400 @@
+
+| Forget-me-not creatures                                                                                                    | Anthurium analog            |
+| -------------------------------------------------------------------------------------------------------------------------- | --------------------------- |
+| Grunt <br>Steps around, attacks nearby creatuers                                                                           | crab guy<br>Bimpy           |
+| Grunto <br>Steps around, occasionally fire a projectile, attacks nearby creatures                                          | crab guy 2<br>Bagabimpy     |
+| Grunta <br>Steps around quickly, rapidly attacks nearby creatures                                                          | crab guy 3<br>Bimporg       |
+| Energycube <br>Constantly moves around erratically, lots of health                                                         |                             |
+| Frog <br>Hops around, sometimes long distances                                                                             |                             |
+| Bomb<br>Steps around, sets a timer to detonation when attacked, attacks nearby creatures                                   |                             |
+| Gunner<br>Steps around, shoots projectiles rapidly when creature is in LOS                                                 | crab guy 4<br>Bormose Bimpy |
+| Dungeoncube Alpha<br>Rapidly slides around the map in cardinal directions, kills anything it slides into                   |                             |
+| Dungeoncube Beta<br>Slides around the map in cardinal directions, kills anything it slides into                            |                             |
+| Slimer<br>Steps around slowly, attacks nearby creatures, leaves a solid slime trail, dies when unable to make another move |                             |
+| Ghost<br>Steps around, shoots bombs behind it when it steps                                                                |                             |
+| Cloner<br>Grunt AI, duplicates itself when shot by a projectile                                                            |                             |
+| Unstablecube<br>Energycube AI, explodes when killed                                                                        |                             |
+| Bandit<br>Moves constantly quickly, seeks treasure and runs around with it                                                 |                             |
+| Worm<br>Moves constantly, attacks creatures in front of it                                                                 |                             |
+| Pinwheel<br>Moves constantly, is more likely to turn in one direction                                                      |                             |
+| Spider<br>Hops around when nearby other creatures                                                                          |                             |
+seems like the base creature takes a step where it's facing, then decides if it wants to face a different direction.
+
+# creature pack 1:
+
+**plopp**
+- creates edible orbs
+- wanders around aimlessly
+- dances occasionally, spitting more orbs
+
+**moo**
+- wanders around aimlessly
+- eats orbs
+- flees from threats
+
+**imp**
+- wanders around
+- likes to be near walls
+- attacks nearby creatures
+
+**floroid**
+- plantlike creature
+- dies in one hit
+- digs underground unseen
+- comes up occasionally to drop a fruit of its type
+- damages walls it digs under
+
+**stone**
+- hard as a rock
+- moves slowly
+- wanders around
+- collides with creatures like terrain
+- likes to be near walls
+- likes to be near other stones
+
+**salmon**
+- flops around aimlessly
+- shoots pellets at nearby creatures
+- likes being in water
+
+**rud**
+- hops strategically
+- eats salmon
+- causes shockwaves when it hops
+
+**bitwit**
+- friendly puffball
+- is knocked around easily
+- follows creatures around
+
+**hoary**
+- designates an area as 'his lawn'
+- attacks any creature on his lawn
+- likes the **gnome**
+
+**grue**
+- comes out only at night
+- ruthlessly hunts down other creatures
+
+# creature pack 2:
+
+**tarantorra**
+- creates a home web
+- guards its web until hungry
+- stalks and pounces on prey and webs them up
+- brings prey back to its home
+
+**carpo**
+- eats a fruit then becomes a big version of it
+- when hit it creates more fruits
+
+**ceefor**
+- sits in an area until damaged
+- when harmed, it runs around panicked
+- after a while it detonates in a large explosion
+
+**runbone**
+- dashes quickly across the screen
+- stuns nearby creatures
+- damages creatures it runs over
+
+**spatuler**
+- drills through walls
+- searches for valuables and treasure
+- likes **stone** creatures and wants to breed them
+
+**kori**
+- moves quickly around
+- hangs around its nest
+- quickly grabs food and brings them back to its nest
+- feeds its nested children
+- attacks nearby creatures
+
+**hog**
+- travels in packs with other hogs
+- follows the most dominant hog
+- prefers hunting *large* creatures
+
+**giant worm** (*large*)
+- multiple body segments which trail behind its head
+- eats creatures in its path
+- digs through walls easily
+
+**mooer** (*large*)
+- a massive cow which formed from too many cows being in one area
+- wanders around aimlessly
+- eats grass (and sometimes creatures whole)
+- flees from threats
+- regularly produces cheese
+
+**rage beast** (*large*)
+- is dormant until too many creatures are nearby
+- goes into a rampage until it finds a quiet area
+- attacks indiscriminately
+
+# creature pack 3:
+
+**borega**
+- a colorful moth creature
+- flies overhead, charming creatures
+- leads charmed creatures into one area
+
+**totango**
+- wields percussion instruments
+- when enough creatures are nearby, starts a conga line
+- leads the parade until it is damaged
+
+**starman**
+- likes to be near trees
+- creates smaller versions of itself (they stun nearby creatures)
+- floats around aimlessly
+- does contact damage
+
+**tecton**
+- jumps long distances over terrain
+- jumps on top of creatures to catch them and eat them
+
+**waddler**
+- wanders around with its children
+- if the parent is killed, the children become ravenous
+
+**anhurgir**
+- demonic spirit that travels through walls
+- spits fire at creatures it doesn't like
+
+**wind wam**
+- creates directional gusts of wind
+- if the gust is powerful enough, it stuns the creature
+- spreads fire if there is any nearby
+
+**wind lord**
+- casts spells on **wind wams** to make their gusts more powerful
+- summons dangerous cyclones, causing entities to smash into each other
+
+**nutralon**
+- summons fruit
+- casts spells on fruit to make them bigger and more nutritive
+- wanders around aimlessly
+
+**mankey**
+- friends with other mankeys
+- throws stones at creatures it does not like
+- wants to be around other mankeys
+- picks up and roots **palmoids** in the ground, preventing them from moving
+
+**slumba**
+- likes treasure
+- picks a spot to designate its home
+- scampers around and brings treasure back to its home
+- attacks nearby creatures
+- mauls creatures near its trove
+
+# creature pack 4:
+
+
+**cat**
+- naps in corners
+- gets agitated if awoken suddenly
+- scratches and runs away rapidly
+
+**blaze**
+- has orbiting flame pillars
+- shoots its pillars at creatures
+- catches the environment on fire
+
+**pyre**
+- continuously on fire
+- moves quickly but pauses often
+- rarely shoots a wave of flame
+
+**bongo** (*large*)
+- beats on its drum, creating shockwaves
+- gets angry when hungry, drumming faster
+- shockwaves spread fire if there is any nearby
+
+**frozer**
+- causes nearby tiles to freeze, making them slippery
+- throws snowballs at creatures
+- if cold enough, freezes creatures and items solid
+
+**bumble**
+- stomps around, damaging those near it
+- exhales a blizzard, freezing the area in front of it
+- breathes on **frozers**, powering them up and making their cold colder
+
+**slushy**
+- ice tornado spirit
+- shoots ice shards rapidly and plants them in walls
+- makes terrain brittle
+
+**gordon** (*large*)
+- slowly rolls around
+- when nearby a creature it attempts to grab it
+- grabbed creatures are then swallowed
+- if **gordon** is killed, all swallowed creatures burst out
+
+**slick**
+- rides around on its board
+- spreads oil on the ground which can stick itself to creatures
+- makes fire do more damage and last longer
+- attacks nearby creatures
+
+**kernel**
+- waddles around
+- if lit on fire, it will burst into several popped corns
+- popped corns will jump and run frantically around
+- popped corns attack nearby enemies
+- popped corns eventually burst, causing a small explosion
+
+# creature pack 5
+
+**puzzle**
+- hard as a rock
+- latches onto creatures or walls to form temporary structures
+
+**imp**
+- wanders around aimlessly
+- projects fake versions of itself
+- attacks nearby creatures
+
+**dungeon cube**
+- only travels in four cardinal directions
+- charges up energy, then slides until it hits a wall
+- destroys anything in its path
+
+**alchemite**
+- transforms items into any random object
+- wanders around aimlessly
+
+**mimic**
+- curious of other creatures
+- follows them around and copies their abilities
+
+**grub**
+- travels slowly
+- creates sludge on the ground that makes creatures slow down
+
+**gloob**
+- hops one tile at a time
+- creates lightweight breakable terrain when it hops
+
+**poltergeist**
+- shuffles terrain around itself (including all entities on these tiles)
+- floats around, passing through hard terrain
+- likes being near other creatures
+
+**clone**
+- wanders around aimlessly
+- attacks nearby creatures
+- clones itself when harmed, halving its current health
+
+**cultist**
+- shoots explosive fireballs at a target
+- fireballs can travel over terrain
+- does not move, teleports nearby other creatures
+
+**kisse**
+- slurps up nearby projectiles and spits them back to their origin
+- likes being in open spaces or in water
+
+# creature pack 6
+
+**bounce blob**
+- a round bouncy slime creature
+- likes being around walls
+- reacts dramatically to other creatures bumping into it
+- bounces off of walls
+- grows larger with every bounce until it bursts into smaller blobs
+
+**palmoid**
+- plantlike creature
+- throws coconuts at nearby creatures
+- coconuts are fruits and can be eaten
+- moves very slowly
+
+**fernoid**
+- plantlike creature
+- likes to be near other **fernoids**
+- creatures next to fernoids are invisible and undetectable
+- regularly drops edible leaves
+
+**spectroid**
+- can creep through terrain
+- occasionally drops edible spectral flowers
+- spectral flowers allow creatures to pass through walls
+
+**tarrite**
+- grows crystals which reflect projectiles
+- crystals also react chaotically to contact damage
+- plants crystals in the ground occasionally
+
+**spike ball**
+- rolls around causing massive contact damage
+- damage is higher the faster it goes
+- its velocity can only be increased
+- if it runs into a wall at a specific velocity it shatters
+
+**blossom**
+- tangles creatures up in vines
+- if creatures are tangled up for long enough, they are dragged into the soil
+- this creates a random plantlike creature
+
+**bomba**
+- absorbs energy from fire
+- when damaged, it explodes using its built up energy
+- can build up energy infinitely
+
+**gnome**
+- wants to be around plantlike creatures
+- waters plantlike creatures for a chance to duplicate them
+
+**puff wizard**
+- gets upset when creatures are harmed
+- runs near just harmed creatures
+- grows mushrooms which expel healing spores
+
+# creature pack 7
+
+**architect**
+- creates lines of walls nearby other creatures
+
+**popbug**
+- infests walls
+- slowly creates more **popbugs** which infest adjacent walls
+- pop out of walls when destroyed
+- attack nearby creatures
+- can infest the **stone**
+
+**door master**
+- creates intradimensional doors which lead to other areas
+
+**keyman**
+- sometimes pops out of doors when used
+- runs away, creating treasure
+- attacks nearby creatures
+
+**scavenger**
+- a more complex being
+- has a designated home belonging to other scavengers
+- go out in parties hunting or looking for treasure
+- can be traded with for their exotic crafts
+
+**warden** (*large*)
+- can alter reality to get to where it wants
+- changes tiles to dramatically different things
+- hunts **door masters**
+- hostile to creatures that provoke it
+
+**bubbler**
+- wanders around aimlessly
+- blows bubbles which can catch creatures
+- bubbles are highly affected by wind
+- bubbles transport creatures over terrain, but eventually pop
+
+**spin wheel**
+- like the **dungeon cube**, but only travels in diagonals
+
+**plant wizard**
+- casts spells on creatures to turn them plantlike
+- wanders around aimlessly
+- roots creatures occasionally

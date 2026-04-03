@@ -15,6 +15,7 @@ class_name ProximityDetector
 ## if blacklist is enabled, if entity has a component that matches the one in valid_components, it will be discarded.
 @export var blacklist: bool = false
 @export_enum("has all", "has any") var inclusion: int = 0
+@export var include_self: bool = false
 
 @export_group("Collision", "collision")
 @export_flags_2d_physics var collision_layer: int
@@ -40,7 +41,7 @@ func _ready() -> void:
 # ---------------------------------------------
 
 func _on_area_entered(other: Area2D) -> void:
-	print(other)
+	
 	var target: Entity = _resolve_entity(other)
 	if target and _passes_filter(target):
 		detected.emit(entity, target)
@@ -51,9 +52,13 @@ func _on_area_exited(other: Area2D) -> void:
 		lost.emit(entity, target)
 		
 func _resolve_entity(other: Area2D) -> Entity:
-	if other.owner is Entity:
-		return other.owner as Entity
-	return null
+	if other.owner is not Entity:
+		return null
+	
+	if not include_self and other.owner == entity:
+		return null	
+	
+	return other.owner as Entity
 	
 func _passes_filter(subject: Entity) -> bool:
 	if valid_components.is_empty():

@@ -15,6 +15,8 @@ var nutri_score: int = 0
 var player: Entity
 var anthurium: Entity
 
+var time: float = 0.0
+
 signal game_state_changed(status: Status)
 
 func change_game_state(status: Status) -> void:
@@ -26,6 +28,9 @@ func _ready() -> void:
 	EventBus.added_nutri_score_to.connect(_check_if_nutri_score_player)
 	EventBus.player_spawned.connect(_on_player_spawned)
 	EventBus.anthurium_spawned.connect(_on_anthurium_spawned)
+	
+func _process(delta: float) -> void:
+	time += delta
 	
 func _check_if_game_score_player(subject: Entity, amount: int, source: Entity) -> void:
 	if subject == player:

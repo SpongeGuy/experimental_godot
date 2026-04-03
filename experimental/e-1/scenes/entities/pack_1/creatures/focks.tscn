@@ -18,6 +18,7 @@
 [ext_resource type="Script" uid="uid://cym0ubd2tvsch" path="res://scripts/resources/SpriteAnimation.gd" id="16_v7tyf"]
 [ext_resource type="Script" uid="uid://bolv5v2qg2xl0" path="res://scripts/components/facing_component.gd" id="17_o1xgh"]
 [ext_resource type="Script" uid="uid://b2i2svq4b2ia2" path="res://scripts/components/rotator.gd" id="18_oduj7"]
+[ext_resource type="Script" uid="uid://d4dkusgurvri8" path="res://scripts/classes/Hurtbox.gd" id="19_jr5rt"]
 [ext_resource type="Script" uid="uid://duajgedj0nkus" path="res://scripts/components/hand_component.gd" id="19_vifq1"]
 [ext_resource type="Script" uid="uid://2b6l1sxmcd5r" path="res://scripts/components/knockback_component.gd" id="20_m1inn"]
 [ext_resource type="Script" uid="uid://bt6jf1wavtm84" path="res://scripts/components/world_interface.gd" id="21_kyqc0"]
@@ -28,6 +29,10 @@
 [ext_resource type="Script" uid="uid://dy1nhmegj3sv7" path="res://scripts/abilities/try_pick_up_entity.gd" id="26_sumsn"]
 [ext_resource type="Script" uid="uid://dlrq36ejwcoou" path="res://scripts/abilities/try_drop_entity.gd" id="28_0qk0a"]
 [ext_resource type="Script" uid="uid://cgl3uo2e4owmk" path="res://scripts/components/player_input_driver.gd" id="29_j83bn"]
+[ext_resource type="Script" uid="uid://bn7rbs36wuutg" path="res://scripts/abilities/swipe.gd" id="29_jr5rt"]
+[ext_resource type="Texture2D" uid="uid://dmnfcvly21u2b" path="res://assets/textures/misc/swice.png" id="30_1hl42"]
+[ext_resource type="Script" uid="uid://q4guieta4fy0" path="res://scripts/components/sound_player.gd" id="32_y0tv5"]
+[ext_resource type="AudioStream" uid="uid://bhkrufusb7owp" path="res://assets/sounds/effects/slice.wav" id="33_ipt6n"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_jwlga"]
 radius = 5.0
@@ -63,6 +68,17 @@ size = Vector2(20, 13)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qyswd"]
 radius = 12.0
+
+[sub_resource type="Resource" id="Resource_1hl42"]
+script = ExtResource("16_v7tyf")
+name = &"swipe"
+frames = 4
+speed = 25.0
+loop = false
+metadata/_custom_type_script = "uid://cym0ubd2tvsch"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1hl42"]
+size = Vector2(16, 16)
 
 [node name="Focks" type="CharacterBody2D" unique_id=163986961 groups=["creature"]]
 texture_filter = 1
@@ -137,7 +153,6 @@ metadata/_custom_type_script = "uid://dier6uauiqj4t"
 
 [node name="DeathState" type="Node" parent="StateMachine" unique_id=249506613]
 script = ExtResource("10_jr5rt")
-cooldown = null
 metadata/_custom_type_script = "uid://b8tiyc5hi81ap"
 
 [node name="MovementComponent" type="Node" parent="." unique_id=1644116155 node_paths=PackedStringArray("knockback", "world_interface", "input")]
@@ -184,7 +199,6 @@ script = ExtResource("17_o1xgh")
 metadata/_custom_type_script = "uid://bolv5v2qg2xl0"
 
 [node name="Rotator" type="Node2D" parent="Animation" unique_id=1591863854 node_paths=PackedStringArray("facing")]
-visible = false
 position = Vector2(0, -4)
 script = ExtResource("18_oduj7")
 facing = NodePath("../FacingComponent")
@@ -242,7 +256,7 @@ metadata/_custom_type_script = "uid://dmr1e3ur3lqop"
 
 [node name="AbilityManager" type="Node" parent="." unique_id=168066014 node_paths=PackedStringArray("abilities", "input")]
 script = ExtResource("26_s02rk")
-abilities = [NodePath("AbilityTryPickUpEntity"), NodePath("AbilityTryDropEntity")]
+abilities = [NodePath("AbilityTryPickUpEntity"), NodePath("AbilityTryDropEntity"), NodePath("AbilitySwipe")]
 input = NodePath("../InputComponent")
 metadata/_custom_type_script = "uid://byeskwmhfllnd"
 
@@ -257,5 +271,49 @@ script = ExtResource("28_0qk0a")
 hand = NodePath("../../HandComponent")
 facing = NodePath("../../Animation/FacingComponent")
 metadata/_custom_type_script = "uid://dlrq36ejwcoou"
+
+[node name="AbilitySwipe" type="Node" parent="AbilityManager" unique_id=609262734 node_paths=PackedStringArray("animator", "hurtbox", "movement", "sound_player")]
+script = ExtResource("29_jr5rt")
+animator = NodePath("../../Swiper/SpriteAnimator")
+hurtbox = NodePath("../../Swiper/Hurtbox")
+movement = NodePath("../../MovementComponent")
+sound_player = NodePath("../../Swiper/SoundPlayer")
+metadata/_custom_type_script = "uid://bn7rbs36wuutg"
+
+[node name="Swiper" type="Node2D" parent="." unique_id=81735770 node_paths=PackedStringArray("facing")]
+position = Vector2(0, -4)
+script = ExtResource("18_oduj7")
+facing = NodePath("../Animation/FacingComponent")
+metadata/_custom_type_script = "uid://b2i2svq4b2ia2"
+
+[node name="Swipe" type="Sprite2D" parent="Swiper" unique_id=1045278991]
+position = Vector2(13, 0)
+texture = ExtResource("30_1hl42")
+hframes = 4
+frame = 3
+
+[node name="SpriteAnimator" type="Node" parent="Swiper" unique_id=734649612 node_paths=PackedStringArray("sprite")]
+script = ExtResource("15_e47js")
+sprite = NodePath("../Swipe")
+animations = Array[ExtResource("16_v7tyf")]([SubResource("Resource_1hl42")])
+metadata/_custom_type_script = "uid://37f5rafomsw5"
+
+[node name="Hurtbox" type="Area2D" parent="Swiper" unique_id=648127880 node_paths=PackedStringArray("collision_shape")]
+position = Vector2(0, -4)
+script = ExtResource("19_jr5rt")
+damage = 1.0
+collision_shape = NodePath("CollisionShape2D")
+metadata/_custom_type_script = "uid://d4dkusgurvri8"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Swiper/Hurtbox" unique_id=617587324]
+position = Vector2(13, 0)
+shape = SubResource("RectangleShape2D_1hl42")
+
+[node name="SoundPlayer" type="Node" parent="Swiper" unique_id=1269937390]
+script = ExtResource("32_y0tv5")
+possible_sounds = Array[AudioStream]([ExtResource("33_ipt6n")])
+pitch_min = 0.9
+pitch_max = 1.1
+metadata/_custom_type_script = "uid://q4guieta4fy0"
 
 [connection signal="died" from="Health&Damage/HealthComponent" to="Health&Damage/DeathStateSwitcher" method="switch"]

@@ -15,9 +15,9 @@
               "state": {
                 "file": "Main.canvas",
                 "viewState": {
-                  "x": -7750.301204090897,
-                  "y": -8611.063631724259,
-                  "zoom": -8.881784197001252e-16
+                  "x": -5534.970627169534,
+                  "y": -7992.251763967553,
+                  "zoom": -9.992007221626409e-16
                 }
               },
               "icon": "lucide-layout-dashboard",
@@ -81,7 +81,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 300,
+    "collapsed": true
   },
   "right": {
     "id": "5205ab617a22bbc5",
@@ -188,6 +189,7 @@
   },
   "active": "caf9e8bd2feef08d",
   "lastOpenFiles": [
+    "Pasted image 20260402211753.png",
     "assets/Pasted image 20260314134035.png",
     "assets/anthurium/154-OgreBattle64-176.jpg",
     "assets/anthurium/hqdefault-3592015556.jpg",
@@ -201,7 +203,6 @@
     "anthurium",
     "Untitled Folder",
     "assets/flower-671339605.jpg",
-    "flower-671339605.jpg",
     "assets/link",
     "assets/Untitled Folder",
     "assets/pico",

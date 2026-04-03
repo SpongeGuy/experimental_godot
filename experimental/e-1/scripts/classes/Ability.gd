@@ -10,6 +10,7 @@ class_name Ability
 
 @export var cooldown: float = 0
 @export var cast_time: float = 0
+@export var disabled: bool = false
 
 signal finished
 
@@ -30,6 +31,8 @@ func _process(delta: float) -> void:
 
 ## try to execute, will not call _execute() if on cooldown
 func execute() -> void:
+	if disabled:
+		return
 	if _cd > 0.0:
 		return
 	_execute()

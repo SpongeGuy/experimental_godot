@@ -30,7 +30,6 @@ func set_move_input_direction(direction: Vector2) -> void:
 	move_input_direction = direction
 	
 func press_action(id: int) -> void:
-	print("just_pressed ", actions[id])
 	just_pressed[id] = true
 	is_held[id] = true
 	input_just_pressed.emit(id)
@@ -39,7 +38,6 @@ func press_action(id: int) -> void:
 
 
 func release_action(id: int) -> void:
-	print("just_released ", actions[id])
 	just_released[id] = true
 	is_held[id] = false
 	input_just_released.emit(id, hold_time[id])

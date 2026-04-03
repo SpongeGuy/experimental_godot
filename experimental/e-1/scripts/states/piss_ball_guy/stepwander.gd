@@ -22,6 +22,7 @@ func _on_stepping() -> void:
 	player.play_sound()
 
 func _on_stepped() -> void:
+	
 	ok_to_turn = true
 	decide_to_move()
 
@@ -36,8 +37,11 @@ func update(delta: float) -> void:
 func physics_update(delta: float) -> void:
 	# attempt to turn direction
 		# random chance to turn
+	
 	if ok_to_turn:
 		randomly_change_direction()
+		
+	
 	# attempt to move
 		# do not move into an obstruction
 		# if there is an obstruction in front, either change state or continue (and attempt to turn direction again)
@@ -79,6 +83,8 @@ func randomly_change_direction() -> void:
 		
 	facing.change_direction(dir)
 	ok_to_turn = false
+	
+	
 
 
 

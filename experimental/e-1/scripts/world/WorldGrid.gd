@@ -200,7 +200,7 @@ func get_coords_in_radius(center: Vector2i, radius: int) -> Array[Vector2i]:
 func get_safe_coords(origin: Vector2i, terrain: CellData.TerrainType, max_radius: int = 64) -> Vector2i:
 	for radius in range(0, max_radius):
 		for coords in get_coords_in_radius(origin, radius):
-			var cell: CellData = get_cell(coords)
+			var cell: CellData = safe_get_cell(coords)
 			if cell and cell.terrain == terrain:
 				return coords
 	return Vector2i(-1, -1)

@@ -8,12 +8,15 @@ class_name Hurtbox
 var tween: Tween
 
 func _ready() -> void:
-	collision_layer = 1 << 9 # this is a hurtbox
-	collision_mask = 1 << 8 # look for hitboxes (probably unnecessary)
+	collision_layer = 1 << 7 # this is a hurtbox
+	collision_mask = 1 << 6 # look for hitboxes (probably unnecessary)
 	if not constant_hurtbox:
 		collision_shape.disabled = true
 	else:
 		collision_shape.disabled = false
+		
+func set_active(value: bool) -> void:
+	collision_shape.disabled = !value
 
 func activate_in_time_range(value: float, min: float, max: float) -> void:
 	if value > min and value < max:
