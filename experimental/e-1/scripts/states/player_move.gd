@@ -7,14 +7,14 @@ class_name PlayerMoveState
 @export var input: InputComponent
 @export var facing: FacingComponent
 @export var idle_state: BehaviorState
-@export var animator: SpriteAnimator
+@export var animator: DirectionalSpriteAnimator
 
 var desired_direction: Vector2 = Vector2.ZERO
 
 ## called once when the state machine does its initial switch to this state
 func enter() -> void:
 	if animator:
-		animator.load_and_reset_animation("walk_ew")
+		animator.load_animation("walk")
 	
 ## called every frame while this state is active
 func update(delta: float) -> void:
@@ -22,13 +22,7 @@ func update(delta: float) -> void:
 	var velocity: Vector2 = movement.velocity
 	
 	if animator:
-		if abs(direction.x) > abs(direction.y):
-			animator.load_animation("walk_ew")
-		elif direction.y >= 0:
-			animator.load_animation("walk_n")
-		else:
-			animator.load_animation("walk_s")
-		animator.animation_speed = velocity.normalized().length()
+		animator.animation_speed_modifier = velocity.normalized().length()
 	
 ## called every physics frame while this state is active
 func physics_update(delta: float) -> void:

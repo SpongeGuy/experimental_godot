@@ -33,6 +33,7 @@
 [ext_resource type="Texture2D" uid="uid://dmnfcvly21u2b" path="res://assets/textures/misc/swice.png" id="30_1hl42"]
 [ext_resource type="Script" uid="uid://q4guieta4fy0" path="res://scripts/components/sound_player.gd" id="32_y0tv5"]
 [ext_resource type="AudioStream" uid="uid://bhkrufusb7owp" path="res://assets/sounds/effects/slice.wav" id="33_ipt6n"]
+[ext_resource type="Script" uid="uid://cw28uq3fxf7i4" path="res://scripts/components/directional_sprite_animator.gd" id="34_ipt6n"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_jwlga"]
 radius = 5.0
@@ -40,25 +41,9 @@ radius = 5.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mg4qc"]
 size = Vector2(7, 6)
 
-[sub_resource type="Resource" id="Resource_sr44t"]
+[sub_resource type="Resource" id="Resource_ipt6n"]
 script = ExtResource("16_v7tyf")
-name = &"walk_n"
-frames = 2
-speed = 5.0
-metadata/_custom_type_script = "uid://cym0ubd2tvsch"
-
-[sub_resource type="Resource" id="Resource_mg4qc"]
-script = ExtResource("16_v7tyf")
-name = &"walk_s"
-row = 2
-frames = 2
-speed = 5.0
-metadata/_custom_type_script = "uid://cym0ubd2tvsch"
-
-[sub_resource type="Resource" id="Resource_n4iao"]
-script = ExtResource("16_v7tyf")
-name = &"walk_ew"
-row = 1
+name = &"walk"
 frames = 2
 speed = 5.0
 metadata/_custom_type_script = "uid://cym0ubd2tvsch"
@@ -140,7 +125,7 @@ movement = NodePath("../../MovementComponent")
 input = NodePath("../../InputComponent")
 facing = NodePath("../../Animation/FacingComponent")
 idle_state = NodePath("../PlayerIdleState")
-animator = NodePath("../../Animation/SpriteAnimator")
+animator = NodePath("../../Animation/DirectionalSpriteAnimator")
 metadata/_custom_type_script = "uid://dyq71erbf3ksa"
 
 [node name="PlayerIdleState" type="Node" parent="StateMachine" unique_id=616697117 node_paths=PackedStringArray("move_state", "input", "movement", "animator")]
@@ -148,7 +133,7 @@ script = ExtResource("9_j83bn")
 move_state = NodePath("../PlayerMoveState")
 input = NodePath("../../InputComponent")
 movement = NodePath("../../MovementComponent")
-animator = NodePath("../../Animation/SpriteAnimator")
+animator = NodePath("../../Animation/DirectionalSpriteAnimator")
 metadata/_custom_type_script = "uid://dier6uauiqj4t"
 
 [node name="DeathState" type="Node" parent="StateMachine" unique_id=249506613]
@@ -182,17 +167,18 @@ metadata/_custom_type_script = "uid://b06wram7ecjpl"
 
 [node name="Animation" type="Node2D" parent="." unique_id=1057125269]
 
+[node name="DirectionalSpriteAnimator" type="Node" parent="Animation" unique_id=1364615240 node_paths=PackedStringArray("sprite", "facing")]
+script = ExtResource("34_ipt6n")
+sprite = NodePath("../../Visual/Main")
+animations = Array[ExtResource("16_v7tyf")]([SubResource("Resource_ipt6n")])
+facing = NodePath("../FacingComponent")
+metadata/_custom_type_script = "uid://cw28uq3fxf7i4"
+
 [node name="SpriteFlipper" type="Node" parent="Animation" unique_id=836201952 node_paths=PackedStringArray("facing", "sprite")]
 script = ExtResource("14_ipt6n")
 facing = NodePath("../FacingComponent")
 sprite = NodePath("../../Visual/Main")
 metadata/_custom_type_script = "uid://5k1r4xftmni4"
-
-[node name="SpriteAnimator" type="Node" parent="Animation" unique_id=669214712 node_paths=PackedStringArray("sprite")]
-script = ExtResource("15_e47js")
-sprite = NodePath("../../Visual/Main")
-animations = Array[ExtResource("16_v7tyf")]([SubResource("Resource_sr44t"), SubResource("Resource_mg4qc"), SubResource("Resource_n4iao")])
-metadata/_custom_type_script = "uid://37f5rafomsw5"
 
 [node name="FacingComponent" type="Node" parent="Animation" unique_id=687960607]
 script = ExtResource("17_o1xgh")
