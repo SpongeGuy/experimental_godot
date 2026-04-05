@@ -5,7 +5,7 @@ class_name PlayerIdleState
 @export var move_state: BehaviorState
 @export var input: InputComponent
 @export var movement: MovementComponent
-@export var animator: SpriteAnimator
+@export var animator: DirectionalSpriteAnimator
 
 ## called once when the state machine does its initial switch to this state
 func enter() -> void:
@@ -14,7 +14,7 @@ func enter() -> void:
 ## called every frame while this state is active
 func update(delta: float) -> void:
 	if animator:
-		animator.animation_speed = 0
+		animator.animation_speed_modifier = 0
 	input.set_move_input_direction(Vector2.ZERO)
 	
 ## called every physics frame while this state is active

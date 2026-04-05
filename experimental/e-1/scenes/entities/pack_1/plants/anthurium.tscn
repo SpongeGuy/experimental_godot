@@ -40,9 +40,8 @@ metadata/_custom_type_script = "uid://dyqp5rr3xkiq8"
 script = ExtResource("5_1c2kf")
 metadata/_custom_type_script = "uid://c8gjdh64wwjeu"
 
-[node name="VisibilityComponent" type="Node" parent="." unique_id=1359952695 node_paths=PackedStringArray("sprites")]
+[node name="VisibilityComponent" type="Node" parent="." unique_id=1359952695]
 script = ExtResource("6_yblnt")
-sprites = [NodePath("../Sprite/Main")]
 metadata/_custom_type_script = "uid://cvaptyot73a1d"
 
 [node name="HideInInvisibleCells" type="Node" parent="." unique_id=1099442948 node_paths=PackedStringArray("visibility")]
