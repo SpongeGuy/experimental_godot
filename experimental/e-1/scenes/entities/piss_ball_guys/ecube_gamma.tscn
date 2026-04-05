@@ -56,9 +56,9 @@ metadata/_custom_type_script = "uid://8lowpdf5nvix"
 
 [node name="CreatureData" type="Node" parent="." unique_id=1086613880]
 script = ExtResource("2_q4rny")
-tags = Array[int]([14, 11])
 behavior_class = 4
 consumer_type = 4
+tags = Array[int]([14, 11])
 metadata/_custom_type_script = "uid://6g5weury2p"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1029130901]
