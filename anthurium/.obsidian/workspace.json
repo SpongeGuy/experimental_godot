@@ -1,28 +1,23 @@
 {
   "main": {
-    "id": "34a872e58014bb43",
+    "id": "2e42a93c89a45f67",
     "type": "split",
     "children": [
       {
-        "id": "fc3b7566144cf453",
+        "id": "64d42d1d6d1ce804",
         "type": "tabs",
         "children": [
           {
-            "id": "caf9e8bd2feef08d",
+            "id": "acc772991003760d",
             "type": "leaf",
             "state": {
               "type": "canvas",
               "state": {
                 "file": "Main.canvas",
                 "viewState": {
-<<<<<<< HEAD
-                  "x": -4696.970627169532,
-                  "y": -9372.251763967553,
-=======
-                  "x": -5436.342785946848,
-                  "y": -9508.950798895334,
->>>>>>> refs/remotes/origin/main
-                  "zoom": -9.992007221626409e-16
+                  "x": -4749.42253543776,
+                  "y": -9215.740659839601,
+                  "zoom": 0
                 }
               },
               "icon": "lucide-layout-dashboard",
@@ -35,15 +30,15 @@
     "direction": "vertical"
   },
   "left": {
-    "id": "c6c05a3e8c635146",
+    "id": "a2b1169c54a6039b",
     "type": "split",
     "children": [
       {
-        "id": "62628c5b444508fd",
+        "id": "40212ea2fc8b0561",
         "type": "tabs",
         "children": [
           {
-            "id": "94eb2d0a1aa33c53",
+            "id": "1788193b5b53f4c7",
             "type": "leaf",
             "state": {
               "type": "file-explorer",
@@ -56,12 +51,12 @@
             }
           },
           {
-            "id": "f390bb55cad81921",
+            "id": "ec6ba7103e30dd50",
             "type": "leaf",
             "state": {
               "type": "search",
               "state": {
-                "query": "path:\"assets/\" ",
+                "query": "",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -73,7 +68,7 @@
             }
           },
           {
-            "id": "d55c46f6fb29d281",
+            "id": "cdbf8ab8e62f219c",
             "type": "leaf",
             "state": {
               "type": "bookmarks",
@@ -86,19 +81,18 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "right": {
-    "id": "5205ab617a22bbc5",
+    "id": "505227115d3ab365",
     "type": "split",
     "children": [
       {
-        "id": "75965b609148c9d6",
+        "id": "35a1ca40b9d3fbe2",
         "type": "tabs",
         "children": [
           {
-            "id": "292e06d168fe0e3d",
+            "id": "ccc58b7d3bf6ab32",
             "type": "leaf",
             "state": {
               "type": "backlink",
@@ -117,21 +111,21 @@
             }
           },
           {
-            "id": "c9848c1dcdf50046",
+            "id": "bcc8435728a2ff95",
             "type": "leaf",
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Welcome.md",
+                "file": "Main.canvas",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links from Welcome"
+              "title": "Outgoing links from Main"
             }
           },
           {
-            "id": "165eeb30618892e4",
+            "id": "bc213cf9ef0b90fd",
             "type": "leaf",
             "state": {
               "type": "tag",
@@ -146,7 +140,7 @@
             }
           },
           {
-            "id": "2f4278303d612367",
+            "id": "71e92333e91ae450",
             "type": "leaf",
             "state": {
               "type": "all-properties",
@@ -160,18 +154,18 @@
             }
           },
           {
-            "id": "6d0229df12ff76c0",
+            "id": "42b4aab2d44964e2",
             "type": "leaf",
             "state": {
               "type": "outline",
               "state": {
-                "file": "Welcome.md",
+                "file": "Main.canvas",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of Welcome"
+              "title": "Outline of Main"
             }
           }
         ]
@@ -192,31 +186,8 @@
       "bases:Create new base": false
     }
   },
-  "active": "caf9e8bd2feef08d",
+  "active": "acc772991003760d",
   "lastOpenFiles": [
-    "Pasted image 20260402211753.png",
-    "assets/Pasted image 20260314134035.png",
-    "assets/anthurium/154-OgreBattle64-176.jpg",
-    "assets/anthurium/hqdefault-3592015556.jpg",
-    "assets/anthurium/360_F_715645369_b9SuMs21AkVpESRRZSXdcytzZXyrRPVA-731556810.jpg",
-    "assets/anthurium/flowers-blooming-3773978391.jpg",
-    "assets/anthurium/exotic-jungle-flowers-vivid-infrared-colors-created-generative-ai-300452699-1207221137.jpg",
-    "assets/anthurium/photograph-of-a-big-red-flower-rafflesia-kemumu-on-the-rainforest-floor-m-3551524569.jpg",
-    "assets/anthurium/Anthurium_at_lalbagh_flower_show_7109-2123049728.jpg",
-    "assets/anthurium/flower-671339605.jpg",
-    "assets/anthurium",
-    "anthurium",
-    "Untitled Folder",
-    "assets/flower-671339605.jpg",
-    "assets/link",
-    "assets/Untitled Folder",
-    "assets/pico",
-    "pico",
-    "assets/mina",
-    "assets",
-    "ass",
-    "fewf.md",
-    "Main.canvas",
-    "Welcome.md"
+    "Main.canvas"
   ]
 }
