@@ -15,9 +15,9 @@
               "state": {
                 "file": "Main.canvas",
                 "viewState": {
-                  "x": -4749.42253543776,
-                  "y": -9215.740659839601,
-                  "zoom": 0
+                  "x": -14643.569027367446,
+                  "y": -11130.808552572445,
+                  "zoom": 0.3999999999999999
                 }
               },
               "icon": "lucide-layout-dashboard",
@@ -167,8 +167,21 @@
               "icon": "lucide-list",
               "title": "Outline of Main"
             }
+          },
+          {
+            "id": "da731776cc4a02d6",
+            "type": "leaf",
+            "state": {
+              "type": "file-properties",
+              "state": {
+                "file": "Main.canvas"
+              },
+              "icon": "lucide-info",
+              "title": "File properties for Main"
+            }
           }
-        ]
+        ],
+        "currentTab": 5
       }
     ],
     "direction": "horizontal",
@@ -188,6 +201,23 @@
   },
   "active": "acc772991003760d",
   "lastOpenFiles": [
-    "Main.canvas"
+    "Untitled.canvas",
+    "Main.canvas",
+    "shit cock mcgee.md",
+    "assets/Pasted image 20260402211753.png",
+    "assets/Pasted image 20260407010204.png",
+    "Untitled.base",
+    "assets/03aca7785e04b8e64b53a93098a54ea6.gif",
+    "assets/mina/5ebb5a4dddb16403ba418eee4e6419ae.gif",
+    "assets/anthurium/154-OgreBattle64-176.jpg",
+    "a bug.md",
+    "fuck.canvas",
+    "Untitled Document",
+    "Untitled.md",
+    "assets/Pasted image 20260406154155.png",
+    "assets/Pasted image 20260406154109.png",
+    "assets/Pasted image 20260406154025.png",
+    "assets/Pasted image 20260406154004.png",
+    "assets/Pasted image 20260406153744.png"
   ]
 }
