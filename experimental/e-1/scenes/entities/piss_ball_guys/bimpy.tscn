@@ -34,6 +34,7 @@
 [ext_resource type="Script" uid="uid://dwex81s0yowa4" path="res://scripts/world/CellData.gd" id="32_hwojd"]
 [ext_resource type="Script" uid="uid://73th15n3ad82" path="res://scripts/lobes/fight_react_nearby_lobe.gd" id="33_hwojd"]
 [ext_resource type="Script" uid="uid://cu81acdifmvso" path="res://scripts/classes/Memory.gd" id="34_5vf4p"]
+[ext_resource type="Script" uid="uid://camguuycnoqcu" path="res://scripts/lobes/default_lobe.gd" id="34_pgwxf"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_8wo8b"]
 radius = 6.0
@@ -85,6 +86,24 @@ metadata/_custom_type_script = "uid://bxsrgbr0uwisl"
 [node name="InputComponent" type="Node" parent="Behavior" unique_id=1931434667]
 script = ExtResource("4_hwojd")
 metadata/_custom_type_script = "uid://dmr1e3ur3lqop"
+
+[node name="Brain" type="Node" parent="Behavior" unique_id=1490265202 node_paths=PackedStringArray("state_machine", "memory")]
+script = ExtResource("32_bld4x")
+state_machine = NodePath("../StateMachine")
+memory = NodePath("../../Memory")
+metadata/_custom_type_script = "uid://cdl7wwoaxcqra"
+
+[node name="FightReactNearbyLobe" type="Node" parent="Behavior/Brain" unique_id=601382910 node_paths=PackedStringArray("memory", "proximity", "attack_state")]
+script = ExtResource("33_hwojd")
+memory = NodePath("../../../Memory")
+proximity = NodePath("../../../Bullshit/ProximityDetector")
+attack_state = NodePath("../../StateMachine/FaceTargetUseAbilityState")
+metadata/_custom_type_script = "uid://73th15n3ad82"
+
+[node name="DefaultLobe" type="Node" parent="Behavior/Brain" unique_id=1801410623 node_paths=PackedStringArray("state")]
+script = ExtResource("34_pgwxf")
+state = NodePath("../../StateMachine/WandererState")
+metadata/_custom_type_script = "uid://camguuycnoqcu"
 
 [node name="StateMachine" type="Node" parent="Behavior" unique_id=523757393 node_paths=PackedStringArray("initial_state")]
 script = ExtResource("5_5vf4p")
@@ -254,19 +273,6 @@ script = ExtResource("30_sbhhg")
 hurtbox = NodePath("../../Rotator/Hurtbox")
 active_end = 0.1
 metadata/_custom_type_script = "uid://dmj5t57v7kvmh"
-
-[node name="Brain" type="Node" parent="." unique_id=1490265202 node_paths=PackedStringArray("state_machine", "memory")]
-script = ExtResource("32_bld4x")
-state_machine = NodePath("../Behavior/StateMachine")
-memory = NodePath("../Memory")
-metadata/_custom_type_script = "uid://cdl7wwoaxcqra"
-
-[node name="FightReactNearbyLobe" type="Node" parent="Brain" unique_id=601382910 node_paths=PackedStringArray("memory", "proximity", "attack_state")]
-script = ExtResource("33_hwojd")
-memory = NodePath("../../Memory")
-proximity = NodePath("../../Bullshit/ProximityDetector")
-attack_state = NodePath("../../Behavior/StateMachine/FaceTargetUseAbilityState")
-metadata/_custom_type_script = "uid://73th15n3ad82"
 
 [node name="Memory" type="Node" parent="." unique_id=741111126]
 script = ExtResource("34_5vf4p")
