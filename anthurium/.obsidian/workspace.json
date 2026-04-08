@@ -4,7 +4,7 @@
     "type": "split",
     "children": [
       {
-        "id": "64d42d1d6d1ce804",
+        "id": "55429e866743959c",
         "type": "tabs",
         "children": [
           {
@@ -15,9 +15,9 @@
               "state": {
                 "file": "Main.canvas",
                 "viewState": {
-                  "x": -18980.999758942748,
-                  "y": -8332.566328209095,
-                  "zoom": -0.6000000000000004
+                  "x": -18932.936716254026,
+                  "y": -7391.0038502056495,
+                  "zoom": -0.2000000000000004
                 }
               },
               "icon": "lucide-layout-dashboard",
@@ -34,11 +34,11 @@
     "type": "split",
     "children": [
       {
-        "id": "40212ea2fc8b0561",
+        "id": "4ee3cdb0c7598d03",
         "type": "tabs",
         "children": [
           {
-            "id": "1788193b5b53f4c7",
+            "id": "532365e749919da8",
             "type": "leaf",
             "state": {
               "type": "file-explorer",
@@ -49,39 +49,12 @@
               "icon": "lucide-folder-closed",
               "title": "Files"
             }
-          },
-          {
-            "id": "ec6ba7103e30dd50",
-            "type": "leaf",
-            "state": {
-              "type": "search",
-              "state": {
-                "query": "",
-                "matchingCase": false,
-                "explainSearch": false,
-                "collapseAll": false,
-                "extraContext": false,
-                "sortOrder": "alphabetical"
-              },
-              "icon": "lucide-search",
-              "title": "Search"
-            }
-          },
-          {
-            "id": "cdbf8ab8e62f219c",
-            "type": "leaf",
-            "state": {
-              "type": "bookmarks",
-              "state": {},
-              "icon": "lucide-bookmark",
-              "title": "Bookmarks"
-            }
           }
         ]
       }
     ],
     "direction": "horizontal",
-    "width": 300,
+    "width": 200,
     "collapsed": true
   },
   "right": {
@@ -191,8 +164,8 @@
   },
   "left-ribbon": {
     "hiddenItems": {
-      "switcher:Open quick switcher": false,
       "graph:Open graph view": false,
+      "switcher:Open quick switcher": false,
       "canvas:Create new canvas": false,
       "daily-notes:Open today's daily note": false,
       "templates:Insert template": false,
@@ -202,9 +175,9 @@
   },
   "active": "acc772991003760d",
   "lastOpenFiles": [
+    "Main.canvas",
     "Untitled.canvas",
     "Untitled.md",
-    "Main.canvas",
     "shit cock mcgee.md",
     "assets/Pasted image 20260402211753.png",
     "assets/Pasted image 20260407010204.png",

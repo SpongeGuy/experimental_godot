@@ -56,5 +56,4 @@ func evaluate() -> Array:
 	return [priority, attack_state]
 
 func commit(memory: Memory) -> void:
-	print("committing ", target)
 	memory.set_value(Memory.Key.TARGET, target)

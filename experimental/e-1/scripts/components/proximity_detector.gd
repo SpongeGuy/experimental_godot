@@ -43,6 +43,7 @@ func _ready() -> void:
 func _on_area_entered(other: Area2D) -> void:
 	
 	var target: Entity = _resolve_entity(other)
+	
 	if target and _passes_filter(target):
 		detected.emit(entity, target)
 		
@@ -57,7 +58,6 @@ func _resolve_entity(other: Area2D) -> Entity:
 	
 	if not include_self and other.owner == entity:
 		return null	
-	
 	return other.owner as Entity
 	
 func _passes_filter(subject: Entity) -> bool:

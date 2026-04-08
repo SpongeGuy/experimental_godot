@@ -59,4 +59,3 @@ func _evaluate() -> void:
 	best_lobe.commit(memory)
 	if state_machine.current_state != best_state[1]:
 		state_machine.switch(best_state[1])
-		print("changing state now!")

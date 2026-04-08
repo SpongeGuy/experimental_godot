@@ -6,6 +6,10 @@ func enter() -> void:
 	for child in state_machine.entity.get_children():
 		if child is Area2D:
 			child.monitorable = false
+	await get_tree().process_frame
+	await get_tree().process_frame
+	await get_tree().process_frame
+	# yeah this is bad but idk man whatever fuck it we ball seriously
 	owner.queue_free()
 	
 ## called every frame while this state is active

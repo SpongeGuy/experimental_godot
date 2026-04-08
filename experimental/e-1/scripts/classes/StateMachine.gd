@@ -5,8 +5,6 @@ signal state_switched(old_state: BehaviorState, new_state: BehaviorState)
 
 var current_state: BehaviorState
 
-var data: Dictionary = {}
-
 @export var initial_state: BehaviorState
 
 func _ready() -> void:

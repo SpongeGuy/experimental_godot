@@ -41,30 +41,26 @@ func initialize_game() -> void:
 	
 	EntityManager.spawn_anthurium(anthurium_spawn)
 	
-	#EntityManager.spawn_safely(&"roots", Vector2(450, 450))
-	#for i in range(15):
-		#var pos: Vector2 = Vector2(randf_range(100, 550), randf_range(100, 550))
-		#EntityManager.spawn_safely(&"piss_guy", pos)
-		#
-	#for i in range(15):
-		#var pos: Vector2 = Vector2(randf_range(100, 1000), randf_range(100, 550))
-		#EntityManager.spawn_safely(&"bimpy", pos)
-	#EntityManager.spawn_safely(&"imp", Vector2(450, 400))
-	#EntityManager.spawn_safely(&"plopp_orb", Vector2(550, 500))
-	#EntityManager.spawn_safely(&"pitcher", Vector2(500, 450))
+	for i in range(15):
+		var pos: Vector2 = Vector2(randf_range(100, 550), randf_range(100, 550))
+		EntityManager.spawn_safely(&"piss_guy", pos)
+		
+	for i in range(15):
+		var pos: Vector2 = Vector2(randf_range(100, 1000), randf_range(100, 550))
+		EntityManager.spawn_safely(&"bimpy", pos)
 	
 	
 	await get_tree().create_timer(1).timeout
 	WorldGrid.hide_map()
 	EntityManager.spawn_as_player(&"focks", player_spawn)
 	EntityManager.spawn_safely(&"bimpy", Vector2i(100, 150))
-	#EntityManager.spawn_safely(&"dcube_beta", Vector2i(200, 150))
-	#EntityManager.spawn_safely(&"dcube_alpha", Vector2i(700, 150))
-	#EntityManager.spawn_safely(&"dcube_alpha", Vector2i(700, 500))
-	#EntityManager.spawn_safely(&"ecube_gamma", Vector2i(500, 150))
-	#EntityManager.spawn_safely(&"ecube_gamma", Vector2i(550, 150))
-	#EntityManager.spawn_safely(&"ecube_gamma", Vector2i(500, 200))
-	#EntityManager.spawn_safely(&"arcbimpy", Vector2i(100, 125))
+	EntityManager.spawn_safely(&"dcube_beta", Vector2i(200, 150))
+	EntityManager.spawn_safely(&"dcube_alpha", Vector2i(700, 150))
+	EntityManager.spawn_safely(&"dcube_beta", Vector2i(700, 500))
+	EntityManager.spawn_safely(&"ecube_gamma", Vector2i(500, 150))
+	EntityManager.spawn_safely(&"ecube_gamma", Vector2i(550, 150))
+	EntityManager.spawn_safely(&"ecube_gamma", Vector2i(500, 200))
+	EntityManager.spawn_safely(&"arcbimpy", Vector2i(100, 125))
 	WorldGrid.reveal_from_player()
 	GameState.change_game_state(GameState.Status.PLAYING)
 	

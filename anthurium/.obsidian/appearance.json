@@ -6,5 +6,6 @@
   "baseFontSize": 13,
   "monospaceFontFamily": "Consolas",
   "nativeMenus": true,
-  "accentColor": "#e51010"
+  "accentColor": "#e51010",
+  "showRibbon": true
 }

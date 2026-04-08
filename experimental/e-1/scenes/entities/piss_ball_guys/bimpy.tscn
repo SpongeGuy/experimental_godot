@@ -87,15 +87,19 @@ metadata/_custom_type_script = "uid://bxsrgbr0uwisl"
 script = ExtResource("4_hwojd")
 metadata/_custom_type_script = "uid://dmr1e3ur3lqop"
 
+[node name="Memory" type="Node" parent="Behavior" unique_id=741111126]
+script = ExtResource("34_5vf4p")
+metadata/_custom_type_script = "uid://cu81acdifmvso"
+
 [node name="Brain" type="Node" parent="Behavior" unique_id=1490265202 node_paths=PackedStringArray("state_machine", "memory")]
 script = ExtResource("32_bld4x")
 state_machine = NodePath("../StateMachine")
-memory = NodePath("../../Memory")
+memory = NodePath("../Memory")
 metadata/_custom_type_script = "uid://cdl7wwoaxcqra"
 
 [node name="FightReactNearbyLobe" type="Node" parent="Behavior/Brain" unique_id=601382910 node_paths=PackedStringArray("memory", "proximity", "attack_state")]
 script = ExtResource("33_hwojd")
-memory = NodePath("../../../Memory")
+memory = NodePath("../../Memory")
 proximity = NodePath("../../../Bullshit/ProximityDetector")
 attack_state = NodePath("../../StateMachine/FaceTargetUseAbilityState")
 metadata/_custom_type_script = "uid://73th15n3ad82"
@@ -138,7 +142,7 @@ metadata/_custom_type_script = "uid://bmyd8pplkim7y"
 
 [node name="FaceTargetUseAbilityState" type="Node" parent="Behavior/StateMachine" unique_id=1718757046 node_paths=PackedStringArray("memory", "facing", "abilities", "input", "sprite", "default_state")]
 script = ExtResource("9_f2j0j")
-memory = NodePath("../../../Memory")
+memory = NodePath("../../Memory")
 facing = NodePath("../../FacingComponent")
 abilities = NodePath("../../../AbilityManager")
 input = NodePath("../../InputComponent")
@@ -273,9 +277,5 @@ script = ExtResource("30_sbhhg")
 hurtbox = NodePath("../../Rotator/Hurtbox")
 active_end = 0.1
 metadata/_custom_type_script = "uid://dmj5t57v7kvmh"
-
-[node name="Memory" type="Node" parent="." unique_id=741111126]
-script = ExtResource("34_5vf4p")
-metadata/_custom_type_script = "uid://cu81acdifmvso"
 
 [connection signal="died" from="Bullshit/Healthstuff/HealthComponent" to="Bullshit/Healthstuff/ManualStateSwitcher" method="switch"]

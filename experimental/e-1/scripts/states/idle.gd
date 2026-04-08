@@ -30,7 +30,7 @@ func update(delta: float) -> void:
 		input.set_move_input_direction(Vector2.ZERO)
 	
 func physics_update(delta: float) -> void:
-	movement.physics_update(delta, owner)
+	movement.physics_update(delta)
 
 	
 	

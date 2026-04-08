@@ -1,52 +1,22 @@
 {
 	"nodes":[
 		{"id":"a82b1623c6fc2b90","type":"group","x":-18400,"y":-23699,"width":4960,"height":3758,"label":"REALLY OLD INTENT RESOLVER (OLD AF)"},
-		{"id":"9db4e17aca0b22eb","type":"group","x":-18400,"y":-17600,"width":5520,"height":2774,"label":"BRAINSTORMING "},
 		{"id":"f860d3617a67af8b","type":"group","x":-20080,"y":-9520,"width":4640,"height":3120,"color":"3","label":"RETHINKING THE BRAIN AGAIN?"},
 		{"id":"a8e7257bcb3b477b","type":"group","x":-15280,"y":-11580,"width":4160,"height":3460,"color":"4","label":"PLANT TIME?"},
+		{"id":"06cdb83126573a6b","type":"group","x":-18400,"y":-12098,"width":2960,"height":2420,"color":"3","label":"A BRAIN?"},
+		{"id":"9db4e17aca0b22eb","type":"group","x":-18400,"y":-17600,"width":5520,"height":2774,"label":"BRAINSTORMING "},
 		{"id":"8b00bb300b4aa5ff","type":"group","x":-12959,"y":-26560,"width":4079,"height":3168,"label":"WTF WAS I ON WHEN I WROTE THIS SHIT"},
 		{"id":"eae9ad545f8c6dc7","type":"group","x":-7520,"y":-24095,"width":4838,"height":2191,"label":"HERE'S A LIST OF WACKY CREATURES????"},
 		{"id":"1fe6f909c67832d8","type":"group","x":-18400,"y":-14640,"width":3500,"height":2400,"label":"THE CELL VISIBILITY!"},
 		{"id":"fd722ed6f5ba9edf","type":"group","x":-14840,"y":-14640,"width":3040,"height":2542,"label":"ABILITYMANAGER"},
-		{"id":"06cdb83126573a6b","type":"group","x":-18400,"y":-12098,"width":2960,"height":2420,"color":"3","label":"A BRAIN?"},
 		{"id":"66c3f94bd2430371","type":"group","x":-10380,"y":-23000,"width":2500,"height":2360,"label":"(OLD) ENTITY MOVEMENT"},
 		{"id":"e61b6aca170d593a","type":"group","x":-18400,"y":-19680,"width":2951,"height":1805,"label":"we're GONNA DO STATE MACHINES ACTUALLY"},
 		{"id":"5707a9cef268ee72","type":"group","x":-7200,"y":-21465,"width":3203,"height":1650,"label":"(OLD) BRAINSTORMING THE FIRST PACK OF CREATURES (OLD)"},
 		{"id":"709b6d73205f00d6","type":"group","x":-13000,"y":-23000,"width":2080,"height":1840,"label":"(old) GAME CONCEPT"},
-		{
-			"id":"2b9b2e2a32413658",
-			"type":"text",
-			"text":"\n| plant part | description                                                                                               | possible ways to cause emergent chaos?                                                                                                                                                                                                                                                                                                                                                   |\n| :--------- | :-------------------------------------------------------------------------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |\n| CORE       | anthurium will build up defenses to defend any cores. as long as one core is alive, the plant lives       | an entity which nibbles on cores to eat (the plant will defend itself but this entity has defensive measures a shield); this entity will defend cores.                                                                                                                                                                                                                                   |\n| FLOWER     | spawns different types of **fruits** based on the plant's mood                                            | imagine a fruit that blows up when it is damaged.<br>a fruit which can walk away.<br>a fruit which can grab other fruits and take them with.<br>a fruit that eats other fruits and grows more powerful.<br>a fruit that grows larger the more time it has been exposed.<br>a fruit that gives the eater armor.<br>a fruit that spreads noxious gas.<br>a fruit that spreads healing gas. |\n| SPINE      | stabs at nearby entities. if an entity is impaled then it will launch the entity forward on the next stab | an entity which changes its behavior or properties based on its velocity could be interesting here.<br>or an entity which changes its behavior when it is harmed.                                                                                                                                                                                                                        |\n| SHIELD     | grants armor to nearby plants. emits shockwaves to push away entities that are too close.                 | an entity which steals armor.<br>an entity that grows stronger when nearby entities are armored.<br>an entity that roots itself nearby armored entities and creates arcs of electricity.<br>an entity that amplifies shockwaves and can cause the ground to rupture.                                                                                                                     |\n|            |                                                                                                           |                                                                                                                                                                                                                                                                                                                                                                                          |\n|            |                                                                                                           |                                                                                                                                                                                                                                                                                                                                                                                          |\n",
-			"styleAttributes":{},
-			"x":-15250,
-			"y":-9500,
-			"width":930,
-			"height":680
-		},
-		{
-			"id":"506e7cf622347c9b",
-			"type":"text",
-			"text":"\n| Plant part  | short desc                                                 |\n| ----------- | ---------------------------------------------------------- |\n| CORE        | if at least one is alive, the anthurium survives           |\n| GROWTH NODE | creeps around and matures into another plant part          |\n| THORNS      | fragile unmoving part. does contact damage.                |\n| FLOWER      | spawns fruits                                              |\n| PITCHER     | accepts large food                                         |\n| TRAP        | fragile unmoving part. does contact damage, roots entities |\n| BOMB        | explodes when mature. if killed spills acid                |\n| BLADE       |                                                            |\n| SHIELD      |                                                            |\n| CHRYSALIS   |                                                            |\nokay okay im getting insane\nlets just go with four essentials which can create deep gameplay just by themselves\n",
-			"styleAttributes":{},
-			"x":-15200,
-			"y":-10166,
-			"width":700,
-			"height":446
-		},
 		{"id":"54f3c54a5190de24","type":"text","text":"entityidentification\n\nliving vs nonliving?\ncreature, item, edible, projectile?\nhow should i create a unified identification system so that other nodes can identify what type of entity they are looking at? \n\nsince entities are defined by their components, the only thing you can do right now is look at what components an entity has, which is fine, but i don't really want to hardcode anything!\n\nthis is a tough one because an entity can literally be anything. from doors to ghosts to a piece of fruit lying on the ground. even simple proximity detectors are entities.\n\nmaybe i can simply identify entities based on their components\nduh.\n\nso entities can query another entity to see if they have a specific component. this way, components could act as tags as well as a collection of related functions. neat!","x":-18321,"y":-10835,"width":774,"height":464},
 		{"id":"254d9ae487dbf4ab","type":"text","text":"right now i have an `AnthuriumManager` system component which doesn't really have any functions except for controlling spawning.\n\nthe question is: what sort of functions would the system need to call that's related to the anthurium that couldn't just be a component on the anthurium? i think it's probably wiser to simply store a reference to the player and the anthurium in the higher level system (probably `GameState`) \n\n- brain to spawn part\n- spawn parts\n- handle food\n- control fog","x":-16841,"y":-10805,"width":740,"height":434},
 		{"id":"288f1ee96196539b","type":"text","text":"need a way to connect some of the anthurium plant's parts with the main plant. how should i initialize this?\n\nwhen spawning a plant part it is necessary to also connect up the main anthurium plant so that events can fire and affect the main plant's properties.\n\nthis will be trivial through signals. the anthurium plant can request to spawn a part. in this function, it can then configure the part so that the part stores a reference of the main plant.\n\n```gdscript\nextends Component\nclass_name AnthuriumPart\n\nvar anthurium: Entity\n\n...\n```","x":-17504,"y":-10805,"width":643,"height":390},
 		{"id":"d32fa7403830357e","type":"text","text":"anthurium draft 3\n\nthe game is counted in rounds; at the beginning of every round, some stats are reset.\ngamestate keeps a max point value, and points gained from consuming food or killing creatures go toward this point value.\n\nthe anthurium spawns with a core and a few guard plants.\n\nwhen given an opportunity (what event?), a plant will spawn a growth node, an invisible entity that slowly creeps, spawning flowers or grass every time it steps. at the end of the growth node's journey, it will communicate with the anthurium entity to resolve what kind of plant it should become.\n\n(perhaps the event can either be time based or based on the activity of the nearby area)\n\nrelevant entities to the anthurium:\n\n\n> CORE\n> essentially the heart of the anthurium. if all of these die, all the plants will slowly die until there are none left.\n\n> GROWTH NODE\n> an invisible entity that cannot be killed directly. it can be destroyed with explosions. it sets a positional goal and slowly steps towards that goal, planting grass and flowers along the way.\n\n> THORNS\n> a simple defensive plant. has a high amount of health. does contact damage.\n\n> FLOWER\n\n> PITCHER\n\n> TRAP\n\n> BOMB\n\n> BLADE\n\n> SHIELD\n\n","x":-15238,"y":-11540,"width":548,"height":1000},
-		{
-			"id":"c8c4737d46d8a591",
-			"type":"text",
-			"text":"things the anthurium should be able to do:\n\nsummon plant creatures to:\n- gather food and deliver to pitchers\n- kill enemy creatures\n- defend weak plant parts\n\nbreak the ground to create gaps or summon water tiles or expose stellar liquid sources\nchange tiles into \"creep\" tiles, which absorb living entities\nroot entities to sap their energy\ncreate bombs\ncreate valuable jewelry and organic materials\nbuild sturdy tree root walls\ncreate food, fruit\ncreate sap which buffs and heals entities\nspreads neurotoxin\nspread roots underground\ncreate defenses around important plant parts\nrecognize nutritious parts of the map, spread there, and create more plants there\ncreate boss entity when threatened enough\nhave a vendetta against a specific creature or specific group of creatures\n\nmore? i'm going for an alien plant feel, where the plant doesn't specifically have to gather energy specifically from the sun but can do so from other means, including the mystical and magical. the plant is a mixture of an animal, a plant, a fungus, and a parasite and it should reflect most aspects of these categories.\n\nsome plant parts should have simple influence over other plant parts just by being in the vicinity to allow for emergent properties and effects",
-			"styleAttributes":{},
-			"x":-14460,
-			"y":-10220,
-			"width":680,
-			"height":620
-		},
 		{
 			"id":"c7998873873b47d8",
 			"type":"text",
@@ -249,34 +219,35 @@
 		{"id":"d19b71f235ee72d0","type":"file","file":"assets/mina/gif_levelup-1413413371.gif","x":-9311,"y":-18069,"width":484,"height":272},
 		{"id":"0e3abd4e111d64ee","type":"file","file":"assets/mina/gif-trainyardgameplay4-1643782697436_9dta-1251101453.gif","x":-9311,"y":-18339,"width":481,"height":270},
 		{
-			"id":"035e4d77173aa937",
+			"id":"8bc05ed1875a66c7",
 			"type":"text",
-			"text":"The thing about the brain as it is now is that every single entity would have to have its own brain class, which is not great for my philosophy. I want to have a Brain node that I can drop Lobes onto which then hook onto the StateMachine.\n\nIf an entity needs it, it should have a Brain with multiple Lobe children. The Lobes can intercept signals from its components or external stimuli to produce an urge and a weight. The Brain, every once in a while, evaluates all its lobes' urges and then switches states.\n\nThis means that there's gotta be some way to translate an urge to a state.\nMaybe this isn't the best way of doing things? This seems kinda complicated.\n\nOr maybe one lobe can have a reference to a state or two states and depending on its resolution can then return what state it wants to swap to plus the weight?\n\nLobes do not need to know about each other's existence.",
+			"text":"# Brain\n```\npersonality data\n\t(useful for modifying priority of Lobes)\nreference to state machine\nreference to memory\narray of lobes (getters and setters)\nevaluates lobe priorities & switches states\n```",
 			"styleAttributes":{},
-			"x":-20000,
-			"y":-9480,
-			"width":680,
-			"height":320
+			"x":-19840,
+			"y":-7860,
+			"width":420,
+			"height":220
+		},
+		{
+			"id":"ff531f74b73bbbcf",
+			"type":"text",
+			"text":"let's fix targetlobe and perhaps make it more robust\nfyi priority should be from 0.0 to 1.0!\n\n```gdscript\nextends Lobe\nclass_name FightReactNearbyLobe\n\nvar target: Entity\nvar targeting: bool = true\n@export var proximity: ProximityDetector\n@export var attack_state: BehaviorState\n\nvar priority_strength: float = 1.0\n\nfunc _ready() -> void:\n\tproximity.detected.connect(_on_entity_detected)\n\tproximity.lost.connect(_on_entity_lost)\n\t\n\t\nfunc _process(delta: float) -> void:\n\t_process_every_ten_frames(delta)\n\t\nfunc _on_entity_detected(source: Entity, t: Entity) -> void:\n\tif targeting:\n\t\ttarget = t\n\t\tchanged.emit()\n\t\nfunc _on_entity_lost(source: Entity, t: Entity) -> void:\n\tif targeting:\n\t\ttarget = null\n\t\tchanged.emit()\n\nfunc _process_every_ten_frames(delta: float) -> void:\n\tif Engine.get_process_frames() % 10 != 0:\n\t\treturn\n\t\n\t_try_forget_invalid_target()\n\t\n\t\nfunc _try_forget_invalid_target() -> void:\n\tif not target:\n\t\treturn\n\t\t\n\tif not is_instance_valid(target):\n\t\ttarget = null\n\t\tchanged.emit()\n\t\t\n\t\n\t\nfunc evaluate() -> Array:\n\t# in this case, priority will either be 0 or 1 which will reflect if there is a target at all.\n\t# return [priority, attack_state]\n\tvar priority: float\n\tif target:\n\t\tpriority = 1\n\telse:\n\t\tpriority = 0\n\t\t\n\treturn [priority, attack_state]\n```",
+			"styleAttributes":{},
+			"x":-17840,
+			"y":-9440,
+			"width":760,
+			"height":1420
 		},
 		{
 			"id":"27815aa2adb9f526",
 			"type":"text",
 			"text":"An issue. Lobes are not meant to be referenced in other components. Which means any data that lobes transform and mean to store away can never be accessed. So it's necessary to have a Memory (basically a blackboard) that Lobes can write to.\n\nHowever, it is probably essential to implement a system that only allows Lobes to write to Memory only if they win the \"evaluation contest\" in the Brain.\n\nfor example, imagine a creature has a FightNearby lobe which has a private target variable that is set when an entity comes within a certain distance of the creature. imagine that this creature also has a BefriendNearby lobe which also has a private target variable. it would be quite bad to set the Memory's TARGET value to the target in FightNearby and then immediately overwrite it with BefriendNearby's target (which could be two different targets).\n\nThe Memory should be written to by the Lobe only if its priority is the highest in the Brain's list of lobes.",
 			"styleAttributes":{},
-			"x":-19960,
-			"y":-8280,
+			"x":-19980,
+			"y":-8810,
 			"width":740,
-			"height":460
-		},
-		{
-			"id":"3050f051a19d080c",
-			"type":"text",
-			"text":"so to redesign the brain:\n\n1. just make one brain class that holds Lobes as children\n2. make the brain aware of all the Lobes attached to it\n3. periodically have the brain run all the lobes evaluate functions, gather their priorities and their urges `[float, BehaviorState]`\n4. create a bunch of different Lobe components\n5. the Lobe base class should have `evaluate() -> [float, BehaviorState]` as a function. if nothing important is happening that the lobe is responding to, `evaluate()` will return `null`.\n6. Lobes can hold references to other components to hook into their signals\n7. priority should be from 0.0 to 1.0\n\nhow should signals emitted from an entity A be intercepted by an entity B? for example, entity A is harmed. entity B is a healer, so it wants to listen to signals broadcasted by entities when they are harmed.",
-			"styleAttributes":{},
-			"x":-19240,
-			"y":-9440,
-			"width":460,
-			"height":440
+			"height":460,
+			"color":"1"
 		},
 		{
 			"id":"fbce02d6b94d5968",
@@ -289,16 +260,85 @@
 			"height":820
 		},
 		{
-			"id":"ff531f74b73bbbcf",
+			"id":"ff6f0ebae24a6b06",
 			"type":"text",
-			"text":"let's fix targetlobe and perhaps make it more robust\nfyi priority should be from 0.0 to 1.0!\n\n```gdscript\nextends Lobe\nclass_name FightReactNearbyLobe\n\nvar target: Entity\nvar targeting: bool = true\n@export var proximity: ProximityDetector\n@export var attack_state: BehaviorState\n\nvar priority_strength: float = 1.0\n\nfunc _ready() -> void:\n\tproximity.detected.connect(_on_entity_detected)\n\tproximity.lost.connect(_on_entity_lost)\n\t\n\t\nfunc _process(delta: float) -> void:\n\t_process_every_ten_frames(delta)\n\t\nfunc _on_entity_detected(source: Entity, t: Entity) -> void:\n\tif targeting:\n\t\ttarget = t\n\t\tchanged.emit()\n\t\nfunc _on_entity_lost(source: Entity, t: Entity) -> void:\n\tif targeting:\n\t\ttarget = null\n\t\tchanged.emit()\n\nfunc _process_every_ten_frames(delta: float) -> void:\n\tif Engine.get_process_frames() % 10 != 0:\n\t\treturn\n\t\n\t_try_forget_invalid_target()\n\t\n\t\nfunc _try_forget_invalid_target() -> void:\n\tif not target:\n\t\treturn\n\t\t\n\tif not is_instance_valid(target):\n\t\ttarget = null\n\t\tchanged.emit()\n\t\t\n\t\n\t\nfunc evaluate() -> Array:\n\t# in this case, priority will either be 0 or 1 which will reflect if there is a target at all.\n\t# return [priority, attack_state]\n\tvar priority: float\n\tif target:\n\t\tpriority = 1\n\telse:\n\t\tpriority = 0\n\t\t\n\treturn [priority, attack_state]\n```",
+			"text":"and here's the current implementation of Brain:\n\n```gdscript\nextends Component\nclass_name Brain\n\nvar _lobes: Dictionary[Script, Lobe] = {}\n@export var state_machine: StateMachine\n\nfunc _ready() -> void:\n\t_register_lobes(self)\n\tstate_machine.state_switched.connect(_on_state_switched)\n\tsetup()\n\t\nfunc _register_lobes(node: Node) -> void:\n\tfor child in node.get_children():\n\t\tif child is Lobe:\n\t\t\t_add_lobe(child)\n\t\t_register_lobes(child)\n\t\t\nfunc _add_lobe(lobe: Lobe) -> void:\n\t_lobes[lobe.get_script()] = lobe\n\tlobe.brain = self\n\tlobe.changed.connect(_on_memory_changed)\n\tlobe._on_registered()\n\t\nfunc get_lobe(type: Script) -> Variant:\n\treturn _lobes.get(type, null)\n\t\nfunc has_lobe(type: Script) -> bool:\n\treturn _lobes.has(type)\n\t\nfunc _on_memory_changed() -> void:\n\t_evaluate()\n\t\nfunc setup() -> void: pass\nfunc tick(delta: float) -> void: pass\nfunc _on_state_switched(old: BehaviorState, new: BehaviorState) -> void: pass\n\n# evaluate functions will exist down here on inherited brains\nfunc _evaluate() -> void: pass # this is to be overridden\n\n```",
 			"styleAttributes":{},
-			"x":-17840,
-			"y":-9440,
+			"x":-16340,
+			"y":-9420,
 			"width":760,
-			"height":1420
+			"height":900
 		},
-		{"id":"d7e7200a6be11936","type":"text","text":"we can still use these from way earlier!!!\ncreature personality traits\n\n**aggression**: affects hunting, attacking, territorial behavior\n**bravery**: affects fleeing, risk-taking, exploration\n**dominance**: affects leadership, pausing, submission\n**energy**: affects movement speed, activity level, rest\n**nervous**: affects fleeing, hiding, wariness\n**sympathy**: affects helping others, sharing, cooperation","x":-16960,"y":-8940,"width":560,"height":260},
+		{
+			"id":"2b9b2e2a32413658",
+			"type":"text",
+			"text":"\n| plant part | description                                                                                               | possible ways to cause emergent chaos?                                                                                                                                                                                                                                                                                                                                                   |\n| :--------- | :-------------------------------------------------------------------------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |\n| CORE       | anthurium will build up defenses to defend any cores. as long as one core is alive, the plant lives       | an entity which nibbles on cores to eat (the plant will defend itself but this entity has defensive measures a shield); this entity will defend cores.                                                                                                                                                                                                                                   |\n| FLOWER     | spawns different types of **fruits** based on the plant's mood                                            | imagine a fruit that blows up when it is damaged.<br>a fruit which can walk away.<br>a fruit which can grab other fruits and take them with.<br>a fruit that eats other fruits and grows more powerful.<br>a fruit that grows larger the more time it has been exposed.<br>a fruit that gives the eater armor.<br>a fruit that spreads noxious gas.<br>a fruit that spreads healing gas. |\n| SPINE      | stabs at nearby entities. if an entity is impaled then it will launch the entity forward on the next stab | an entity which changes its behavior or properties based on its velocity could be interesting here.<br>or an entity which changes its behavior when it is harmed.                                                                                                                                                                                                                        |\n| SHIELD     | grants armor to nearby plants. emits shockwaves to push away entities that are too close.                 | an entity which steals armor.<br>an entity that grows stronger when nearby entities are armored.<br>an entity that roots itself nearby armored entities and creates arcs of electricity.<br>an entity that amplifies shockwaves and can cause the ground to rupture.                                                                                                                     |\n|            |                                                                                                           |                                                                                                                                                                                                                                                                                                                                                                                          |\n|            |                                                                                                           |                                                                                                                                                                                                                                                                                                                                                                                          |\n",
+			"styleAttributes":{},
+			"x":-15250,
+			"y":-9500,
+			"width":930,
+			"height":680
+		},
+		{
+			"id":"473be7a27520a323",
+			"type":"text",
+			"text":"the brain, after recieving a signal or after a timeout, will evaluate which Lobe has returned the highest priority and will change the state to the right state.\n\nit will then commit all relevant data the Lobe has collected to Memory.",
+			"styleAttributes":{},
+			"x":-19320,
+			"y":-7850,
+			"width":320,
+			"height":200
+		},
+		{
+			"id":"a501f96c8add6423",
+			"type":"text",
+			"text":"# State Machine\n```\nreference to current state\nreference to initial state (must be set)\n\ncalls the current state's update function\n\ncontains a state switcher, which calls the old state's exit function and the new function's enter function\n```",
+			"styleAttributes":{},
+			"x":-18820,
+			"y":-7620,
+			"width":440,
+			"height":260
+		},
+		{
+			"id":"228c0a413e34c09e",
+			"type":"text",
+			"text":"# State\n```\nreference to state machine\nan optional cooldown can be set, preventing this state from being switched to if the cooldown is still running\n\ncustom behavior can be set in this node\n\n+ reference to memory\n+ reference to additional components\n+ reference to other states (like a sequential behavior pattern)\n\nenter()\nupdate()\nphysics_update()\nexit()\n```",
+			"styleAttributes":{},
+			"x":-18300,
+			"y":-7440,
+			"width":480,
+			"height":380
+		},
+		{
+			"id":"1385e9ac9cad325a",
+			"type":"text",
+			"text":"# Lobe\n```\nreference to brain\nevaluate function, returns [float, BehaviorState]\ncommit function, commits any relevant data to Memory\n\n+ references to any relevant components\n+ hooks to any relevant signals\n  \ntranslates a condition created by external stimuli or internal state and returns a state (to be slotted into the state machine) and a priority (float value between 0.0 and 1.0)\n```",
+			"styleAttributes":{},
+			"x":-19885,
+			"y":-7520,
+			"width":510,
+			"height":320
+		},
+		{
+			"id":"646fc26f255d37c3",
+			"type":"text",
+			"text":"# Component\n```\na node which contains data and optionally some logic that alters the data.\na component should ideally serve one purpose.\n```",
+			"styleAttributes":{},
+			"x":-19320,
+			"y":-7120,
+			"width":440,
+			"height":200
+		},
+		{
+			"id":"3050f051a19d080c",
+			"type":"text",
+			"text":"so to redesign the brain:\n\n1. just make one brain class that holds Lobes as children\n2. make the brain aware of all the Lobes attached to it\n3. periodically have the brain run all the lobes evaluate functions, gather their priorities and their urges `[float, BehaviorState]`\n4. create a bunch of different Lobe components\n5. the Lobe base class should have `evaluate() -> [float, BehaviorState]` as a function. if nothing important is happening that the lobe is responding to, `evaluate()` will return `null`.\n6. Lobes can hold references to other components to hook into their signals\n7. priority should be from 0.0 to 1.0\n\nhow should signals emitted from an entity A be intercepted by an entity B? for example, entity A is harmed. entity B is a healer, so it wants to listen to signals broadcasted by entities when they are harmed.",
+			"styleAttributes":{},
+			"x":-19240,
+			"y":-9440,
+			"width":460,
+			"height":440
+		},
 		{
 			"id":"c3587c0c95a96f82",
 			"type":"text",
@@ -310,24 +350,55 @@
 			"height":400
 		},
 		{
+			"id":"035e4d77173aa937",
+			"type":"text",
+			"text":"The thing about the brain as it is now is that every single entity would have to have its own brain class, which is not great for my philosophy. I want to have a Brain node that I can drop Lobes onto which then hook onto the StateMachine.\n\nIf an entity needs it, it should have a Brain with multiple Lobe children. The Lobes can intercept signals from its components or external stimuli to produce an urge and a weight. The Brain, every once in a while, evaluates all its lobes' urges and then switches states.\n\nThis means that there's gotta be some way to translate an urge to a state.\nMaybe this isn't the best way of doing things? This seems kinda complicated.\n\nOr maybe one lobe can have a reference to a state or two states and depending on its resolution can then return what state it wants to swap to plus the weight?\n\nLobes do not need to know about each other's existence.",
+			"styleAttributes":{},
+			"x":-20000,
+			"y":-9480,
+			"width":680,
+			"height":320
+		},
+		{
+			"id":"506e7cf622347c9b",
+			"type":"text",
+			"text":"\n| Plant part  | short desc                                                 |\n| ----------- | ---------------------------------------------------------- |\n| CORE        | if at least one is alive, the anthurium survives           |\n| GROWTH NODE | creeps around and matures into another plant part          |\n| THORNS      | fragile unmoving part. does contact damage.                |\n| FLOWER      | spawns fruits                                              |\n| PITCHER     | accepts large food                                         |\n| TRAP        | fragile unmoving part. does contact damage, roots entities |\n| BOMB        | explodes when mature. if killed spills acid                |\n| BLADE       |                                                            |\n| SHIELD      |                                                            |\n| CHRYSALIS   |                                                            |\nokay okay im getting insane\nlets just go with four essentials which can create deep gameplay just by themselves\n",
+			"styleAttributes":{},
+			"x":-15200,
+			"y":-10166,
+			"width":700,
+			"height":446
+		},
+		{
 			"id":"3cf0ee9e3f9dd356",
 			"type":"text",
 			"text":"instead, let's go with this:\n\n```gdscript\nextends Component\nclass_name Brain\n\nvar _lobes: Dictionary[Script, Lobe] = {}\n@export var state_machine: StateMachine\nvar current_state: Array[Array] = []\n\nvar personality: Array[float] = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]\n# [0] = aggression\n# [1] = bravery\n# [2] = dominance\n# [3] = energy\n# [4] = nervous\n# [5] = sympathy\n\nfunc _ready() -> void:\n\t_register_lobes(self)\n\t_randomize_personality()\n\t\nfunc _randomize_personality() -> void:\n\trandomize()\n\tfor i in personality.size():\n\t\tvalue = randf()\n\t\nfunc _register_lobes(node: Node) -> void:\n\tfor child in node.get_children():\n\t\tif child is Lobe:\n\t\t\t_add_lobe(child)\n\t\t_register_lobes(child)\n\t\t\nfunc _add_lobe(lobe: Lobe) -> void:\n\t_lobes[lobe.get_script()] = lobe\n\tlobe.brain = self\n\tlobe.changed.connect(_on_memory_changed)\n\tlobe._on_registered()\n\t\nfunc get_lobe(type: Script) -> Variant:\n\treturn _lobes.get(type, null)\n\t\nfunc has_lobe(type: Script) -> bool:\n\treturn _lobes.has(type)\n\t\nfunc _on_memory_changed() -> void:\n\t_get_new_state()\n\t_evaluate_state()\n\nfunc _get_new_state() -> void:\n\tcurrent_state = []\n\tfor lobe in _lobes.values:\n\t\tvar utility: Array = lobe.evaluate()\n\t\tif utility:\n\t\t\tcurrent_state.append(utility)\n\nfunc _evaluate_state() -> void:\n\t# get utility from current_state that has the highest priority\n\t# switch state to that utility's attributed state\n\n```",
 			"styleAttributes":{},
-			"x":-16540,
-			"y":-8540,
+			"x":-16560,
+			"y":-8280,
 			"width":820,
 			"height":1280
 		},
 		{
-			"id":"ff6f0ebae24a6b06",
+			"id":"c8c4737d46d8a591",
 			"type":"text",
-			"text":"and here's the current implementation of Brain:\n\n```gdscript\nextends Component\nclass_name Brain\n\nvar _lobes: Dictionary[Script, Lobe] = {}\n@export var state_machine: StateMachine\n\nfunc _ready() -> void:\n\t_register_lobes(self)\n\tstate_machine.state_switched.connect(_on_state_switched)\n\tsetup()\n\t\nfunc _register_lobes(node: Node) -> void:\n\tfor child in node.get_children():\n\t\tif child is Lobe:\n\t\t\t_add_lobe(child)\n\t\t_register_lobes(child)\n\t\t\nfunc _add_lobe(lobe: Lobe) -> void:\n\t_lobes[lobe.get_script()] = lobe\n\tlobe.brain = self\n\tlobe.changed.connect(_on_memory_changed)\n\tlobe._on_registered()\n\t\nfunc get_lobe(type: Script) -> Variant:\n\treturn _lobes.get(type, null)\n\t\nfunc has_lobe(type: Script) -> bool:\n\treturn _lobes.has(type)\n\t\nfunc _on_memory_changed() -> void:\n\t_evaluate()\n\t\nfunc setup() -> void: pass\nfunc tick(delta: float) -> void: pass\nfunc _on_state_switched(old: BehaviorState, new: BehaviorState) -> void: pass\n\n# evaluate functions will exist down here on inherited brains\nfunc _evaluate() -> void: pass # this is to be overridden\n\n```",
+			"text":"things the anthurium should be able to do:\n\nsummon plant creatures to:\n- gather food and deliver to pitchers\n- kill enemy creatures\n- defend weak plant parts\n\nbreak the ground to create gaps or summon water tiles or expose stellar liquid sources\nchange tiles into \"creep\" tiles, which absorb living entities\nroot entities to sap their energy\ncreate bombs\ncreate valuable jewelry and organic materials\nbuild sturdy tree root walls\ncreate food, fruit\ncreate sap which buffs and heals entities\nspreads neurotoxin\nspread roots underground\ncreate defenses around important plant parts\nrecognize nutritious parts of the map, spread there, and create more plants there\ncreate boss entity when threatened enough\nhave a vendetta against a specific creature or specific group of creatures\n\nmore? i'm going for an alien plant feel, where the plant doesn't specifically have to gather energy specifically from the sun but can do so from other means, including the mystical and magical. the plant is a mixture of an animal, a plant, a fungus, and a parasite and it should reflect most aspects of these categories.\n\nsome plant parts should have simple influence over other plant parts just by being in the vicinity to allow for emergent properties and effects",
 			"styleAttributes":{},
-			"x":-16340,
-			"y":-9420,
-			"width":760,
-			"height":800
+			"x":-14460,
+			"y":-10220,
+			"width":680,
+			"height":620
+		},
+		{"id":"d7e7200a6be11936","type":"text","text":"we can still use these from way earlier!!!\ncreature personality traits\n\n**aggression**: affects hunting, attacking, territorial behavior\n**bravery**: affects fleeing, risk-taking, exploration\n**dominance**: affects leadership, pausing, submission\n**energy**: affects movement speed, activity level, rest\n**nervous**: affects fleeing, hiding, wariness\n**sympathy**: affects helping others, sharing, cooperation","x":-17000,"y":-8650,"width":560,"height":260},
+		{
+			"id":"3bdc0cc95d908da6",
+			"type":"text",
+			"text":"# Memory\n```\nenumeration Key \n\t(an enumeration because hardcoding blackboard names is safer than storing string values)\ndata array, parallel to Key enum\n\tgetters and setters use values from Key enum to grab data values\n\tthis is optimal O[1] lookup time and is stable as long as Key is not changed during runtime\n\t\nstates can and should use this memory to perform actions, do logic, and behave in specific ways\n```",
+			"styleAttributes":{},
+			"x":-18650,
+			"y":-8020,
+			"width":700,
+			"height":250
 		}
 	],
 	"edges":[
@@ -462,6 +533,81 @@
 			"fromNode":"ff531f74b73bbbcf",
 			"fromSide":"right",
 			"toNode":"3cf0ee9e3f9dd356",
+			"toSide":"left"
+		},
+		{
+			"id":"a0a8e317f2879bdc",
+			"styleAttributes":{"pathfindingMethod":"square"},
+			"toFloating":false,
+			"fromNode":"8bc05ed1875a66c7",
+			"fromSide":"bottom",
+			"toNode":"1385e9ac9cad325a",
+			"toSide":"top",
+			"label":"has multiple of these"
+		},
+		{
+			"id":"92f62199e672883f",
+			"styleAttributes":{"pathfindingMethod":"square"},
+			"toFloating":false,
+			"fromNode":"8bc05ed1875a66c7",
+			"fromSide":"right",
+			"toNode":"473be7a27520a323",
+			"toSide":"left"
+		},
+		{
+			"id":"b7b77bfbd5490eae",
+			"styleAttributes":{"pathfindingMethod":"square"},
+			"toFloating":false,
+			"fromNode":"473be7a27520a323",
+			"fromSide":"right",
+			"toNode":"3bdc0cc95d908da6",
+			"toSide":"left"
+		},
+		{
+			"id":"d850b347d830bf4a",
+			"styleAttributes":{"pathfindingMethod":"square"},
+			"toFloating":false,
+			"fromNode":"473be7a27520a323",
+			"fromSide":"right",
+			"toNode":"a501f96c8add6423",
+			"toSide":"left"
+		},
+		{
+			"id":"e60b5b2b103323fb",
+			"styleAttributes":{"pathfindingMethod":"square"},
+			"toFloating":false,
+			"fromFloating":false,
+			"fromNode":"a501f96c8add6423",
+			"fromSide":"bottom",
+			"toNode":"228c0a413e34c09e",
+			"toSide":"left",
+			"label":"has multiple of these"
+		},
+		{
+			"id":"8b2ef9a3aca87c23",
+			"styleAttributes":{"pathfindingMethod":"square"},
+			"toFloating":false,
+			"fromNode":"228c0a413e34c09e",
+			"fromSide":"top",
+			"toNode":"3bdc0cc95d908da6",
+			"toSide":"right"
+		},
+		{
+			"id":"639f877b25800c3f",
+			"styleAttributes":{"pathfindingMethod":"square"},
+			"toFloating":false,
+			"fromNode":"228c0a413e34c09e",
+			"fromSide":"bottom",
+			"toNode":"646fc26f255d37c3",
+			"toSide":"right"
+		},
+		{
+			"id":"fdda658f862be649",
+			"styleAttributes":{"pathfindingMethod":"square"},
+			"toFloating":false,
+			"fromNode":"1385e9ac9cad325a",
+			"fromSide":"bottom",
+			"toNode":"646fc26f255d37c3",
 			"toSide":"left"
 		}
 	],

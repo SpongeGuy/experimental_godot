@@ -16,6 +16,11 @@ enum Key{
 
 var _data: Array = []
 
+func _process(delta: float) -> void:
+	for i in _data.size():
+		if not is_instance_valid(_data[i]):
+			_data[i] = null
+
 func _ready() -> void:
 	_data.resize(Key.size())
 	
