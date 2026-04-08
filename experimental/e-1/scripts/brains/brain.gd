@@ -1,7 +1,7 @@
 extends Component
-class_name Brain
+class_name DeprecatedBrain
 
-var _lobes: Dictionary[Script, Lobe] = {}
+var _lobes: Dictionary[Script, DeprecatedLobe] = {}
 @export var state_machine: StateMachine
 
 func _ready() -> void:
@@ -11,11 +11,11 @@ func _ready() -> void:
 	
 func _register_lobes(node: Node) -> void:
 	for child in node.get_children():
-		if child is Lobe:
+		if child is DeprecatedLobe:
 			_add_lobe(child)
 		_register_lobes(child)
 		
-func _add_lobe(lobe: Lobe) -> void:
+func _add_lobe(lobe: DeprecatedLobe) -> void:
 	_lobes[lobe.get_script()] = lobe
 	lobe.brain = self
 	lobe.changed.connect(_on_memory_changed)

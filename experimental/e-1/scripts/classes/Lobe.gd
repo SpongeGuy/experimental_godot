@@ -1,5 +1,5 @@
 extends Node
-class_name DeprecatedLobe
+class_name Lobe
 
 # ------------------------------------------------------------------------------------------
 # a component for a Brain component.
@@ -10,10 +10,15 @@ class_name DeprecatedLobe
 # ------------------------------------------------------------------------------------------
 
 
-var brain: DeprecatedBrain
+var brain: Brain
 
 signal changed
 
 func _on_registered() -> void: pass # to be overridden
 
+func evaluate() -> Array: # also to be overridden
+	return []
 
+# should be used to write stuff to memory
+func commit(memory: Memory) -> void:
+	pass

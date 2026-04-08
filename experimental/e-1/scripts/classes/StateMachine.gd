@@ -26,8 +26,8 @@ func switch(new_state: BehaviorState) -> void:
 	# if new state is on cooldown, then don't switch to it
 	
 	if new_state.cooldown_time > 0:
-		
 		return
+	
 	if current_state:
 		current_state.exit()
 	

@@ -1,5 +1,5 @@
-extends Brain
-class_name PissGuyBrain
+extends DeprecatedBrain
+class_name DeprecatedPissGuyBrain
 
 @export var attacking_state: BehaviorState
 @export var moving_state: BehaviorState

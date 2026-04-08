@@ -1,7 +1,7 @@
 extends BehaviorState
 class_name FaceTargetUseAbilityState
 
-@export var target_lobe: TargetLobe
+@export var memory: Memory
 @export var facing: FacingComponent
 @export var abilities: AbilityManager
 @export var input: InputComponent
@@ -24,9 +24,10 @@ func update(delta: float) -> void:
 	pass
 	
 func physics_update(delta: float) -> void:
-	if target_lobe.target:
+	if memory.has(Memory.Key.TARGET):
+		var target: Entity = memory.get_value(Memory.Key.TARGET) as Entity
 		input.move_input_direction = Vector2.ZERO
-		facing.change_direction(target_lobe.target.global_position - state_machine.entity.global_position)
+		facing.change_direction(target.global_position - state_machine.entity.global_position)
 		_timer += delta
 		if _timer >= time_to_use_ability:
 			_timer = 0 - randf_range(0, 1)
