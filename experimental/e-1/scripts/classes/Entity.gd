@@ -18,8 +18,8 @@ func _register_components(node: Node) -> void:
 
 func add_component(component: Component) -> void:
 	_components[component.get_script()] = component
-	component._on_registered()
 	component.entity = self
+	component._on_registered()
 	
 func get_component(type: Script) -> Variant:
 	return _components.get(type, null)
@@ -28,3 +28,5 @@ func has_component(type: Script) -> bool:
 	
 	return _components.has(type)
 
+func get_basename() -> StringName:
+	return StringName(get_scene_file_path().get_file().get_basename())

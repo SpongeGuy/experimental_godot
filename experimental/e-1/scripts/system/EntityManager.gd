@@ -33,15 +33,15 @@ static func spawn_safely(entity_type: StringName, pos: Vector2) -> Entity:
 	_add(entity)
 	return entity
 	
+static func spawn_on_tile(entity_type: StringName, tile_pos: Vector2i) -> Entity:
+	var pos: Vector2 = WorldGrid.tile_to_world(tile_pos)
+	var entity: Entity = spawn_safely(entity_type, pos)
+	return entity
+	
 static func spawn_as_player(entity_type: StringName, pos: Vector2) -> Entity:
 	# this will need customized later to ensure that any creature can be spawned as a player
 	var entity: Entity = spawn_safely(entity_type, pos)
 	EventBus.player_spawned.emit(entity)
-	return entity
-	
-static func spawn_anthurium(pos: Vector2) -> Entity:
-	var entity: Entity = spawn_safely(&"anthurium", pos)
-	EventBus.anthurium_spawned.emit(entity)
 	return entity
 	
 # -----------------------------------------------------------------------------------

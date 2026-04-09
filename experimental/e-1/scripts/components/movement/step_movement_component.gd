@@ -31,7 +31,7 @@ func movement_function(delta: float) -> void:
 	else:
 		step_timer = 0.0 - randf_range(0, 1)
 		
-	if just_stepped and velocity.is_zero_approx():
+	if just_stepped and is_zero_approx(step_timer):
 		stepped.emit()
 		just_stepped = false
 		

@@ -43,7 +43,6 @@ func generate(sed: int = -1) -> void:
 	EventBus.terrain_generated_successfully.emit()
 	print("dungeon done and dusted")
 	
-	#WorldGrid.resolve_visibility_all()
 
 
 func _set_cell_delayed(coords: Vector2i, cell: CellData) -> void:

@@ -9,7 +9,7 @@
 [ext_resource type="Script" uid="uid://nd4dqg4v5t8d" path="res://scripts/states/piss_ball_guy/idleer.gd" id="7_wj8bu"]
 [ext_resource type="Script" uid="uid://bmyd8pplkim7y" path="res://scripts/states/piss_ball_guy/navigatestepwander.gd" id="8_4omx6"]
 [ext_resource type="Script" uid="uid://ym7engi512o4" path="res://scripts/states/piss_ball_guy/face_toward_target_and_use_ability.gd" id="9_7eqra"]
-[ext_resource type="Script" uid="uid://b8tiyc5hi81ap" path="res://scripts/states/death.gd" id="10_civnn"]
+[ext_resource type="Script" uid="uid://b8tiyc5hi81ap" path="res://scripts/states/piss_ball_guy/death.gd" id="10_civnn"]
 [ext_resource type="Script" uid="uid://cu81acdifmvso" path="res://scripts/classes/Memory.gd" id="11_dupcx"]
 [ext_resource type="Script" uid="uid://b2i2svq4b2ia2" path="res://scripts/components/rotator.gd" id="11_hlk4r"]
 [ext_resource type="Script" uid="uid://cdl7wwoaxcqra" path="res://scripts/classes/Brain.gd" id="12_a70ne"]

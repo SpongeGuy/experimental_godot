@@ -7,9 +7,9 @@
 [ext_resource type="Script" uid="uid://bfeyy2elbrj4b" path="res://scripts/components/damage_animation_component.gd" id="5_xoj7o"]
 [ext_resource type="Script" uid="uid://ibgyf864g08i" path="res://scripts/components/manual_state_switcher.gd" id="6_sumsn"]
 [ext_resource type="Script" uid="uid://snopn0q86518" path="res://scripts/classes/StateMachine.gd" id="7_s02rk"]
-[ext_resource type="Script" uid="uid://dyq71erbf3ksa" path="res://scripts/states/player_move.gd" id="8_0qk0a"]
-[ext_resource type="Script" uid="uid://dier6uauiqj4t" path="res://scripts/states/player_idle.gd" id="9_j83bn"]
-[ext_resource type="Script" uid="uid://b8tiyc5hi81ap" path="res://scripts/states/death.gd" id="10_jr5rt"]
+[ext_resource type="Script" uid="uid://dyq71erbf3ksa" path="res://scripts/states/deprecated/player_move.gd" id="8_0qk0a"]
+[ext_resource type="Script" uid="uid://dier6uauiqj4t" path="res://scripts/states/deprecated/player_idle.gd" id="9_j83bn"]
+[ext_resource type="Script" uid="uid://b8tiyc5hi81ap" path="res://scripts/states/piss_ball_guy/death.gd" id="10_jr5rt"]
 [ext_resource type="Script" uid="uid://c58w8kgm688wm" path="res://scripts/components/movement/movement_component.gd" id="11_1hl42"]
 [ext_resource type="Script" uid="uid://dk6vro3btpxyj" path="res://scripts/classes/Hitbox.gd" id="12_mutx0"]
 [ext_resource type="Script" uid="uid://b06wram7ecjpl" path="res://scripts/components/friend_component.gd" id="13_y0tv5"]
@@ -33,7 +33,7 @@
 [ext_resource type="Texture2D" uid="uid://dmnfcvly21u2b" path="res://assets/textures/misc/swice.png" id="30_1hl42"]
 [ext_resource type="Script" uid="uid://q4guieta4fy0" path="res://scripts/components/sound_player.gd" id="32_y0tv5"]
 [ext_resource type="AudioStream" uid="uid://bhkrufusb7owp" path="res://assets/sounds/effects/slice.wav" id="33_ipt6n"]
-[ext_resource type="Script" uid="uid://cw28uq3fxf7i4" path="res://scripts/components/directional_sprite_animator.gd" id="34_ipt6n"]
+[ext_resource type="Script" path="res://scripts/components/directional_sprite_animator.gd" id="34_ipt6n"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_jwlga"]
 radius = 5.0
@@ -172,7 +172,6 @@ script = ExtResource("34_ipt6n")
 sprite = NodePath("../../Visual/Main")
 animations = Array[ExtResource("16_v7tyf")]([SubResource("Resource_ipt6n")])
 facing = NodePath("../FacingComponent")
-metadata/_custom_type_script = "uid://cw28uq3fxf7i4"
 
 [node name="SpriteFlipper" type="Node" parent="Animation" unique_id=836201952 node_paths=PackedStringArray("facing", "sprite")]
 script = ExtResource("14_ipt6n")

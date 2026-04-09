@@ -24,43 +24,56 @@ func initialize_game() -> void:
 	WorldGrid.init_grid(64, 64)
 	print("grid initialized")
 	
-	var cell: CellData = CellData.new()
-	cell.terrain = CellData.TerrainType.WALL
+	var wall: CellData = CellData.new()
+	wall.terrain = CellData.TerrainType.WALL
 	var ground: CellData = CellData.new()
 	ground.terrain = CellData.TerrainType.GROUND
 	
-	dungeon_generator.generate()
+	#dungeon_generator.generate()
+	
+	#for y in WorldGrid.height:
+		#for x in WorldGrid.width:
+			#var cell = CellData.new()
+			#cell.terrain = CellData.TerrainType.GROUND
+			#WorldGrid.set_cell(Vector2i(x, y), cell)
 	
 	
 	
 	var player_spawn: Vector2 = Vector2(300, 50)
 	var anthurium_spawn: Vector2 = Vector2(512, 512)
-	#WorldGrid.set_rectangle(Vector2i(0,0), Vector2i(80, 46), cell)
-	#WorldGrid.set_rectangle(Vector2i(0,0), Vector2i(80, 46), cell)
-	#WorldGrid.set_cell(Vector2i(11, 11), ground)
+	WorldGrid.set_rectangle(Vector2i(0,0), Vector2i(80, 46), ground)
+	WorldGrid.set_cell(Vector2i(11, 11), ground)
 	
-	EntityManager.spawn_anthurium(anthurium_spawn)
 	
-	for i in range(15):
-		var pos: Vector2 = Vector2(randf_range(100, 550), randf_range(100, 550))
-		EntityManager.spawn_safely(&"piss_guy", pos)
-		
-	for i in range(15):
-		var pos: Vector2 = Vector2(randf_range(100, 1000), randf_range(100, 550))
-		EntityManager.spawn_safely(&"bimpy", pos)
+	#for i in range(15):
+		#var pos: Vector2 = Vector2(randf_range(100, 550), randf_range(100, 550))
+		#EntityManager.spawn_safely(&"piss_guy", pos)
+		#
+	#for i in range(15):
+		#var pos: Vector2 = Vector2(randf_range(100, 1000), randf_range(100, 550))
+		#EntityManager.spawn_safely(&"bimpy", pos)
 	
 	
 	await get_tree().create_timer(1).timeout
-	WorldGrid.hide_map()
+	
 	EntityManager.spawn_as_player(&"focks", player_spawn)
-	EntityManager.spawn_safely(&"bimpy", Vector2i(100, 150))
-	EntityManager.spawn_safely(&"dcube_beta", Vector2i(200, 150))
-	EntityManager.spawn_safely(&"dcube_alpha", Vector2i(700, 150))
-	EntityManager.spawn_safely(&"dcube_beta", Vector2i(700, 500))
-	EntityManager.spawn_safely(&"ecube_gamma", Vector2i(500, 150))
-	EntityManager.spawn_safely(&"ecube_gamma", Vector2i(550, 150))
-	EntityManager.spawn_safely(&"ecube_gamma", Vector2i(500, 200))
-	EntityManager.spawn_safely(&"arcbimpy", Vector2i(100, 125))
+	#var gx: int = 5
+	#var gy: int = 5
+	#for x in range(gx):
+		#for y in range(gy):
+			#EntityManager.spawn_on_tile(&"anthurium_grass", Vector2i(x, y))
+			
+	EntityManager.spawn_on_tile(&"anthurium_grass", Vector2(5, 5))
+	EntityManager.spawn_on_tile(&"anthurium_growth_node", Vector2(15, 3))
+	#EntityManager.spawn_safely(&"bimpy", Vector2i(100, 150))
+	#EntityManager.spawn_safely(&"dcube_beta", Vector2i(200, 150))
+	#EntityManager.spawn_safely(&"dcube_alpha", Vector2i(700, 150))
+	#EntityManager.spawn_safely(&"dcube_beta", Vector2i(700, 500))
+	#EntityManager.spawn_safely(&"ecube_gamma", Vector2i(500, 150))
+	#EntityManager.spawn_safely(&"ecube_gamma", Vector2i(550, 150))
+	#EntityManager.spawn_safely(&"ecube_gamma", Vector2i(500, 200))
+	#EntityManager.spawn_safely(&"arcbimpy", Vector2i(100, 125))
+	WorldGrid.hide_map()
 	WorldGrid.reveal_from_player()
 	GameState.change_game_state(GameState.Status.PLAYING)
 	

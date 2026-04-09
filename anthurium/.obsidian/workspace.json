@@ -15,9 +15,9 @@
               "state": {
                 "file": "Main.canvas",
                 "viewState": {
-                  "x": -18932.936716254026,
-                  "y": -7391.0038502056495,
-                  "zoom": -0.2000000000000004
+                  "x": -13756.535923116617,
+                  "y": -9010.676743974751,
+                  "zoom": 0.5999999999999996
                 }
               },
               "icon": "lucide-layout-dashboard",
@@ -48,6 +48,33 @@
               },
               "icon": "lucide-folder-closed",
               "title": "Files"
+            }
+          },
+          {
+            "id": "d1293681deaf74bf",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "bca14f745dfa9437",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
             }
           }
         ]
@@ -155,11 +182,11 @@
             }
           }
         ],
-        "currentTab": 5
+        "currentTab": 4
       }
     ],
     "direction": "horizontal",
-    "width": 300,
+    "width": 363,
     "collapsed": true
   },
   "left-ribbon": {

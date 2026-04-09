@@ -1,0 +1,50 @@
+[gd_scene format=3 uid="uid://dmsa1dklhjm6m"]
+
+[ext_resource type="Script" uid="uid://8lowpdf5nvix" path="res://scripts/classes/Entity.gd" id="1_j7s2s"]
+[ext_resource type="Texture2D" uid="uid://c3hvtar64et7u" path="res://assets/textures/characters/plants/flower1.png" id="2_7pju5"]
+[ext_resource type="Script" uid="uid://bcddsgptyofod" path="res://scripts/components/anthurium_grass_component.gd" id="3_4u2gf"]
+[ext_resource type="Script" uid="uid://dhwso0wa0hjnq" path="res://scripts/components/destroy_when_wall_placed_over.gd" id="5_7pju5"]
+[ext_resource type="Script" uid="uid://cvaptyot73a1d" path="res://scripts/components/visibility_component.gd" id="6_k3fsp"]
+[ext_resource type="Script" uid="uid://b7fumud38ekr4" path="res://scripts/components/hide_in_invisible_cells.gd" id="7_2oaoo"]
+[ext_resource type="Script" uid="uid://cps7owvkpo4og" path="res://scripts/components/movement/anthurium_component.gd" id="7_k3fsp"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_opul4"]
+size = Vector2(4, 4)
+
+[node name="Grass" type="CharacterBody2D" unique_id=646708372]
+texture_filter = 1
+collision_layer = 256
+collision_mask = 0
+script = ExtResource("1_j7s2s")
+metadata/_custom_type_script = "uid://8lowpdf5nvix"
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=99261848]
+texture = ExtResource("2_7pju5")
+offset = Vector2(0, -4)
+hframes = 6
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1264504699]
+shape = SubResource("RectangleShape2D_opul4")
+
+[node name="AnthuriumComponent" type="Node" parent="." unique_id=735140732]
+script = ExtResource("7_k3fsp")
+metadata/_custom_type_script = "uid://cps7owvkpo4og"
+
+[node name="AnthuriumGrassComponent" type="Node" parent="." unique_id=721037840 node_paths=PackedStringArray("sprite")]
+script = ExtResource("3_4u2gf")
+sprite = NodePath("../Sprite2D")
+metadata/_custom_type_script = "uid://bcddsgptyofod"
+
+[node name="DestroyWhenWallPlacedOver" type="Node" parent="." unique_id=321289208]
+script = ExtResource("5_7pju5")
+metadata/_custom_type_script = "uid://dhwso0wa0hjnq"
+
+[node name="VisibilityComponent" type="Node" parent="." unique_id=2137107522 node_paths=PackedStringArray("nodes")]
+script = ExtResource("6_k3fsp")
+nodes = [NodePath("../Sprite2D")]
+metadata/_custom_type_script = "uid://cvaptyot73a1d"
+
+[node name="HideInInvisibleCells" type="Node" parent="." unique_id=1266452380 node_paths=PackedStringArray("visibility")]
+script = ExtResource("7_2oaoo")
+visibility = NodePath("../VisibilityComponent")
+metadata/_custom_type_script = "uid://b7fumud38ekr4"

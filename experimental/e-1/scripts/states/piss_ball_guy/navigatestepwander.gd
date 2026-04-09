@@ -9,9 +9,11 @@ class_name PathfindStepWandererState
 @export var sound: SoundPlayer
 
 @export var radius: float = 100
+@export var chance_to_exit_state: float = 0.05
 
 func _on_stepping() -> void:
-	sound.play_sound()
+	if sound:
+		sound.play_sound()
 
 func _on_stepped() -> void:
 	decide_to_switch()
@@ -38,9 +40,10 @@ func physics_update(delta: float) -> void:
 func exit() -> void:
 	movement.stepped.disconnect(_on_stepped)
 	movement.stepping.disconnect(_on_stepping)
+	input.move_input_direction = Vector2.ZERO
 
 
 func decide_to_switch() -> void:
-	if randf() < 0.05:
+	if randf() < chance_to_exit_state:
 		state_machine.switch(exit_state)
 		

@@ -86,7 +86,7 @@ func set_cell(coords: Vector2i, cell: CellData, reveal_area: bool = true) -> voi
 
 func hide_cell(coords: Vector2i) -> void:
 	var cell = get_cell(coords)
-	cell.set("invisible", true)
+	cell.invisible = true
 	_visible_cells.erase(coords)
 	if _batching:
 		_smelly_cells[coords] = true
@@ -96,7 +96,7 @@ func hide_cell(coords: Vector2i) -> void:
 
 func reveal_cell(coords: Vector2i) -> void:
 	var cell = get_cell(coords)
-	cell.set("invisible", false)
+	cell.invisible = false
 	_visible_cells[coords] = true
 	if _batching:
 		_smelly_cells[coords] = false
@@ -215,7 +215,7 @@ func set_rectangle(position: Vector2i, size: Vector2i, cell: CellData) -> void:
 	var rectangle: Rect2i = Rect2i(position, size)
 	for y in range(rectangle.position.y, rectangle.position.y + rectangle.size.y):
 		for x in range(rectangle.position.x, rectangle.position.x + rectangle.size.x):
-			WorldGrid.set_cell(Vector2i(x, y), cell)
+			WorldGrid.set_cell(Vector2i(x, y), cell.duplicate())
 
 func set_circle(center: Vector2i, radius: int, cell: CellData, filled: bool = true) -> void:
 	for y in range(center.y - radius, center.y + radius + 1):
@@ -226,9 +226,9 @@ func set_circle(center: Vector2i, radius: int, cell: CellData, filled: bool = tr
 			var dist = Vector2(coords - center).length()
 			if filled and dist <= radius:
 				
-				set_cell(coords, cell)
+				set_cell(coords, cell.duplicate())
 			elif not filled and dist <= radius and dist > radius - 1.0:
-				set_cell(coords, cell)
+				set_cell(coords, cell.duplicate())
 
 # ------------------------------------
 # util visibility

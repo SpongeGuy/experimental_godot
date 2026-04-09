@@ -20,9 +20,10 @@ func _on_cells_visibled(batch: Dictionary[Vector2i, bool]) -> void:
 		if WorldGrid.world_to_tile(entity.global_position) == coords:
 			cell = WorldGrid.get_cell(coords)
 			inside = true
+			break
 	if not inside:
 		return
-		
+	
 	resolve_visibility(cell)
 	
 func _on_cell_hidden(coords: Vector2i) -> void:

@@ -16,8 +16,8 @@ signal entity_killed(entity: Node2D)
 signal entity_destroyed(entity: Node2D)
 
 # anthurium
-signal anthurium_spawned(entity: Node2D)
-signal anthurium_died()
+signal anthurium_core_spawned(entity: Node2D)
+signal anthurium_core_died()
 
 # time
 signal day_state_changed(state: TimeManager.DayState, name: String)

@@ -9,11 +9,11 @@
 [ext_resource type="Script" uid="uid://5nxa432thrp5" path="res://scripts/components/timer.gd" id="7_jvl01"]
 [ext_resource type="Script" uid="uid://ibgyf864g08i" path="res://scripts/components/manual_state_switcher.gd" id="8_86vhu"]
 [ext_resource type="Script" uid="uid://snopn0q86518" path="res://scripts/classes/StateMachine.gd" id="9_rfcm3"]
-[ext_resource type="Script" uid="uid://d4ghe7tmemb7n" path="res://scripts/states/plop.gd" id="10_lw147"]
+[ext_resource type="Script" uid="uid://d4ghe7tmemb7n" path="res://scripts/states/deprecated/plop.gd" id="10_lw147"]
 [ext_resource type="PackedScene" uid="uid://w3jdtsh8hjup" path="res://scenes/entities/pack_1/items/plopp_orb.tscn" id="11_4jcyr"]
-[ext_resource type="Script" uid="uid://dku8bbt6kwf0j" path="res://scripts/states/idle.gd" id="12_ph88t"]
-[ext_resource type="Script" uid="uid://87ix88q4hl51" path="res://scripts/states/pathfind/pathfind_wander_and_seek.gd" id="13_udt45"]
-[ext_resource type="Script" uid="uid://b8tiyc5hi81ap" path="res://scripts/states/death.gd" id="14_yyxib"]
+[ext_resource type="Script" uid="uid://dku8bbt6kwf0j" path="res://scripts/states/deprecated/idle.gd" id="12_ph88t"]
+[ext_resource type="Script" uid="uid://87ix88q4hl51" path="res://scripts/states/deprecated/pathfind/pathfind_wander_and_seek.gd" id="13_udt45"]
+[ext_resource type="Script" uid="uid://b8tiyc5hi81ap" path="res://scripts/states/piss_ball_guy/death.gd" id="14_yyxib"]
 [ext_resource type="Script" uid="uid://dk6vro3btpxyj" path="res://scripts/classes/Hitbox.gd" id="15_3vv12"]
 [ext_resource type="Script" uid="uid://rhl072pc6k5q" path="res://scripts/components/health_component.gd" id="16_k3o1b"]
 [ext_resource type="Script" uid="uid://bfeyy2elbrj4b" path="res://scripts/components/damage_animation_component.gd" id="17_5pvve"]
@@ -139,10 +139,9 @@ metadata/_custom_type_script = "uid://c58w8kgm688wm"
 script = ExtResource("21_fgcpw")
 metadata/_custom_type_script = "uid://dmr1e3ur3lqop"
 
-[node name="KnockbackComponent" type="Node" parent="Behavior" unique_id=2009989506 node_paths=PackedStringArray("health", "movement")]
+[node name="KnockbackComponent" type="Node" parent="Behavior" unique_id=2009989506 node_paths=PackedStringArray("health")]
 script = ExtResource("22_nvcde")
 health = NodePath("../../Health&Damage/HealthComponent")
-movement = NodePath("../MovementComponent")
 metadata/_custom_type_script = "uid://2b6l1sxmcd5r"
 
 [node name="Hitbox" type="Area2D" parent="." unique_id=1802576707]
