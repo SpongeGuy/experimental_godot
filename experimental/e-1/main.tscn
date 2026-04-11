@@ -13,8 +13,12 @@
 [ext_resource type="Script" uid="uid://dkp5njvq1t3o" path="res://scripts/ui/debug_ui.gd" id="10_ycdy4"]
 [ext_resource type="Script" uid="uid://bnx1xoe860b0e" path="res://hud_particle_controller.gd" id="11_vivmo"]
 [ext_resource type="PackedScene" uid="uid://c0lhjlvaxvoce" path="res://scenes/systems/ui/screen.tscn" id="11_ycdy4"]
+[ext_resource type="Shader" uid="uid://b5t4jo3en5wdy" path="res://rainbow.gdshader" id="12_2cqfq"]
 [ext_resource type="PackedScene" uid="uid://x8blmpfejth8" path="res://scenes/systems/ui/hud.tscn" id="12_w48qg"]
 [ext_resource type="PackedScene" uid="uid://bnuglwwl8cbdc" path="res://scenes/systems/ui/game_view.tscn" id="13_vivmo"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_yaehf"]
+shader = ExtResource("12_2cqfq")
 
 [node name="Main" type="Node" unique_id=1100438637]
 
@@ -67,8 +71,21 @@ metadata/_custom_type_script = "uid://bnx1xoe860b0e"
 [node name="UI" type="CanvasLayer" parent="." unique_id=2071487813]
 layer = 5
 
-[node name="Debug" type="Control" parent="UI" unique_id=436922413 node_paths=PackedStringArray("vbox", "l1", "l2", "camera")]
-modulate = Color(1, 1, 1, 0.49803922)
+[node name="DebugHelper" type="Node2D" parent="UI" unique_id=780434413 node_paths=PackedStringArray("vbox", "title", "l1", "l2", "l3", "l4", "camera", "game_master")]
+script = ExtResource("10_ycdy4")
+show = true
+vbox = NodePath("../Debug/VBoxContainer")
+title = NodePath("../Debug/VBoxContainer/title")
+l1 = NodePath("../Debug/VBoxContainer/Label")
+l2 = NodePath("../Debug/VBoxContainer/Label2")
+l3 = NodePath("../Debug/VBoxContainer/Label3")
+l4 = NodePath("../Debug/VBoxContainer/Label4")
+camera = NodePath("../../GameMaster/CameraController")
+game_master = NodePath("../../GameMaster")
+
+[node name="Debug" type="Control" parent="UI" unique_id=436922413]
+modulate = Color(1, 1, 1, 0.7764706)
+material = SubResource("ShaderMaterial_yaehf")
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -76,22 +93,29 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("10_w48qg")
-script = ExtResource("10_ycdy4")
-show = true
-vbox = NodePath("VBoxContainer")
-l1 = NodePath("VBoxContainer/Label")
-l2 = NodePath("VBoxContainer/Label2")
-camera = NodePath("../../GameMaster/CameraController")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="UI/Debug" unique_id=912685774]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
+[node name="title" type="Label" parent="UI/Debug/VBoxContainer" unique_id=1967289439]
+layout_mode = 2
+
 [node name="Label" type="Label" parent="UI/Debug/VBoxContainer" unique_id=1551783464]
 layout_mode = 2
 
 [node name="Label2" type="Label" parent="UI/Debug/VBoxContainer" unique_id=529828005]
+layout_mode = 2
+text = "job
+job"
+
+[node name="Label3" type="Label" parent="UI/Debug/VBoxContainer" unique_id=463304919]
+layout_mode = 2
+text = "job
+job"
+
+[node name="Label4" type="Label" parent="UI/Debug/VBoxContainer" unique_id=311188411]
 layout_mode = 2
 text = "job
 job"

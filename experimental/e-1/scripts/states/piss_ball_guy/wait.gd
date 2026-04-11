@@ -10,7 +10,8 @@ var _timer: float = 0.0
 
 func enter() -> void:
 	_timer = randf_range(min_time, max_time)
-	facing.change_direction(Vector2.RIGHT)
+	if facing:
+		facing.change_direction(Vector2.RIGHT)
 	
 func update(delta: float) -> void:
 	_timer -= delta

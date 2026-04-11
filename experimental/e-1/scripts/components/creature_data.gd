@@ -65,7 +65,6 @@ enum ConsumerType{
 
 
 @export var display_name: String = ""
-@export var point_cost: int = 0
 @export var behavior_class: BehaviorClass
 @export var consumer_type: ConsumerType
 @export var tags: Array[CreatureTag] = []
@@ -74,4 +73,5 @@ enum ConsumerType{
 @export var prey_tags: Array[CreatureTag] = []
 
 
-@export var spawn_weight: float = 1.0
+var spawn_weight: float = 1.0
+var point_cost: int = 0

@@ -10,6 +10,7 @@ enum FoodType{ NEUTRAL, HERB, SYNTHETIC, MEAT }
 signal eaten()
 
 
+
 func eat(power: int = 1) -> void:
 	stages -= power
 	if stages <= 0:

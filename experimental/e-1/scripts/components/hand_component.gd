@@ -67,14 +67,15 @@ func toss_item(direction: Vector2, force: float) -> void:
 	if not item:
 		return
 	var kb: KnockbackComponent = item.get_component(KnockbackComponent)
-	if not kb:
-		return
+	
 	item.position += direction * throw_tp_distance
-	kb.apply_knockback(direction, force)
+	if kb:
+		kb.apply_knockback(direction, force)
 	let_go_of_item()
 
 	
 func let_go_of_item() -> void:
+	print("shit")
 	if not item:
 		return
 	var pickupable: PickupableComponent = item.get_component(PickupableComponent)

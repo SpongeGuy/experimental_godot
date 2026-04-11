@@ -6,16 +6,19 @@ class_name AnthuriumComponent
 # ---------------------------------
 
 var basename: StringName
-var pissar: StringName = &"pissar"
-
-var parts: Dictionary[StringName, int] = {
-	&"pissar": 2
-}
+@export var health_component: HealthComponent
 
 # Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	if health_component:
+		health_component.taken_damage.connect(_on_hit)
+
 func _on_registered() -> void:
-	basename = entity.get_basename()
-	AnthuriumBrain.add_active_part(basename)
+	AnthuriumBrain.add_active_part(entity)
 	
 func _exit_tree() -> void:
-	AnthuriumBrain.remove_active_part(basename)
+	AnthuriumBrain.remove_active_part(entity)
+
+func _on_hit(amount: float, source: Entity) -> void:
+	AnthuriumBrain.just_took_damage.emit(amount, source)
+	

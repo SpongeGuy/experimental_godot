@@ -15,4 +15,5 @@ func on_released(hold_duration: float) -> void:
 
 func _execute() -> void:
 	hand.toss_item(facing.get_direction(), toss_force)
+	
 	finished.emit()

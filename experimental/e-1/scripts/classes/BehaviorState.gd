@@ -4,7 +4,7 @@ class_name BehaviorState
 var state_machine: StateMachine
 
 @export var cooldown: float = 0.0
-var cooldown_time: float = 0.0
+@export var cooldown_timer: float = 0.0
 
 func _ready() -> void:
 	state_machine = get_parent()
@@ -12,8 +12,8 @@ func _ready() -> void:
 		push_error(self, ": parent is not StateMachine!")
 		
 func _process(delta: float) -> void:
-	if cooldown_time > 0.0:
-		cooldown_time -= delta
+	if cooldown_timer > 0.0:
+		cooldown_timer -= delta
 
 func enter() -> void:
 	pass
@@ -28,4 +28,4 @@ func exit() -> void:
 	pass
 
 func apply_cooldown() -> void:
-	cooldown_time += cooldown
+	cooldown_timer += cooldown

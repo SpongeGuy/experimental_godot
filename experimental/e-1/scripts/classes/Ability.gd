@@ -11,6 +11,7 @@ class_name Ability
 @export var cooldown: float = 0
 @export var cast_time: float = 0
 @export var disabled: bool = false
+@export var icon: Texture2D
 
 signal finished
 

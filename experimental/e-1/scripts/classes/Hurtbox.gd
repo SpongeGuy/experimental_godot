@@ -7,9 +7,10 @@ class_name Hurtbox
 
 var tween: Tween
 
+signal activated
+
 func _ready() -> void:
 	collision_layer = 1 << 7 # this is a hurtbox
-	collision_mask = 1 << 6 # look for hitboxes (probably unnecessary)
 	if not constant_hurtbox:
 		collision_shape.disabled = true
 	else:
@@ -28,6 +29,7 @@ func activate(start: float, end: float) -> Signal:
 	if tween: 
 		tween.kill()
 	collision_shape.disabled = true
+	activated.emit()
 	tween = create_tween()
 	tween.tween_callback(func(): collision_shape.disabled = false).set_delay(start)
 	tween.tween_callback(func(): collision_shape.disabled = true).set_delay(end - start)

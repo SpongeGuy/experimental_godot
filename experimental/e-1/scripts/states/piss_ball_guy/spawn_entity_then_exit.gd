@@ -1,5 +1,5 @@
 extends BehaviorState
-class_name SpawnEntityThenExit
+class_name SpawnEntityThenExitState
 
 @export var spawner: EntitySpawner
 @export var time_to_spawn: float = 0.0

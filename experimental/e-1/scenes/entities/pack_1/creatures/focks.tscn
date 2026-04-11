@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://8lowpdf5nvix" path="res://scripts/classes/Entity.gd" id="1_7d0cd"]
 [ext_resource type="Texture2D" uid="uid://b0spj6h1gkhif" path="res://assets/textures/characters/focks.png" id="2_e1qh5"]
 [ext_resource type="Texture2D" uid="uid://brm8tbiplb1bk" path="res://assets/textures/misc/shadow.png" id="3_qyswd"]
+[ext_resource type="Script" uid="uid://cfrmrclnx8ldt" path="res://scripts/components/saturation_component.gd" id="4_e47js"]
 [ext_resource type="Script" uid="uid://rhl072pc6k5q" path="res://scripts/components/health_component.gd" id="4_jwlga"]
 [ext_resource type="Script" uid="uid://bfeyy2elbrj4b" path="res://scripts/components/damage_animation_component.gd" id="5_xoj7o"]
 [ext_resource type="Script" uid="uid://ibgyf864g08i" path="res://scripts/components/manual_state_switcher.gd" id="6_sumsn"]
@@ -30,9 +31,12 @@
 [ext_resource type="Script" uid="uid://dlrq36ejwcoou" path="res://scripts/abilities/try_drop_entity.gd" id="28_0qk0a"]
 [ext_resource type="Script" uid="uid://cgl3uo2e4owmk" path="res://scripts/components/player_input_driver.gd" id="29_j83bn"]
 [ext_resource type="Script" uid="uid://bn7rbs36wuutg" path="res://scripts/abilities/swipe.gd" id="29_jr5rt"]
+[ext_resource type="Texture2D" uid="uid://dp2c6migtkbt3" path="res://assets/textures/ui/grab_icon.png" id="29_oduj7"]
 [ext_resource type="Texture2D" uid="uid://dmnfcvly21u2b" path="res://assets/textures/misc/swice.png" id="30_1hl42"]
+[ext_resource type="Texture2D" uid="uid://ca7rqfmh6u3up" path="res://assets/textures/ui/drop_icon.png" id="31_oduj7"]
 [ext_resource type="Script" uid="uid://q4guieta4fy0" path="res://scripts/components/sound_player.gd" id="32_y0tv5"]
 [ext_resource type="AudioStream" uid="uid://bhkrufusb7owp" path="res://assets/sounds/effects/slice.wav" id="33_ipt6n"]
+[ext_resource type="Texture2D" uid="uid://cgskihl2d35os" path="res://assets/textures/ui/claw_icon.png" id="33_oduj7"]
 [ext_resource type="Script" path="res://scripts/components/directional_sprite_animator.gd" id="34_ipt6n"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_jwlga"]
@@ -93,6 +97,10 @@ hframes = 3
 frame = 2
 
 [node name="Health&Damage" type="Node" parent="." unique_id=1393877488]
+
+[node name="SaturationComponent" type="Node" parent="Health&Damage" unique_id=288599577]
+script = ExtResource("4_e47js")
+metadata/_custom_type_script = "uid://cfrmrclnx8ldt"
 
 [node name="HealthComponent" type="Node" parent="Health&Damage" unique_id=1840254880 node_paths=PackedStringArray("hitbox")]
 script = ExtResource("4_jwlga")
@@ -192,7 +200,7 @@ metadata/_custom_type_script = "uid://b2i2svq4b2ia2"
 [node name="HandArea" type="Area2D" parent="Animation/Rotator" unique_id=1698964333]
 position = Vector2(9, 0)
 collision_layer = 0
-collision_mask = 6
+collision_mask = 262
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Animation/Rotator/HandArea" unique_id=1118485361]
 shape = SubResource("RectangleShape2D_jurdk")
@@ -249,12 +257,14 @@ metadata/_custom_type_script = "uid://byeskwmhfllnd"
 script = ExtResource("26_sumsn")
 hand = NodePath("../../HandComponent")
 cast_time = 2.0
+icon = ExtResource("29_oduj7")
 metadata/_custom_type_script = "uid://dy1nhmegj3sv7"
 
 [node name="AbilityTryDropEntity" type="Node" parent="AbilityManager" unique_id=646898097 node_paths=PackedStringArray("hand", "facing")]
 script = ExtResource("28_0qk0a")
 hand = NodePath("../../HandComponent")
 facing = NodePath("../../Animation/FacingComponent")
+icon = ExtResource("31_oduj7")
 metadata/_custom_type_script = "uid://dlrq36ejwcoou"
 
 [node name="AbilitySwipe" type="Node" parent="AbilityManager" unique_id=609262734 node_paths=PackedStringArray("animator", "hurtbox", "movement", "sound_player")]
@@ -263,6 +273,7 @@ animator = NodePath("../../Swiper/SpriteAnimator")
 hurtbox = NodePath("../../Swiper/Hurtbox")
 movement = NodePath("../../MovementComponent")
 sound_player = NodePath("../../Swiper/SoundPlayer")
+icon = ExtResource("33_oduj7")
 metadata/_custom_type_script = "uid://bn7rbs36wuutg"
 
 [node name="Swiper" type="Node2D" parent="." unique_id=81735770 node_paths=PackedStringArray("facing")]
@@ -274,6 +285,7 @@ metadata/_custom_type_script = "uid://b2i2svq4b2ia2"
 [node name="Swipe" type="Sprite2D" parent="Swiper" unique_id=1045278991]
 position = Vector2(13, 0)
 texture = ExtResource("30_1hl42")
+flip_h = true
 hframes = 4
 frame = 3
 

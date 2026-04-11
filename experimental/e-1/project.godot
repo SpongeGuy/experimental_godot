@@ -108,9 +108,13 @@ debug_2={
 2d_physics/layer_4="projectiles"
 2d_physics/layer_5="fog"
 2d_physics/layer_6="proximity"
-2d_physics/layer_7="hitbox"
-2d_physics/layer_8="hurtbox"
+2d_physics/layer_7="hitbox_normal"
+2d_physics/layer_8="hurtbox_normal"
 2d_physics/layer_9="plants"
+2d_physics/layer_13="hitbox_flying"
+2d_physics/layer_14="hurtbox_flying"
+2d_physics/layer_15="hitbox_ground"
+2d_physics/layer_16="hurtbox_ground"
 
 [physics]
 

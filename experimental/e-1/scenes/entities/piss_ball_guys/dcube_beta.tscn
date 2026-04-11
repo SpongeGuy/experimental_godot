@@ -24,7 +24,6 @@
 [ext_resource type="Script" uid="uid://bfeyy2elbrj4b" path="res://scripts/components/damage_animation_component.gd" id="21_5t8td"]
 [ext_resource type="Script" uid="uid://b2i2svq4b2ia2" path="res://scripts/components/rotator.gd" id="23_tbd16"]
 [ext_resource type="Texture2D" uid="uid://cnw3rsu876npn" path="res://assets/textures/ui/icon-gold.png" id="24_rdhn5"]
-[ext_resource type="Script" uid="uid://jrg503l8awgj" path="res://scripts/components/proximity_detector.gd" id="25_yjd7y"]
 [ext_resource type="Script" uid="uid://bfk2v7v3dct6k" path="res://scripts/components/obstruction_detector.gd" id="26_q7bur"]
 [ext_resource type="Script" uid="uid://cvaptyot73a1d" path="res://scripts/components/visibility_component.gd" id="28_ha2c4"]
 [ext_resource type="Script" uid="uid://b7fumud38ekr4" path="res://scripts/components/hide_in_invisible_cells.gd" id="29_oqt4r"]
@@ -54,9 +53,9 @@ texture = ExtResource("2_qo4dc")
 
 [node name="CreatureData" type="Node" parent="." unique_id=1212302661]
 script = ExtResource("3_ktc6t")
-tags = Array[int]([13, 11, 23])
 behavior_class = 4
 consumer_type = 4
+tags = Array[int]([13, 11, 23])
 metadata/_custom_type_script = "uid://6g5weury2p"
 
 [node name="StateMachine" type="Node" parent="." unique_id=1010918204 node_paths=PackedStringArray("initial_state")]
@@ -106,12 +105,11 @@ sound = NodePath("../../SoundPlayerEngage")
 next_state = NodePath("../AlignToGridState")
 metadata/_custom_type_script = "uid://ctpsb4e0ntxyf"
 
-[node name="MovementComponent" type="Node" parent="." unique_id=1099508626 node_paths=PackedStringArray("knockback", "input")]
+[node name="MovementComponent" type="Node" parent="." unique_id=1099508626 node_paths=PackedStringArray("input")]
 script = ExtResource("10_qp3nj")
 max_speed = 500.0
 acceleration = 3000.0
 friction = 1000.0
-knockback = NodePath("")
 input = NodePath("../InputComponent")
 metadata/_custom_type_script = "uid://c58w8kgm688wm"
 
@@ -193,6 +191,7 @@ metadata/_custom_type_script = "uid://b2i2svq4b2ia2"
 
 [node name="Area2D" type="Area2D" parent="Rotator" unique_id=78428620]
 position = Vector2(8, 0)
+collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Rotator/Area2D" unique_id=408956433]
 shape = SubResource("CircleShape2D_dd7kf")
@@ -219,15 +218,9 @@ position = Vector2(-5, 5)
 scale = Vector2(0.4, 0.4)
 texture = ExtResource("24_rdhn5")
 
-[node name="ProximityDetector" type="Node" parent="." unique_id=1766637649 node_paths=PackedStringArray("area")]
-script = ExtResource("25_yjd7y")
-area = NodePath("../Rotator/Area2D")
-collision_mask = 1
-metadata/_custom_type_script = "uid://jrg503l8awgj"
-
-[node name="ObstructionDetector" type="Node" parent="." unique_id=543693916 node_paths=PackedStringArray("proximity")]
+[node name="ObstructionDetector" type="Node" parent="." unique_id=543693916 node_paths=PackedStringArray("area")]
 script = ExtResource("26_q7bur")
-proximity = NodePath("../ProximityDetector")
+area = NodePath("../Rotator/Area2D")
 metadata/_custom_type_script = "uid://bfk2v7v3dct6k"
 
 [node name="VisibilityComponent" type="Node" parent="." unique_id=1737589856 node_paths=PackedStringArray("nodes")]

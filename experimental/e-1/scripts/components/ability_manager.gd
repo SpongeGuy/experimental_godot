@@ -15,9 +15,13 @@ func _ready() -> void:
 	input.input_just_released.connect(_on_input_just_released)
 
 func _on_input_just_pressed(id: int) -> void:
+	if not abilities.get(id):
+		return
 	abilities[id].on_pressed()
 
 func _on_input_just_released(id: int, held_time: float) -> void:
+	if not abilities.get(id):
+		return
 	abilities[id].on_released(held_time)
 
 func _process(delta: float) -> void:

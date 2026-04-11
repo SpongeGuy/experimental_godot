@@ -2,17 +2,18 @@
 
 [ext_resource type="Script" uid="uid://8lowpdf5nvix" path="res://scripts/classes/Entity.gd" id="1_focxj"]
 [ext_resource type="Script" uid="uid://cps7owvkpo4og" path="res://scripts/components/movement/anthurium_component.gd" id="2_q3unh"]
-[ext_resource type="Script" uid="uid://b0488tn8mef07" path="res://scripts/components/entity_spawner.gd" id="3_tg4v5"]
+[ext_resource type="Script" uid="uid://blxsnic68wb8k" path="res://scripts/components/anthurium_growth_node_spawner_component.gd" id="3_1ip60"]
 [ext_resource type="Script" uid="uid://bxsrgbr0uwisl" path="res://scripts/components/movement/step_movement_component.gd" id="4_y5mee"]
 [ext_resource type="Script" uid="uid://snopn0q86518" path="res://scripts/classes/StateMachine.gd" id="5_pi3y5"]
-[ext_resource type="Script" uid="uid://bmyd8pplkim7y" path="res://scripts/states/piss_ball_guy/navigatestepwander.gd" id="6_y5mee"]
+[ext_resource type="Script" uid="uid://1oxbofx3dpm7" path="res://scripts/states/piss_ball_guy/navigatesteptolongtermgoal.gd" id="6_j0xam"]
 [ext_resource type="Script" uid="uid://bolv5v2qg2xl0" path="res://scripts/components/facing_component.gd" id="7_1ip60"]
 [ext_resource type="Script" uid="uid://dgje0wb2g3ax" path="res://scripts/states/piss_ball_guy/spawn_entity_then_exit.gd" id="7_pi3y5"]
 [ext_resource type="Script" uid="uid://b8tiyc5hi81ap" path="res://scripts/states/piss_ball_guy/death.gd" id="8_j0xam"]
 [ext_resource type="Script" uid="uid://dmr1e3ur3lqop" path="res://scripts/components/input_component.gd" id="8_q3unh"]
-[ext_resource type="Script" uid="uid://b37goyiyxpfrb" path="res://scripts/states/piss_ball_guy/spawn_anthurium_part_then_exit.gd" id="9_hahv6"]
 [ext_resource type="Script" uid="uid://bcbkki6gbrkma" path="res://scripts/components/navigation_helper.gd" id="9_j0xam"]
+[ext_resource type="Script" uid="uid://b37goyiyxpfrb" path="res://scripts/states/piss_ball_guy/anthurium/spawn_anthurium_part_then_exit.gd" id="9_q3unh"]
 [ext_resource type="Script" uid="uid://ibgyf864g08i" path="res://scripts/components/manual_state_switcher.gd" id="13_hahv6"]
+[ext_resource type="Script" uid="uid://cu81acdifmvso" path="res://scripts/classes/Memory.gd" id="14_j0xam"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_m5uaj"]
 
@@ -30,10 +31,10 @@ shape = SubResource("CircleShape2D_m5uaj")
 script = ExtResource("2_q3unh")
 metadata/_custom_type_script = "uid://cps7owvkpo4og"
 
-[node name="flowerspawner" type="Node" parent="." unique_id=28724632]
-script = ExtResource("3_tg4v5")
+[node name="SpawnerComponent" type="Node" parent="." unique_id=191718013]
+script = ExtResource("3_1ip60")
 entity_type = &"anthurium_grass"
-metadata/_custom_type_script = "uid://b0488tn8mef07"
+metadata/_custom_type_script = "uid://blxsnic68wb8k"
 
 [node name="StepMovementComponent" type="Node" parent="." unique_id=1872151586 node_paths=PackedStringArray("input")]
 script = ExtResource("4_y5mee")
@@ -42,35 +43,38 @@ step_factor = 25.0
 input = NodePath("../InputComponent")
 metadata/_custom_type_script = "uid://bxsrgbr0uwisl"
 
-[node name="StateMachine" type="Node" parent="." unique_id=1773647338 node_paths=PackedStringArray("initial_state")]
+[node name="StateMachine" type="Node" parent="." unique_id=1773647338 node_paths=PackedStringArray("initial_state", "death_state")]
 script = ExtResource("5_pi3y5")
-initial_state = NodePath("PathfindStepWandererState")
+initial_state = NodePath("PathfindStep")
+death_state = NodePath("DeathState")
 metadata/_custom_type_script = "uid://snopn0q86518"
 
-[node name="PathfindStepWandererState" type="Node" parent="StateMachine" unique_id=945391787 node_paths=PackedStringArray("navigation", "facing", "input", "movement", "exit_state")]
-script = ExtResource("6_y5mee")
+[node name="PathfindStep" type="Node" parent="StateMachine" unique_id=609931103 node_paths=PackedStringArray("navigation", "facing", "input", "movement", "exit_state", "memory")]
+script = ExtResource("6_j0xam")
 navigation = NodePath("../../NavigationHelper")
 facing = NodePath("../../FacingComponent")
 input = NodePath("../../InputComponent")
 movement = NodePath("../../StepMovementComponent")
 exit_state = NodePath("../SpawnFlower")
+memory = NodePath("../../Memory")
 radius = 250.0
 chance_to_exit_state = 1.0
-metadata/_custom_type_script = "uid://bmyd8pplkim7y"
+metadata/_custom_type_script = "uid://1oxbofx3dpm7"
 
 [node name="SpawnFlower" type="Node" parent="StateMachine" unique_id=1154237081 node_paths=PackedStringArray("spawner", "exit_state")]
 script = ExtResource("7_pi3y5")
-spawner = NodePath("../../flowerspawner")
-exit_state = NodePath("../PathfindStepWandererState")
+spawner = NodePath("../../SpawnerComponent")
+exit_state = NodePath("../PathfindStep")
 metadata/_custom_type_script = "uid://dgje0wb2g3ax"
 
 [node name="DeathState" type="Node" parent="StateMachine" unique_id=1020373545]
 script = ExtResource("8_j0xam")
 metadata/_custom_type_script = "uid://b8tiyc5hi81ap"
 
-[node name="SpawnAnthuriumPartThenExit" type="Node" parent="StateMachine" unique_id=1241587149 node_paths=PackedStringArray("exit_state")]
-script = ExtResource("9_hahv6")
+[node name="SpawnAnthuriumPartThenExit" type="Node" parent="StateMachine" unique_id=1528704550 node_paths=PackedStringArray("exit_state", "spawner")]
+script = ExtResource("9_q3unh")
 exit_state = NodePath("../DeathState")
+spawner = NodePath("../../SpawnerComponent")
 metadata/_custom_type_script = "uid://b37goyiyxpfrb"
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=1218177733]
@@ -98,5 +102,9 @@ script = ExtResource("13_hahv6")
 state_machine = NodePath("../StateMachine")
 state = NodePath("../StateMachine/SpawnAnthuriumPartThenExit")
 metadata/_custom_type_script = "uid://ibgyf864g08i"
+
+[node name="Memory" type="Node" parent="." unique_id=712179352]
+script = ExtResource("14_j0xam")
+metadata/_custom_type_script = "uid://cu81acdifmvso"
 
 [connection signal="timeout" from="Timer" to="ManualStateSwitcher" method="switch"]

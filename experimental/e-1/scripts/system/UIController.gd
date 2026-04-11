@@ -30,9 +30,29 @@ func _on_game_state_changed(status: GameState.Status) -> void:
 func _update_hud(delta: float) -> void:
 	_update_module_time()
 	_update_module_healthbar()
+	_update_module_saturationbar()
+	_update_module_ability_icons()
 	hud.change_game_score(GameState.game_score, delta)
 	hud.change_nutri_score(GameState.nutri_score, delta)
 	
+func _update_module_ability_icons() -> void:
+	if not player:
+		return	
+	var ability_manager: AbilityManager = player.get_component(AbilityManager)
+	for i in ability_manager.abilities.size():
+		hud.ability_icons[i].texture = ability_manager.abilities[i].icon
+		
+	
+
+func _update_module_saturationbar() -> void:
+	if not player:
+		hud.player_saturation_bar.value = 0
+		return
+	var saturation_component: SaturationComponent = player.get_component(SaturationComponent)
+	if not saturation_component:
+		return
+	var value: float = saturation_component.saturation / saturation_component.max_saturation
+	hud.player_saturation_bar.value = value * 100
 
 func _update_module_healthbar() -> void:
 	if not player:

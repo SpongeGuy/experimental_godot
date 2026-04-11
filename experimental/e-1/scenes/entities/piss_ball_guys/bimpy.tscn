@@ -25,6 +25,7 @@
 [ext_resource type="Script" uid="uid://bfk2v7v3dct6k" path="res://scripts/components/obstruction_detector.gd" id="22_xa547"]
 [ext_resource type="Script" uid="uid://ibgyf864g08i" path="res://scripts/components/manual_state_switcher.gd" id="23_l5amt"]
 [ext_resource type="Script" uid="uid://bfeyy2elbrj4b" path="res://scripts/components/damage_animation_component.gd" id="24_k5xxe"]
+[ext_resource type="Script" uid="uid://cps7owvkpo4og" path="res://scripts/components/movement/anthurium_component.gd" id="24_sy6b7"]
 [ext_resource type="Script" uid="uid://cvaptyot73a1d" path="res://scripts/components/visibility_component.gd" id="25_g5faw"]
 [ext_resource type="Script" uid="uid://b7fumud38ekr4" path="res://scripts/components/hide_in_invisible_cells.gd" id="26_1w6la"]
 [ext_resource type="Script" uid="uid://byeskwmhfllnd" path="res://scripts/components/ability_manager.gd" id="29_3s7qd"]
@@ -198,8 +199,8 @@ metadata/_custom_type_script = "uid://q4guieta4fy0"
 [node name="ProximityDetector" type="Node" parent="Bullshit" unique_id=557178342 node_paths=PackedStringArray("area")]
 script = ExtResource("17_rt8mq")
 area = NodePath("../../Rotator/Proximity")
-valid_components = Array[Script]([ExtResource("18_fvtcv")])
-inclusion = 1
+whitelist = Array[Script]([ExtResource("18_fvtcv")])
+blacklist = Array[Script]([ExtResource("24_sy6b7")])
 collision_mask = 65
 metadata/_custom_type_script = "uid://jrg503l8awgj"
 
