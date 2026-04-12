@@ -6,8 +6,8 @@
 [ext_resource type="Script" uid="uid://jrg503l8awgj" path="res://scripts/components/proximity_detector.gd" id="4_gcswn"]
 [ext_resource type="Script" uid="uid://cb8hx7axh7my1" path="res://scripts/components/edible_component.gd" id="5_a1sqx"]
 [ext_resource type="Script" uid="uid://ycxi56i5re2f" path="res://scripts/components/proximity_inventory_interface.gd" id="6_a1sqx"]
-[ext_resource type="Script" uid="uid://c7loh2hhuglwi" path="res://scripts/components/anthurium_part.gd" id="7_ucvfs"]
-[ext_resource type="Script" uid="uid://7m0uxvn1mxqk" path="res://scripts/components/pitcher_component.gd" id="8_xcnwo"]
+[ext_resource type="Script" path="res://scripts/components/anthurium_part.gd" id="7_ucvfs"]
+[ext_resource type="Script" uid="uid://7m0uxvn1mxqk" path="res://scripts/components/anthurium_pitcher_component.gd" id="8_xcnwo"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_c8tw8"]
 size = Vector2(13, 15)

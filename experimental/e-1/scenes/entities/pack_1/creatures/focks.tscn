@@ -37,7 +37,7 @@
 [ext_resource type="Script" uid="uid://q4guieta4fy0" path="res://scripts/components/sound_player.gd" id="32_y0tv5"]
 [ext_resource type="AudioStream" uid="uid://bhkrufusb7owp" path="res://assets/sounds/effects/slice.wav" id="33_ipt6n"]
 [ext_resource type="Texture2D" uid="uid://cgskihl2d35os" path="res://assets/textures/ui/claw_icon.png" id="33_oduj7"]
-[ext_resource type="Script" path="res://scripts/components/directional_sprite_animator.gd" id="34_ipt6n"]
+[ext_resource type="Script" uid="uid://cw28uq3fxf7i4" path="res://scripts/components/directional_sprite_animator.gd" id="34_ipt6n"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_jwlga"]
 radius = 5.0
@@ -122,9 +122,10 @@ state_machine = NodePath("../../StateMachine")
 state = NodePath("../../StateMachine/DeathState")
 metadata/_custom_type_script = "uid://ibgyf864g08i"
 
-[node name="StateMachine" type="Node" parent="." unique_id=628928850 node_paths=PackedStringArray("initial_state")]
+[node name="StateMachine" type="Node" parent="." unique_id=628928850 node_paths=PackedStringArray("initial_state", "death_state")]
 script = ExtResource("7_s02rk")
 initial_state = NodePath("PlayerMoveState")
+death_state = NodePath("DeathState")
 metadata/_custom_type_script = "uid://snopn0q86518"
 
 [node name="PlayerMoveState" type="Node" parent="StateMachine" unique_id=571855672 node_paths=PackedStringArray("movement", "input", "facing", "idle_state", "animator")]

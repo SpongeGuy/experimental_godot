@@ -84,9 +84,10 @@ metadata/_custom_type_script = "uid://bxsrgbr0uwisl"
 script = ExtResource("4_dupcx")
 metadata/_custom_type_script = "uid://dmr1e3ur3lqop"
 
-[node name="StateMachine" type="Node" parent="Behavior" unique_id=523757393 node_paths=PackedStringArray("initial_state")]
+[node name="StateMachine" type="Node" parent="Behavior" unique_id=523757393 node_paths=PackedStringArray("initial_state", "death_state")]
 script = ExtResource("5_a70ne")
 initial_state = NodePath("WandererState")
+death_state = NodePath("DeathState")
 metadata/_custom_type_script = "uid://snopn0q86518"
 
 [node name="WandererState" type="Node" parent="Behavior/StateMachine" unique_id=1096186534 node_paths=PackedStringArray("proximity", "facing", "input", "movement", "player", "obstruction", "exit_state")]
@@ -227,9 +228,9 @@ script = ExtResource("21_nqb72")
 navigation = NodePath("../../NavigationAgent2D")
 metadata/_custom_type_script = "uid://bcbkki6gbrkma"
 
-[node name="ObstructionDetector" type="Node" parent="Bullshit" unique_id=512802964 node_paths=PackedStringArray("proximity")]
+[node name="ObstructionDetector" type="Node" parent="Bullshit" unique_id=512802964 node_paths=PackedStringArray("area")]
 script = ExtResource("22_ohxw4")
-proximity = NodePath("../ProximityDetectorDot")
+area = NodePath("../../Rotator/ProximityDot")
 metadata/_custom_type_script = "uid://bfk2v7v3dct6k"
 
 [node name="Healthstuff" type="Node" parent="Bullshit" unique_id=1267957055]

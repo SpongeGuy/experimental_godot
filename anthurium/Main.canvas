@@ -301,17 +301,6 @@
 			"height":320
 		},
 		{
-			"id":"c7998873873b47d8",
-			"type":"text",
-			"text":"entities related to the anthurium will have a component tying themselves to the anthurium.\n```gdscript\nextends Component\nclass_name AnthuriumPart\n\nvar anthurium: Entity\n```\nso the entity will store a reference to the anthurium so it can affect and communicate with the whole system.\nthe anthurium's statistics and lifetime will be persistent as long as there is at least one anthurium core alive on the map.\n",
-			"styleAttributes":{},
-			"x":-13733,
-			"y":-10760,
-			"width":580,
-			"height":334
-		},
-		{"id":"9692c91e950dafa7","type":"file","file":"assets/Pasted image 20260402211753.png","x":-12101,"y":-10706,"width":400,"height":293},
-		{
 			"id":"27815aa2adb9f526",
 			"type":"text",
 			"text":"An issue. Lobes are not meant to be referenced in other components. Which means any data that lobes transform and mean to store away can never be accessed. So it's necessary to have a Memory (basically a blackboard) that Lobes can write to.\n\nHowever, it is probably essential to implement a system that only allows Lobes to write to Memory only if they win the \"evaluation contest\" in the Brain.\n\nfor example, imagine a creature has a FightNearby lobe which has a private target variable that is set when an entity comes within a certain distance of the creature. imagine that this creature also has a BefriendNearby lobe which also has a private target variable. it would be quite bad to set the Memory's TARGET value to the target in FightNearby and then immediately overwrite it with BefriendNearby's target (which could be two different targets).\n\nThe Memory should be written to by the Lobe only if its priority is the highest in the Brain's list of lobes.",
@@ -332,19 +321,6 @@
 			"width":320,
 			"height":200
 		},
-		{"id":"1cb9dcf81a82fca4","type":"text","text":"which is more interesting?\n\na land cursed with fog so dark and dense that otherworldly creatures live inside it. the only thing protecting the land against the fog is a deific plant: the anthurium. the player must curate the plant and help it grow and evolve to protect the land against the ever-changing threats in the fog. at the end of each day, the plant enters a dormant state, causing the fog to roll in along with the lethal creatures inside it.\n\n> a land brimming with life, energy, and chaos. the source of the magic keeping the land energetic is the legendary anthurium plant; a hungry and violent but necessary element of the ecosystem. although the plant provides immense nutrition to the whole land, this plant is not afraid to grow forcefully in order to satiate itself and has a tendency to grow violent if not treated carefully. the day ends when the plant grows so angry and intolerant of the inhabitants that it begins producing lethal plant monsters to kill creatures and drag them into the soil.\n\ni think the second one is better, but how tf do i design such a thing? the plant has to be smart and be able to react to stimuli.","x":-14420,"y":-11300,"width":620,"height":636},
-		{"id":"d32fa7403830357e","type":"text","text":"anthurium draft 3\n\nthe game is counted in rounds; at the beginning of every round, some stats are reset.\ngamestate keeps a max point value, and points gained from consuming food or killing creatures go toward this point value.\n\nthe anthurium spawns with a core and a few guard plants.\n\nwhen given an opportunity (what event?), a plant will spawn a growth node, an invisible entity that slowly creeps, spawning flowers or grass every time it steps. at the end of the growth node's journey, it will communicate with the anthurium entity to resolve what kind of plant it should become.\n\n(perhaps the event can either be time based or based on the activity of the nearby area)\n\nrelevant entities to the anthurium:\n\n\n> CORE\n> essentially the heart of the anthurium. if all of these die, all the plants will slowly die until there are none left.\n\n> GROWTH NODE\n> an invisible entity that cannot be killed directly. it can be destroyed with explosions. it sets a positional goal and slowly steps towards that goal, planting grass and flowers along the way.\n\n> THORNS\n> a simple defensive plant. has a high amount of health. does contact damage.\n\n> FLOWER\n\n> PITCHER\n\n> TRAP\n\n> BOMB\n\n> BLADE\n\n> SHIELD\n\n","x":-15038,"y":-11800,"width":548,"height":1000},
-		{
-			"id":"282b25b15b2f809e",
-			"type":"text",
-			"text":"i think for now i need to have the fog as a clear motivation for the player.\na timer will do good in an arcade setting anyways.\n\nthe player's goal is to get as high a score as possible per game played. the existence of rounds will help to break that up. although there can be other mechanics different to the fog to help break up the game.\n\nforget-me-not has doors to the next level\nrain world has the rain (or even gates on a more macro level)\nstar of providence has boss fights\netc\n\nbut i still do like the idea of the plant acting almost like a mycelium or network of different plants which might behave differently.",
-			"styleAttributes":{},
-			"x":-13733,
-			"y":-11217,
-			"width":660,
-			"height":353
-		},
-		{"id":"1c7e3575160e99c6","type":"text","text":"\n| GAME Score                                                                                   | ECO Score                                                 |\n| -------------------------------------------------------------------------------------------- | --------------------------------------------------------- |\n| Kills                                                                                        | <br>Delivering food to the anthurium                      |\n| befriending                                                                                  | eating food                                               |\n| collecting items                                                                             | saturating cells with nutrition                           |\n| time                                                                                         | Overfeeding the plant                                     |\n| score multiplier; things done in a short span of time                                        | a wide variety of creatures alive at the end of the round |\n| being near the fog                                                                           | a wide variety of plants alive at the end of the round    |\n| collecting treasure                                                                          |                                                           |\n| using items                                                                                  |                                                           |\n| feeding items to creatures                                                                   |                                                           |\n| feeding items to plants                                                                      |                                                           |\n| a point bonus at the end of the round dependent on the length of the day and points recieved |                                                           |\n","x":-12990,"y":-11355,"width":650,"height":491},
 		{
 			"id":"bec54d213673b22c",
 			"type":"text",
@@ -355,21 +331,17 @@
 			"width":580,
 			"height":660
 		},
-		{"id":"254d9ae487dbf4ab","type":"text","text":"right now i have an `AnthuriumManager` system component which doesn't really have any functions except for controlling spawning.\n\nthe question is: what sort of functions would the system need to call that's related to the anthurium that couldn't just be a component on the anthurium? i think it's probably wiser to simply store a reference to the player and the anthurium in the higher level system (probably `GameState`) \n\n- brain to spawn part\n- spawn parts\n- handle food\n- control fog","x":-16841,"y":-10805,"width":740,"height":434},
-		{"id":"a8ddb9aa465649d8","type":"text","text":"\n| Forget-me-not creatures                                                                                                    | Anthurium analog            |\n| -------------------------------------------------------------------------------------------------------------------------- | --------------------------- |\n| Grunt <br>Steps around, attacks nearby creatuers                                                                           | crab guy<br>Bimpy           |\n| Grunto <br>Steps around, occasionally fire a projectile, attacks nearby creatures                                          | crab guy 2<br>Bagabimpy     |\n| Grunta <br>Steps around quickly, rapidly attacks nearby creatures                                                          | crab guy 3<br>Bimporg       |\n| Energycube <br>Constantly moves around erratically, lots of health                                                         | ecube beta                  |\n| Frog <br>Hops around, sometimes long distances                                                                             |                             |\n| Bomb<br>Steps around, sets a timer to detonation when attacked, attacks nearby creatures                                   |                             |\n| Gunner<br>Steps around, shoots projectiles rapidly when creature is in LOS                                                 | crab guy 4<br>Bormose Bimpy |\n| Dungeoncube Alpha<br>Rapidly slides around the map in cardinal directions, kills anything it slides into                   | dcube alpha                 |\n| Dungeoncube Beta<br>Slides around the map in cardinal directions, kills anything it slides into                            | dcube beta                  |\n| Slimer<br>Steps around slowly, attacks nearby creatures, leaves a solid slime trail, dies when unable to make another move |                             |\n| Ghost<br>Steps around, shoots bombs behind it when it steps                                                                |                             |\n| Cloner<br>Grunt AI, duplicates itself when shot by a projectile                                                            |                             |\n| Unstablecube<br>Energycube AI, explodes when killed                                                                        | ecube gamma                 |\n| Bandit<br>Moves constantly quickly, seeks treasure and runs around with it                                                 |                             |\n| Worm<br>Moves constantly, attacks creatures in front of it                                                                 |                             |\n| Pinwheel<br>Moves constantly, is more likely to turn in one direction                                                      |                             |\n| Spider<br>Hops around when nearby other creatures                                                                          |                             |\nseems like the base creature takes a step where it's facing, then decides if it wants to face a different direction.","x":-17020,"y":-11735,"width":1180,"height":900},
-		{"id":"193a7df825df9ebc","type":"text","text":"2026-03-21\n\n\nProtect dreamland as Pip, the tenacious curator of the Anthurium. A curse has fell over dreamland, spreading a dark and gruesome fog. Protect and feed the legendary Anthurium plant, which holds a secret in expelling the mysterious fog.\n\nFight, befriend, or utilize the wacky creatures native to dreamland to accomplish your goal and last as many days as you can under worsening circumstances.\n\nYou play as Pip, a creature gifted with free will and the ability to manipulate the world around you! Pick up and throw objects, use items, and create new ways to survive and thrive in a cursed dreamland.\n\n☁️🌱🍄🌻👽👻👿🪲🌈\n\nSimilar games might include: forget-me-not, link's awakening, rain world, kirby.\n\n---\n\n￼# todo:\n\n- [x] input component\n- [x] swipe attack\n- [ ] bomb character\n- [ ] fruit character\n- [ ] MORE SOUNDS\n- [ ] better way to carry multiple objects\n- [ ] results screen\n- [ ] more anthurium parts and brain (max points, points gained when fed?)\n- [ ] pseudo 3d (items and creatures have a z axis which basically alters their collision and renders their sprites above a shadow)\n- [ ] tutorial\n- [ ] documentation\n\n","x":-12200,"y":-11740,"width":597,"height":853},
 		{"id":"39a8467e9c5990c9","type":"text","text":"```\nCreatureComponent\n\tinitializes various properties on spawn\n\t\tcollision\n\nItemComponent\n\tinitializes various properties on spawn\n\t\tcollision\n\nPlantComponent\n\tinitializes various properties on spawn\n\t\tcollision\n```\n\nmaybe a good idea?\ni'm not sure yet\nprobably not actually","x":-11516,"y":-11710,"width":473,"height":397},
 		{
-			"id":"ffd751435f3f3c45",
+			"id":"d3ee0f3aeba66c26",
 			"type":"text",
-			"text":"probably gonna call this stuff `grass`, which will be produced by `growth_node` when it takes a step.\n\nthese will just be an `entity` that has some sorta `growth` component uhhh\n\nprobably the growth will just be cosmetic and randomized when its first created\n\nbut im gonna have to make a component for this. also perhaps it should store a sprite and some frame data which will be analogous to the growth stage. this component could probably be enhanced later as well.",
+			"text":"# oops performance issue\nthis is bad news. so the hide in invisible tiles component is gonna cause a lot of lag if there are a lot of entities hooked onto that signal.\n\ni'm probably gonna have to invent some sort of system to only broadcast signals within chunks.\n\nso if a cell is changed in chunk (1, 1) then that signal is only broadcast to entities in nearby chunks.",
 			"styleAttributes":{},
-			"x":-13800,
-			"y":-11780,
-			"width":500,
+			"x":-12124,
+			"y":-8420,
+			"width":440,
 			"height":400
 		},
-		{"id":"9e6b35d8ff7653d6","type":"file","file":"assets/Pasted image 20260407010204.png","x":-14273,"y":-11780,"width":326,"height":400},
 		{
 			"id":"2b9b2e2a32413658",
 			"type":"text",
@@ -391,24 +363,14 @@
 			"height":420
 		},
 		{
-			"id":"c8c4737d46d8a591",
+			"id":"7343f5dd7292a8e5",
 			"type":"text",
-			"text":"things the anthurium should be able to do:\n\nsummon plant creatures to:\n- gather food and deliver to pitchers\n- kill enemy creatures\n- defend weak plant parts\n\nbreak the ground to create gaps or summon water tiles or expose stellar liquid sources\nchange tiles into \"creep\" tiles, which absorb living entities\nroot entities to sap their energy\ncreate bombs\ncreate valuable jewelry and organic materials\nbuild sturdy tree root walls\ncreate food, fruit\ncreate sap which buffs and heals entities\nspreads neurotoxin\nspread roots underground\ncreate defenses around important plant parts\nrecognize nutritious parts of the map, spread there, and create more plants there\ncreate boss entity when threatened enough\nhave a vendetta against a specific creature or specific group of creatures\n\nmore? i'm going for an alien plant feel, where the plant doesn't specifically have to gather energy specifically from the sun but can do so from other means, including the mystical and magical. the plant is a mixture of an animal, a plant, a fungus, and a parasite and it should reflect most aspects of these categories.\n\nsome plant parts should have simple influence over other plant parts just by being in the vicinity to allow for emergent properties and effects",
+			"text":"- [ ] rework movement component into two: moveinputcomponent and physicscomponent\n- [ ] create claw animation for focks\n- [ ] make plant offensive\n- [ ] hook up the plant's \"emotions\"\n- [ ] doors to other lands???? like a labyrinth\n- [ ] rework growth node so that it can have an explicit location set",
 			"styleAttributes":{},
-			"x":-14260,
-			"y":-10480,
-			"width":680,
-			"height":620
-		},
-		{
-			"id":"11c124cff3795f69",
-			"type":"text",
-			"text":"i have an ediblecomponent\n",
-			"styleAttributes":{},
-			"x":-15000,
-			"y":-8960,
-			"width":1120,
-			"height":880
+			"x":-13380,
+			"y":-9220,
+			"width":520,
+			"height":320
 		},
 		{
 			"id":"a661a1e679fa28f4",
@@ -421,16 +383,6 @@
 			"height":1663
 		},
 		{
-			"id":"86a51ec5217604c6",
-			"type":"text",
-			"text":"2026-04-08\n\nfor now, it's probably wise to keep the anthurium's mechanics random and add in some smarts later. it's better to just get something out there right now.\n\nlet's try and make a core that spawns a growth node every 5 seconds.\n\na growth node behaves like this:\n1. initialize timer to switch to creating a plant part\n2. loop this\n\t1. take a step\n\t2. spawn flower\n\t3. wait\n3. after time elapses, spawn a plant part\n4. kill self",
-			"styleAttributes":{},
-			"x":-12857,
-			"y":-8520,
-			"width":580,
-			"height":380
-		},
-		{
 			"id":"4f4f05332ad03afc",
 			"type":"text",
 			"text":"**liminal/threshold**\nnuminous\nliminality\napophenia: seeing meaningful patterns in randomness\nkenosis\numbra\n**longing/melancholy**\nhiraeth\nsehnsucht\nsaudade\nlacuna: an absent gap; something missing\nvellichor\n**awe/dread**\napricity\nineffability\ntremendum: overwhelming, terror-tinged awe\nabysm\ngloaming\n**hidden/inner**\nanamnesis: a deep unforgetting; recollection of something beyond memory\nocculence\nquietude\nnescience\ninteriority\n**dissolution/transcendence**\napeiron: the boundless, formless infinite\npleroma\nataraxia\nmetempsychosis\nekstasis\n**tension/unease**\ndysphoria\nparesthesia\nennui\nacedia: a hollow spiritual numbness; listlessness of the soul\ntorpor",
@@ -441,24 +393,24 @@
 			"height":740
 		},
 		{
-			"id":"7343f5dd7292a8e5",
+			"id":"86a51ec5217604c6",
 			"type":"text",
-			"text":"- [ ] rework movement component into two: moveinputcomponent and physicscomponent\n- [ ] create claw animation for focks\n- [ ] make plant offensive\n- [ ] hook up the plant's \"emotions\"\n- [ ] doors to other lands???? like a labyrinth\n- [ ] rework growth node so that it can have an explicit location set",
+			"text":"2026-04-08\n\nfor now, it's probably wise to keep the anthurium's mechanics random and add in some smarts later. it's better to just get something out there right now.\n\nlet's try and make a core that spawns a growth node every 5 seconds.\n\na growth node behaves like this:\n1. initialize timer to switch to creating a plant part\n2. loop this\n\t1. take a step\n\t2. spawn flower\n\t3. wait\n3. after time elapses, spawn a plant part\n4. kill self",
 			"styleAttributes":{},
-			"x":-13380,
-			"y":-9220,
-			"width":520,
-			"height":320
+			"x":-12857,
+			"y":-8520,
+			"width":580,
+			"height":380
 		},
 		{
-			"id":"d3ee0f3aeba66c26",
+			"id":"c8c4737d46d8a591",
 			"type":"text",
-			"text":"# oops performance issue\nthis is bad news. so the hide in invisible tiles component is gonna cause a lot of lag if there are a lot of entities hooked onto that signal.\n\ni'm probably gonna have to invent some sort of system to only broadcast signals within chunks.\n\nso if a cell is changed in chunk (1, 1) then that signal is only broadcast to entities in nearby chunks.",
+			"text":"things the anthurium should be able to do:\n\nsummon plant creatures to:\n- gather food and deliver to pitchers\n- kill enemy creatures\n- defend weak plant parts\n\nbreak the ground to create gaps or summon water tiles or expose stellar liquid sources\nchange tiles into \"creep\" tiles, which absorb living entities\nroot entities to sap their energy\ncreate bombs\ncreate valuable jewelry and organic materials\nbuild sturdy tree root walls\ncreate food, fruit\ncreate sap which buffs and heals entities\nspreads neurotoxin\nspread roots underground\ncreate defenses around important plant parts\nrecognize nutritious parts of the map, spread there, and create more plants there\ncreate boss entity when threatened enough\nhave a vendetta against a specific creature or specific group of creatures\n\nmore? i'm going for an alien plant feel, where the plant doesn't specifically have to gather energy specifically from the sun but can do so from other means, including the mystical and magical. the plant is a mixture of an animal, a plant, a fungus, and a parasite and it should reflect most aspects of these categories.\n\nsome plant parts should have simple influence over other plant parts just by being in the vicinity to allow for emergent properties and effects",
 			"styleAttributes":{},
-			"x":-12124,
-			"y":-8420,
-			"width":440,
-			"height":400
+			"x":-14260,
+			"y":-10480,
+			"width":680,
+			"height":620
 		},
 		{
 			"id":"506e7cf622347c9b",
@@ -469,7 +421,45 @@
 			"y":-10426,
 			"width":700,
 			"height":446
-		}
+		},
+		{
+			"id":"c7998873873b47d8",
+			"type":"text",
+			"text":"entities related to the anthurium will have a component tying themselves to the anthurium.\n```gdscript\nextends Component\nclass_name AnthuriumPart\n\nvar anthurium: Entity\n```\nso the entity will store a reference to the anthurium so it can affect and communicate with the whole system.\nthe anthurium's statistics and lifetime will be persistent as long as there is at least one anthurium core alive on the map.\n",
+			"styleAttributes":{},
+			"x":-13733,
+			"y":-10760,
+			"width":580,
+			"height":334
+		},
+		{"id":"1cb9dcf81a82fca4","type":"text","text":"which is more interesting?\n\na land cursed with fog so dark and dense that otherworldly creatures live inside it. the only thing protecting the land against the fog is a deific plant: the anthurium. the player must curate the plant and help it grow and evolve to protect the land against the ever-changing threats in the fog. at the end of each day, the plant enters a dormant state, causing the fog to roll in along with the lethal creatures inside it.\n\n> a land brimming with life, energy, and chaos. the source of the magic keeping the land energetic is the legendary anthurium plant; a hungry and violent but necessary element of the ecosystem. although the plant provides immense nutrition to the whole land, this plant is not afraid to grow forcefully in order to satiate itself and has a tendency to grow violent if not treated carefully. the day ends when the plant grows so angry and intolerant of the inhabitants that it begins producing lethal plant monsters to kill creatures and drag them into the soil.\n\ni think the second one is better, but how tf do i design such a thing? the plant has to be smart and be able to react to stimuli.","x":-14420,"y":-11300,"width":620,"height":636},
+		{"id":"d32fa7403830357e","type":"text","text":"anthurium draft 3\n\nthe game is counted in rounds; at the beginning of every round, some stats are reset.\ngamestate keeps a max point value, and points gained from consuming food or killing creatures go toward this point value.\n\nthe anthurium spawns with a core and a few guard plants.\n\nwhen given an opportunity (what event?), a plant will spawn a growth node, an invisible entity that slowly creeps, spawning flowers or grass every time it steps. at the end of the growth node's journey, it will communicate with the anthurium entity to resolve what kind of plant it should become.\n\n(perhaps the event can either be time based or based on the activity of the nearby area)\n\nrelevant entities to the anthurium:\n\n\n> CORE\n> essentially the heart of the anthurium. if all of these die, all the plants will slowly die until there are none left.\n\n> GROWTH NODE\n> an invisible entity that cannot be killed directly. it can be destroyed with explosions. it sets a positional goal and slowly steps towards that goal, planting grass and flowers along the way.\n\n> THORNS\n> a simple defensive plant. has a high amount of health. does contact damage.\n\n> FLOWER\n\n> PITCHER\n\n> TRAP\n\n> BOMB\n\n> BLADE\n\n> SHIELD\n\n","x":-15038,"y":-11800,"width":548,"height":1000},
+		{"id":"a8ddb9aa465649d8","type":"text","text":"\n| Forget-me-not creatures                                                                                                    | Anthurium analog            |\n| -------------------------------------------------------------------------------------------------------------------------- | --------------------------- |\n| Grunt <br>Steps around, attacks nearby creatuers                                                                           | crab guy<br>Bimpy           |\n| Grunto <br>Steps around, occasionally fire a projectile, attacks nearby creatures                                          | crab guy 2<br>Bagabimpy     |\n| Grunta <br>Steps around quickly, rapidly attacks nearby creatures                                                          | crab guy 3<br>Bimporg       |\n| Energycube <br>Constantly moves around erratically, lots of health                                                         | ecube beta                  |\n| Frog <br>Hops around, sometimes long distances                                                                             |                             |\n| Bomb<br>Steps around, sets a timer to detonation when attacked, attacks nearby creatures                                   |                             |\n| Gunner<br>Steps around, shoots projectiles rapidly when creature is in LOS                                                 | crab guy 4<br>Bormose Bimpy |\n| Dungeoncube Alpha<br>Rapidly slides around the map in cardinal directions, kills anything it slides into                   | dcube alpha                 |\n| Dungeoncube Beta<br>Slides around the map in cardinal directions, kills anything it slides into                            | dcube beta                  |\n| Slimer<br>Steps around slowly, attacks nearby creatures, leaves a solid slime trail, dies when unable to make another move |                             |\n| Ghost<br>Steps around, shoots bombs behind it when it steps                                                                |                             |\n| Cloner<br>Grunt AI, duplicates itself when shot by a projectile                                                            |                             |\n| Unstablecube<br>Energycube AI, explodes when killed                                                                        | ecube gamma                 |\n| Bandit<br>Moves constantly quickly, seeks treasure and runs around with it                                                 |                             |\n| Worm<br>Moves constantly, attacks creatures in front of it                                                                 |                             |\n| Pinwheel<br>Moves constantly, is more likely to turn in one direction                                                      |                             |\n| Spider<br>Hops around when nearby other creatures                                                                          |                             |\nseems like the base creature takes a step where it's facing, then decides if it wants to face a different direction.","x":-17020,"y":-11735,"width":1180,"height":900},
+		{
+			"id":"282b25b15b2f809e",
+			"type":"text",
+			"text":"i think for now i need to have the fog as a clear motivation for the player.\na timer will do good in an arcade setting anyways.\n\nthe player's goal is to get as high a score as possible per game played. the existence of rounds will help to break that up. although there can be other mechanics different to the fog to help break up the game.\n\nforget-me-not has doors to the next level\nrain world has the rain (or even gates on a more macro level)\nstar of providence has boss fights\netc\n\nbut i still do like the idea of the plant acting almost like a mycelium or network of different plants which might behave differently.",
+			"styleAttributes":{},
+			"x":-13733,
+			"y":-11217,
+			"width":660,
+			"height":353
+		},
+		{
+			"id":"ffd751435f3f3c45",
+			"type":"text",
+			"text":"probably gonna call this stuff `grass`, which will be produced by `growth_node` when it takes a step.\n\nthese will just be an `entity` that has some sorta `growth` component uhhh\n\nprobably the growth will just be cosmetic and randomized when its first created\n\nbut im gonna have to make a component for this. also perhaps it should store a sprite and some frame data which will be analogous to the growth stage. this component could probably be enhanced later as well.",
+			"styleAttributes":{},
+			"x":-13800,
+			"y":-11780,
+			"width":500,
+			"height":400
+		},
+		{"id":"9e6b35d8ff7653d6","type":"file","file":"assets/Pasted image 20260407010204.png","x":-14273,"y":-11780,"width":326,"height":400},
+		{"id":"254d9ae487dbf4ab","type":"text","text":"right now i have an `AnthuriumManager` system component which doesn't really have any functions except for controlling spawning.\n\nthe question is: what sort of functions would the system need to call that's related to the anthurium that couldn't just be a component on the anthurium? i think it's probably wiser to simply store a reference to the player and the anthurium in the higher level system (probably `GameState`) \n\n- brain to spawn part\n- spawn parts\n- handle food\n- control fog","x":-16841,"y":-10805,"width":740,"height":434},
+		{"id":"1c7e3575160e99c6","type":"text","text":"\n| GAME Score                                                                                   | ECO Score                                                 |\n| -------------------------------------------------------------------------------------------- | --------------------------------------------------------- |\n| Kills                                                                                        | <br>Delivering food to the anthurium                      |\n| befriending                                                                                  | eating food                                               |\n| collecting items                                                                             | saturating cells with nutrition                           |\n| time                                                                                         | Overfeeding the plant                                     |\n| score multiplier; things done in a short span of time                                        | a wide variety of creatures alive at the end of the round |\n| being near the fog                                                                           | a wide variety of plants alive at the end of the round    |\n| collecting treasure                                                                          |                                                           |\n| using items                                                                                  |                                                           |\n| feeding items to creatures                                                                   |                                                           |\n| feeding items to plants                                                                      |                                                           |\n| a point bonus at the end of the round dependent on the length of the day and points recieved |                                                           |\n","x":-12990,"y":-11355,"width":650,"height":491},
+		{"id":"193a7df825df9ebc","type":"text","text":"2026-03-21\n\n\nProtect dreamland as Pip, the tenacious curator of the Anthurium. A curse has fell over dreamland, spreading a dark and gruesome fog. Protect and feed the legendary Anthurium plant, which holds a secret in expelling the mysterious fog.\n\nFight, befriend, or utilize the wacky creatures native to dreamland to accomplish your goal and last as many days as you can under worsening circumstances.\n\nYou play as Pip, a creature gifted with free will and the ability to manipulate the world around you! Pick up and throw objects, use items, and create new ways to survive and thrive in a cursed dreamland.\n\n☁️🌱🍄🌻👽👻👿🪲🌈\n\nSimilar games might include: forget-me-not, link's awakening, rain world, kirby.\n\n---\n\n￼# todo:\n\n- [x] input component\n- [x] swipe attack\n- [ ] bomb character\n- [ ] fruit character\n- [ ] MORE SOUNDS\n- [ ] better way to carry multiple objects\n- [ ] results screen\n- [ ] more anthurium parts and brain (max points, points gained when fed?)\n- [ ] pseudo 3d (items and creatures have a z axis which basically alters their collision and renders their sprites above a shadow)\n- [ ] tutorial\n- [ ] documentation\n\n","x":-12200,"y":-11740,"width":597,"height":853},
+		{"id":"9692c91e950dafa7","type":"file","file":"assets/Pasted image 20260402211753.png","x":-12101,"y":-10706,"width":400,"height":293}
 	],
 	"edges":[
 		{"id":"955617542e2a4716","fromNode":"8ec62334c73e9710","fromSide":"right","toNode":"0f4cf88f942bc817","toSide":"left"},

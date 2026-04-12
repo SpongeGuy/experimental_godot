@@ -1,8 +1,7 @@
 extends Component
-class_name PitcherComponent
+class_name AnthuriumPitcherComponent
 
 @export var inventory: Inventory
-@export var part: AnthuriumPart
 
 # --------------------------------------------------
 # behavior of pitcher plant

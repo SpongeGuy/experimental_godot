@@ -40,6 +40,7 @@ func remove_active_part(entity: Entity) -> void:
 func resolve_needed_part() -> StringName:
 	var checks_priority_1: Array[Dictionary] = [
 		{&"anthurium_leaf": func(): return get_count_of_part(&"anthurium_leaf") < max_nutrition_points / nutrition_giga_unit},
+		{&"anthurium_pitcher": func(): return get_count_of_part(&"anthurium_leaf") < max_nutrition_points / nutrition_giga_unit},
 		{&"anthurium_flower": func(): return get_count_of_part(&"anthurium_flower") < nutrition_points / (max_nutrition_points / 3)},
 	]
 	print(nutrition_points / max_nutrition_points)

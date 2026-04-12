@@ -4,13 +4,25 @@ class_name Hurtbox
 @export var damage: float
 @export var constant_hurtbox: bool = false
 @export var collision_shape: CollisionShape2D
+@export var collider_type: Array[ColliderType] = [ColliderType.NORMAL]
+enum ColliderType{NORMAL, FLYING, GROUND}
+const COLLIDER_BITS = [6, 12, 14]
 
 var tween: Tween
 
 signal activated
 
 func _ready() -> void:
-	collision_layer = 1 << 7 # this is a hurtbox
+	if collider_type.is_empty():
+		push_error("Collider type for hitbox cannot be empty!")
+	
+	collision_mask = 0
+	collision_layer = 0
+	for type in collider_type:
+		collision_layer |= 1 << COLLIDER_BITS[type] + 1
+		collision_mask |= 1 << COLLIDER_BITS[type]
+	
+	
 	if not constant_hurtbox:
 		collision_shape.disabled = true
 	else:
