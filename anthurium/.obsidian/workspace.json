@@ -8,20 +8,17 @@
         "type": "tabs",
         "children": [
           {
-            "id": "acc772991003760d",
+            "id": "19d8c734f5e83fd6",
             "type": "leaf",
             "state": {
-              "type": "canvas",
+              "type": "markdown",
               "state": {
-                "file": "Main.canvas",
-                "viewState": {
-                  "x": -16446.77581199577,
-                  "y": -11312.79048970234,
-                  "zoom": 0.08946211496988893
-                }
+                "file": "blog/websitelayout.md",
+                "mode": "source",
+                "source": false
               },
-              "icon": "lucide-layout-dashboard",
-              "title": "Main"
+              "icon": "lucide-file",
+              "title": "websitelayout"
             }
           }
         ]
@@ -56,7 +53,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "",
+                "query": "tag:#yapping",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -81,8 +78,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200,
-    "collapsed": true
+    "width": 200
   },
   "right": {
     "id": "505227115d3ab365",
@@ -160,13 +156,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Main.canvas",
+                "file": "websitelayout.md",
                 "followCursor": false,
-                "showSearch": false,
+                "showSearch": true,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of Main"
+              "title": "Outline of websitelayout"
             }
           },
           {
@@ -182,7 +178,7 @@
             }
           }
         ],
-        "currentTab": 4
+        "currentTab": 2
       }
     ],
     "direction": "horizontal",
@@ -200,11 +196,26 @@
       "bases:Create new base": false
     }
   },
-  "active": "acc772991003760d",
+  "active": "19d8c734f5e83fd6",
   "lastOpenFiles": [
+    "Genesis Lamb.md",
+    "blog/websitelayout.md",
+    "bob_gap.md",
+    "JUNK/post-fuck.md",
+    "JUNK/post-2.md",
+    "JUNK/post-1.md",
+    "JUNK/bob_gap.md",
+    "JUNK/websitelayout.md",
+    "JUNK/shit_ass.md",
+    "JUNK/posts.json",
+    "JUNK",
+    "Untitled Folder",
+    "blog",
     "Main.canvas",
+    "blog/shit_ass.md",
+    "blog/bob gap.md",
     "Untitled.canvas",
-    "Untitled.md",
+    "blog/Untitled.md",
     "shit cock mcgee.md",
     "assets/Pasted image 20260402211753.png",
     "assets/Pasted image 20260407010204.png",
