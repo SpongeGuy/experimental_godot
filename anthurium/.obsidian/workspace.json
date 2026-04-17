@@ -11,14 +11,17 @@
             "id": "19d8c734f5e83fd6",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "canvas",
               "state": {
-                "file": "blog/websitelayout.md",
-                "mode": "source",
-                "source": false
+                "file": "Main.canvas",
+                "viewState": {
+                  "x": -11339.53059826405,
+                  "y": -12124.91718820956,
+                  "zoom": -3.7
+                }
               },
-              "icon": "lucide-file",
-              "title": "websitelayout"
+              "icon": "lucide-layout-dashboard",
+              "title": "Main"
             }
           }
         ]
@@ -198,8 +201,8 @@
   },
   "active": "19d8c734f5e83fd6",
   "lastOpenFiles": [
-    "Genesis Lamb.md",
     "blog/websitelayout.md",
+    "Genesis Lamb.md",
     "bob_gap.md",
     "JUNK/post-fuck.md",
     "JUNK/post-2.md",

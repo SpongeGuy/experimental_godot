@@ -32,15 +32,15 @@ func initialize_game() -> void:
 	var ground: CellData = CellData.new()
 	ground.terrain = CellData.TerrainType.GROUND
 	
-	#dungeon_generator.generate()
+	dungeon_generator.generate()
 	
 	
 	
 	
 	var player_spawn: Vector2 = Vector2(300, 50)
 	var anthurium_spawn: Vector2 = Vector2(512, 512)
-	WorldGrid.set_rectangle(Vector2i(0,0), Vector2i(80, 46), ground)
-	WorldGrid.set_cell(Vector2i(11, 11), ground)
+	#WorldGrid.set_rectangle(Vector2i(0,0), Vector2i(80, 46), ground)
+	#WorldGrid.set_cell(Vector2i(11, 11), ground)
 	
 	#
 	#for i in range(15):
@@ -59,24 +59,21 @@ func initialize_game() -> void:
 	#var gy: int = 5
 	#for x in range(gx):
 		#for y in range(gy):
-			#EntityManager.spawn_on_tile(&"anthurium_grass", Vector2i(x, y))
+			#EntityManager.spawn_on_tile(&"anthurium_grass", Vector2i(x, y))q
 			
-	#EntityManager.spawn_on_tile(&"anthurium_grass", Vector2(5, 5))
-	#EntityManager.spawn_on_tile(&"anthurium_growth_node", Vector2i(15, 3))
-	#EntityManager.spawn_safely(&"bimpy", Vector2i(100, 150))
-	#EntityManager.spawn_safely(&"dcube_beta", Vector2i(200, 150))
-	#EntityManager.spawn_on_tile(&"dcube_alpha", Vector2i(15, 4))
-	#EntityManager.spawn_safely(&"dcube_beta", Vector2i(700, 500))
-	#EntityManager.spawn_safely(&"ecube_gamma", Vector2i(500, 150))
-	#EntityManager.spawn_safely(&"ecube_gamma", Vector2i(550, 150))
-	#EntityManager.spawn_safely(&"ecube_gamma", Vector2i(500, 200))
+	EntityManager.spawn_on_tile(&"anthurium_grass", Vector2(5, 5))
+	EntityManager.spawn_on_tile(&"anthurium_growth_node", Vector2i(15, 3))
+	EntityManager.spawn_safely(&"bimpy", Vector2i(100, 150))
+	EntityManager.spawn_safely(&"dcube_beta", Vector2i(200, 150))
+	EntityManager.spawn_on_tile(&"dcube_alpha", Vector2i(15, 4))
+	EntityManager.spawn_safely(&"dcube_beta", Vector2i(700, 500))
+	EntityManager.spawn_safely(&"ecube_gamma", Vector2i(500, 150))
+	EntityManager.spawn_safely(&"ecube_gamma", Vector2i(550, 150))
+	EntityManager.spawn_safely(&"ecube_gamma", Vector2i(500, 200))
 	EntityManager.spawn_safely(&"arcbimpy", Vector2i(100, 125))
 	WorldGrid.hide_map()
 	WorldGrid.reveal_from_player()
 	GameState.change_game_state(GameState.Status.PLAYING)
-	
-	
-	
 
 
 
