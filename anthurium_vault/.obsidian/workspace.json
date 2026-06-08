@@ -15,9 +15,9 @@
               "state": {
                 "file": "Main.canvas",
                 "viewState": {
-                  "x": -6970.700485157544,
-                  "y": -4831.671849329642,
-                  "zoom": 0.39999999999999947
+                  "x": -13460.241742077113,
+                  "y": -5590.29134359084,
+                  "zoom": -5.551115123125783e-16
                 }
               },
               "icon": "lucide-layout-dashboard",
@@ -202,12 +202,14 @@
   },
   "active": "19d8c734f5e83fd6",
   "lastOpenFiles": [
-    "meme flowchart.canvas",
-    "Untitled.canvas",
-    "Creatures.md",
-    "anthurium_component_docs.md",
     "Game loop.md",
     "Main.canvas",
+    "Pasted image 20260607234721.png",
+    "anthurium_checklist.md",
+    "Untitled.canvas",
+    "meme flowchart.canvas",
+    "Creatures.md",
+    "anthurium_component_docs.md",
     "blog/bob_gap.md",
     "blog/bob gap.md",
     "more bulshit",
@@ -221,7 +223,6 @@
     "more bulshit/gem-alarm-gem-alert.gif",
     "more bulshit/gem_alarm.gif",
     "more bulshit/gemalarm.png",
-    "more bulshit/doorbellchudsoyjak.png",
     "blog/shit_ass.md",
     "blog/websitelayout.md",
     "Genesis Lamb.md",
