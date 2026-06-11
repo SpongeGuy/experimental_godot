@@ -15,9 +15,9 @@
               "state": {
                 "file": "Main.canvas",
                 "viewState": {
-                  "x": -9923.081643344682,
-                  "y": -17976.210316478464,
-                  "zoom": 1
+                  "x": -8892,
+                  "y": -4322.4,
+                  "zoom": -4
                 }
               },
               "icon": "lucide-layout-dashboard",
@@ -202,12 +202,12 @@
   },
   "active": "19d8c734f5e83fd6",
   "lastOpenFiles": [
-    "Game loop.md",
+    "meme flowchart.canvas",
+    "assets/Pasted image 20260607234721.png",
     "Main.canvas",
-    "Pasted image 20260607234721.png",
+    "Game loop.md",
     "anthurium_checklist.md",
     "Untitled.canvas",
-    "meme flowchart.canvas",
     "Creatures.md",
     "anthurium_component_docs.md",
     "blog/bob_gap.md",
